@@ -136,9 +136,17 @@ $sizes: map-merge((
 ), $sizes);
 // stylelint-enable
 
+
 // Body
 //
 // Settings for the `<body>` element.
 
-$body-bg:                   $white !default;
+$body-bg:                   #f6f8f9;
 $body-color:                $gray-900 !default;
+
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+// stylelint-disable value-keyword-case
+$font-family-sans-serif:      'Avenir', Helvetica, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
