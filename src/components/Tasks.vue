@@ -1,53 +1,56 @@
 <template>
-  <div
-    class="tasks-container"
-    v-bind:class="containerClass">
-    <h1>&lt;header /&gt;</h1>
-    <div
-      class="row">
-      <div class="col">
-        <div class="card">
-          <div class="tasks-header">
-            <div class="tasks-sync">
-              <icon :icon="['fas', 'sync-alt']" />
-            </div>
-            My tasks
-          </div>
-          <ul class="tasks-list">
-            <li
-              class="task-item"
-              v-bind:class="{ active: selected === task.id }"
-              v-for="task in tasks"
-              :key="task.id"
-              v-on:click="openTask($event, task)">
-              <div class="task-left">
-                {{ task.title }}
-              </div>
-              <div class="task-right">
-                <span class="task-elapsed">{{ task.elapsed }}</span>
-                <div class="task-details-icon">
-                  <icon :icon="['fas', 'caret-right']" />
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div
-        class="col"
-        v-if="selectedTask !== null">
-        <div class="card task">
-          <div class="card-body">
-            <div
-              class="task-close"
-              v-on:click="closeTask"
-            >
-              <icon v-on:click="closeTask" :icon="['fas', 'times']" />
-            </div>
+  <div class="h-100">
+    <app-header />
 
-            <h4>{{ selectedTask.title }}</h4>
-            <div class="card-subtitle mb-2 text-muted">task description</div>
-            <p class="card-text">task body</p>
+    <div
+      class="tasks-container"
+      v-bind:class="containerClass">
+      <div
+        class="row">
+        <div class="col">
+          <div class="card">
+            <div class="tasks-header">
+              <div class="tasks-sync">
+                <icon :icon="['fas', 'sync-alt']" />
+              </div>
+              My tasks
+            </div>
+            <ul class="tasks-list">
+              <li
+                class="task-item"
+                v-bind:class="{ active: selected === task.id }"
+                v-for="task in tasks"
+                :key="task.id"
+                v-on:click="openTask($event, task)">
+                <div class="task-left">
+                  {{ task.title }}
+                </div>
+                <div class="task-right">
+                  <span class="task-elapsed">{{ task.elapsed }}</span>
+                  <div class="task-details-icon">
+                    <icon :icon="['fas', 'caret-right']" />
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="col"
+          v-if="selectedTask !== null">
+          <div class="card task">
+            <div class="card-body">
+              <div
+                class="task-close"
+                v-on:click="closeTask"
+              >
+                <icon v-on:click="closeTask" :icon="['fas', 'times']" />
+              </div>
+
+              <h4>{{ selectedTask.title }}</h4>
+              <div class="card-subtitle mb-2 text-muted">task description</div>
+              <p class="card-text">task body</p>
+            </div>
           </div>
         </div>
       </div>
@@ -155,7 +158,7 @@ export default {
 
 .tasks-header {
   border-bottom: 1px solid white;
-  box-shadow: 0 0 5px rgba(0,0,0,0.5);
+  box-shadow: 0 3px 2px $gray-300;
   padding: 10px 30px;
   z-index: 1;
 
@@ -165,7 +168,7 @@ export default {
   }
 }
 
-.tasks-list {
+ul.tasks-list {
   display: flex;
   flex-direction: column;
 
@@ -175,7 +178,7 @@ export default {
 
 $task-list-height: 36px;
 
-.task-item {
+li.task-item {
   font-size: 13px;
 
   position: relative;
