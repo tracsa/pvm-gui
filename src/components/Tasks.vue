@@ -1,56 +1,57 @@
 <template>
-  <div class="h-100">
-    <app-header />
-
+  <div
+    class="tasks-container"
+    :class="containerClass">
     <div
-      class="tasks-container"
-      v-bind:class="containerClass">
-      <div
-        class="row">
-        <div class="col">
-          <div class="card">
-            <div class="tasks-header">
-              <div class="tasks-sync">
-                <icon :icon="['fas', 'sync-alt']" />
-              </div>
-              My tasks
+      class="row">
+      <div class="col">
+        <div class="card">
+          <div class="tasks-header">
+            <div class="tasks-sync">
+              <icon :icon="['fas', 'sync-alt']" />
             </div>
-            <ul class="tasks-list">
-              <li
-                class="task-item"
-                v-bind:class="{ active: selected === task.id }"
-                v-for="task in tasks"
-                :key="task.id"
-                v-on:click="openTask($event, task)">
-                <div class="task-left">
-                  {{ task.title }}
-                </div>
-                <div class="task-right">
-                  <span class="task-elapsed">{{ task.elapsed }}</span>
-                  <div class="task-details-icon">
-                    <icon :icon="['fas', 'caret-right']" />
-                  </div>
-                </div>
-              </li>
-            </ul>
+            My tasks
           </div>
-        </div>
-        <div
-          class="col"
-          v-if="selectedTask !== null">
-          <div class="card task">
-            <div class="card-body">
-              <div
-                class="task-close"
-                v-on:click="closeTask"
-              >
-                <icon v-on:click="closeTask" :icon="['fas', 'times']" />
+          <ul class="tasks-list">
+            <li
+              class="task-item"
+              :class="{ active: selected === task.id }"
+              v-for="task in tasks"
+              :key="task.id"
+              @click="openTask($event, task)">
+              <div class="task-left">
+                {{ task.title }}
               </div>
-
-              <h4>{{ selectedTask.title }}</h4>
-              <div class="card-subtitle mb-2 text-muted">task description</div>
-              <p class="card-text">task body</p>
+              <div class="task-right">
+                <span class="task-elapsed">
+                  {{ task.elapsed }}
+                </span>
+                <div class="task-details-icon">
+                  <icon :icon="['fas', 'caret-right']" />
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="col"
+        v-if="selectedTask !== null">
+        <div class="card task">
+          <div class="card-body">
+            <div
+              class="task-close"
+              @click="closeTask"
+            >
+              <icon
+                @click="closeTask"
+                :icon="['fas', 'times']"
+              />
             </div>
+
+            <h4>{{ selectedTask.title }}</h4>
+            <div class="card-subtitle mb-2 text-muted">task description</div>
+            <p class="card-text">task body</p>
           </div>
         </div>
       </div>
@@ -60,7 +61,6 @@
 
 <script>
 export default {
-  name: 'Tasks',
   data() {
     return {
       tasks: [
