@@ -8,6 +8,7 @@ const router = new Router();
 // Get and store id_token in local storage
 export function setAuthToken(authToken) {
   localStorage.setItem(ID_TOKEN_KEY, authToken);
+  return true; // Send an error because login was unsuccessful
 }
 
 export function getAuthToken() {
@@ -25,7 +26,7 @@ function isTokenExpired() {
 
 export function login(username, password) {
   // @todo request auth token to pvm
-  setAuthToken(`${username}:${password}`);
+  return setAuthToken(`${username}:${password}`);
 }
 
 export function logout() {
