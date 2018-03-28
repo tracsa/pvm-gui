@@ -1,4 +1,6 @@
 import Router from 'vue-router';
+import settings from '@/settings';
+
 
 const ID_TOKEN_KEY = 'auth_token';
 const SIGNIN_PATH = '/signin';
@@ -8,7 +10,6 @@ const router = new Router();
 // Get and store id_token in local storage
 export function setAuthToken(authToken) {
   localStorage.setItem(ID_TOKEN_KEY, authToken);
-  return true; // Send an error because login was unsuccessful
 }
 
 export function getAuthToken() {
@@ -19,14 +20,42 @@ function clearAuthToken() {
   localStorage.removeItem(ID_TOKEN_KEY);
 }
 
-function isTokenExpired() {
-  // @todo request auth token to pvm
-  return false;
-}
+export function login(username, password, callback) {
+  const { host, port, authProvider } = settings.pvm;
+  const authUri = `//${host}:${port}/v1/auth/signin/${authProvider}`;
 
-export function login(username, password) {
-  // @todo request auth token to pvm
-  return setAuthToken(`${username}:${password}`);
+  const form = new FormData();
+  form.append('username', username);
+  form.append('password', password);
+
+  const params = {
+    method: 'POST',
+    body: form,
+  };
+
+  window.fetch(authUri, params)
+    .then((response) => {
+      if (response.status !== 400) {
+        const error = new Error(response.statusText);
+        error.response = response;
+        throw error;
+      }
+
+      return response;
+    })
+    .then(response => response.json())
+    .then((data) => {
+      setAuthToken(`${data.username}:${data.token}`);
+
+      if (typeof callback === 'function') {
+        callback(null, data);
+      }
+    })
+    .catch((error) => {
+      if (typeof callback === 'function') {
+        callback(error);
+      }
+    });
 }
 
 export function logout() {
@@ -36,7 +65,7 @@ export function logout() {
 
 export function isLoggedIn() {
   const authToken = getAuthToken();
-  return !!authToken && !isTokenExpired(authToken);
+  return !!authToken;
 }
 
 export function requireAuth(to, from, next) {
