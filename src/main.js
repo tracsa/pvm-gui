@@ -3,11 +3,7 @@
 import Vue from 'vue';
 import App from './App';
 import router from './router';
-
-// set fontawesome available across app
-import FontAwesomeIcon from './fontawesome';
-
-Vue.component('icon', FontAwesomeIcon);
+import './fontawesome';
 
 Vue.config.productionTip = false;
 
