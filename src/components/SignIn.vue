@@ -66,15 +66,21 @@ export default {
       this.signingIn = true;
 
       const { username, password } = this;
-      login(username, password, (err, auth) => {
+      login(username, password, (err) => {
         this.signingIn = false;
 
         if (err) {
           this.hasError = true;
         }
 
-        // logged in
-        console.log(err, auth);
+        const { $route, $router } = this;
+
+        let redirect = '/';
+        if ($route.query.redirect !== undefined) {
+          redirect = $route.query.redirect;
+        }
+
+        $router.push(redirect);
       });
     },
   },
