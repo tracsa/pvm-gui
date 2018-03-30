@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import Tasks from '@/components/Tasks';
 import App from '@/components/App';
 import SignIn from '@/components/SignIn';
-import { requireAuth } from '@/utils/auth';
+import { requireAuth, requireAnon } from '@/utils/auth';
 import '@/components';
 
 Vue.use(Router);
@@ -20,6 +20,7 @@ export default new Router({
     },
     {
       path: '/signin',
+      beforeEnter: requireAnon,
       component: SignIn,
     },
   ],

@@ -5,6 +5,7 @@ import settings from '@/settings';
 
 const ID_TOKEN_KEY = 'auth_token';
 const SIGNIN_PATH = '/signin';
+const ROOT_PATH = '/';
 
 const router = new Router();
 
@@ -77,6 +78,14 @@ export function requireAuth(to, from, next) {
       path: SIGNIN_PATH,
       query: { redirect: to.fullPath },
     });
+  } else {
+    next();
+  }
+}
+
+export function requireAnon(to, from, next) {
+  if (isLoggedIn()) {
+    next({ path: ROOT_PATH });
   } else {
     next();
   }
