@@ -1,4 +1,5 @@
 import Router from 'vue-router';
+import Promise from 'promise-polyfill';
 import settings from '@/settings';
 
 
@@ -41,10 +42,12 @@ export function login(username, password, callback) {
         throw error;
       }
 
-      return response;
+      return Promise.resolve(response);
     })
     .then(response => response.json())
-    .then((data) => {
+    .then((body) => {
+      const { data } = body;
+
       setAuthToken(`${data.username}:${data.token}`);
 
       if (typeof callback === 'function') {

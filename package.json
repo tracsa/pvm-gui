@@ -21,6 +21,7 @@
     "@fortawesome/vue-fontawesome": "^0.0.22",
     "bootstrap": "^4.0.0",
     "node-sass": "^4.7.2",
+    "promise-polyfill": "^7.1.1",
     "sass-loader": "^6.0.7",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
