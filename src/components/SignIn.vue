@@ -1,10 +1,10 @@
 <template>
   <div class="login-box pt-5">
-    <h1>SignIn</h1>
+    <h1>{{ $t('signin.title') }}</h1>
     <div class="container container-micro">
       <div class="card mt-5">
         <div class="card-body">
-          <p>Sign in to start your session</p>
+          <p>{{ $t('signin.description') }}</p>
           <form
             method="post"
             action="/"
@@ -13,14 +13,14 @@
             <div
               class="text-danger"
               v-if="hasError">
-              We are sorry but it seems the username or password is wrong.
+              {{ $t('signin.error_signin') }}
             </div>
 
             <div class="form-group mt-3">
               <input
                 v-model="username"
                 type="text"
-                placeholder="Username"
+                :placeholder="$t('signin.username_placeholder')"
                 class="form-control"
                 :class="{'is-invalid': hasError}">
             </div>
@@ -29,7 +29,7 @@
               <input
                 v-model="password"
                 type="password"
-                placeholder="Password"
+                :placeholder="$t('signin.password_placeholder')"
                 class="form-control"
                 :class="{'is-invalid': hasError}">
             </div>
@@ -37,7 +37,7 @@
             <button
               class="btn btn-primary btn-block mt-3"
               :disabled="signingIn">
-              Sign In
+              {{ $t('signin.button') }}
             </button>
           </form>
         </div>
@@ -47,6 +47,7 @@
 </template>
 
 <script>
+
 import { login } from '../utils/auth';
 
 export default {
