@@ -13,6 +13,9 @@ const messages = {
       button: 'Ingresar',
       error_signin: 'El usuario o contraseña son incorrectos.',
     },
+    commons: {
+      required: 'Requerido',
+    },
   },
   en: {
     signin: {

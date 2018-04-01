@@ -31,10 +31,8 @@
         </div>
       </div>
 
-      <div v-if="selected" class="col">
-        <div class="card">
-          <activity :model="selected" />
-        </div>
+      <div v-if="selected" class="col col-8">
+        <activity :model="selected" />
       </div>
     </div>
   </div>
