@@ -12,7 +12,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      // beforeEnter: requireAuth,
+      beforeEnter: requireAuth,
       component: App,
       children: [
         { path: 'tasks', component: Tasks },
