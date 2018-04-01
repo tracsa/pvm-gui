@@ -12,6 +12,7 @@ export default {
 
 <style lang="scss">
 @import './styles/variables.scss';
+@import './styles/activities.scss';
 @import '~bootstrap/scss/bootstrap.scss';
 
 html, body, #app {
