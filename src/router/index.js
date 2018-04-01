@@ -1,7 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import App from '@/components/App';
 import Tasks from '@/components/Tasks';
+import Task from '@/components/Task';
+import App from '@/components/App';
 import Processes from '@/components/Processes';
 import SignIn from '@/components/SignIn';
 import { requireAuth, requireAnon } from '@/utils/auth';
@@ -23,6 +24,7 @@ export default new Router({
           path: 'process/:id',
           component: Processes,
         },
+        { path: 'task', component: Task },
       ],
     },
     {
