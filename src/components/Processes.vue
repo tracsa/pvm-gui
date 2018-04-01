@@ -30,6 +30,12 @@
           </ul>
         </div>
       </div>
+
+      <div v-if="selected" class="col">
+        <div class="card">
+          <activity :model="selected" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
