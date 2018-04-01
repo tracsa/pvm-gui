@@ -8,7 +8,8 @@
       <div
         v-for="form_it in model.form_array"
         :key="form_it.ref">
-        <form>
+        <form
+          @submit="submit($event)">
           <div
             v-for="input in form_it.inputs"
             :key="input.name"
@@ -37,7 +38,11 @@
           </div>
 
           <div>
-            <button class="btn btn-primary">Send</button>
+            <button
+              class="btn btn-primary"
+              :disabled="!isValid">
+              Send
+            </button>
             <router-link to="processes">Cancel</router-link>
           </div>
         </form>
@@ -72,5 +77,38 @@ export default {
       },
     };
   },
-}
+  computed: {
+    isValid: function isValid() {
+      const forms = this.model.form_array;
+      return forms.map((form_it) => {
+        const inputs = form_it.inputs;
+
+        return inputs.map((input) => {
+          const value = this.form[input.name];
+
+          let valid = true;
+          if (input.required && !value) {
+            return false;
+          }
+
+          if (input.regex) {
+            const regex = new RegExp(input.regex);
+            if (!regex.test(value)) {
+              return false;
+            }
+          }
+
+          return true;
+        })
+        .reduce((bool, value) => (bool && value), true);
+      })
+      .reduce((bool, value) => (bool && value), true);
+    },
+  },
+  methods: {
+    submit: function submit(event) {
+      event.preventDefault();
+    },
+  },
+};
 </script>
