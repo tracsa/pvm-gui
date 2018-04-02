@@ -22,7 +22,7 @@
         <a v-on:click="toggleDropDown" v-bind:class="{ active: dropdown }">{{ this.username }}</a>
         <div class="dropdown" v-if="dropdown">
           <ul>
-            <li>{{ $t('header.logout') }}</li>
+            <li v-on:click="logout">{{ $t('header.logout') }}</li>
           </ul>
         </div>
       </div>
@@ -32,8 +32,7 @@
 </template>
 
 <script>
-
-import { getAuthToken } from '../utils/auth';
+import { getAuthToken, logout } from '../utils/auth';
 
 export default {
   data() {
@@ -45,6 +44,9 @@ export default {
   methods: {
     toggleDropDown: function() {
       return this.dropdown = !this.dropdown;
+    },
+    logout: function() {
+      logout();
     },
   },
   name: 'Header',
