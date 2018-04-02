@@ -1,12 +1,12 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <div style="font-size:20px;float:right;">
+      <div style="font-size:16px;float:right;">
         <router-link :to="{ name: 'processes' }">
           <icon :icon="['fas', 'times']" />
         </router-link>
       </div>
-      <h4>{{ model.name }}</h4>
+      <span>{{ model.name }}</span>
     </div>
     <div class="card-body">
       <div
