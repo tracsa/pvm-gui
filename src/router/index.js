@@ -17,8 +17,22 @@ export default new Router({
       beforeEnter: requireAuth,
       component: App,
       children: [
-        { path: 'tasks', component: Tasks },
-        { path: 'process', component: Processes },
+        {
+          name: 'tasks',
+          path: 'task',
+          component: Tasks,
+        },
+        {
+          name: 'task',
+          path: 'task/:id',
+          component: Tasks,
+        },
+
+        {
+          name: 'processes',
+          path: 'process',
+          component: Processes,
+        },
         {
           name: 'process',
           path: 'process/:id',
