@@ -7,7 +7,7 @@
       <div class="col">
         <div class="card">
           <div class="card-header">
-            Processes
+            {{ $t('processes.processes')}}
           </div>
           <ul class="activity-list">
             <li

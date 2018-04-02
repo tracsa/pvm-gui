@@ -1,49 +1,138 @@
 <template>
   <header>
-    <center style="font-size:1.2em;font-weight: bold;">PVM</center>
-    <ul class="header-tabs">
-      <li class="active">Tasks</li>
-      <li>Documents</li>
-    </ul>
+    <div class="top-bar flex-container">
+      <div class="menu">
+        <ul>
+          <li class="active">{{ $t('header.tasks') }}</li>
+          <li class="right">{{ $t('header.documents') }}</li>
+        </ul>
+      </div>
+      <div class="dropdown-container">
+        <a v-on:click="toggleDropDown" v-bind:class="{ active: dropdown }">{{ this.username }}</a>
+        <div class="dropdown" v-if="dropdown">
+          <ul>
+            <li>{{ $t('header.logout') }}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <center class="title-center">PVM</center>
   </header>
 </template>
 
 <script>
+
+import { getAuthToken } from '../utils/auth';
+
 export default {
+  data() {
+    return {
+      username: getAuthToken().split(':')[0],
+      dropdown: false,
+    };
+  },
+  methods: {
+    toggleDropDown: function() {
+      return this.dropdown = !this.dropdown;
+    },
+  },
   name: 'Header',
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/variables.scss';
+@import "../styles/variables.scss";
+
+.active {
+  color: $black-light !important;
+}
 
 header {
   box-shadow: 0 3px 2px $gray-300;
   margin-bottom: 15px;
   background: $white;
-  padding-top: 15px;
+  border-top: 1px solid #333;
 
-  ul.header-tabs {
+  .title-center {
+    font-size:1.2em;
+    font-weight: bold;  
+    padding: 10px 0;
+  }
+
+  div.top-bar {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    border-bottom: 1px solid $gray-300;
+    align-items: center;
+    padding: 10px 100px;
 
-    padding-left: 0;
-    margin-bottom: 0;
+    div.menu {
+      flex-grow: 1;
+      font-weight: lighter;
+      font-size: 15px;
+      color: mix($gray-500, $gray-600);
 
-    li {
-      position: relative;
-      display: block;
-      border-bottom: 3px solid white;
-
-      & + li {
+      & + div {
         margin-left: 30px;
       }
 
-      &.active {
-        border-bottom-color: $purple;
+      ul {
+        margin-bottom: 0;
+        padding-left: 0;
+
+        li {
+          display: inline;
+
+          & + li {
+            margin-left: 30px;
+          }
+
+          &:hover {
+            cursor: pointer;
+            color: $black-light;
+          }
+
+        }
+
       }
     }
+ 
+    .dropdown-container {
+      cursor: pointer;
+      font-size: 15px;
+      color: mix($gray-500, $gray-600);
+
+      .dropdown {
+        position: absolute;
+        right: 100px;
+        width: 250px;
+        background: $white;
+        border: 1px solid $gray-300;
+        border-radius: 3px;
+        box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
+        
+        ul {
+          padding: 5px 0;
+          margin-bottom: 0;
+
+          li {
+            display: block;
+            width: 100%;
+            padding: 5px 40px;
+
+            &:hover {
+              background: mix($blue, $gray-400);
+              color: $white;
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+ 
   }
+
 }
 </style>
