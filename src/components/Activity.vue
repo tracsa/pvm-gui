@@ -52,22 +52,7 @@
 </template>
 
 <script>
-/*
-      <div class="card-subtitle mb-2 text-muted">{{ model.description }}</div>
-      <pre>{{ JSON.stringify(model, null, ' ') }}</pre>
-      <div
-        v-for="form in model.form_array"
-        :key="form.ref">
-        <form>
-          <div
-            v-for="input in form.inputs"
-            :key="input.name"
-            class="form-group">
-            <pre>{{ JSON.stringify(input, null, ' ') }}</pre>
-          </div>
-        </form>
-      </div>
-*/
+import { post } from '@/utils/api';
 
 export default {
   props: ['model'],
@@ -109,6 +94,34 @@ export default {
   methods: {
     submit: function submit(event) {
       event.preventDefault();
+
+      const formArray = this.model.form_array.map((formIt) => {
+        const inputs = formIt.inputs;
+        const formData = {};
+        inputs
+          .map(input => [input.name, this.form[input.name]])
+          .forEach(([key, value]) => {
+            formData[key] = value;
+          });
+
+        return {
+          ref: formIt.ref,
+          data: formData,
+        };
+      });
+
+      const postData = {
+        process_name: this.model.id,
+        form_array: formArray,
+      };
+
+      post('/execution', postData, 'application/json')
+        .then((data) => {
+          console.log('data', data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
   },
 };
