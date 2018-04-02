@@ -97,7 +97,7 @@ export default {
 .card {
   border-radius: 3px 3px 0 0;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
-  border-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.125);
   flex: 1;
   overflow: hidden;
 }

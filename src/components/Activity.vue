@@ -6,15 +6,15 @@
     </div>
     <div class="card-body">
       <div
-        v-for="form_it in model.form_array"
-        :key="form_it.ref">
+        v-for="formIt in model.form_array"
+        :key="formIt.ref">
         <form
           @submit="submit($event)">
           <div
-            v-for="input in form_it.inputs"
+            v-for="input in formIt.inputs"
             :key="input.name"
             class="form-group">
-            <label :for="`${form_it.ref}/${input.name}`">
+            <label :for="`${formIt.ref}/${input.name}`">
               {{ input.label }}
               <small
                 class="text-info"
@@ -23,7 +23,7 @@
               </small>
             </label>
             <input
-              :id="`${form_it.ref}/${input.name}`"
+              :id="`${formIt.ref}/${input.name}`"
               :type="input.type"
               :name="input.name"
               class="form-control"
@@ -80,29 +80,30 @@ export default {
   computed: {
     isValid: function isValid() {
       const forms = this.model.form_array;
-      return forms.map((form_it) => {
-        const inputs = form_it.inputs;
+      return forms
+        .map((formIt) => {
+          const inputs = formIt.inputs;
 
-        return inputs.map((input) => {
-          const value = this.form[input.name];
+          return inputs
+            .map((input) => {
+              const value = this.form[input.name];
 
-          let valid = true;
-          if (input.required && !value) {
-            return false;
-          }
+              if (input.required && !value) {
+                return false;
+              }
 
-          if (input.regex) {
-            const regex = new RegExp(input.regex);
-            if (!regex.test(value)) {
-              return false;
-            }
-          }
+              if (input.regex) {
+                const regex = new RegExp(input.regex);
+                if (!regex.test(value)) {
+                  return false;
+                }
+              }
 
-          return true;
+              return true;
+            })
+            .reduce((bool, value) => (bool && value), true);
         })
         .reduce((bool, value) => (bool && value), true);
-      })
-      .reduce((bool, value) => (bool && value), true);
     },
   },
   methods: {
