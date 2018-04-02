@@ -1,10 +1,10 @@
 <template>
   <header>
-    <div class="top-bar">
-      <ul class="menu">
+    <div class="top-bar flex-container">
+      <div class="menu">
         <li class="active">{{ $t('header.tasks') }}</li>
         <li class="right">{{ $t('header.logout') }}</li>
-      </ul>
+      </div>
     </div>
     <center style="font-size:1.2em;font-weight: bold; padding-top: 10px">PVM</center>
     <ul class="header-tabs">
@@ -33,23 +33,23 @@ header {
   div.top-bar {
     border-bottom: 1px solid $gray-300;
 
-    ul.menu {
+    div.menu {
       height: 50px;
       display: flex;
-      padding: 0 100px;
       align-items: center;
       font-family: 'Fira Sans', sans-serif;
       font-weight: lighter;
       font-size: 15px;
-      color: $gray-500;
+      color: mix($gray-500, $gray-600);
+      padding: 0 100px;
 
       margin-bottom: 0;
 
-      li {
+      div {
         display: inline-block;
         border-bottom: 3px solid white;
 
-        & + li {
+        & + div {
           margin-left: 30px;
         }
 
@@ -76,10 +76,13 @@ header {
     justify-content: center;
     padding-left: 0;
     margin-bottom: 0;
+
     li {
       position: relative;
       display: block;
       border-bottom: 3px solid white;
+      font-size: 15px;
+
       & + li {
         margin-left: 30px;
       }
