@@ -7,15 +7,15 @@
             <router-link
               class="active"
               :to="{ name: 'activities' }">
-                {{ $t('header.tasks') }}
+                {{ $t('activities.activities') }}
               </router-link>
-            </li>
-            <li>
-              <router-link
-                :to="{ name: 'processes' }">
-                {{ $t('processes.processes') }}
-              </router-link>
-            </li>
+          </li>
+          <li>
+            <router-link
+              :to="{ name: 'processes' }">
+              {{ $t('processes.processes') }}
+            </router-link>
+          </li>
         </ul>
       </div>
       <div class="dropdown-container">

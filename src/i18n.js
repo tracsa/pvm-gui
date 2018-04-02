@@ -6,7 +6,7 @@ Vue.use(VueI18n);
 const messages = {
   es: {
     header: {
-      tasks: 'Tareas',
+      activities: 'Actividades',
       documents: 'Documentos',
       logout: 'Cerrar sesión',
     },
@@ -23,6 +23,9 @@ const messages = {
       process: 'Proceso',
       processes: 'Procesos',
     },
+    activities: {
+      my_activities: 'Mis actividades'
+    },
     commons: {
       required: 'Requerido',
       send: 'Enviar',
@@ -31,7 +34,7 @@ const messages = {
   },
   en: {
     header: {
-      tasks: 'Tasks',
+      activies: 'Activies',
       documents: 'Documents',
       logout: 'SignOut',
     },
@@ -48,6 +51,9 @@ const messages = {
       process: 'Process',
       processes: 'Processes',
     },
+    activities: {
+      my_activities: 'My activities',
+    },    
     commons: {
       required: 'Required',
       send: 'Send',
