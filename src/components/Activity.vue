@@ -1,7 +1,11 @@
 <template>
   <div class="card">
     <div class="card-header">
+<<<<<<< HEAD
       <router-link :to="{ name: 'processes' }">[close]</router-link>
+=======
+      <router-link to="processes">[close]</router-link>
+>>>>>>> feature/header
       <h4>{{ model.name }}</h4>
     </div>
     <div class="card-body">
@@ -41,11 +45,17 @@
             <button
               class="btn btn-primary"
               :disabled="!isValid">
+<<<<<<< HEAD
               {{ $t('commons.send') }}
             </button>
             <router-link :to="{ name: 'processes' }">
               {{ $t('commons.cancel') }}
             </router-link>
+=======
+              Send
+            </button>
+            <router-link to="processes">Cancel</router-link>
+>>>>>>> feature/header
           </div>
         </form>
       </div>

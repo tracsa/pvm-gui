@@ -5,6 +5,11 @@ Vue.use(VueI18n);
 
 const messages = {
   es: {
+    header: {
+      tasks: 'Tareas',
+      documents: 'Documentos',
+      logout: 'Cerrar sesión',
+    },
     signin: {
       title: 'Ingresar',
       description: 'Inicia sesión para comenzar',
@@ -20,6 +25,11 @@ const messages = {
     },
   },
   en: {
+    header: {
+      tasks: 'Tasks',
+      documents: 'Documents',
+      logout: 'SignOut',
+    },
     signin: {
       title: 'SignIn',
       description: 'Sign in to start your session',
@@ -28,6 +38,11 @@ const messages = {
       button: 'Sign In',
       error_signin: 'We are sorry but it seems the username or password is wrong.',
     },
+    commons: {
+      required: 'Required',
+      send: 'Send',
+      cancel: 'Cancel',
+    },    
   },
 };
 
