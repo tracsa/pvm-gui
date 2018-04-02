@@ -47,7 +47,6 @@
 </template>
 
 <script>
-
 import { login } from '../utils/auth';
 
 export default {
