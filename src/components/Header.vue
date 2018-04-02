@@ -74,7 +74,7 @@ header {
     display: flex;
     border-bottom: 1px solid $gray-300;
     align-items: center;
-    padding: 10px 100px;
+    padding: 0 100px;
 
     div.menu {
       flex-grow: 1;
@@ -90,14 +90,16 @@ header {
         padding-left: 0;
 
         li {
-          display: inline;
+          display: inline-block;
+          padding: 10px 0;
 
           & + li {
-            margin-left: 30px;
+            margin-left: 40px;
           }
 
           a {
             color: mix($gray-500, $gray-600);
+            padding: 10px 0;
   
             &:hover {
               cursor: pointer;
