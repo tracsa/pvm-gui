@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <router-link to="processes">[close]</router-link>
+      <router-link :to="{ name: 'processes' }">[close]</router-link>
       <h4>{{ model.name }}</h4>
     </div>
     <div class="card-body">
@@ -41,9 +41,11 @@
             <button
               class="btn btn-primary"
               :disabled="!isValid">
-              Send
+              {{ $t('commons.send') }}
             </button>
-            <router-link to="processes">Cancel</router-link>
+            <router-link :to="{ name: 'processes' }">
+              {{ $t('commons.cancel') }}
+            </router-link>
           </div>
         </form>
       </div>

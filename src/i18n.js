@@ -15,6 +15,8 @@ const messages = {
     },
     commons: {
       required: 'Requerido',
+      send: 'Enviar',
+      cancel: 'Cancelar',
     },
   },
   en: {
