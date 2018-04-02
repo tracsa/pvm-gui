@@ -1,12 +1,12 @@
 <template>
   <div
-    class="tasks-container"
+    class="full-columns"
     :class="containerClass">
     <div
       class="row">
       <div class="col">
         <div class="card">
-          <div class="tasks-header">
+          <div class="card-header">
             Processes
           </div>
           <ul class="activity-list">
@@ -102,24 +102,11 @@ export default {
   overflow: hidden;
 }
 
-.tasks-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
 .card, .row {
   flex: 1 1 auto;
 }
 
 .col {
   display: flex;
-}
-
-.tasks-header {
-  border-bottom: 1px solid white;
-  box-shadow: 0 5px 5px rgba(0,0,0,0.25);
-  padding: 10px 30px;
-  z-index: 1;
 }
 </style>

@@ -1,5 +1,3 @@
-$task-list-height: 36px;
-
 ul.activity-list {
   display: flex;
   flex-direction: column;
@@ -49,4 +47,15 @@ ul.activity-list {
       width: 30px;
     }
   }
+}
+
+.full-columns {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.card-header {
+  box-shadow: 0 0 5px rgba(0,0,0,0.25);
+  z-index: 1;
 }
