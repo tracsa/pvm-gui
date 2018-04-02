@@ -7,7 +7,7 @@
             <router-link
               class="active"
               :to="{ name: 'activities' }">
-                {{ $t('activities.activities') }}
+                {{ $t('header.activities') }}
               </router-link>
           </li>
           <li>
@@ -19,10 +19,18 @@
         </ul>
       </div>
       <div class="dropdown-container">
-        <a v-on:click="toggleDropDown" v-bind:class="{ active: dropdown }">{{ this.username }}</a>
-        <div class="dropdown" v-if="dropdown">
+        <a 
+          v-on:click="toggleDropDown"
+          v-bind:class="{ active: dropdown }">
+            {{ this.username }}
+        </a>
+        <div class="dropdown"
+          v-if="dropdown">
           <ul>
-            <li v-on:click="logout">{{ $t('header.logout') }}</li>
+            <li 
+              v-on:click="logout">
+                {{ $t('header.logout') }}
+            </li>
           </ul>
         </div>
       </div>
@@ -108,12 +116,8 @@ header {
               color: $black-light;
               text-decoration: none;
             }
-            
           }
-          
-
         }
-
       }
     }
 
@@ -141,19 +145,13 @@ header {
             padding: 5px 40px;
 
             &:hover {
-              background: mix($blue, $gray-400);
+              background: $blue-light;
               color: $white;
             }
-
           }
-
         }
-
       }
-
     }
-
   }
-
 }
 </style>
