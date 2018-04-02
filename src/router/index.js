@@ -1,7 +1,12 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import HelloWorld from '@/components/HelloWorld';
 import Tasks from '@/components/Tasks';
+import Task from '@/components/Task';
+import App from '@/components/App';
+import Processes from '@/components/Processes';
+import SignIn from '@/components/SignIn';
+import { requireAuth, requireAnon } from '@/utils/auth';
+import '@/components';
 
 Vue.use(Router);
 
@@ -9,13 +14,37 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld,
+      beforeEnter: requireAuth,
+      component: App,
+      children: [
+        {
+          name: 'tasks',
+          path: 'task',
+          component: Tasks,
+        },
+        {
+          name: 'task',
+          path: 'task/:id',
+          component: Tasks,
+        },
+
+        {
+          name: 'processes',
+          path: 'process',
+          component: Processes,
+        },
+        {
+          name: 'process',
+          path: 'process/:id',
+          component: Processes,
+        },
+        { path: 'task', component: Task },
+      ],
     },
     {
-      path: '/tasks',
-      name: 'Tasks',
-      component: Tasks,
+      path: '/signin',
+      beforeEnter: requireAnon,
+      component: SignIn,
     },
   ],
 });

@@ -1,6 +1,6 @@
 {
   "name": "pvm-gui",
-  "version": "1.0.0",
+  "version": "0.2.0",
   "description": " Graphical user interface for PVM & DOQER ",
   "author": "Og Astorga <og@ogastorga.com>",
   "private": true,
@@ -21,9 +21,12 @@
     "@fortawesome/vue-fontawesome": "^0.0.22",
     "bootstrap": "^4.0.0",
     "node-sass": "^4.7.2",
+    "promise-polyfill": "^7.1.1",
     "sass-loader": "^6.0.7",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-i18n": "^7.6.0",
+    "vue-router": "^3.0.1",
+    "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
