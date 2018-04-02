@@ -31,6 +31,11 @@ export default new Router({
 
         {
           name: 'processes',
+          path: '',
+          component: Processes,
+        },
+        {
+          name: 'processes',
           path: 'process',
           component: Processes,
         },

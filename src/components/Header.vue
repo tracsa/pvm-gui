@@ -38,7 +38,7 @@ import { getAuthToken } from '../utils/auth';
 export default {
   data() {
     return {
-      username: getAuthToken().split(':')[0],
+      username: getAuthToken().split(/[:\\]/)[1] + '@tracsa.com.mx',
       dropdown: false,
     };
   },
@@ -62,11 +62,11 @@ header {
   box-shadow: 0 3px 2px $gray-300;
   margin-bottom: 15px;
   background: $white;
-  border-top: 1px solid #333;
+  border-top: 3px solid $purple;
 
   .title-center {
     font-size:1.2em;
-    font-weight: bold;  
+    font-weight: bold;
     padding: 10px 0;
   }
 
@@ -112,7 +112,7 @@ header {
 
       }
     }
- 
+
     .dropdown-container {
       cursor: pointer;
       font-size: 15px;
@@ -126,7 +126,7 @@ header {
         border: 1px solid $gray-300;
         border-radius: 3px;
         box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
-        
+
         ul {
           padding: 5px 0;
           margin-bottom: 0;
@@ -148,7 +148,7 @@ header {
       }
 
     }
- 
+
   }
 
 }
