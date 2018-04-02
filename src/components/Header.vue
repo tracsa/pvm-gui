@@ -2,27 +2,50 @@
   <header>
     <div class="top-bar flex-container">
       <div class="menu">
-        <li class="active">{{ $t('header.tasks') }}</li>
-        <li class="right">{{ $t('header.logout') }}</li>
+        <ul>
+          <li class="active">{{ $t('header.tasks') }}</li>
+          <li class="right">{{ $t('header.documents') }}</li>
+        </ul>
+      </div>
+      <div class="dropdown-container">
+        <a v-on:click="toggleDropDown" v-bind:class="{ active: dropdown }">{{ this.username }}</a>
+        <div class="dropdown" v-if="dropdown">
+          <ul>
+            <li>{{ $t('header.logout') }}</li>
+          </ul>
+        </div>
       </div>
     </div>
-    <center style="font-size:1.2em;font-weight: bold; padding-top: 10px">PVM</center>
-    <ul class="header-tabs">
-      <li class="active">{{ $t('header.tasks') }}</li>
-      <li>{{ $t('header.documents') }}</li>
-    </ul>
+    <center class="title-center">PVM</center>
   </header>
 </template>
 
 <script>
+
+import { getAuthToken } from '../utils/auth';
+
 export default {
+  data() {
+    return {
+      username: getAuthToken().split(':')[0],
+      dropdown: false,
+    };
+  },
+  methods: {
+    toggleDropDown: function() {
+      return this.dropdown = !this.dropdown;
+    },
+  },
   name: 'Header',
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/variables.scss';
-@import url('https://fonts.googleapis.com/css?family=Fira+Sans');
+@import "../styles/variables.scss";
+
+.active {
+  color: $black-light !important;
+}
 
 header {
   box-shadow: 0 3px 2px $gray-300;
@@ -30,66 +53,86 @@ header {
   background: $white;
   border-top: 1px solid #333;
 
+  .title-center {
+    font-size:1.2em;
+    font-weight: bold;  
+    padding: 10px 0;
+  }
+
   div.top-bar {
+    display: flex;
     border-bottom: 1px solid $gray-300;
+    align-items: center;
+    padding: 10px 100px;
 
     div.menu {
-      height: 50px;
-      display: flex;
-      align-items: center;
-      font-family: 'Fira Sans', sans-serif;
+      flex-grow: 1;
       font-weight: lighter;
       font-size: 15px;
       color: mix($gray-500, $gray-600);
-      padding: 0 100px;
 
-      margin-bottom: 0;
-
-      div {
-        display: inline-block;
-        border-bottom: 3px solid white;
-
-        & + div {
-          margin-left: 30px;
-        }
-
-        &.right{
-          position: absolute;
-          right: 100px;
-        }
-
-        &:hover {
-          cursor: pointer;
-          color: mix($black, $gray-700);
-        }
-
-        &.active {
-          color: mix($black, $gray-700);
-        }
-      }
-    }
-  }
-
-  ul.header-tabs {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding-left: 0;
-    margin-bottom: 0;
-
-    li {
-      position: relative;
-      display: block;
-      border-bottom: 3px solid white;
-      font-size: 15px;
-
-      & + li {
+      & + div {
         margin-left: 30px;
       }
-      &.active {
-        border-bottom-color: $purple;
+
+      ul {
+        margin-bottom: 0;
+        padding-left: 0;
+
+        li {
+          display: inline;
+
+          & + li {
+            margin-left: 30px;
+          }
+
+          &:hover {
+            cursor: pointer;
+            color: $black-light;
+          }
+
+        }
+
       }
     }
+ 
+    .dropdown-container {
+      cursor: pointer;
+      font-size: 15px;
+      color: mix($gray-500, $gray-600);
+
+      .dropdown {
+        position: absolute;
+        right: 100px;
+        width: 250px;
+        background: $white;
+        border: 1px solid $gray-300;
+        border-radius: 3px;
+        box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
+        
+        ul {
+          padding: 5px 0;
+          margin-bottom: 0;
+
+          li {
+            display: block;
+            width: 100%;
+            padding: 5px 40px;
+
+            &:hover {
+              background: mix($blue, $gray-400);
+              color: $white;
+            }
+
+          }
+
+        }
+
+      }
+
+    }
+ 
   }
+
 }
 </style>
