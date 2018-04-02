@@ -23,13 +23,19 @@
               </small>
             </label>
             <div v-if="input.type == 'datetime'">
-              <datepicker
-                v-model="form[input.name]"
-              />
-              <timepicker
-                :value="form[input.name]"
-                @change="datetime => form[input.name] = datetime"
-              />
+              <div class="row">
+                <div class="col">
+                  <datepicker
+                    v-model="form[input.name]"
+                  />
+                </div>
+                <div class="col">
+                  <timepicker
+                    :value="form[input.name]"
+                    @change="datetime => form[input.name] = datetime"
+                  />
+                </div>
+              </div>
             </div>
             <div v-else>
               <input
