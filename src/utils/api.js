@@ -4,10 +4,13 @@ import serialize from './serialize';
 import { getAuthToken } from './auth';
 
 
-function apiFetch(method, route, params = {}) {
+function apiFetch(method, route, params = {}, bodyEncoding = 'application/x-www-form-urlencoded') {
   const { host, port } = settings.pvm;
   const endpoint = `//${host}:${port}`;
-  const headers = {};
+  const headers = {
+    'Content-Type': 'application/json',
+  };
+
   const options = {
     method,
   };
@@ -32,16 +35,25 @@ function apiFetch(method, route, params = {}) {
   }
 
   // Append params as form urlencoded in body request
-  const rawbody = serialize(params);
+  if (method === 'GET') {
+    const serialized = serialize(params);
+    if (serialized.length) {
+      url = `${url}?${serialized}`;
+    }
+  } else {
+    headers['Content-Type'] = bodyEncoding;
 
-  if (rawbody.length > 0) {
-    if (method === 'GET') {
-      url = `${url}?${rawbody}`;
-    } else {
-      headers.charset = 'UTF-8';
-      headers['Content-Type'] = 'application/x-www-form-urlencoded';
-
-      options.body = rawbody;
+    switch (bodyEncoding) {
+      case 'application/x-www-form-urlencoded':
+        headers.charset = 'UTF-8';
+        options.body = serialize(params);
+        break;
+      case 'application/json':
+        headers.charset = 'UTF-8';
+        options.body = JSON.stringify(params);
+        break;
+      default:
+        throw new Error(`HTTP body encoding type ${bodyEncoding} not supported`);
     }
   }
 
