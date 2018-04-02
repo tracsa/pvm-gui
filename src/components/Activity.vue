@@ -22,14 +22,31 @@
                 {{ $t('commons.required') }}
               </small>
             </label>
-            <input
-              :id="`${formIt.ref}/${input.name}`"
-              :type="input.type"
-              :name="input.name"
-              class="form-control"
-              :placeholder="input.placeholder"
-              v-model="form[input.name]"
-            />
+            <div v-if="input.type == 'datetime'">
+              <div class="row">
+                <div class="col">
+                  <datepicker
+                    v-model="form[input.name]"
+                  />
+                </div>
+                <div class="col">
+                  <timepicker
+                    :value="form[input.name]"
+                    @change="datetime => form[input.name] = datetime"
+                  />
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <input
+                :id="`${formIt.ref}/${input.name}`"
+                :type="input.type"
+                :name="input.name"
+                class="form-control"
+                :placeholder="input.placeholder"
+                v-model="form[input.name]"
+              />
+            </div>
             <small
               class="form-text text-muted"
               v-if="input.helper">
