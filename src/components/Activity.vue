@@ -1,7 +1,11 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <router-link :to="{ name: 'processes' }">[close]</router-link>
+      <div style="font-size:20px;float:right;">
+        <router-link :to="{ name: 'processes' }">
+          <icon :icon="['fas', 'times']" />
+        </router-link>
+      </div>
       <h4>{{ model.name }}</h4>
     </div>
     <div class="card-body">
@@ -22,14 +26,32 @@
                 {{ $t('commons.required') }}
               </small>
             </label>
-            <input
-              :id="`${formIt.ref}/${input.name}`"
-              :type="input.type"
-              :name="input.name"
-              class="form-control"
-              :placeholder="input.placeholder"
-              v-model="form[input.name]"
-            />
+            <div v-if="input.type == 'datetime'">
+              <div class="row">
+                <div class="col">
+                  <datepicker
+                    :bootstrap-styling="true"
+                    v-model="form[input.name]"
+                  />
+                </div>
+                <div class="col">
+                  <timepicker
+                    :value="form[input.name]"
+                    @change="datetime => form[input.name] = datetime"
+                  />
+                </div>
+              </div>
+            </div>
+            <div v-else>
+              <input
+                :id="`${formIt.ref}/${input.name}`"
+                :type="input.type"
+                :name="input.name"
+                class="form-control"
+                :placeholder="input.placeholder"
+                v-model="form[input.name]"
+              />
+            </div>
             <small
               class="form-text text-muted"
               v-if="input.helper">

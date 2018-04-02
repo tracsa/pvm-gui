@@ -2,25 +2,24 @@
   <div
     class="full-columns"
     :class="containerClass">
-    <div
-      class="row">
+    <div class="row">
       <div class="col">
         <div class="card">
           <div class="card-header">
-            {{ $t('processes.processes')}}
+            My activities
           </div>
           <ul class="activity-list">
             <li
-              :class="{ active: selectedId === process.id }"
-              v-for="process in processes"
-              :key="process.id">
+              :class="{ active: selectedId === activity.id }"
+              v-for="activity in activities"
+              :key="activity.id">
               <router-link
                 :to="{
-                  name: 'process',
-                  params: { id: process.id },
+                  name: 'activity',
+                  params: { id: activity.id },
                 }">
                 <div class="activity-name">
-                  {{ process.name }}
+                  {{ activity.name }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -28,6 +27,9 @@
               </router-link>
             </li>
           </ul>
+
+          <pre>{{ JSON.stringify(activities, null, ' ') }}</pre>
+
         </div>
       </div>
 
@@ -44,17 +46,17 @@ import { get } from '@/utils/api';
 export default {
   data() {
     return {
-      processes: [],
+      activities: [],
       loading: true,
     };
   },
   mounted() {
     const self = this;
 
-    get('/process')
+    get('/activity')
       .then((body) => {
         self.loading = false;
-        self.processes = body.data;
+        self.activities = body.data;
       })
       .catch((errors) => {
         self.loading = false;
@@ -77,7 +79,7 @@ export default {
         return null;
       }
 
-      return this.processes
+      return this.activities
         .filter(p => p.id === id)
         .reduce((a, p) => (a || p), null);
     },
