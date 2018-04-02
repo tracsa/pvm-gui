@@ -18,6 +18,11 @@ const messages = {
       button: 'Ingresar',
       error_signin: 'El usuario o contraseña son incorrectos.',
     },
+    processes: {
+      start_process: 'Iniciar proceso',
+      process: 'Proceso',
+      processes: 'Procesos',
+    },
     commons: {
       required: 'Requerido',
       send: 'Enviar',
@@ -37,6 +42,11 @@ const messages = {
       password_placeholder: 'Password',
       button: 'Sign In',
       error_signin: 'We are sorry but it seems the username or password is wrong.',
+    },
+    processes: {
+      start_process: 'Start process',
+      process: 'Process',
+      processes: 'Processes',
     },
     commons: {
       required: 'Required',
