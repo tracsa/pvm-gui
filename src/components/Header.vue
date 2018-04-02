@@ -3,8 +3,19 @@
     <div class="top-bar flex-container">
       <div class="menu">
         <ul>
-          <li class="active">{{ $t('header.tasks') }}</li>
-          <li class="right">{{ $t('header.documents') }}</li>
+          <li>
+            <router-link
+              class="active"
+              :to="{ name: 'activities' }">
+                {{ $t('header.tasks') }}
+              </router-link>
+            </li>
+            <li>
+              <router-link
+                :to="{ name: 'processes' }">
+                {{ $t('processes.processes') }}
+              </router-link>
+            </li>
         </ul>
       </div>
       <div class="dropdown-container">
@@ -69,7 +80,6 @@ header {
       flex-grow: 1;
       font-weight: lighter;
       font-size: 15px;
-      color: mix($gray-500, $gray-600);
 
       & + div {
         margin-left: 30px;
@@ -86,10 +96,17 @@ header {
             margin-left: 30px;
           }
 
-          &:hover {
-            cursor: pointer;
-            color: $black-light;
+          a {
+            color: mix($gray-500, $gray-600);
+  
+            &:hover {
+              cursor: pointer;
+              color: $black-light;
+              text-decoration: none;
+            }
+            
           }
+          
 
         }
 

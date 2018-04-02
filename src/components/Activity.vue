@@ -1,7 +1,7 @@
 <template>
   <div class="card">
     <div class="card-header">
-      <router-link :to="{ name: 'processes' }">[close]</router-link>
+      <router-link :to="{ name: 'processes' }">[{{ $t('commons.cancel') }}]</router-link>
       <h4>{{ model.name }}</h4>
     </div>
     <div class="card-body">
