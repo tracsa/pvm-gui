@@ -1,20 +1,29 @@
 <template>
-  <div>
-    <select v-model="hours">
-      <option
-        v-for="hour in hourOptions"
-        :value="hour.value">
-        {{ hour.label }}
-      </option>
-    </select>
-
-    <select v-model="minutes">
-      <option
-        v-for="minute in minuteOptions"
-        :value="minute.value">
-        {{ minute.label }}
-      </option>
-    </select>
+  <div class="row">
+    <div class="col">
+      <select
+        class="custom-select"
+        v-model="hours"
+        placeholder="Horas">
+        <option
+          v-for="hour in hourOptions"
+          :value="hour.value">
+          {{ hour.label }}
+        </option>
+      </select>
+    </div>
+    <div class="col">
+      <select
+        class="custom-select"
+        v-model="minutes"
+        placeholder="Minutos">
+        <option
+          v-for="minute in minuteOptions"
+          :value="minute.value">
+          {{ minute.label }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 

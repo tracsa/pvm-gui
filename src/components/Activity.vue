@@ -26,6 +26,7 @@
               <div class="row">
                 <div class="col">
                   <datepicker
+                    :bootstrap-styling="true"
                     v-model="form[input.name]"
                   />
                 </div>
