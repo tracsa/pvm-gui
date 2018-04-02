@@ -27,7 +27,7 @@ import { getAuthToken } from '../utils/auth';
 export default {
   data() {
     return {
-      username: getAuthToken().split(':')[0],
+      username: getAuthToken().split(/[:\\]/)[1] + '@tracsa.com.mx',
       dropdown: false,
     };
   },
