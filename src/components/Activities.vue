@@ -1,4 +1,4 @@
-<template>
+<template> 
   <div
     class="full-columns"
     :class="containerClass">
@@ -6,7 +6,7 @@
       <div class="col">
         <div class="card">
           <div class="card-header">
-            My activities
+            {{ $t('activities.my_activities') }}
           </div>
           <ul class="activity-list">
             <li

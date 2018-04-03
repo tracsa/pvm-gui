@@ -14,7 +14,7 @@
             <router-link
               class="nav-link"
               :to="{ name: 'activities' }">
-              Actividades
+              {{ $t('header.activities') }}
             </router-link>
           </li>
         </ul>
