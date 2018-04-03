@@ -54,7 +54,7 @@ const messages = {
     },
     activities: {
       my_activities: 'My activities',
-    },    
+    },
     commons: {
       required: 'Required',
       send: 'Send',
