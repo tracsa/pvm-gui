@@ -8,7 +8,8 @@ const messages = {
     header: {
       tasks: 'Tareas',
       documents: 'Documentos',
-      logout: 'Cerrar sesión',
+      processes: 'Procesos',
+      signout: 'Cerrar sesión',
     },
     signin: {
       title: 'Ingresar',
@@ -52,7 +53,7 @@ const messages = {
       required: 'Required',
       send: 'Send',
       cancel: 'Cancel',
-    },    
+    },
   },
 };
 
