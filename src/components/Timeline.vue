@@ -7,16 +7,16 @@
         <div class="card">
           <div class="card-header">
             <div class="author">
-              Ulises C.
+              {{ this.timeline.actors[0].user.identifier.split('\\')[1] }}
             </div>
             <div class="date">
-              11/Abril/2019
+              {{ this.timeline.finished_at | moment }}
             </div>
           </div>
           <div class="card-body">
             <blockquote class="blockquote mb-0">
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+                {{ this.timeline.forms[0].data.reason }}
               </p>
             </blockquote>
           </div>
@@ -29,25 +29,32 @@
 <script>
 import { login } from '../utils/auth';
 import { get } from '@/utils/api';
+import moment from 'moment';
 
 export default {
   data() {
     return {
-      timeline: ''
+      timeline: []
     };
   },
   mounted() {
-    const id = "2f7516ce378711e89f1c5cc5d48161ea";
+    const id = "75dce4d4382211e8b9c05cc5d48161ea";
 
     get('/log/' + id)
       .then((body) => {
-        this.timeline = body.data;
-        console.log(body.data);
+        this.timeline = body.data[0];
+        console.log(body.data[0].execution_id);
       })
       .catch((errors) => {
         console.error(errors);
       });
   },
+  filters: {
+    moment: function (date) {
+      date = new Date(date);
+      return moment(date).format('DD/MM/YYYY HH:mm');
+    }
+  },  
   methods: {
 
   },
