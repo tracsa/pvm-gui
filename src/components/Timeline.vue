@@ -1,17 +1,25 @@
 <template>
-  <div class="timeline-container">
-    <div class="left-content">
-      
-    </div>
+  <div class="timelines-container container">
     <div class="vertical-line"></div>
-    <div class="timeline">
-      <div class="box">
-        <div class="title">
-          <span>Ulises Castro.</span>
-          <span>12 de abril a las 4:01</span>
-        </div>
-        <div class="content">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente quidem distinctio nisi, tempore et, deserunt earum odit est dolorum repellendus dicta maxime expedita? Quo cupiditate deserunt in, reprehenderit cumque maiores!
+    <div class="timelines">
+      <div class="timeline">
+        <span class="timeline-dot"></span>
+        <div class="card">
+          <div class="card-header">
+            <div class="author">
+              Ulises C.
+            </div>
+            <div class="date">
+              11/Abril/2019
+            </div>
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.
+              </p>
+            </blockquote>
+          </div>
         </div>
       </div>
     </div>
@@ -20,12 +28,25 @@
 
 <script>
 import { login } from '../utils/auth';
+import { get } from '@/utils/api';
 
 export default {
   data() {
     return {
-      username: '',
+      timeline: ''
     };
+  },
+  mounted() {
+    const id = "2f7516ce378711e89f1c5cc5d48161ea";
+
+    get('/log/' + id)
+      .then((body) => {
+        this.timeline = body.data;
+        console.log(body.data);
+      })
+      .catch((errors) => {
+        console.error(errors);
+      });
   },
   methods: {
 
@@ -36,48 +57,58 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
-.timeline-container {
+.timelines-container {
   display: flex;
+  height: 100%;
+  padding-left: 10px;
   
   .vertical-line {
-    background: $gray-300;
-    height: 300px;
-    width: 5px;
+    background: lighten($purple, 30);
+    height: 100%;
+    width: $line-width;
   }
 
-  .left-content {
-    flex-grow: 1;
-  }
+  .timelines {
+    display: block;
+    height: 100%;
+    width: 100%;
 
-  .timeline {
-    flex-grow: 1;
+    .timeline {
+      width: 100%;
+      position: relative;
+      padding-left: $line-distance;
 
-    .box {
-      background: white;
-      max-width: 350px;
-      max-height: 300px;
-      box-shadow: 0 2px 2px $gray-300;
-      border: 1px solid $gray-300;
+      & + div {
+        margin-top: 10px;
+      }
 
-      .title {
-        display: flex;
+      .timeline-dot {
+        background: $purple;
+        position: absolute;
+        left: -($dot-size + 3)/2;
+        top: (49 - $dot-size)/2;
+        height: $dot-size;
+        width: $dot-size;
+        border: $line-width solid $body-bg;
+        border-radius: 50%;
+      }
 
-        span {
-          flex-grow: 1;
+      .card {
+        overflow: hidden;
 
-          & + span {
-            
+        .card-header {
+          display: inline-flex;
+
+          div {
+            width: 50%;
+
+            & + div {
+              text-align: end;
+            }
           }
         }
       }
-
-      .content {
-        height: 100%;
-        padding: 10px;
-      }
-
     }
   }
 }
-
 </style>

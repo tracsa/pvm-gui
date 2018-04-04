@@ -40,11 +40,6 @@ export default new Router({
           component: Processes,
         },
         {
-          name: 'processes',
-          path: 'process',
-          component: Processes,
-        },
-        {
           name: 'process',
           path: 'process/:id',
           component: Processes,
