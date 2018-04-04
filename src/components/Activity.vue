@@ -42,6 +42,38 @@
                 </div>
               </div>
             </div>
+            <div v-else-if="input.type == 'select'">
+              <select
+                :id="`${formIt.ref}/${input.name}`"
+                class="custom-select"
+                v-model="form[input.name]"
+                :placeholder="input.placeholder">
+                <option
+                  v-for="option in input.options"
+                  :value="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+            </div>
+            <div v-else-if="input.type == 'checkbox' || input.type == 'radio'">
+              <div
+                v-for="option in input.options"
+                class="custom-control"
+                :class="`custom-${input.type}`">
+                <input
+                  class="custom-control-input"
+                  :id="`${formIt.ref}/${input.name}-${option.value}`"
+                  :type="input.type"
+                  :value="option.value"
+                  v-model="form[input.name]"
+                />
+                <label
+                  class="custom-control-label"
+                  :for="`${formIt.ref}/${input.name}-${option.value}`">
+                  {{ option.label }}
+                </label>
+              </div>
+            </div>
             <div v-else>
               <input
                 :id="`${formIt.ref}/${input.name}`"
@@ -85,6 +117,33 @@ export default {
       form: {
       },
     };
+  },
+  mounted() {
+    const formData = {};
+    this.model.form_array.map((formIt) => {
+      const inputs = formIt.inputs;
+      inputs.forEach((input) => {
+        let defaultValue;
+        switch (input.type) {
+          case 'checkbox':
+            defaultValue = [];
+            if (input.default !== undefined) {
+              defaultValue.push(input.default);
+            }
+            break;
+          default:
+            defaultValue = '';
+            if (input.default !== undefined) {
+              defaultValue = input.default;
+            }
+            break;
+        }
+
+        formData[input.name] = defaultValue;
+      });
+
+      this.form = formData;
+    });
   },
   computed: {
     isValid: function isValid() {
