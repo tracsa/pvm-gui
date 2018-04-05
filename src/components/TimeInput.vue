@@ -7,6 +7,7 @@
         placeholder="Horas">
         <option
           v-for="hour in hourOptions"
+          :key="hour.value"
           :value="hour.value">
           {{ hour.label }}
         </option>
@@ -19,6 +20,7 @@
         placeholder="Minutos">
         <option
           v-for="minute in minuteOptions"
+          :key="minute.value"
           :value="minute.value">
           {{ minute.label }}
         </option>
@@ -37,14 +39,14 @@ export default {
     };
   },
   mounted() {
-    for (let h=0; h<24; ++h) {
+    for (let h = 0; h < 24; h += 1) {
       this.hourOptions.push({
         label: `0${h}`.slice(-2),
         value: h,
       });
     }
 
-    for (let m=0; m<60; ++m) {
+    for (let m = 0; m < 60; m += 1) {
       this.minuteOptions.push({
         label: `0${m}`.slice(-2),
         value: m,
@@ -53,7 +55,7 @@ export default {
   },
   computed: {
     hours: {
-      get: function get_hours() {
+      get: function getHours() {
         const { value } = this;
         if (!value) {
           return null;
@@ -61,7 +63,7 @@ export default {
 
         return value.getHours();
       },
-      set: function set_hours(hours) {
+      set: function setHours(hours) {
         const date = new Date(this.value);
         date.setHours(hours);
 
@@ -69,7 +71,7 @@ export default {
       },
     },
     minutes: {
-      get: function get_minutes() {
+      get: function getMinutes() {
         const { value } = this;
         if (!value) {
           return null;
@@ -77,7 +79,7 @@ export default {
 
         return value.getMinutes();
       },
-      set: function set_minutes(minutes) {
+      set: function setMinutes(minutes) {
         const date = new Date(this.value);
         date.setMinutes(minutes);
 
@@ -85,5 +87,5 @@ export default {
       },
     },
   },
-}
+};
 </script>

@@ -25,8 +25,8 @@ export default {
       },
       set: function setDate(date) {
         this.$emit('change', date);
-      }
-    }
-  }
-}
+      },
+    },
+  },
+};
 </script>

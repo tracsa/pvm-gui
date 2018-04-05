@@ -34,6 +34,7 @@
           :placeholder="input.placeholder">
           <option
             v-for="option in input.options"
+            :key="option.value"
             :value="option.value">
             {{ option.label }}
           </option>
@@ -42,6 +43,7 @@
       <div v-else-if="input.type == 'checkbox' || input.type == 'radio'">
         <div
           v-for="option in input.options"
+          :key="option.value"
           class="custom-control"
           :class="`custom-${input.type}`">
           <input
@@ -93,7 +95,7 @@ export default {
   props: ['form'],
   data() {
     return {
-      formData: {}
+      formData: {},
     };
   },
   mounted() {
@@ -150,7 +152,7 @@ export default {
 
       const formInstance = {
         ref: this.form.ref,
-        data: {}
+        data: {},
       };
 
       this.form.inputs.forEach((input) => {
@@ -158,7 +160,7 @@ export default {
       });
 
       this.$emit('submit', formInstance);
-    }
+    },
   },
-}
+};
 </script>
