@@ -12,7 +12,7 @@
       <div v-for="form in model.form_array" :key="form.ref">
         <div
           v-for="error in errors"
-          class="alert alert-danger">
+          class="alert custom-alert-danger">
           {{ $t(error.code) }}
         </div>
         <form-render
@@ -45,8 +45,8 @@ export default {
         .then((data) => {
           console.log('data', data);
         })
-        .catch((err) => {
-          console.error(err);
+        .catch((errors) => {
+          this.errors = errors;
         });
     },
   },

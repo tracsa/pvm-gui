@@ -11,9 +11,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './styles/variables.scss';
-@import './styles/activities.scss';
-@import '~bootstrap/scss/bootstrap.scss';
+@import './styles/main.scss';
 
 html, body, #app {
   height: 100vh;
