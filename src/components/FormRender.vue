@@ -13,21 +13,18 @@
           {{ $t('commons.required') }}
         </small>
       </label>
-      <div v-if="input.type == 'datetime'">
-        <div class="row">
-          <div class="col">
-            <datepicker
-              :bootstrap-styling="true"
-              v-model="formData[input.name]"
-            />
-          </div>
-          <div class="col">
-            <timepicker
-              :value="formData[input.name]"
-              @change="datetime => formData[input.name] = datetime"
-            />
-          </div>
-        </div>
+
+      <div v-if="input.type == 'date'">
+        <date-input
+          :bootstrap-styling="true"
+          v-model="formData[input.name]"
+        />
+      </div>
+      <div v-else-if="input.type == 'datetime'">
+        <datetime-input
+          :value="formData[input.name]"
+          @change="datetime => formData[input.name] = datetime"
+        />
       </div>
       <div v-else-if="input.type == 'select'">
         <select
