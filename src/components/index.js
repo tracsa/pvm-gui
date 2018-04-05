@@ -6,6 +6,7 @@ import DatetimeInput from './DatetimeInput';
 import FormRender from './FormRender';
 import Header from './Header';
 import TimeInput from './TimeInput';
+import DoqerFileInput from './DoqerFileInput';
 
 
 // Components
@@ -17,3 +18,4 @@ Vue.component('form-render', FormRender);
 Vue.component('time-input', TimeInput);
 Vue.component('date-input', Datepicker);
 Vue.component('datetime-input', DatetimeInput);
+Vue.component('doqer-input', DoqerFileInput);

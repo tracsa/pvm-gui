@@ -60,6 +60,9 @@
           </label>
         </div>
       </div>
+      <div v-else-if="input.type === 'doqer:file'">
+        <doqer-input />
+      </div>
       <div v-else>
         <input
           :id="`${form.ref}/${input.name}`"
