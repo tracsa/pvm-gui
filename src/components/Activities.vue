@@ -15,8 +15,8 @@
               :key="activity.id">
               <router-link
                 :to="{
-                  name: 'activity',
-                  params: { id: activity.id },
+                  name: 'timeline',
+                  params: { id: activity.execution.id },
                 }">
                 <div class="activity-name">
                   {{ activity.name }}
@@ -33,9 +33,6 @@
         </div>
       </div>
 
-      <div v-if="selected" class="col col-8">
-        <activity :model="selected" />
-      </div>
     </div>
   </div>
 </template>
@@ -73,16 +70,16 @@ export default {
 
       return id;
     },
-    selected: function selected() {
-      const { id } = this.$route.params;
-      if (!id) {
-        return null;
-      }
+    // selected: function selected() {
+    //   const { id } = this.$route.params;
+    //   if (!id) {
+    //     return null;
+    //   }
 
-      return this.activities
-        .filter(p => p.id === id)
-        .reduce((a, p) => (a || p), null);
-    },
+    //   return this.activities
+    //     .filter(p => p.id === id)
+    //     .reduce((a, p) => (a || p), null);
+    // },
     containerClass: function containerClass() {
       return {
         container: this.selectedId === null,

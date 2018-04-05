@@ -31,7 +31,7 @@ export default new Router({
         },
         {
           name: 'timeline',
-          path: 'timeline',
+          path: 'timeline/:id',
           component: Timeline,
         },
         {

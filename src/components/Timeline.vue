@@ -1,5 +1,5 @@
 <template>
-  <div class="timelines-container container">
+  <div v-if="!loading" class="timelines-container container">
     <div class="vertical-line"></div>
     <div class="timelines">
       <div class="timeline">
@@ -7,16 +7,16 @@
         <div class="card">
           <div class="card-header">
             <div class="author">
-              {{ this.timeline.actors[0].user.identifier.split('\\')[1] }}
+              {{ timeline.actors[0].user.identifier.split('\\')[1] }}
             </div>
             <div class="date">
-              {{ this.timeline.finished_at | moment }}
+              {{ timeline.finished_at | setMoment }}
             </div>
           </div>
           <div class="card-body">
             <blockquote class="blockquote mb-0">
               <p>
-                {{ this.timeline.forms[0].data.reason }}
+                {{ timeline.forms[0].data.reason }}
               </p>
             </blockquote>
           </div>
@@ -27,36 +27,34 @@
 </template>
 
 <script>
-import { login } from '../utils/auth';
-import { get } from '@/utils/api';
 import moment from 'moment';
+import { get } from '@/utils/api';
 
 export default {
   data() {
     return {
-      timeline: []
+      loading: true,
+      timeline: null,
     };
   },
   mounted() {
-    const id = "75dce4d4382211e8b9c05cc5d48161ea";
+    const id = this.$route.params.id;
+    // console.log(id, "Hijo de la santa");
 
-    get('/log/' + id)
+    get(`/log/${id}`)
       .then((body) => {
         this.timeline = body.data[0];
-        console.log(body.data[0].execution_id);
+        this.loading = false;
       })
       .catch((errors) => {
         console.error(errors);
       });
   },
   filters: {
-    moment: function (date) {
-      date = new Date(date);
-      return moment(date).format('DD/MM/YYYY HH:mm');
-    }
-  },  
-  methods: {
-
+    setMoment: function setMoment(date) {
+      const newdate = new Date(date);
+      return moment(newdate).format('DD/MM/YYYY HH:mm');
+    },
   },
 };
 </script>
@@ -68,7 +66,7 @@ export default {
   display: flex;
   height: 100%;
   padding-left: 10px;
-  
+
   .vertical-line {
     background: lighten($purple, 30);
     height: 100%;

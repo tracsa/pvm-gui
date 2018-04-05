@@ -27,6 +27,11 @@ const messages = {
     activities: {
       my_activities: 'Mis actividades'
     },
+    timeline:{
+      by: 'Por::',
+      reason: 'Motivo:',
+      date: 'fecha:',
+    },
     commons: {
       required: 'Requerido',
       send: 'Enviar',
@@ -54,6 +59,11 @@ const messages = {
     },
     activities: {
       my_activities: 'My activities',
+    },
+    timeline:{
+      by: 'Por:',
+      reason: 'Motivo:',
+      date: 'Fecha:',
     },
     commons: {
       required: 'Required',
