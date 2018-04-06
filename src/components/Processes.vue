@@ -42,6 +42,7 @@
 import { get } from '@/utils/api';
 
 export default {
+  props: ['model'],
   data() {
     return {
       processes: [],

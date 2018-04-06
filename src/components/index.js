@@ -3,17 +3,19 @@ import Vue from 'vue';
 
 import Activity from './Activity';
 import DatetimeInput from './DatetimeInput';
+import DoqerCreate from './doqer/Create';
+import DoqerSelect from './doqer/Select';
+import DoqerSuggest from './doqer/Suggest';
 import FormRender from './FormRender';
 import Header from './Header';
 import TimeInput from './TimeInput';
-import DoqerSelect from './doqer/Select';
-import DoqerCreate from './doqer/Create';
-import DoqerSuggest from './doqer/Suggest';
+import Timeline from '@/components/Timeline';
 
 
 // Components
 Vue.component('app-header', Header);
 Vue.component('activity', Activity);
+Vue.component('timeline', Timeline);
 Vue.component('form-render', FormRender);
 
 // From inputs
