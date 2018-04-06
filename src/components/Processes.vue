@@ -32,7 +32,9 @@
       </div>
 
       <div v-if="selected" class="col col-8">
+        {{ selected }}
         <activity :model="selected" />
+        }
       </div>
     </div>
   </div>
@@ -42,6 +44,7 @@
 import { get } from '@/utils/api';
 
 export default {
+  props: ['model'],
   data() {
     return {
       processes: [],

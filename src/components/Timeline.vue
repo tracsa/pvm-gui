@@ -16,17 +16,19 @@
             </div>
           </div>
           <div class="card-body">
-            <div class="form-values" v-for="(value, key) in timeline.forms[0].data">
-                <div 
+            <div v-for="(value, key) in timeline.forms[0].data"
+            :key="key"
+            class="form-values">
+                <div
                   class="form-label">
                     {{ key }}:
                 </div>
-                <div 
+                <div
                   v-if="key === 'departure' | key === 'arrival'"
                   class="form-value">
                     {{ value | setMoment }}
                 </div>
-                <div 
+                <div
                   v-else
                   class="form-value">
                     {{ value }}
@@ -44,6 +46,7 @@ import moment from 'moment';
 import { get } from '@/utils/api';
 
 export default {
+  props: ['model'],
   data() {
     return {
       loading: true,
@@ -51,7 +54,8 @@ export default {
     };
   },
   mounted() {
-    const id = this.$route.params.id;
+    const id = this.model;
+    console.log(this.model);
     // console.log(id, "Hijo de la santa");
 
     get(`/log/${id}`)
@@ -117,8 +121,8 @@ export default {
         .card-body {
 
           .form-values {
-              
-              & div { 
+
+              & div {
                 display: inline;
               }
 

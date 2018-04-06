@@ -10,9 +10,9 @@
           </div>
           <ul class="activity-list">
             <li
-              :class="{ active: selectedId === activity.id }"
+              :class="{ active: selectedId === activity.execution.id }"
               v-for="activity in activities"
-              :key="activity.id">
+              :key="activity.execution.id">
               <router-link
                 :to="{
                   name: 'timeline',
@@ -32,9 +32,9 @@
 
         </div>
       </div>
-      
+
       <div v-if="selected" class="col col-8">
-        <timeline />
+        <timeline :model="selected" />
       </div>
 
     </div>
@@ -45,6 +45,7 @@
 import { get } from '@/utils/api';
 
 export default {
+  props: ['model'],
   data() {
     return {
       activities: [],
@@ -79,6 +80,7 @@ export default {
       if (!id) {
         return null;
       }
+
       return id;
     },
     containerClass: function containerClass() {
