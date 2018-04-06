@@ -28,9 +28,9 @@ const messages = {
       my_activities: 'Mis actividades'
     },
     timeline:{
-      by: 'Por::',
+      by: 'Por:',
       reason: 'Motivo:',
-      date: 'fecha:',
+      date: 'Fecha:',
     },
     commons: {
       required: 'Requerido',
@@ -61,7 +61,7 @@ const messages = {
       my_activities: 'My activities',
     },
     timeline:{
-      by: 'Por:',
+      by: 'By:',
       reason: 'Motivo:',
       date: 'Fecha:',
     },

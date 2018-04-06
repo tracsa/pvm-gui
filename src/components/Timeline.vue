@@ -7,18 +7,31 @@
         <div class="card">
           <div class="card-header">
             <div class="author">
+              {{ $t('timeline.by') }}
               {{ timeline.actors[0].user.identifier.split('\\')[1] }}
             </div>
             <div class="date">
+              {{ $t('timeline.date') }}
               {{ timeline.finished_at | setMoment }}
             </div>
           </div>
           <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>
-                {{ timeline.forms[0].data.reason }}
-              </p>
-            </blockquote>
+            <div class="form-values" v-for="(value, key) in timeline.forms[0].data">
+                <div 
+                  class="form-label">
+                    {{ key }}:
+                </div>
+                <div 
+                  v-if="key === 'departure' | key === 'arrival'"
+                  class="form-value">
+                    {{ value | setMoment }}
+                </div>
+                <div 
+                  v-else
+                  class="form-value">
+                    {{ value }}
+                </div>
+            </div>
           </div>
         </div>
       </div>
@@ -100,6 +113,22 @@ export default {
 
       .card {
         overflow: hidden;
+
+        .card-body {
+
+          .form-values {
+              
+              & div { 
+                display: inline;
+              }
+
+              .form-value {
+                margin-left: 40px;
+              }
+
+          }
+
+        }
 
         .card-header {
           display: inline-flex;

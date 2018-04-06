@@ -32,6 +32,10 @@
 
         </div>
       </div>
+      
+      <div v-if="selected" class="col col-8">
+        <timeline />
+      </div>
 
     </div>
   </div>
@@ -70,16 +74,13 @@ export default {
 
       return id;
     },
-    // selected: function selected() {
-    //   const { id } = this.$route.params;
-    //   if (!id) {
-    //     return null;
-    //   }
-
-    //   return this.activities
-    //     .filter(p => p.id === id)
-    //     .reduce((a, p) => (a || p), null);
-    // },
+    selected: function selected() {
+      const { id } = this.$route.params;
+      if (!id) {
+        return null;
+      }
+      return id;
+    },
     containerClass: function containerClass() {
       return {
         container: this.selectedId === null,
