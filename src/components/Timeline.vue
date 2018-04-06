@@ -47,24 +47,31 @@ export default {
   },
   mounted() {
     const id = this.model;
-    console.log(this.model);
-    // console.log(id, "Hijo de la santa");
-
-    get(`/log/${id}`)
-      .then((body) => {
-        this.timeline = body.data[0];
-        this.loading = false;
-      })
-      .catch((errors) => {
-        console.error(errors);
-      });
+    this.loadData(id);
+  },
+  watch: {
+    model(newValue, prevValue) {
+      this.loadData(newValue);
+    },
+  },
+  methods: {
+    loadData: function loadData(id) {
+      get(`/log/${id}`)
+        .then((body) => {
+          this.timeline = body.data[0];
+          this.loading = false;
+        })
+        .catch((errors) => {
+          this.loading = false;
+          console.error(errors);
+        });
+    },
   },
   filters: {
     setMoment: function setMoment(data) {
       const oldData = data;
       let newDate = new Date(data);
       newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
-      console.log(newDate);
       if(newDate !== 'Invalid date') return newDate;
       else return oldData;
     },
