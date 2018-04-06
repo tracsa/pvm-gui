@@ -14,19 +14,19 @@
         </small>
       </label>
 
-      <div v-if="input.type == 'date'">
+      <div v-if="input.type === 'date'">
         <date-input
           :bootstrap-styling="true"
           v-model="formData[input.name]"
         />
       </div>
-      <div v-else-if="input.type == 'datetime'">
+      <div v-else-if="input.type === 'datetime'">
         <datetime-input
           :value="formData[input.name]"
           @change="datetime => formData[input.name] = datetime"
         />
       </div>
-      <div v-else-if="input.type == 'select'">
+      <div v-else-if="input.type === 'select'">
         <select
           :id="`${form.ref}/${input.name}`"
           class="custom-select"
@@ -40,7 +40,7 @@
           </option>
         </select>
       </div>
-      <div v-else-if="input.type == 'checkbox' || input.type == 'radio'">
+      <div v-else-if="input.type === 'checkbox' || input.type === 'radio'">
         <div
           v-for="option in input.options"
           :key="option.value"
