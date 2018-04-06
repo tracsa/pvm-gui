@@ -13,21 +13,18 @@
           {{ $t('commons.required') }}
         </small>
       </label>
-      <div v-if="input.type == 'datetime'">
-        <div class="row">
-          <div class="col">
-            <datepicker
-              :bootstrap-styling="true"
-              v-model="formData[input.name]"
-            />
-          </div>
-          <div class="col">
-            <timepicker
-              :value="formData[input.name]"
-              @change="datetime => formData[input.name] = datetime"
-            />
-          </div>
-        </div>
+
+      <div v-if="input.type == 'date'">
+        <date-input
+          :bootstrap-styling="true"
+          v-model="formData[input.name]"
+        />
+      </div>
+      <div v-else-if="input.type == 'datetime'">
+        <datetime-input
+          :value="formData[input.name]"
+          @change="datetime => formData[input.name] = datetime"
+        />
       </div>
       <div v-else-if="input.type == 'select'">
         <select
@@ -37,6 +34,7 @@
           :placeholder="input.placeholder">
           <option
             v-for="option in input.options"
+            :key="option.value"
             :value="option.value">
             {{ option.label }}
           </option>
@@ -45,6 +43,7 @@
       <div v-else-if="input.type == 'checkbox' || input.type == 'radio'">
         <div
           v-for="option in input.options"
+          :key="option.value"
           class="custom-control"
           :class="`custom-${input.type}`">
           <input
@@ -60,6 +59,11 @@
             {{ option.label }}
           </label>
         </div>
+      </div>
+      <div v-else-if="input.type === 'doqer:file'">
+        <doqer-input
+           @change="file => formData[input.name] = file"
+        />
       </div>
       <div v-else>
         <input
@@ -96,7 +100,7 @@ export default {
   props: ['form'],
   data() {
     return {
-      formData: {}
+      formData: {},
     };
   },
   mounted() {
@@ -109,6 +113,9 @@ export default {
           if (input.default !== undefined) {
             defaultValue.push(input.default);
           }
+          break;
+        case 'doqer:file':
+          defaultValue = null;
           break;
         default:
           defaultValue = '';
@@ -153,7 +160,7 @@ export default {
 
       const formInstance = {
         ref: this.form.ref,
-        data: {}
+        data: {},
       };
 
       this.form.inputs.forEach((input) => {
@@ -161,7 +168,7 @@ export default {
       });
 
       this.$emit('submit', formInstance);
-    }
+    },
   },
-}
+};
 </script>

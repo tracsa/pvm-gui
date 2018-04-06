@@ -12,6 +12,7 @@
       <div v-for="form in model.form_array" :key="form.ref">
         <div
           v-for="error in errors"
+          :key="error.code"
           class="alert custom-alert-danger">
           {{ $t(error.code) }}
         </div>
@@ -31,8 +32,8 @@ export default {
   props: ['model'],
   data() {
     return {
-      errors: []
-    }
+      errors: [],
+    };
   },
   methods: {
     submit: function submit(formInstance) {
