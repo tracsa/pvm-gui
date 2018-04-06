@@ -3,16 +3,25 @@
     <div class="vertical-line"></div>
     <div class="timelines">
       <div class="timeline">
-        <span class="timeline-dot"></span>
+        <span class="timeline-dot" 
+          :title="timeline.finished_at | setMoment('Complete')"></span>
         <div class="card">
           <div class="card-header">
-            <div class="author">
-              {{ $t('timeline.by') }}
-              {{ timeline.actors[0].user.identifier.split('\\')[1] }}
+            <div class="col col-8">
+              <span class="info">
+                Ulises —
+                {{ timeline.actors[0].user.identifier.split('\\')[1] }}
+                <small>
+                  {{ timeline.finished_at | setMoment('From now') }}
+                </small>
+              </span>
             </div>
-            <div class="date">
-              {{ $t('timeline.date') }}
-              {{ timeline.finished_at | setMoment }}
+            <div class="col col-4">
+              <div style="font-size:16px;float:right;" >
+                <router-link :to="{ name: 'activities' }">
+                  <icon :icon="['fas', 'times']" />
+                </router-link>
+              </div>
             </div>
           </div>
           <div class="card-body">
@@ -20,7 +29,7 @@
             :key="key"
             class="form-values">
                 <div class="form-label">
-                    {{ key }}:
+                  {{ key }}:
                 </div>
                 <div class="form-value">
                   {{ value | setMoment }}
@@ -68,10 +77,12 @@ export default {
     },
   },
   filters: {
-    setMoment: function setMoment(data) {
+    setMoment: function setMoment(data, from) {
       const oldData = data;
       let newDate = new Date(data);
-      newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
+      if(from === 'From now') newDate = moment().startOf('hour').fromNow(); 
+      else if (from === 'Complete') newDate = moment().format('MMMM Do YYYY, h:mm:ss a');
+      else newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
       if(newDate !== 'Invalid date') return newDate;
       else return oldData;
     },
@@ -132,21 +143,17 @@ export default {
               .form-value {
                 margin-left: 40px;
               }
-
           }
-
         }
 
         .card-header {
           display: inline-flex;
+          padding: 12px 5px;
 
-          div {
-            width: 50%;
-
-            & + div {
-              text-align: end;
-            }
+          span {
+            font-size: 16px;
           }
+
         }
       }
     }
