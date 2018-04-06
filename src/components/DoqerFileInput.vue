@@ -17,6 +17,12 @@
           :key="suggestion.value">
           {{ suggestion.label }}
         </li>
+        <li class="new-file">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input " id="validatedCustomFile" required>
+            <label class="custom-file-label" for="validatedCustomFile">Nuevo documento</label>
+          </div>
+        </li>
       </ul>
     </div>
   </div>
@@ -59,9 +65,6 @@ $input-height: 38px;
 
 .doqer-file {
   position: relative;
-
-  &.open input {
-  }
 
   &.--bellow {
     input.query-input {
@@ -109,6 +112,20 @@ $input-height: 38px;
         color: white;
       }
     }
+
+    li.new-file {
+      border-top: 1px solid $gray-400;
+      background: $gray-200;
+    }
   }
+}
+
+.custom-file-input {
+  cursor: pointer;
+}
+
+.custom-file-label::after {
+  background-color: $purple;
+  color: white;
 }
 </style>
