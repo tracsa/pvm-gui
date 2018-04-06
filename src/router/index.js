@@ -31,8 +31,8 @@ export default new Router({
         },
         {
           name: 'timeline',
-          path: 'timeline',
-          component: Timeline,
+          path: 'timeline/:id',
+          component: Activities,
         },
         {
           name: 'processes',

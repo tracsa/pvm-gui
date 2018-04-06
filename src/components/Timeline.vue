@@ -1,5 +1,5 @@
 <template>
-  <div class="timelines-container container">
+  <div v-if="!loading" class="timelines-container container">
     <div class="vertical-line"></div>
     <div class="timelines">
       <div class="timeline">
@@ -7,18 +7,25 @@
         <div class="card">
           <div class="card-header">
             <div class="author">
-              {{ this.timeline.actors[0].user.identifier.split('\\')[1] }}
+              {{ $t('timeline.by') }}
+              {{ timeline.actors[0].user.identifier.split('\\')[1] }}
             </div>
             <div class="date">
-              {{ this.timeline.finished_at | moment }}
+              {{ $t('timeline.date') }}
+              {{ timeline.finished_at | setMoment }}
             </div>
           </div>
           <div class="card-body">
-            <blockquote class="blockquote mb-0">
-              <p>
-                {{ this.timeline.forms[0].data.reason }}
-              </p>
-            </blockquote>
+            <div v-for="(value, key) in timeline.forms[0].data"
+            :key="key"
+            class="form-values">
+                <div class="form-label">
+                    {{ key }}:
+                </div>
+                <div class="form-value">
+                  {{ value | setMoment }}
+                </div>
+            </div>
           </div>
         </div>
       </div>
@@ -27,36 +34,47 @@
 </template>
 
 <script>
-import { login } from '../utils/auth';
-import { get } from '@/utils/api';
 import moment from 'moment';
+import { get } from '@/utils/api';
 
 export default {
+  props: ['model'],
   data() {
     return {
-      timeline: []
+      loading: true,
+      timeline: null,
     };
   },
   mounted() {
-    const id = "75dce4d4382211e8b9c05cc5d48161ea";
-
-    get('/log/' + id)
-      .then((body) => {
-        this.timeline = body.data[0];
-        console.log(body.data[0].execution_id);
-      })
-      .catch((errors) => {
-        console.error(errors);
-      });
+    const id = this.model;
+    this.loadData(id);
+  },
+  watch: {
+    model(newValue, prevValue) {
+      this.loadData(newValue);
+    },
+  },
+  methods: {
+    loadData: function loadData(id) {
+      get(`/log/${id}`)
+        .then((body) => {
+          this.timeline = body.data[0];
+          this.loading = false;
+        })
+        .catch((errors) => {
+          this.loading = false;
+          console.error(errors);
+        });
+    },
   },
   filters: {
-    moment: function (date) {
-      date = new Date(date);
-      return moment(date).format('DD/MM/YYYY HH:mm');
-    }
-  },  
-  methods: {
-
+    setMoment: function setMoment(data) {
+      const oldData = data;
+      let newDate = new Date(data);
+      newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
+      if(newDate !== 'Invalid date') return newDate;
+      else return oldData;
+    },
   },
 };
 </script>
@@ -68,7 +86,7 @@ export default {
   display: flex;
   height: 100%;
   padding-left: 10px;
-  
+
   .vertical-line {
     background: lighten($purple, 30);
     height: 100%;
@@ -102,6 +120,22 @@ export default {
 
       .card {
         overflow: hidden;
+
+        .card-body {
+
+          .form-values {
+
+              & div {
+                display: inline;
+              }
+
+              .form-value {
+                margin-left: 40px;
+              }
+
+          }
+
+        }
 
         .card-header {
           display: inline-flex;
