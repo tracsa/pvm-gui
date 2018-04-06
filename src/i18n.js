@@ -9,6 +9,7 @@ const messages = {
       activities: 'Actividades',
       documents: 'Documentos',
       processes: 'Procesos',
+      tasks: 'Tareas',
       signout: 'Cerrar sesión',
     },
     signin: {
@@ -42,6 +43,8 @@ const messages = {
     header: {
       activies: 'Activies',
       documents: 'Documents',
+      processes: 'Processes',
+      tasks: 'Tasks',
       logout: 'SignOut',
     },
     signin: {

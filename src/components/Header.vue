@@ -17,6 +17,13 @@
               {{ $t('header.activities') }}
             </router-link>
           </li>
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
+              :to="{ name: 'tasks' }">
+              {{ $t('header.tasks') }}
+            </router-link>
+          </li>          
         </ul>
 
         <ul class="navbar-nav">
