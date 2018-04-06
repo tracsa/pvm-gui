@@ -27,9 +27,6 @@
               </router-link>
             </li>
           </ul>
-
-          <pre>{{ JSON.stringify(activities, null, ' ') }}</pre>
-
         </div>
       </div>
 

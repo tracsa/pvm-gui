@@ -3,7 +3,17 @@
     class="doqer-file --above"
     :class="{ open: open }">
     <div v-if="selected !== null">
-      <pre>{{ JSON.stringify(selected, null, ' ') }}</pre>
+      <div class="file-selected">
+        <div class="row">
+          <div class="col">
+            <icon :icon="['fas', 'file']" />
+            {{ selected.id }}
+          </div>
+          <div class="col text-right pt-1" style="font-size: 0.8em;">
+            <icon :icon="['fas', 'times']" />
+          </div>
+        </div>
+      </div>
     </div>
 
     <div v-if="selected === null">
@@ -90,8 +100,16 @@ export default {
     selectFile: function selectFile(file) {
       this.action = '';
       this.selected = file;
-      console.log(file);
-    }
+
+      const fileRef = {
+        id: file.id,
+        name: file.id,
+        mime: file.attributes.mimetype,
+        type: 'doqer:file',
+      };
+
+      this.$emit('change', fileRef);
+    },
   },
 };
 </script>
@@ -156,5 +174,13 @@ $input-height: 38px;
 .custom-file-label::after {
   background-color: $purple;
   color: white;
+}
+
+.file-selected {
+  background-color: #fff;
+  border: 1px solid $gray-400;
+  padding: 6px 10px;
+  border-radius: 3px;
+  color: $gray-700;
 }
 </style>

@@ -46,7 +46,6 @@ export default {
     }
 
     this.name = name.join('.');
-
     this.size = file.size;
   },
   methods: {

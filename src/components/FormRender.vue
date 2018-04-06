@@ -61,7 +61,9 @@
         </div>
       </div>
       <div v-else-if="input.type === 'doqer:file'">
-        <doqer-input />
+        <doqer-input
+           @change="file => formData[input.name] = file"
+        />
       </div>
       <div v-else>
         <input
@@ -111,6 +113,9 @@ export default {
           if (input.default !== undefined) {
             defaultValue.push(input.default);
           }
+          break;
+        case 'doqer:file':
+          defaultValue = null;
           break;
         default:
           defaultValue = '';

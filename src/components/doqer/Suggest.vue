@@ -1,6 +1,5 @@
 <template>
   <ul class="suggestions">
-    <li>Resultados para la búsqueda: {{ query }}</li>
     <li
       v-for="suggestion in suggestions"
       :key="suggestion.value">
