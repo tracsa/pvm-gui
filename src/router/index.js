@@ -32,7 +32,7 @@ export default new Router({
         {
           name: 'timeline',
           path: 'timeline/:id',
-          component: Timeline,
+          component: Activities,
         },
         {
           name: 'processes',
