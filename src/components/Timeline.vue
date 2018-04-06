@@ -19,19 +19,11 @@
             <div v-for="(value, key) in timeline.forms[0].data"
             :key="key"
             class="form-values">
-                <div
-                  class="form-label">
+                <div class="form-label">
                     {{ key }}:
                 </div>
-                <div
-                  v-if="key === 'departure' | key === 'arrival'"
-                  class="form-value">
+                <div class="form-value">
                     {{ value | setMoment }}
-                </div>
-                <div
-                  v-else
-                  class="form-value">
-                    {{ value }}
                 </div>
             </div>
           </div>
@@ -68,9 +60,13 @@ export default {
       });
   },
   filters: {
-    setMoment: function setMoment(date) {
-      const newdate = new Date(date);
-      return moment(newdate).format('DD/MM/YYYY HH:mm');
+    setMoment: function setMoment(data) {
+      const oldData = data;
+      let newDate = new Date(data);
+      newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
+      console.log(newDate);
+      if(newDate !== 'Invalid date') return newDate;
+      else return oldData;
     },
   },
 };
