@@ -32,9 +32,7 @@
       </div>
 
       <div v-if="selected" class="col col-8">
-        {{ selected }}
         <activity :model="selected" />
-        }
       </div>
     </div>
   </div>
