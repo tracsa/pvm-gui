@@ -19,7 +19,7 @@
                   params: { id: activity.execution.id },
                 }">
                 <div class="activity-name">
-                  {{ activity.name }}
+                  {{ activity.execution.id }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -27,9 +27,6 @@
               </router-link>
             </li>
           </ul>
-
-          <pre>{{ JSON.stringify(activities, null, ' ') }}</pre>
-
         </div>
       </div>
 

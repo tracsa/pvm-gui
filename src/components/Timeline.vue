@@ -23,7 +23,7 @@
                     {{ key }}:
                 </div>
                 <div class="form-value">
-                    {{ value | setMoment }}
+                  {{ value | setMoment }}
                 </div>
             </div>
           </div>
