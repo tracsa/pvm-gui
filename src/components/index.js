@@ -6,7 +6,9 @@ import DatetimeInput from './DatetimeInput';
 import FormRender from './FormRender';
 import Header from './Header';
 import TimeInput from './TimeInput';
-import DoqerFileInput from './DoqerFileInput';
+import DoqerSelect from './doqer/Select';
+import DoqerCreate from './doqer/Create';
+import DoqerSuggest from './doqer/Suggest';
 
 
 // Components
@@ -18,4 +20,8 @@ Vue.component('form-render', FormRender);
 Vue.component('time-input', TimeInput);
 Vue.component('date-input', Datepicker);
 Vue.component('datetime-input', DatetimeInput);
-Vue.component('doqer-input', DoqerFileInput);
+
+// Doqer components
+Vue.component('doqer-input', DoqerSelect);
+Vue.component('doqer-create', DoqerCreate);
+Vue.component('doqer-suggest', DoqerSuggest);

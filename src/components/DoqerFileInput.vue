@@ -1,17 +1,16 @@
 <template>
   <div
     class="doqer-file --above"
-    :class="{ open: suggestions.length }"
-    >
+    :class="{ open: open }">
     <input
       class="query-input form-control"
       type="text"
       v-model="query"
+      @focus="focus"
+      @blur="blur"
     />
-    <div
-      class="suggestions"
-      v-if="suggestions.length">
-      <ul>
+    <div class="helper-window">
+      <ul v-if="view === 'suggest'" class="suggestions">
         <li
           v-for="suggestion in suggestions"
           :key="suggestion.value">
@@ -19,11 +18,30 @@
         </li>
         <li class="new-file">
           <div class="custom-file">
-            <input type="file" class="custom-file-input " id="validatedCustomFile" required>
+            <input
+              type="file"
+              class="custom-file-input"
+              id="validatedCustomFile"
+              @change="uploadFile($event)"
+            />
             <label class="custom-file-label" for="validatedCustomFile">Nuevo documento</label>
           </div>
         </li>
       </ul>
+
+      <div v-if="view === 'new-file'" class="p-3">
+        <form @submit="submit($event)">
+          <div class="form-group">
+            <label for="">Nombre <small class="text-info">Requerido</small></label>
+            <input
+              class="form-control"
+              type="text"
+            />
+          </div>
+        </form>
+
+        <pre>{{ JSON.stringify(file.name, null, ' ') }}</pre>
+      </div>
     </div>
   </div>
 </template>
