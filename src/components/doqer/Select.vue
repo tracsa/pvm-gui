@@ -7,7 +7,7 @@
         <div class="row">
           <div class="col">
             <icon :icon="['fas', 'file']" />
-            {{ selected.id }}
+            {{ selected.attributes.name }}
           </div>
           <div class="col text-right pt-1" style="font-size: 0.8em;">
             <icon :icon="['fas', 'times']" />
@@ -104,7 +104,7 @@ export default {
 
       const fileRef = {
         id: file.id,
-        name: file.id,
+        name: file.attributes.name,
         mime: file.attributes.mimetype,
         type: 'doqer:file',
       };
