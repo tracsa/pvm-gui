@@ -47,6 +47,7 @@
         <doqer-create
           :file="file"
           @uploaded="selectFile"
+          @cancel="action = 'suggest'"
         />
       </div>
     </div>
