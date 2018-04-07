@@ -60,10 +60,8 @@
           </label>
         </div>
       </div>
-      <div v-else-if="input.type === 'doqer:file'">
-        <doqer-input
-           @change="file => formData[input.name] = file"
-        />
+      <div v-else-if="input.type === 'file' && input.provider == 'doqer'">
+        <doqer-input @change="file => formData[input.name] = file" />
       </div>
       <div v-else>
         <input

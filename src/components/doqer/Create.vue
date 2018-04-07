@@ -21,7 +21,11 @@
 
       <div class="form-group">
         <button class="btn btn-info">Subir</button>
-        <a href="javascript:void(0)">Cancelar</a>
+        <button
+          class="btn btn-link"
+          @click="cancel">
+          Cancelar
+        </button>
       </div>
     </form>
   </div>
@@ -49,6 +53,11 @@ export default {
     this.size = file.size;
   },
   methods: {
+    cancel: function cancel(event) {
+      event.preventDefault();
+
+      this.$emit('cancel');
+    },
     submit: function submit(event) {
       event.preventDefault();
 

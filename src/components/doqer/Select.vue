@@ -1,16 +1,21 @@
 <template>
   <div
-    class="doqer-file --above"
+    class="doqer-file --bellow"
     :class="{ open: open }">
     <div v-if="selected !== null">
       <div class="file-selected">
         <div class="row">
           <div class="col">
             <icon :icon="['fas', 'file']" />
-            {{ selected.id }}
+            {{ selected.attributes.name }}
           </div>
           <div class="col text-right pt-1" style="font-size: 0.8em;">
-            <icon :icon="['fas', 'times']" />
+              <icon
+                class="clear-file"
+                style="cursor:pointer"
+                @click="clearFile"
+                :icon="['fas', 'times']"
+              />
           </div>
         </div>
       </div>
@@ -47,6 +52,7 @@
         <doqer-create
           :file="file"
           @uploaded="selectFile"
+          @cancel="action = 'suggest'"
         />
       </div>
     </div>
@@ -103,12 +109,16 @@ export default {
 
       const fileRef = {
         id: file.id,
-        name: file.id,
+        name: file.attributes.name,
         mime: file.attributes.mimetype,
         type: 'doqer:file',
       };
 
       this.$emit('change', fileRef);
+    },
+    clearFile: function clearFile() {
+      this.selected = null;
+      this.$emit('change', null);
     },
   },
 };
@@ -182,5 +192,12 @@ $input-height: 38px;
   padding: 6px 10px;
   border-radius: 3px;
   color: $gray-700;
+}
+
+.clear-file {
+  cursor: pointer;
+  &:hover {
+    color: $red;
+  }
 }
 </style>
