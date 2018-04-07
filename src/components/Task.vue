@@ -6,7 +6,7 @@
           <icon :icon="['fas', 'times']" />
         </router-link>
       </div>
-      <span>{{ model.name }}</span>
+      <span>{{ model.id }}</span>
     </div>
     <div class="card-body">
       <div v-for="form in model.form_array" :key="form.ref">
