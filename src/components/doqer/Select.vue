@@ -1,6 +1,6 @@
 <template>
   <div
-    class="doqer-file --above"
+    class="doqer-file --bellow"
     :class="{ open: open }">
     <div v-if="selected !== null">
       <div class="file-selected">
