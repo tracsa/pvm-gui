@@ -5,8 +5,8 @@ import App from '@/components/App';
 
 import Activities from '@/components/Activities';
 import Processes from '@/components/Processes';
-import Timeline from '@/components/Timeline';
-import Tasks from '@/components/Tasks'
+import Tasks from '@/components/Tasks';
+import Task from '@/components/Task';
 
 import SignIn from '@/components/SignIn';
 import '@/components';
@@ -40,6 +40,11 @@ export default new Router({
           path: 'tasks',
           component: Tasks,
         },
+        {
+          name: 'Task',
+          path: 'task/:id',
+          component: Task,
+        },        
         {
           name: 'processes',
           path: '',

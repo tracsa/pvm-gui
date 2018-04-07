@@ -20,7 +20,7 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
-              :to="{ name: 'tasks' }">
+              :to="{ path: '/tasks' }">
               {{ $t('header.tasks') }}
             </router-link>
           </li>          

@@ -52,10 +52,11 @@ export default {
   mounted() {
     const self = this;
 
-    get('/activity')
+    get('/task')
       .then((body) => {
         self.loading = false;
         self.activities = body.data;
+        console.log(body.data);
       })
       .catch((errors) => {
         self.loading = false;
