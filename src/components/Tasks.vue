@@ -6,12 +6,12 @@
       <div class="col">
         <div class="card">
           <div class="card-header">
-            {{ $t('activities.my_activities') }}
+            {{ $t('tasks.my_tasks') }}
           </div>
           <ul class="activity-list">
             <li
               :class="{ active: selectedId === activity.execution.id }"
-              v-for="activity in activities"
+              v-for="activity in tasks"
               :key="activity.execution.id">
               <router-link
                 :to="{
@@ -31,7 +31,7 @@
       </div>
 
       <div v-if="selected" class="col col-8">
-        <timeline :model="selected" />
+        <task :model="selected" />
       </div>
 
     </div>
@@ -45,17 +45,17 @@ export default {
   props: ['model'],
   data() {
     return {
-      activities: [],
+      tasks: [],
       loading: true,
     };
   },
   mounted() {
     const self = this;
 
-    get('/task')
+    get('/activity')
       .then((body) => {
         self.loading = false;
-        self.activities = body.data;
+        self.tasks = body.data;
         console.log(body.data);
       })
       .catch((errors) => {

@@ -33,6 +33,9 @@ const messages = {
       reason: 'Motivo:',
       date: 'Fecha:',
     },
+    tasks: {
+      my_tasks: "Mis tareas",
+    },
     commons: {
       required: 'Requerido',
       send: 'Enviar',
@@ -67,6 +70,9 @@ const messages = {
       by: 'By:',
       reason: 'Motivo:',
       date: 'Fecha:',
+    },
+    Tasks: {
+      my_tasks: "My tasks",
     },
     commons: {
       required: 'Required',
