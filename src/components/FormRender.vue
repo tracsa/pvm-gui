@@ -104,31 +104,12 @@ export default {
     };
   },
   mounted() {
-    const formData = {};
-    this.form.inputs.forEach((input) => {
-      let defaultValue;
-      switch (input.type) {
-        case 'checkbox':
-          defaultValue = [];
-          if (input.default !== undefined) {
-            defaultValue.push(input.default);
-          }
-          break;
-        case 'doqer:file':
-          defaultValue = null;
-          break;
-        default:
-          defaultValue = '';
-          if (input.default !== undefined) {
-            defaultValue = input.default;
-          }
-          break;
-      }
-
-      formData[input.name] = defaultValue;
-    });
-
-    this.formData = formData;
+    this.clearForm();
+  },
+  watch: {
+    form: function() {
+      this.clearForm();
+    }
   },
   computed: {
     isValid: function isValid() {
@@ -155,6 +136,33 @@ export default {
     },
   },
   methods: {
+    clearForm: function clearForm() {
+      const formData = {};
+      this.form.inputs.forEach((input) => {
+        let defaultValue;
+        switch (input.type) {
+          case 'checkbox':
+            defaultValue = [];
+            if (input.default !== undefined) {
+              defaultValue.push(input.default);
+            }
+            break;
+          case 'doqer:file':
+            defaultValue = null;
+            break;
+          default:
+            defaultValue = '';
+            if (input.default !== undefined) {
+              defaultValue = input.default;
+            }
+            break;
+        }
+
+        formData[input.name] = defaultValue;
+      });
+
+      this.formData = formData;
+    },
     submit: function submit(event) {
       event.preventDefault();
 
