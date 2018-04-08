@@ -15,7 +15,7 @@
               :key="activity.execution.id">
               <router-link
                 :to="{
-                  name: 'timeline',
+                  name: 'task',
                   params: { id: activity.execution.id },
                 }">
                 <div class="activity-name">
@@ -52,7 +52,7 @@ export default {
   mounted() {
     const self = this;
 
-    get('/activity')
+    get('/task')
       .then((body) => {
         self.loading = false;
         self.tasks = body.data;

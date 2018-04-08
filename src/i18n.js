@@ -12,6 +12,9 @@ const messages = {
       tasks: 'Tareas',
       signout: 'Cerrar sesión',
     },
+    error: {
+      code: 'Ha ocurrido un error',
+    },
     signin: {
       title: 'Ingresar',
       description: 'Inicia sesión para comenzar',
