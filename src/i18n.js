@@ -6,7 +6,7 @@ Vue.use(VueI18n);
 const messages = {
   es: {
     header: {
-      activities: 'Actividades',
+      trackings: 'Seguimiento',
       documents: 'Documentos',
       processes: 'Procesos',
       tasks: 'Tareas',
@@ -28,8 +28,8 @@ const messages = {
       process: 'Proceso',
       processes: 'Procesos',
     },
-    activities: {
-      my_activities: 'Mis actividades'
+    trackings: {
+      trackings: 'Seguimiento',
     },
     timeline:{
       by: 'Por:',
@@ -47,7 +47,7 @@ const messages = {
   },
   en: {
     header: {
-      activies: 'Activies',
+      trackings: 'Tracking',
       documents: 'Documents',
       processes: 'Processes',
       tasks: 'Tasks',
@@ -66,15 +66,15 @@ const messages = {
       process: 'Process',
       processes: 'Processes',
     },
-    activities: {
-      my_activities: 'My activities',
+    trackings: {
+      trackings: 'Seguimiento',
     },
     timeline:{
       by: 'By:',
       reason: 'Motivo:',
       date: 'Fecha:',
     },
-    Tasks: {
+    tasks: {
       my_tasks: "My tasks",
     },
     commons: {

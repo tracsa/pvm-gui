@@ -3,7 +3,7 @@ import Router from 'vue-router';
 import { requireAuth, requireAnon } from '@/utils/auth';
 import App from '@/components/App';
 
-import Activities from '@/components/Activities';
+import Trackings from '@/components/Trackings';
 import Processes from '@/components/Processes';
 import Tasks from '@/components/Tasks';
 import Task from '@/components/Task';
@@ -21,19 +21,14 @@ export default new Router({
       component: App,
       children: [
         {
-          name: 'activities',
-          path: 'activity',
-          component: Activities,
+          name: 'trackings',
+          path: 'tracking',
+          component: Trackings,
         },
         {
-          name: 'activity',
-          path: 'activity/:id',
-          component: Activities,
-        },
-        {
-          name: 'timeline',
-          path: 'timeline/:id',
-          component: Activities,
+          name: 'tracking',
+          path: 'tracking/:id',
+          component: Trackings,
         },
         {
           name: 'Tasks',
@@ -44,7 +39,7 @@ export default new Router({
           name: 'Task',
           path: 'task/:id',
           component: Task,
-        },        
+        },
         {
           name: 'processes',
           path: '',
