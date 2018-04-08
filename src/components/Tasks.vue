@@ -31,7 +31,7 @@
       </div>
 
       <div v-if="selected" class="col col-8">
-        <task :model="selected" />
+        <timeline :model="selected" />
       </div>
 
     </div>

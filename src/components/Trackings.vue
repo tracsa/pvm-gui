@@ -10,16 +10,16 @@
           </div>
           <ul class="activity-list">
             <li
-              :class="{ active: selectedId === activity.execution.id }"
+              :class="{ active: selectedId === tracking.execution.id }"
               v-for="tracking in trackings"
               :key="tracking.execution.id">
               <router-link
                 :to="{
                   name: 'tracking',
-                  params: { id: activity.execution.id },
+                  params: { id: tracking.execution.id },
                 }">
                 <div class="activity-name">
-                  {{ activity.execution.id }}
+                  {{ tracking.execution.id }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -56,6 +56,7 @@ export default {
       .then((body) => {
         self.loading = false;
         self.trackings = body.data;
+        console.log(body.data);
       })
       .catch((errors) => {
         self.loading = false;

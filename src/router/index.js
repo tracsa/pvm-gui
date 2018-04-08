@@ -6,7 +6,6 @@ import App from '@/components/App';
 import Trackings from '@/components/Trackings';
 import Processes from '@/components/Processes';
 import Tasks from '@/components/Tasks';
-import Task from '@/components/Task';
 
 import SignIn from '@/components/SignIn';
 import '@/components';
@@ -31,14 +30,14 @@ export default new Router({
           component: Trackings,
         },
         {
-          name: 'Tasks',
+          name: 'tasks',
           path: 'tasks',
           component: Tasks,
         },
         {
-          name: 'Task',
+          name: 'task',
           path: 'task/:id',
-          component: Task,
+          component: Tasks,
         },
         {
           name: 'processes',
