@@ -9,9 +9,9 @@
           <div class="card-header">
             <div class="col col-8">
               <span class="info">
-                <!-- {{ timeline.actors[0].user.identifier.split('\\')[1] }} —  -->
+                {{ timeline.actors[0].user.identifier.split('\\')[1] }} — 
                 <small>
-                  <!-- {{ timeline.finished_at | setMoment('From now') }} -->
+                  {{ timeline.finished_at | setMoment('From now') }}
                 </small>
               </span>
             </div>

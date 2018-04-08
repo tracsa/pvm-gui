@@ -10,16 +10,16 @@
           </div>
           <ul class="activity-list">
             <li
-              :class="{ active: selectedId === activity.execution.id }"
+              :class="{ active: selectedId === task.execution.id }"
               v-for="task in tasks"
-              :key="activity.execution.id">
+              :key="task.execution.id">
               <router-link
                 :to="{
                   name: 'task',
-                  params: { id: activity.execution.id },
+                  params: { id: task.execution.id },
                 }">
                 <div class="activity-name">
-                  {{ task.execution.name }}
+                  {{ task.execution.name }} — {{ task.name }} 
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
