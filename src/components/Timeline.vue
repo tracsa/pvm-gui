@@ -9,9 +9,9 @@
           <div class="card-header">
             <div class="col col-8">
               <span class="info">
-                {{ timeline.actors[0].user.identifier.split('\\')[1] }} — 
+                <!-- {{ timeline.actors[0].user.identifier.split('\\')[1] }} —  -->
                 <small>
-                  {{ timeline.finished_at | setMoment('From now') }}
+                  <!-- {{ timeline.finished_at | setMoment('From now') }} -->
                 </small>
               </span>
             </div>
@@ -24,7 +24,7 @@
             </div>
           </div>
           <div class="card-body">
-            <div v-for="(value, key) in timeline.forms[0].data"
+            <div v-for="(value, key) in timeline.actors[0].forms[0].data"
             :key="key"
             class="form-values">
                 <div class="form-label">
@@ -68,6 +68,7 @@ export default {
         .then((body) => {
           this.timeline = body.data[0];
           this.loading = false;
+          console.log(this.timeline);
         })
         .catch((errors) => {
           this.loading = false;

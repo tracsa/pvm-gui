@@ -11,7 +11,7 @@
           <ul class="activity-list">
             <li
               :class="{ active: selectedId === activity.execution.id }"
-              v-for="activity in tasks"
+              v-for="task in tasks"
               :key="activity.execution.id">
               <router-link
                 :to="{
@@ -19,7 +19,7 @@
                   params: { id: activity.execution.id },
                 }">
                 <div class="activity-name">
-                  {{ activity.execution.id }}
+                  {{ task.execution.name }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
