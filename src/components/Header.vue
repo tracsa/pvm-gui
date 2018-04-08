@@ -6,7 +6,7 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
-              :to="{ path: '/tasks' }">
+              :to="{ path: '/task' }">
               {{ $t('header.tasks') }}
             </router-link>
           </li>          

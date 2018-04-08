@@ -10,12 +10,14 @@ import FormRender from './FormRender';
 import Header from './Header';
 import TimeInput from './TimeInput';
 import Timeline from '@/components/Timeline';
-import Tasks from '@/components/Tasks'
+import Tasks from '@/components/Tasks';
+import Task from '@/components/Task';
 
 // Components
 Vue.component('app-header', Header);
 Vue.component('activity', Activity);
 Vue.component('tasks', Tasks);
+Vue.component('task', Task);
 Vue.component('timeline', Timeline);
 Vue.component('form-render', FormRender);
 
