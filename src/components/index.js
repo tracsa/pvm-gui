@@ -10,6 +10,7 @@ import FormRender from './FormRender';
 import Header from './Header';
 import TimeInput from './TimeInput';
 import Timeline from '@/components/Timeline';
+import TimelineAction from '@/components/TimelineAction';
 import Tasks from '@/components/Tasks'
 
 // Components
@@ -17,6 +18,7 @@ Vue.component('app-header', Header);
 Vue.component('activity', Activity);
 Vue.component('tasks', Tasks);
 Vue.component('timeline', Timeline);
+Vue.component('timeline-action', TimelineAction);
 Vue.component('form-render', FormRender);
 
 // From inputs
