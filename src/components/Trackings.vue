@@ -30,8 +30,8 @@
         </div>
       </div>
 
-      <div v-if="selected" class="col col-8">
-        <timeline :model="selected" />
+      <div v-if="selectedId" class="col col-8">
+        <tracking :id="selectedId" />
       </div>
 
     </div>
@@ -45,8 +45,8 @@ export default {
   props: ['model'],
   data() {
     return {
-      trackings: [],
       loading: true,
+      trackings: [],
     };
   },
   mounted() {
@@ -66,14 +66,6 @@ export default {
   },
   computed: {
     selectedId: function selectedId() {
-      const { id } = this.$route.params;
-      if (!id) {
-        return null;
-      }
-
-      return id;
-    },
-    selected: function selected() {
       const { id } = this.$route.params;
       if (!id) {
         return null;

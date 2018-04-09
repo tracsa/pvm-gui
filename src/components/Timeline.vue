@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading" style="flex-grow: 1">
+  <div style="flex-grow: 1">
     <div v-if="last !== null" class="text-primary">
       <b>{{ last.execution.name }}</b>
     </div>
@@ -20,23 +20,7 @@
 import { get } from '@/utils/api';
 
 export default {
-  props: ['model'],
-  data() {
-    return {
-      loading: true,
-      actions: [],
-      timeline: null,
-    };
-  },
-  mounted() {
-    const id = this.model;
-    this.loadData(id);
-  },
-  watch: {
-    model(newValue) {
-      this.loadData(newValue.id);
-    },
-  },
+  props: ['actions'],
   computed: {
     last: function last() {
       if (this.actions.length === 0) {
@@ -45,20 +29,6 @@ export default {
 
       return this.actions[0];
     }
-  },
-  methods: {
-    loadData: function loadData(id) {
-      get(`/log/${id}`)
-        .then((body) => {
-          this.actions = body.data;
-          this.timeline = body.data[0];
-          this.loading = false;
-        })
-        .catch((errors) => {
-          this.loading = false;
-          console.error(errors);
-        });
-    },
   },
 };
 </script>

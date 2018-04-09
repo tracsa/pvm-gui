@@ -1,6 +1,10 @@
 import Datepicker from 'vuejs-datepicker';
 import Vue from 'vue';
 
+import Timeline from '@/components/Timeline';
+import TimelineAction from '@/components/TimelineAction';
+import Tasks from '@/components/Tasks'
+import Task from '@/components/Task';
 import Activity from './Activity';
 import DatetimeInput from './DatetimeInput';
 import DoqerCreate from './doqer/Create';
@@ -9,10 +13,7 @@ import DoqerSuggest from './doqer/Suggest';
 import FormRender from './FormRender';
 import Header from './Header';
 import TimeInput from './TimeInput';
-import Timeline from '@/components/Timeline';
-import TimelineAction from '@/components/TimelineAction';
-import Tasks from '@/components/Tasks'
-import Task from '@/components/Task';
+import Tracking from './Tracking';
 
 // Components
 Vue.component('app-header', Header);
@@ -22,6 +23,7 @@ Vue.component('task', Task);
 Vue.component('timeline', Timeline);
 Vue.component('timeline-action', TimelineAction);
 Vue.component('form-render', FormRender);
+Vue.component('tracking', Tracking);
 
 // From inputs
 Vue.component('time-input', TimeInput);
