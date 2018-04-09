@@ -76,7 +76,7 @@ export default {
 
       const formData = new FormData();
       formData.append('document', file);
-      formData.append('test', 'test');
+      formData.append('name', this.name);
 
       xhr.send(formData);
     },
