@@ -1,16 +1,20 @@
 <template>
   <div v-if="!loading">
-    <div v-for="form in task.form_array" :key="form.ref">
-      <div
-        v-for="error in errors"
-        :key="error.code"
-        class="alert custom-alert-danger">
-        {{ $t('error.code') }}
+    <div class="timeline" v-for="form in task.form_array" :key="form.ref">
+      <div class="card timeline-action">
+        <div class="card-body">
+          <div
+            v-for="error in errors"
+            :key="error.code"
+            class="alert custom-alert-danger">
+            {{ $t('error.code') }}
+          </div>
+          <form-render
+            :form="form"
+            @submit="submit"
+          />
+        </div>
       </div>
-      <form-render
-        :form="form"
-        @submit="submit"
-      />
     </div>
 
     <timeline v-if="actions.length > 0" :actions="actions" />

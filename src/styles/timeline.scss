@@ -1,11 +1,19 @@
 .timeline {
   border-left: $line-width solid lighten($purple, 30);
+  padding: 15px 0;
+
+  & + .timeline {
+    padding-top: 0;
+  }
 }
 
 .timeline-action {
   position: relative;
   margin-left: $line-distance;
-  margin-top: 15px;
+
+  & + .timeline-action {
+    margin-top: 15px;
+  }
 
   .timeline-dot {
     background: $purple;
