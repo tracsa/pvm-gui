@@ -30,7 +30,7 @@
         </div>
       </div>
 
-      <div v-if="selectedId" class="col col-8">
+      <div v-if="selectedId" class="col-8">
         <task :taskId="selectedId" />
       </div>
 

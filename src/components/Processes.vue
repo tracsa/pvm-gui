@@ -31,7 +31,7 @@
         </div>
       </div>
 
-      <div v-if="selected" class="col col-8">
+      <div v-if="selected" class="col-8">
         <activity :model="selected" />
       </div>
     </div>
