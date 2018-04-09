@@ -7,7 +7,7 @@
     <div class="card-header">
       <div class="row">
         <div class="col">
-          {{ action.node.name }}
+          {{ action.node.name }} —
           <small>{{ action.finished_at | setMoment('From now') }}</small>
         </div>
         <div class="col text-right">

@@ -19,7 +19,7 @@
                   params: { id: tracking.execution.id },
                 }">
                 <div class="activity-name">
-                  {{ tracking.execution.name }} — {{ tracking.execution.description }}
+                  {{ tracking.execution.name }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />

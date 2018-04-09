@@ -71,7 +71,7 @@ export default {
 
       post('/pointer', postData, 'application/json')
         .then((data) => {
-          this.$router.push('/tracking');
+          this.$router.push(`/tracking/${this.task.execution.id}`);
           console.log('data', data);
         })
         .catch((errors) => {

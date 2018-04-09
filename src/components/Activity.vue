@@ -44,7 +44,7 @@ export default {
 
       post('/execution', postData, 'application/json')
         .then((data) => {
-          console.log('data', data);
+          this.$router.push(`/tracking/${data.data.id}`);
         })
         .catch((errors) => {
           this.errors = errors;
