@@ -53,7 +53,7 @@
       </div>
     </nav>
 
-    <div class="mobile-header row d-sm-none">
+    <div class="mobile-header row d-md-none">
       <div class="col">
         <router-link
           :to="{ path: '/task' }">
