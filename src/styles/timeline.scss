@@ -1,0 +1,32 @@
+.timeline {
+  border-left: $line-width solid lighten($purple, 30);
+  padding: 15px 0;
+
+  & + .timeline {
+    padding-top: 0;
+  }
+}
+
+.timeline-action {
+  position: relative;
+  margin-left: $line-distance;
+
+  & + .timeline-action {
+    margin-top: 15px;
+  }
+
+  .timeline-dot {
+    background: $purple;
+    position: absolute;
+    left: - ($line-distance + $dot-size/2 + $line-width/2);
+    top: (49 - $dot-size)/2;
+    height: $dot-size;
+    width: $dot-size;
+    border: $line-width solid $body-bg;
+    border-radius: 50%;
+  }
+
+  .card {
+    overflow: hidden;
+  }
+}

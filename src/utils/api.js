@@ -5,8 +5,8 @@ import { getAuthToken } from './auth';
 
 
 function apiFetch(method, route, params = {}, bodyEncoding = 'application/x-www-form-urlencoded') {
-  const { host, port } = settings.pvm;
-  const endpoint = `//${host}:${port}`;
+  const { protocol, host, port } = settings.pvm;
+  const endpoint = `${protocol}://${host}:${port}`;
   const headers = {
     'Content-Type': 'application/json',
   };

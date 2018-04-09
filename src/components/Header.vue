@@ -1,34 +1,90 @@
 <template>
-  <header>
-    <div class="top-bar flex-container">
-      <div class="menu">
-        <ul>
-          <li>
+  <div class="pvm-navbar mb-4">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white d-none d-md-block">
+      <div class="container">
+        <ul class="navbar-nav">
+          <li class="nav-item">
             <router-link
-              class="active"
-              :to="{ name: 'activities' }">
-                {{ $t('header.tasks') }}
-              </router-link>
-            </li>
-            <li>
-              <router-link
-                :to="{ name: 'processes' }">
-                {{ $t('processes.processes') }}
-              </router-link>
-            </li>
+              class="nav-link"
+              :to="{ path: '/task' }">
+              {{ $t('header.tasks') }}
+            </router-link>
+          </li>          
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
+              :to="{ path: '/' }">
+              {{ $t('header.processes') }}
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
+              :to="{ path: '/tracking' }">
+              {{ $t('header.trackings') }}
+            </router-link>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav">
+          <li class="nav-item dropdown">
+            <a
+              href="javascript:void(0);"
+              class="nav-link dropdown-toggle"
+              @click="toggleMenu"
+              @blur="closeMenu"
+              >
+              {{ this.username }}
+            </a>
+            <div
+              class="dropdown-menu dropdown-menu-right"
+              :class="{ show: menuVisible }">
+              <h6 class="dropdown-header">{{ this.username }}</h6>
+              <div class="dropdown-divider"></div>
+              <a
+                class="dropdown-item"
+                href="javascript:void(0);"
+                @click="signOut">
+                {{ $t('header.signout') }}
+              </a>
+            </div>
+          </li>
         </ul>
       </div>
-      <div class="dropdown-container">
-        <a v-on:click="toggleDropDown" v-bind:class="{ active: dropdown }">{{ this.username }}</a>
-        <div class="dropdown" v-if="dropdown">
-          <ul>
-            <li v-on:click="logout">{{ $t('header.logout') }}</li>
-          </ul>
-        </div>
+    </nav>
+
+    <div class="mobile-header row d-sm-none">
+      <div class="col">
+        <router-link
+          :to="{ path: '/task' }">
+            {{ $t('header.tasks') }}
+        </router-link>
+      </div>
+      <div class="col">
+        <router-link 
+          :to="{ path: '/' }">
+            {{ $t('header.processes') }}
+        </router-link>
+      </div>
+      <div class="col">
+        <router-link 
+          :to="{ path: '/tracking' }">
+            {{ $t('header.trackings') }}
+        </router-link>
+      </div>
+      <div class="col">
+        <a
+          href="javascript:void(0);"
+          @click="signOut">
+            {{ $t('header.signout') }}
+        </a>
       </div>
     </div>
-    <center class="title-center">PVM</center>
-  </header>
+
+    <nav class="py-2">
+      <center><b>Flujos de autorización</b></center>
+    </nav>
+  </div>
 </template>
 
 <script>
@@ -38,14 +94,20 @@ export default {
   data() {
     return {
       username: getAuthToken().split(/[:\\]/)[1] + '@tracsa.com.mx',
-      dropdown: false,
+      menuVisible: false,
     };
   },
   methods: {
-    toggleDropDown: function() {
-      return this.dropdown = !this.dropdown;
+    toggleMenu: function toggleMenu() {
+      this.menuVisible = !this.menuVisible;
     },
-    logout: function() {
+    closeMenu: function closeMenu() {
+      // Wait 200ms to handle any click inside menu
+      setTimeout(() => {
+        this.menuVisible = false;
+      }, 200);
+    },
+    signOut: function() {
       logout();
     },
   },
@@ -56,104 +118,31 @@ export default {
 <style lang="scss" scoped>
 @import "../styles/variables.scss";
 
-.active {
-  color: $black-light !important;
+.pvm-navbar {
+  border-top: 3px solid $purple;
+  box-shadow: 0 3px 2px $gray-300;
+  background: $white;
+  overflow: hidden;
+
+  .nav-item {
+    word-break: break-all;
+  }
+
+  nav + nav {
+    border-top: 1px solid $gray-300;
+  }
 }
 
-header {
-  box-shadow: 0 3px 2px $gray-300;
-  margin-bottom: 15px;
-  background: $white;
-  border-top: 3px solid $purple;
-
-  .title-center {
-    font-size:1.2em;
-    font-weight: bold;
-    padding: 10px 0;
+.mobile-header {
+  .col {
+    a {
+      display: block;
+      text-align: center;
+      line-height: 38px;
+      font-size: .9em;
+    }
   }
 
-  div.top-bar {
-    display: flex;
-    border-bottom: 1px solid $gray-300;
-    align-items: center;
-    padding: 0 100px;
-
-    div.menu {
-      flex-grow: 1;
-      font-weight: lighter;
-      font-size: 15px;
-
-      & + div {
-        margin-left: 30px;
-      }
-
-      ul {
-        margin-bottom: 0;
-        padding-left: 0;
-
-        li {
-          display: inline-block;
-          padding: 10px 0;
-
-          & + li {
-            margin-left: 40px;
-          }
-
-          a {
-            color: mix($gray-500, $gray-600);
-            padding: 10px 0;
-  
-            &:hover {
-              cursor: pointer;
-              color: $black-light;
-              text-decoration: none;
-            }
-            
-          }
-          
-
-        }
-
-      }
-    }
-
-    .dropdown-container {
-      cursor: pointer;
-      font-size: 15px;
-      color: mix($gray-500, $gray-600);
-
-      .dropdown {
-        position: absolute;
-        right: 100px;
-        width: 250px;
-        background: $white;
-        border: 1px solid $gray-300;
-        border-radius: 3px;
-        box-shadow: 0 5px 10px 0 rgba(0,0,0,0.1);
-
-        ul {
-          padding: 5px 0;
-          margin-bottom: 0;
-
-          li {
-            display: block;
-            width: 100%;
-            padding: 5px 40px;
-
-            &:hover {
-              background: mix($blue, $gray-400);
-              color: $white;
-            }
-
-          }
-
-        }
-
-      }
-
-    }
-
-  }
-
+  border-bottom: 1px solid #ccc;
 }
 </style>

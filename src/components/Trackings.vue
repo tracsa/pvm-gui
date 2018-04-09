@@ -3,23 +3,40 @@
     class="full-columns"
     :class="containerClass">
     <div class="row">
-      <div class="col">
+      <div
+        :class="{ 'd-none d-md-block': selectedId }"
+        class="col">
         <div class="card">
           <div class="card-header">
-            {{ $t('activities.my_activities') }}
+            {{ $t('trackings.trackings') }}
           </div>
-          <ul class="activity-list">
+          <div
+            v-if="!trackings.length && !loading" 
+            class="card-body card-message">
+            <div class="icon">
+              <icon :icon="['fas', 'inbox']" />
+            </div>
+            <span>
+              {{ $t('info.aboutTrackings') }}
+            </span>
+            <small>
+              {{ $t('info.aboutTrackingsMore') }}
+            </small>
+          </div>
+          <ul
+            v-if="trackings.length"
+            class="activity-list">
             <li
-              :class="{ active: selectedId === activity.execution.id }"
-              v-for="activity in activities"
-              :key="activity.execution.id">
+              :class="{ active: selectedId === tracking.execution.id }"
+              v-for="tracking in trackings"
+              :key="tracking.execution.id">
               <router-link
                 :to="{
-                  name: 'timeline',
-                  params: { id: activity.execution.id },
+                  name: 'tracking',
+                  params: { id: tracking.execution.id },
                 }">
                 <div class="activity-name">
-                  {{ activity.execution.id }}
+                  {{ tracking.execution.name }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -30,8 +47,8 @@
         </div>
       </div>
 
-      <div v-if="selected" class="col col-8">
-        <timeline :model="selected" />
+      <div v-if="selectedId" class="col-12 col-md-8">
+        <tracking :id="selectedId" />
       </div>
 
     </div>
@@ -45,8 +62,8 @@ export default {
   props: ['model'],
   data() {
     return {
-      activities: [],
       loading: true,
+      trackings: [],
     };
   },
   mounted() {
@@ -55,7 +72,8 @@ export default {
     get('/activity')
       .then((body) => {
         self.loading = false;
-        self.activities = body.data;
+        self.trackings = body.data;
+        console.log(body.data);
       })
       .catch((errors) => {
         self.loading = false;
@@ -65,14 +83,6 @@ export default {
   },
   computed: {
     selectedId: function selectedId() {
-      const { id } = this.$route.params;
-      if (!id) {
-        return null;
-      }
-
-      return id;
-    },
-    selected: function selected() {
       const { id } = this.$route.params;
       if (!id) {
         return null;
@@ -98,6 +108,29 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
   border: 1px solid rgba(0, 0, 0, 0.125);
   flex: 1;
+
+  .card-message {
+    text-align: center;
+
+    .icon {
+      color: $purple;
+      font-size: 70px;
+    }
+
+    span {
+      display: block;
+      font-size: 20px;
+      font-weight: 500;
+      padding-bottom: 10px;
+    }
+
+    small {
+      font-size: 13px;
+      color: $gray-700;
+      font-weight: lighter;
+    }
+  }  
+
 }
 
 .card, .row {

@@ -1,10 +1,36 @@
-import Vue from 'vue';
 import Datepicker from 'vuejs-datepicker';
-import Header from './Header';
-import Activity from './Activity';
-import Timepicker from './Timepicker';
+import Vue from 'vue';
 
+import Timeline from '@/components/Timeline';
+import TimelineAction from '@/components/TimelineAction';
+import Tasks from '@/components/Tasks'
+import Task from '@/components/Task';
+import Activity from './Activity';
+import DatetimeInput from './DatetimeInput';
+import DoqerCreate from './doqer/Create';
+import DoqerSelect from './doqer/Select';
+import DoqerSuggest from './doqer/Suggest';
+import FormRender from './FormRender';
+import Header from './Header';
+import TimeInput from './TimeInput';
+import Tracking from './Tracking';
+
+// Components
 Vue.component('app-header', Header);
 Vue.component('activity', Activity);
-Vue.component('datepicker', Datepicker);
-Vue.component('timepicker', Timepicker);
+Vue.component('tasks', Tasks);
+Vue.component('task', Task);
+Vue.component('timeline', Timeline);
+Vue.component('timeline-action', TimelineAction);
+Vue.component('form-render', FormRender);
+Vue.component('tracking', Tracking);
+
+// From inputs
+Vue.component('time-input', TimeInput);
+Vue.component('date-input', Datepicker);
+Vue.component('datetime-input', DatetimeInput);
+
+// Doqer components
+Vue.component('doqer-input', DoqerSelect);
+Vue.component('doqer-create', DoqerCreate);
+Vue.component('doqer-suggest', DoqerSuggest);

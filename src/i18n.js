@@ -6,9 +6,20 @@ Vue.use(VueI18n);
 const messages = {
   es: {
     header: {
-      tasks: 'Tareas',
+      trackings: 'Seguimiento',
       documents: 'Documentos',
-      logout: 'Cerrar sesión',
+      processes: 'Procesos',
+      tasks: 'Tareas',
+      signout: 'Salir',
+    },
+    info: {
+      aboutTasks: 'Aquí aparecerán tus tareas asignadas',
+      aboutTasksMore: 'Actualmente no tienes ninguna tarea asignada.',
+      aboutTrackings: 'Aquí aparecerán los procesos en los que estés involucrado.',
+      aboutTrackingsMore: 'Actualmente no has estado involucrado en alguno.',
+    },
+    error: {
+      code: 'Ha ocurrido un error',
     },
     signin: {
       title: 'Ingresar',
@@ -23,6 +34,17 @@ const messages = {
       process: 'Proceso',
       processes: 'Procesos',
     },
+    trackings: {
+      trackings: 'Seguimiento',
+    },
+    timeline:{
+      by: 'Por:',
+      reason: 'Motivo:',
+      date: 'Fecha:',
+    },
+    tasks: {
+      my_tasks: "Mis tareas",
+    },
     commons: {
       required: 'Requerido',
       send: 'Enviar',
@@ -31,10 +53,18 @@ const messages = {
   },
   en: {
     header: {
-      tasks: 'Tasks',
+      trackings: 'Tracking',
       documents: 'Documents',
+      processes: 'Processes',
+      tasks: 'Tasks',
       logout: 'SignOut',
     },
+    info: {
+      aboutTasks: 'Your assigned tasks will be appear here.',
+      aboutTasksMore: 'You do not have assigned tasks yet.',
+      aboutTrackings: 'Aquí aparecerán tus tareas asignadas',
+      aboutTrackingsMore: 'Actualmente no tienes ninguna tarea asignada.',
+    },    
     signin: {
       title: 'SignIn',
       description: 'Sign in to start your session',
@@ -48,11 +78,22 @@ const messages = {
       process: 'Process',
       processes: 'Processes',
     },
+    trackings: {
+      trackings: 'Seguimiento',
+    },
+    timeline:{
+      by: 'By:',
+      reason: 'Motivo:',
+      date: 'Fecha:',
+    },
+    tasks: {
+      my_tasks: "My tasks",
+    },
     commons: {
       required: 'Required',
       send: 'Send',
       cancel: 'Cancel',
-    },    
+    },
   },
 };
 

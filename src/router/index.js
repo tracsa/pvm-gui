@@ -3,8 +3,9 @@ import Router from 'vue-router';
 import { requireAuth, requireAnon } from '@/utils/auth';
 import App from '@/components/App';
 
-import Activities from '@/components/Activities';
+import Trackings from '@/components/Trackings';
 import Processes from '@/components/Processes';
+import Tasks from '@/components/Tasks';
 
 import SignIn from '@/components/SignIn';
 import '@/components';
@@ -19,24 +20,28 @@ export default new Router({
       component: App,
       children: [
         {
-          name: 'activities',
-          path: 'activity',
-          component: Activities,
+          name: 'trackings',
+          path: 'tracking',
+          component: Trackings,
         },
         {
-          name: 'activity',
-          path: 'activity/:id',
-          component: Activities,
+          name: 'tracking',
+          path: 'tracking/:id',
+          component: Trackings,
         },
-
+        {
+          name: 'tasks',
+          path: 'task',
+          component: Tasks,
+        },
+        {
+          name: 'task',
+          path: 'task/:id',
+          component: Tasks,
+        },
         {
           name: 'processes',
           path: '',
-          component: Processes,
-        },
-        {
-          name: 'processes',
-          path: 'process',
           component: Processes,
         },
         {

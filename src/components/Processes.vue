@@ -2,9 +2,10 @@
   <div
     class="full-columns"
     :class="containerClass">
-    <div
-      class="row">
-      <div class="col">
+    <div class="row">
+      <div 
+        :class="{ 'd-none d-md-block': selectedId }"
+        class="col">
         <div class="card">
           <div class="card-header">
             {{ $t('processes.processes')}}
@@ -31,7 +32,7 @@
         </div>
       </div>
 
-      <div v-if="selected" class="col col-8">
+      <div v-if="selected" class="col-12 col-md-8">
         <activity :model="selected" />
       </div>
     </div>
@@ -42,6 +43,7 @@
 import { get } from '@/utils/api';
 
 export default {
+  props: ['model'],
   data() {
     return {
       processes: [],
@@ -99,7 +101,6 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
   border: 1px solid rgba(0, 0, 0, 0.125);
   flex: 1;
-  overflow: hidden;
 }
 
 .card, .row {

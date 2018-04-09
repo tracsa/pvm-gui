@@ -36,6 +36,7 @@ $grays: map-merge((
 ), $grays);
 
 $blue:    #007bff !default;
+$blue-light:  mix($blue, $gray-400);
 $indigo:  #6610f2 !default;
 $purple:  #6f42c1 !default;
 $pink:    #e83e8c !default;
@@ -155,4 +156,37 @@ $font-family-sans-serif:      'Avenir', Helvetica, "Segoe UI", Roboto, "Helvetic
 // Activities
 //
 // listitem size
-$activity-listitem-size: 40px
+$activity-listitem-size: 40px;
+
+// Timelinea
+//
+// Line
+$dot-size: 15px;
+$line-distance: 30px;
+$line-width: 3px;
+
+// Components
+//
+// Define common padding and border radius sizes and more.
+
+$line-height-lg:              1.5 !default;
+$line-height-sm:              1.5 !default;
+
+$border-width:                1px !default;
+$border-color:                $gray-300 !default;
+
+$border-radius:               .25rem !default;
+$border-radius-lg:            .3rem !default;
+$border-radius-sm:            .2rem !default;
+
+$component-active-color:      $white !default;
+
+$caret-width:                 .3em !default;
+
+$transition-base:             all .2s ease-in-out !default;
+$transition-fade:             opacity .15s linear !default;
+$transition-collapse:         height .35s ease !default;
+
+
+// Forms
+$input-focus-border-color:              lighten($primary, 25%) !default;
