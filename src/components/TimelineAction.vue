@@ -36,7 +36,15 @@
               <tbody>
                 <tr v-for="input in form.form">
                   <td scope="row">{{ input.label }}</td>
-                  <td>{{ input | formInput }}</td>
+                  <td v-if="input.type === 'file'">
+                    <a
+                      target="_blank"
+                      :href="`//localhost:5010/api/documents/${input.value.id}`">
+                      <icon :icon="['fa', 'file']" />
+                      {{ input.value.name }}
+                    </a>
+                  </td>
+                  <td v-else>{{ input | formInput }}</td>
                 </tr>
               </tbody>
             </table>
