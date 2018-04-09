@@ -10,11 +10,6 @@
           {{ action.node.name }} —
           <small>{{ action.finished_at | setMoment('From now') }}</small>
         </div>
-        <div class="col text-right">
-          <a @click="$router.go(-1)">
-            <icon :icon="['fas', 'times']" />
-          </a>
-        </div>
       </div>
     </div>
     <div class="card-body">
