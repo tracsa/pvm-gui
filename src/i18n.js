@@ -6,6 +6,7 @@ Vue.use(VueI18n);
 const messages = {
   es: {
     header: {
+      title: 'Flujos de autorización',
       trackings: 'Seguimiento',
       documents: 'Documentos',
       processes: 'Procesos',
@@ -53,6 +54,7 @@ const messages = {
   },
   en: {
     header: {
+      title: 'Authorization flows',
       trackings: 'Tracking',
       documents: 'Documents',
       processes: 'Processes',

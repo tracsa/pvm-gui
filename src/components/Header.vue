@@ -82,7 +82,7 @@
     </div>
 
     <nav class="py-2">
-      <center><b>Flujos de autorización</b></center>
+      <center><b>{{ $t('header.title') }}</b></center>
     </nav>
   </div>
 </template>
