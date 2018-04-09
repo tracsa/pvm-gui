@@ -1,18 +1,10 @@
 <template>
-  <div style="flex-grow: 1">
-    <div v-if="last !== null" class="text-primary">
-      <b>{{ last.execution.name }}</b>
-    </div>
-    <div class="timeline-container">
-      <div class="vertical-line"></div>
-      <div class="timeline">
-        <timeline-action
-          v-for="action in actions"
-          :key="action.id"
-          :action="action"
-        />
-      </div>
-    </div>
+  <div class="timeline">
+    <timeline-action
+      v-for="action in actions"
+      :key="action.id"
+      :action="action"
+    />
   </div>
 </template>
 

@@ -1,5 +1,11 @@
 <template>
-  <timeline v-if="!loading" :actions="actions" />
+  <div>
+    <div v-if="last !== null" class="text-primary">
+      <b>{{ last.execution.name }}</b>
+    </div>
+
+    <timeline v-if="!loading" :actions="actions" />
+  </div>
 </template>
 
 <script>
@@ -20,6 +26,15 @@ export default {
     id: function (newId) {
       this.loadData(newId);
     },
+  },
+  computed: {
+    last: function last() {
+      if (this.actions.length === 0) {
+        return null;
+      }
+
+      return this.actions[0];
+    }
   },
   methods: {
     loadData: function loadData(id) {
