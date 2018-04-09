@@ -1,7 +1,5 @@
 <template>
-  <div v-if="!loading" class="timelines-container container">
-    <!-- {{ task }} -->
-
+  <div v-if="!loading">
     <div v-for="form in task.form_array" :key="form.ref">
       <div
         v-for="error in errors"
@@ -13,10 +11,9 @@
         :form="form"
         @submit="submit"
       />
-    </div>    
+    </div>
 
-    =========================
-    {{ timeline }}
+    <timeline v-if="actions.length > 0" :actions="actions" />
   </div>
 </template>
 
@@ -31,7 +28,7 @@ export default {
       errors: [],
       loading: true,
       task: null,
-      timeline: null,
+      actions: [],
     };
   },
   mounted() {
@@ -54,7 +51,7 @@ export default {
         })
         .then((body) => {
           this.loading = false;
-          this.timeline = body.data;
+          this.actions = body.data;
         })
         .catch((errors) => {
           this.loading = false;
