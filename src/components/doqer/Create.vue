@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import settings from '@/settings';
+
 export default {
   props: ['file'],
   data() {
@@ -65,7 +67,8 @@ export default {
 
       // Prepare request
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', '//localhost:5010/api/documents', true);
+      const { doqer } = settings;
+      xhr.open('POST', `//${doqer.host}:${doqer.port}/api/documents`, true);
 
       xhr.upload.onprogress = this.onUploadProgress.bind(this);
       xhr.onload = this.onUploadComplete.bind(this);

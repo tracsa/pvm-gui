@@ -6,6 +6,7 @@ ul.activity-list {
   margin-bottom: 0;
 
   & > li {
+    list-style: none;
     a {
       display: flex;
       cursor: pointer;

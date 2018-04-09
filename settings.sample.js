@@ -4,7 +4,7 @@ const settings = {
     'port': 5000,
     'authProvider': 'ldap',
   },
-  'doquer': {
+  'doqer': {
     'host': 'localhost',
     'port': 6000,
   },

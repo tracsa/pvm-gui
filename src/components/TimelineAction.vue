@@ -36,7 +36,15 @@
               <tbody>
                 <tr v-for="input in form.form">
                   <td scope="row">{{ input.label }}</td>
-                  <td>{{ input | formInput }}</td>
+                  <td v-if="input.type === 'file'">
+                    <a
+                      target="_blank"
+                      :href="input | toURI">
+                      <icon :icon="['fa', 'file']" />
+                      {{ input.value.name }}
+                    </a>
+                  </td>
+                  <td v-else>{{ input | formInput }}</td>
                 </tr>
               </tbody>
             </table>
@@ -49,10 +57,18 @@
 
 <script>
 import moment from 'moment';
+import settings from '@/settings';
+
 
 export default {
   props: ['action'],
   filters: {
+    toURI: function toUri(input) {
+      const { doqer } = settings;
+      const { value } = input;
+
+      return `//${doqer.host}:${doqer.port}/api/documents/${input.value.id}`;
+    },
     formInput: function formInput(data) {
       let value;
       switch (data.type) {
