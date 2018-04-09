@@ -8,6 +8,11 @@
         class="col">
         <div class="card">
           <div class="card-header">
+            <div style="float:right;">
+              <a href="javascript:void(0);" @click="loadList">
+                <icon :icon="['fas', 'sync-alt']" />
+              </a>
+            </div>
             {{ $t('trackings.trackings') }}
           </div>
           <div
@@ -67,19 +72,25 @@ export default {
     };
   },
   mounted() {
-    const self = this;
+    this.loadList();
+  },
+  methods: {
+    loadList: function loadList() {
+      const self = this;
 
-    get('/activity')
-      .then((body) => {
-        self.loading = false;
-        self.trackings = body.data;
-        console.log(body.data);
-      })
-      .catch((errors) => {
-        self.loading = false;
-        // Alert about this
-        console.error(errors);
-      });
+      this.loading = true;
+      get('/activity')
+        .then((body) => {
+          self.loading = false;
+          self.trackings = body.data;
+          console.log(body.data);
+        })
+        .catch((errors) => {
+          self.loading = false;
+          // Alert about this
+          console.error(errors);
+        });
+    },
   },
   computed: {
     selectedId: function selectedId() {
