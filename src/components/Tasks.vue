@@ -3,7 +3,9 @@
     class="full-columns"
     :class="containerClass">
     <div class="row">
-      <div class="col">
+      <div
+        :class="{ 'd-none d-md-block': selectedId }"
+        class="col">
         <div class="card">
           <div class="card-header">
             {{ $t('tasks.my_tasks') }}
@@ -30,7 +32,7 @@
         </div>
       </div>
 
-      <div v-if="selectedId" class="col-8">
+      <div v-if="selectedId" class="col-12 col-md-8">
         <task :taskId="selectedId" />
       </div>
 

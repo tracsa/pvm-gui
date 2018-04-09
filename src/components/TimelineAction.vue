@@ -11,9 +11,9 @@
           <small>{{ action.finished_at | setMoment('From now') }}</small>
         </div>
         <div class="col text-right">
-          <router-link :to="{ name: 'tasks' }">
+          <a @click="$router.go(-1)">
             <icon :icon="['fas', 'times']" />
-          </router-link>
+          </a>
         </div>
       </div>
     </div>

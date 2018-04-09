@@ -2,9 +2,10 @@
   <div
     class="full-columns"
     :class="containerClass">
-    <div
-      class="row">
-      <div class="col">
+    <div class="row">
+      <div 
+        :class="{ 'd-none d-md-block': selectedId }"
+        class="col">
         <div class="card">
           <div class="card-header">
             {{ $t('processes.processes')}}
@@ -31,7 +32,7 @@
         </div>
       </div>
 
-      <div v-if="selected" class="col-8">
+      <div v-if="selected" class="col-12 col-md-8">
         <activity :model="selected" />
       </div>
     </div>
