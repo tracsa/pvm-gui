@@ -48,6 +48,19 @@
       </div>
     </div>
   </div>
+  <div v-else-if="action.notified_users && action.notified_users.length">
+    <div class="alert custom-alert-warning" style="margin-left: 30px">
+      <div>{{ action.node.name }}</div>
+      <div>
+        <small>Asignado a</small>
+        <span
+          v-for="user in action.notified_users"
+          :key="user.id">
+          <b>{{ user.identifier }}</b>
+        </span>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
