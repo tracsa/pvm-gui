@@ -23,8 +23,8 @@ function clearAuthToken() {
 }
 
 export function login(username, password, callback) {
-  const { host, port, authProvider } = settings.pvm;
-  const authUri = `//${host}:${port}/v1/auth/signin/${authProvider}`;
+  const { protocol, host, port, authProvider } = settings.pvm;
+  const authUri = `${protocol}://${host}:${port}/v1/auth/signin/${authProvider}`;
 
   const form = new FormData();
   form.append('username', username);

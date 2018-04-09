@@ -64,10 +64,10 @@ export default {
   props: ['action'],
   filters: {
     toURI: function toUri(input) {
-      const { doqer } = settings;
+      const { protocol, host, port } = settings.doqer;
       const { value } = input;
 
-      return `//${doqer.host}:${doqer.port}/api/documents/${input.value.id}`;
+      return `${protocol}://${host}:${port}/api/documents/${input.value.id}`;
     },
     formInput: function formInput(data) {
       let value;
