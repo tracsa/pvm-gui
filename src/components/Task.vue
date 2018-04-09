@@ -11,7 +11,7 @@
           </div>
           <form-render
             :form="form"
-            @submit="submit"
+            @submit= "submit"
           />
         </div>
       </div>

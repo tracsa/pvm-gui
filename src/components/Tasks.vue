@@ -2,6 +2,7 @@
   <div
     class="full-columns"
     :class="containerClass">
+  
     <div class="row">
       <div
         :class="{ 'd-none d-md-block': selectedId }"
@@ -10,7 +11,22 @@
           <div class="card-header">
             {{ $t('tasks.my_tasks') }}
           </div>
-          <ul class="activity-list">
+          <div
+            v-if="!loading && !tasks.length" 
+            class="card-body card-message">
+            <div class="icon">
+              <icon :icon="['fas', 'inbox']" />
+            </div>
+            <span>
+              {{ $t('info.aboutTasks') }}
+            </span>
+            <small>
+              {{ $t('info.aboutTasksMore') }}
+            </small>
+          </div>
+          <ul
+            v-if="tasks.length && !loading"
+            class="activity-list">
             <li
               :class="{ active: selectedId === task.execution.id }"
               v-for="task in tasks"
@@ -59,19 +75,8 @@ export default {
       .then((body) => {
         self.loading = false;
         self.tasks = body.data;
-        // return body.data.execution.id;
+        console.log(self.tasks.length);
       })
-      // .then((execution_id) => {
-      //   get(`/log/${execution_id}`).then((body) => {
-      //     self.timeline = body;
-      //     console.log(body);
-      //   })
-      //   .catch((errors) => {
-      //     self.loading = false;
-      //     // Alert about this
-      //     console.error(errors);
-      //   });
-      // })
       .catch((errors) => {
         self.loading = false;
         // Alert about this
@@ -100,11 +105,35 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/variables.scss';
 
+
 .card {
   border-radius: 3px 3px 0 0;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
   border: 1px solid rgba(0, 0, 0, 0.125);
   flex: 1;
+
+  .card-message {
+    text-align: center;
+
+    .icon {
+      color: $purple;
+      font-size: 70px;
+    }
+
+    span {
+      display: block;
+      font-size: 20px;
+      font-weight: 500;
+      padding-bottom: 10px;
+    }
+
+    small {
+      font-size: 13px;
+      color: $gray-700;
+      font-weight: lighter;
+    }
+  }
+
 }
 
 .card, .row {

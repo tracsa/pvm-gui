@@ -10,7 +10,22 @@
           <div class="card-header">
             {{ $t('trackings.trackings') }}
           </div>
-          <ul class="activity-list">
+          <div
+            v-if="!trackings.length && !loading" 
+            class="card-body card-message">
+            <div class="icon">
+              <icon :icon="['fas', 'inbox']" />
+            </div>
+            <span>
+              {{ $t('info.aboutTrackings') }}
+            </span>
+            <small>
+              {{ $t('info.aboutTrackingsMore') }}
+            </small>
+          </div>
+          <ul
+            v-if="trackings.length"
+            class="activity-list">
             <li
               :class="{ active: selectedId === tracking.execution.id }"
               v-for="tracking in trackings"
@@ -93,6 +108,29 @@ export default {
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
   border: 1px solid rgba(0, 0, 0, 0.125);
   flex: 1;
+
+  .card-message {
+    text-align: center;
+
+    .icon {
+      color: $purple;
+      font-size: 70px;
+    }
+
+    span {
+      display: block;
+      font-size: 20px;
+      font-weight: 500;
+      padding-bottom: 10px;
+    }
+
+    small {
+      font-size: 13px;
+      color: $gray-700;
+      font-weight: lighter;
+    }
+  }  
+
 }
 
 .card, .row {

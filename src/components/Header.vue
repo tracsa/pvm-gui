@@ -1,6 +1,6 @@
 <template>
   <div class="pvm-navbar mb-4">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white d-none d-md-block">
       <div class="container">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -52,8 +52,37 @@
         </ul>
       </div>
     </nav>
+
+    <div class="mobile-header row d-sm-none">
+      <div class="col">
+        <router-link
+          :to="{ path: '/task' }">
+            {{ $t('header.tasks') }}
+        </router-link>
+      </div>
+      <div class="col">
+        <router-link 
+          :to="{ path: '/' }">
+            {{ $t('header.processes') }}
+        </router-link>
+      </div>
+      <div class="col">
+        <router-link 
+          :to="{ path: '/tracking' }">
+            {{ $t('header.trackings') }}
+        </router-link>
+      </div>
+      <div class="col">
+        <a
+          href="javascript:void(0);"
+          @click="signOut">
+            {{ $t('header.signout') }}
+        </a>
+      </div>
+    </div>
+
     <nav class="py-2">
-      <center><b>PVM</b></center>
+      <center><b>Flujos de autorización</b></center>
     </nav>
   </div>
 </template>
@@ -93,9 +122,27 @@ export default {
   border-top: 3px solid $purple;
   box-shadow: 0 3px 2px $gray-300;
   background: $white;
+  overflow: hidden;
+
+  .nav-item {
+    word-break: break-all;
+  }
 
   nav + nav {
     border-top: 1px solid $gray-300;
   }
+}
+
+.mobile-header {
+  .col {
+    a {
+      display: block;
+      text-align: center;
+      line-height: 38px;
+      font-size: .9em;
+    }
+  }
+
+  border-bottom: 1px solid #ccc;
 }
 </style>

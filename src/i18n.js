@@ -10,7 +10,13 @@ const messages = {
       documents: 'Documentos',
       processes: 'Procesos',
       tasks: 'Tareas',
-      signout: 'Cerrar sesión',
+      signout: 'Salir',
+    },
+    info: {
+      aboutTasks: 'Aquí aparecerán tus tareas asignadas',
+      aboutTasksMore: 'Actualmente no tienes ninguna tarea asignada.',
+      aboutTrackings: 'Aquí aparecerán los procesos en los que estés involucrado.',
+      aboutTrackingsMore: 'Actualmente no has estado involucrado en alguno.',
     },
     error: {
       code: 'Ha ocurrido un error',
@@ -53,6 +59,12 @@ const messages = {
       tasks: 'Tasks',
       logout: 'SignOut',
     },
+    info: {
+      aboutTasks: 'Your assigned tasks will be appear here.',
+      aboutTasksMore: 'You do not have assigned tasks yet.',
+      aboutTrackings: 'Aquí aparecerán tus tareas asignadas',
+      aboutTrackingsMore: 'Actualmente no tienes ninguna tarea asignada.',
+    },    
     signin: {
       title: 'SignIn',
       description: 'Sign in to start your session',
