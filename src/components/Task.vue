@@ -2,7 +2,12 @@
   <div v-if="!loading">
     <div class="timeline" v-for="form in task.form_array" :key="form.ref">
       <div class="card timeline-action">
-        <div class="card-body">
+          <div class="card-body">
+          <div class="float-right">
+            <router-link :to="{ path: '/tracking'}">
+              <icon :icon="['fas', 'times']" />
+            </router-link>
+          </div>
           <div
             v-for="error in errors"
             :key="error.code"

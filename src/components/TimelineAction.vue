@@ -1,5 +1,5 @@
 <template>
-  <div class="card timeline-action">
+  <div v-if="action.finished_at !== null" class="card timeline-action">
     <span
       class="timeline-dot"
       :title="action.finished_at | setMoment('Complete')">
@@ -9,11 +9,6 @@
         <div class="col">
           {{ action.node.name }} —
           <small>{{ action.finished_at | setMoment('From now') }}</small>
-        </div>
-        <div class="col text-right">
-          <a @click="$router.go(-1)">
-            <icon :icon="['fas', 'times']" />
-          </a>
         </div>
       </div>
     </div>
@@ -96,11 +91,20 @@ export default {
     setMoment: function setMoment(data, from) {
       const oldData = data;
       let newDate = new Date(data);
-      if(from === 'From now') newDate = moment().startOf('hour').fromNow();
-      else if (from === 'Complete') newDate = moment().format('MMMM Do YYYY, h:mm:ss a');
-      else newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
-      if(newDate !== 'Invalid date') return newDate;
-      else return oldData;
+
+      if(from === 'From now') {
+        newDate = moment(newDate).fromNow();
+      } else if (from === 'Complete') {
+        newDate = moment(newDate).format('MMMM Do YYYY, h:mm:ss a');
+      } else {
+        newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
+      }
+
+      if(newDate !== 'Invalid date') {
+        return newDate;
+      } else {
+        return oldData;
+      }
     },
   },
 }

@@ -12,9 +12,9 @@
       <div v-for="form in model.form_array" :key="form.ref">
         <div
           v-for="error in errors"
-          :key="error.code"
+          :key="error.where"
           class="alert custom-alert-danger">
-          {{ $t(error.code) }}
+          {{ $t(`errors.${error.where}`) }}
         </div>
         <form-render
           :form="form"

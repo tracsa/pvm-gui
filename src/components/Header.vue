@@ -1,6 +1,6 @@
 <template>
   <div class="pvm-navbar mb-4">
-    <nav class="navbar navbar-expand-lg navbar-light bg-white d-none d-md-block">
+    <nav class="navbar navbar-expand-lg navbar-light bg-white d-none d-lg-block">
       <div class="container">
         <ul class="navbar-nav">
           <li class="nav-item">
@@ -53,7 +53,7 @@
       </div>
     </nav>
 
-    <div class="mobile-header row d-sm-none">
+    <div class="mobile-header row d-lg-none">
       <div class="col">
         <router-link
           :to="{ path: '/task' }">
@@ -82,7 +82,7 @@
     </div>
 
     <nav class="py-2">
-      <center><b>Flujos de autorización</b></center>
+      <center><b>{{ $t('header.title') }}</b></center>
     </nav>
   </div>
 </template>
@@ -122,7 +122,6 @@ export default {
   border-top: 3px solid $purple;
   box-shadow: 0 3px 2px $gray-300;
   background: $white;
-  overflow: hidden;
 
   .nav-item {
     word-break: break-all;
@@ -134,6 +133,8 @@ export default {
 }
 
 .mobile-header {
+  margin: 0;
+
   .col {
     a {
       display: block;

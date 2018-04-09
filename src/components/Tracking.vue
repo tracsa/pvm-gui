@@ -1,7 +1,17 @@
 <template>
   <div>
     <div v-if="last !== null" class="text-primary">
-      <b>{{ last.execution.name }}</b>
+      <div class="row">
+      <div class="col-11">
+        <b>{{ last.execution.name }}</b>
+      </div>
+      <div class="col-1 text-right">
+        <router-link :to="{ path: '/tracking'}">
+          <icon :icon="['fas', 'times']" />
+        </router-link>
+      </div>
+        
+      </div>
     </div>
 
     <timeline v-if="!loading" :actions="actions" />
@@ -45,7 +55,6 @@ export default {
         })
         .catch((errors) => {
           this.loading = false;
-          alert();
         });
     }
   },

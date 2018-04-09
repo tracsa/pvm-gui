@@ -6,6 +6,7 @@ Vue.use(VueI18n);
 const messages = {
   es: {
     header: {
+      title: 'Flujos de autorización',
       trackings: 'Seguimiento',
       documents: 'Documentos',
       processes: 'Procesos',
@@ -18,8 +19,8 @@ const messages = {
       aboutTrackings: 'Aquí aparecerán los procesos en los que estés involucrado.',
       aboutTrackingsMore: 'Actualmente no has estado involucrado en alguno.',
     },
-    error: {
-      code: 'Ha ocurrido un error',
+    request: {
+      authorization: 'Ssadf',
     },
     signin: {
       title: 'Ingresar',
@@ -50,9 +51,15 @@ const messages = {
       send: 'Enviar',
       cancel: 'Cancelar',
     },
+    errors: {
+      request: {
+        authorization: 'Lo sentimos, tus credenciales son inválidas.',
+      }
+    }
   },
   en: {
     header: {
+      title: 'Authorization flows',
       trackings: 'Tracking',
       documents: 'Documents',
       processes: 'Processes',
