@@ -53,11 +53,12 @@
       <div>{{ action.node.name }}</div>
       <div>
         <small>Asignado a</small>
-        <span
+        <small
+          style="font-weight: bold;"
           v-for="user in action.notified_users"
           :key="user.id">
-          <b>{{ user.identifier }}</b>
-        </span>
+          {{ user.identifier }}&nbsp;
+        </small>
       </div>
     </div>
   </div>
