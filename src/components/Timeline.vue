@@ -32,24 +32,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-@import "../styles/variables.scss";
-
-.timeline-container {
-  display: flex;
-  height: 100%;
-
-  .vertical-line {
-    background: lighten($purple, 30);
-    height: 100%;
-    width: $line-width;
-  }
-
-  .timeline {
-    display: block;
-    height: 100%;
-    width: 100%;
-  }
-}
-</style>
