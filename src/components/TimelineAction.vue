@@ -92,6 +92,9 @@ export default {
           const mapping = data.options.reduce((map, option) => map.set(option.value, option.label), new Map());
           value = data.value.map(val => mapping.get(val)).join(', ');
           break;
+        case 'date':
+          value = moment(data.value).format('DD/HH/YYYY');
+          break;
         case 'datetime':
           value = moment(data.value).format('DD/HH/YYYY HH:mm');
           break;
