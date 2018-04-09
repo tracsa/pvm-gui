@@ -1,5 +1,5 @@
 <template>
-  <div class="card timeline-action">
+  <div v-if="action.finished_at !== null" class="card timeline-action">
     <span
       class="timeline-dot"
       :title="action.finished_at | setMoment('Complete')">
