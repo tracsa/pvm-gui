@@ -39,7 +39,7 @@
                   <td v-if="input.type === 'file'">
                     <a
                       target="_blank"
-                      :href="`//localhost:5010/api/documents/${input.value.id}`">
+                      :href="input | toURI">
                       <icon :icon="['fa', 'file']" />
                       {{ input.value.name }}
                     </a>
@@ -57,10 +57,18 @@
 
 <script>
 import moment from 'moment';
+import settings from '@/settings';
+
 
 export default {
   props: ['action'],
   filters: {
+    toURI: function toUri(input) {
+      const { doqer } = settings;
+      const { value } = input;
+
+      return `//${doqer.host}:${doqer.port}/api/documents/${input.value.id}`;
+    },
     formInput: function formInput(data) {
       let value;
       switch (data.type) {
