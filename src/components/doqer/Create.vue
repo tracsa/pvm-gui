@@ -67,8 +67,9 @@ export default {
 
       // Prepare request
       const xhr = new XMLHttpRequest();
-      const { doqer } = settings;
-      xhr.open('POST', `//${doqer.host}:${doqer.port}/api/documents`, true);
+      const { protocol, host, port } = settings.doqer;
+
+      xhr.open('POST', `${protocol}://${host}:${port}/api/documents`, true);
 
       xhr.upload.onprogress = this.onUploadProgress.bind(this);
       xhr.onload = this.onUploadComplete.bind(this);
