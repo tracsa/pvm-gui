@@ -16,7 +16,7 @@
               <router-link
                 :to="{
                   name: 'task',
-                  params: { id: task.execution.id },
+                  params: { id: task.id },
                 }">
                 <div class="activity-name">
                   {{ task.execution.name }} — {{ task.name }} 
@@ -30,14 +30,14 @@
         </div>
       </div>
 
-      <div v-if="selected" class="col col-8">
-        <timeline :model="selected" />
+      <div v-if="selectedId" class="col col-8">
+        <task :taskId="selectedId" />
       </div>
 
     </div>
   </div>
 </template>
-
+`
 <script>
 import { get } from '@/utils/api';
 
@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       tasks: [],
+      timeline: [],
       loading: true,
     };
   },
@@ -56,8 +57,19 @@ export default {
       .then((body) => {
         self.loading = false;
         self.tasks = body.data;
-        console.log(body.data);
+        // return body.data.execution.id;
       })
+      // .then((execution_id) => {
+      //   get(`/log/${execution_id}`).then((body) => {
+      //     self.timeline = body;
+      //     console.log(body);
+      //   })
+      //   .catch((errors) => {
+      //     self.loading = false;
+      //     // Alert about this
+      //     console.error(errors);
+      //   });
+      // })
       .catch((errors) => {
         self.loading = false;
         // Alert about this
@@ -66,14 +78,6 @@ export default {
   },
   computed: {
     selectedId: function selectedId() {
-      const { id } = this.$route.params;
-      if (!id) {
-        return null;
-      }
-
-      return id;
-    },
-    selected: function selected() {
       const { id } = this.$route.params;
       if (!id) {
         return null;

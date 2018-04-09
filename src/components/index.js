@@ -12,11 +12,13 @@ import TimeInput from './TimeInput';
 import Timeline from '@/components/Timeline';
 import TimelineAction from '@/components/TimelineAction';
 import Tasks from '@/components/Tasks'
+import Task from '@/components/Task';
 
 // Components
 Vue.component('app-header', Header);
 Vue.component('activity', Activity);
 Vue.component('tasks', Tasks);
+Vue.component('task', Task);
 Vue.component('timeline', Timeline);
 Vue.component('timeline-action', TimelineAction);
 Vue.component('form-render', FormRender);

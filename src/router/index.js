@@ -31,7 +31,7 @@ export default new Router({
         },
         {
           name: 'tasks',
-          path: 'tasks',
+          path: 'task',
           component: Tasks,
         },
         {
