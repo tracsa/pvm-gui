@@ -50,7 +50,8 @@ const messages = {
       required: 'Requerido',
       send: 'Enviar',
       cancel: 'Cancelar',
-      loading: 'Cargando...'
+      loading: 'Cargando...',
+      sending: 'Enviando...',
     },
     errors: {
       request: {
@@ -101,7 +102,8 @@ const messages = {
       required: 'Required',
       send: 'Send',
       cancel: 'Cancel',
-      loading: 'Loading...'
+      loading: 'Loading...',
+      sending: 'Sending...',
     },
   },
 };

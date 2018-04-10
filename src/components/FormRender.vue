@@ -82,10 +82,18 @@
 
     <div>
       <button
+        v-if="!sending"
         class="btn btn-primary"
         :disabled="!isValid">
         {{ $t('commons.send') }}
       </button>
+      <button
+        v-else
+        class="btn btn-primary"
+        :disabled="true">
+        {{ $t('commons.sending') }}
+      </button>      
+  
       <router-link :to="{ name: 'processes' }">
         {{ $t('commons.cancel') }}
       </router-link>
@@ -99,6 +107,7 @@ export default {
   data() {
     return {
       formData: {},
+      sending: false,
     };
   },
   mounted() {
@@ -163,6 +172,7 @@ export default {
     },
     submit: function submit(event) {
       event.preventDefault();
+      this.sending = true;
 
       const formInstance = {
         ref: this.form.ref,

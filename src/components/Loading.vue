@@ -1,4 +1,4 @@
-<template class="col">
+<template>
     <div class="card">
       <div class="card-body card-message">
         <div class="icon">
