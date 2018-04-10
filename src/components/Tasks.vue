@@ -4,6 +4,7 @@
     :class="containerClass">
     <div class="row">
       <div
+        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
@@ -16,7 +17,7 @@
             {{ $t('tasks.my_tasks') }}
           </div>
           <div
-            v-if="!loading && !tasks.length" 
+            v-if="!tasks.length" 
             class="card-body card-message">
             <div class="icon">
               <icon :icon="['fas', 'inbox']" />
@@ -58,6 +59,11 @@
           </ul>
         </div>
       </div>
+      <div 
+        v-else
+        class="col">
+        <loading />
+      </div>
 
       <div v-if="selectedId" class="col-12 col-md-8">
         <task :taskId="selectedId" />
@@ -66,7 +72,7 @@
     </div>
   </div>
 </template>
-`
+
 <script>
 import { get } from '@/utils/api';
 

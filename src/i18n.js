@@ -16,7 +16,7 @@ const messages = {
     info: {
       aboutTasks: 'Aquí aparecerán tus tareas asignadas',
       aboutTasksMore: 'Actualmente no tienes ninguna tarea asignada.',
-      aboutTrackings: 'Aquí aparecerán los procesos en los que estés involucrado.',
+      aboutTrackings: 'Aquí aparecerán los procesos en los que estés involucrado',
       aboutTrackingsMore: 'Actualmente no has estado involucrado en alguno.',
     },
     request: {
@@ -50,6 +50,7 @@ const messages = {
       required: 'Requerido',
       send: 'Enviar',
       cancel: 'Cancelar',
+      loading: 'Cargando...'
     },
     errors: {
       request: {
@@ -100,6 +101,7 @@ const messages = {
       required: 'Required',
       send: 'Send',
       cancel: 'Cancel',
+      loading: 'Loading...'
     },
   },
 };

@@ -15,6 +15,11 @@
     </div>
 
     <timeline v-if="!loading" :actions="actions" />
+    <div
+      v-else
+    >
+      <loading />
+    </div>
   </div>
 </template>
 

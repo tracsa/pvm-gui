@@ -4,6 +4,7 @@
     :class="containerClass">
     <div class="row">
       <div
+        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
@@ -16,7 +17,7 @@
             {{ $t('trackings.trackings') }}
           </div>
           <div
-            v-if="!trackings.length && !loading" 
+            v-if="!trackings.length" 
             class="card-body card-message">
             <div class="icon">
               <icon :icon="['fas', 'inbox']" />
@@ -50,6 +51,11 @@
             </li>
           </ul>
         </div>
+      </div>
+      <div 
+        v-else
+        class="col">
+        <loading />
       </div>
 
       <div v-if="selectedId" class="col-12 col-md-8">

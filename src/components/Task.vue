@@ -1,23 +1,23 @@
 <template>
-  <div v-if="loading">
+  <div v-if="!loading">
     <div class="timeline" v-for="form in task.form_array" :key="form.ref">
       <div class="card timeline-action">
           <div class="card-body">
-          <div class="float-right">
-            <router-link :to="{ path: '/tracking'}">
-              <icon :icon="['fas', 'times']" />
-            </router-link>
-          </div>
-          <div
-            v-for="error in errors"
-            :key="error.code"
-            class="alert custom-alert-danger">
-            {{ $t('error.code') }}
-          </div>
-          <form-render
-            :form="form"
-            @submit= "submit"
-          />
+            <div class="float-right">
+              <router-link :to="{ path: '/tracking'}">
+                <icon :icon="['fas', 'times']" />
+              </router-link>
+            </div>
+            <div
+              v-for="error in errors"
+              :key="error.code"
+              class="alert custom-alert-danger">
+              {{ $t('error.code') }}
+            </div>
+            <form-render
+              :form="form"
+              @submit= "submit"
+            />
         </div>
       </div>
     </div>
@@ -25,8 +25,9 @@
     <timeline v-if="actions.length > 0" :actions="actions" />
   </div>
   <div v-else>
-    <icon :icon="['fas', 'sync']" />
+    <loading />
   </div>
+
 </template>
 
 <script>
