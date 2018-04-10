@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!loading">
+  <div v-if="loading">
     <div class="timeline" v-for="form in task.form_array" :key="form.ref">
       <div class="card timeline-action">
           <div class="card-body">
@@ -24,10 +24,12 @@
 
     <timeline v-if="actions.length > 0" :actions="actions" />
   </div>
+  <div v-else>
+    <icon :icon="['fas', 'sync']" />
+  </div>
 </template>
 
 <script>
-import moment from 'moment';
 import { get, post } from '@/utils/api';
 
 export default {
@@ -41,17 +43,15 @@ export default {
     };
   },
   mounted() {
-    console.log(this.taskId)
     this.loadData(this.taskId);
   },
   watch: {
-    model(newValue, prevValue) {
+    model(newValue) {
       this.loadData(newValue);
     },
   },
   methods: {
     loadData: function loadData(id) {
-
       get(`/task/${id}`)
         .then((body) => {
           this.task = body.data;
@@ -66,7 +66,6 @@ export default {
           this.loading = false;
           console.error(errors);
         });
-
     },
     submit: function submit(formInstance) {
       const postData = {

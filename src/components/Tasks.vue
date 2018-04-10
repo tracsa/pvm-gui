@@ -2,7 +2,6 @@
   <div
     class="full-columns"
     :class="containerClass">
-  
     <div class="row">
       <div
         :class="{ 'd-none d-md-block': selectedId }"
@@ -21,6 +20,13 @@
             class="card-body card-message">
             <div class="icon">
               <icon :icon="['fas', 'inbox']" />
+            </div>
+            <div
+              v-if="loading"
+              class="card-body card-message">
+              <div class="icon">
+                <icon :icon="['fas', 'sync']" />
+              </div>
             </div>
             <span>
               {{ $t('info.aboutTasks') }}

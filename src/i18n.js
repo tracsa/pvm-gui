@@ -38,7 +38,7 @@ const messages = {
     trackings: {
       trackings: 'Seguimiento',
     },
-    timeline:{
+    timeline: {
       by: 'Por:',
       reason: 'Motivo:',
       date: 'Fecha:',
@@ -88,7 +88,7 @@ const messages = {
     trackings: {
       trackings: 'Seguimiento',
     },
-    timeline:{
+    timeline: {
       by: 'By:',
       reason: 'Motivo:',
       date: 'Fecha:',
