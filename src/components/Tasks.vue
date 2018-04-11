@@ -10,17 +10,19 @@
         <div class="card">
           <div class="card-header">
             <div style="float:right;">
-              <a href="javascript:void(0);" @click="loadList">
-                <icon :icon="['fas', 'sync-alt']" />
+              <a 
+                href="javascript:void(0);"
+                @click="loadList">
+                  <icon :icon="['fas', 'sync-alt']" />
               </a>
             </div>
             {{ $t('tasks.my_tasks') }}
           </div>
-          <message-info 
-            :show="!tasks.length" 
-            icon="inbox" 
-            title="info.aboutTasks" 
-            desc="info.aboutTasksMore" 
+          <message-info
+            :show="!tasks.length"
+            icon="inbox"
+            title="info.aboutTasks"
+            desc="info.aboutTasksMore"
           />
           <ul
             v-if="tasks.length && !loading"
@@ -35,7 +37,7 @@
                   params: { id: task.id },
                 }">
                 <div class="activity-name">
-                  {{ task.execution.name }} — {{ task.name }} 
+                  {{ task.execution.name }} — {{ task.name }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -63,7 +65,6 @@
 import { get } from '@/utils/api';
 
 export default {
-  props: ['model'],
   data() {
     return {
       tasks: [],
@@ -72,8 +73,6 @@ export default {
     };
   },
   mounted() {
-    const self = this;
-
     this.loadList();
   },
   methods: {
