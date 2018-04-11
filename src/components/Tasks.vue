@@ -16,26 +16,12 @@
             </div>
             {{ $t('tasks.my_tasks') }}
           </div>
-          <div
-            v-if="!tasks.length" 
-            class="card-body card-message">
-            <div class="icon">
-              <icon :icon="['fas', 'inbox']" />
-            </div>
-            <div
-              v-if="loading"
-              class="card-body card-message">
-              <div class="icon">
-                <icon :icon="['fas', 'sync']" />
-              </div>
-            </div>
-            <span>
-              {{ $t('info.aboutTasks') }}
-            </span>
-            <small>
-              {{ $t('info.aboutTasksMore') }}
-            </small>
-          </div>
+          <message-info 
+            show="!tasks.length" 
+            icon="inbox" 
+            title="info.aboutTasks" 
+            desc="info.aboutTasksMore" 
+          />
           <ul
             v-if="tasks.length && !loading"
             class="activity-list">

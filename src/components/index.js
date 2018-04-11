@@ -15,6 +15,7 @@ import Header from './Header';
 import TimeInput from './TimeInput';
 import Tracking from './Tracking';
 import Loading from './Loading';
+import MessageInfo from './MessageInfo';
 
 // Components
 Vue.component('app-header', Header);
@@ -26,6 +27,7 @@ Vue.component('timeline-action', TimelineAction);
 Vue.component('form-render', FormRender);
 Vue.component('tracking', Tracking);
 Vue.component('loading', Loading);
+Vue.component('message-info', MessageInfo);
 
 // From inputs
 Vue.component('time-input', TimeInput);

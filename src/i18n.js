@@ -17,7 +17,7 @@ const messages = {
       aboutTasks: 'Aquí aparecerán tus tareas asignadas',
       aboutTasksMore: 'Actualmente no tienes ninguna tarea asignada.',
       aboutTrackings: 'Aquí aparecerán los procesos en los que estés involucrado',
-      aboutTrackingsMore: 'Actualmente no has estado involucrado en alguno.',
+      aboutTrackingsMore: 'Actualmente no estás involucrado en alguno.',
     },
     request: {
       authorization: 'Ssadf',

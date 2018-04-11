@@ -16,19 +16,13 @@
             </div>
             {{ $t('trackings.trackings') }}
           </div>
-          <div
-            v-if="!trackings.length" 
-            class="card-body card-message">
-            <div class="icon">
-              <icon :icon="['fas', 'inbox']" />
-            </div>
-            <span>
-              {{ $t('info.aboutTrackings') }}
-            </span>
-            <small>
-              {{ $t('info.aboutTrackingsMore') }}
-            </small>
-          </div>
+          <message-info
+            show="!trackings.length" 
+            icon="inbox"
+            title="info.aboutTrackings"
+            desc="info.aboutTrackingsMore"
+          />
+
           <ul
             v-if="trackings.length"
             class="activity-list">
