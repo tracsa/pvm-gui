@@ -47,7 +47,7 @@ export default {
     this.loadData(this.taskId);
   },
   watch: {
-    model(newValue) {
+    taskId(newValue) {
       this.loadData(newValue);
     },
   },

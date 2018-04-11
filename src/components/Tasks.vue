@@ -17,7 +17,7 @@
             {{ $t('tasks.my_tasks') }}
           </div>
           <message-info 
-            show="!tasks.length" 
+            :show="!tasks.length" 
             icon="inbox" 
             title="info.aboutTasks" 
             desc="info.aboutTasksMore" 

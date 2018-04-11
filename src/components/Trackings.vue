@@ -17,7 +17,7 @@
             {{ $t('trackings.trackings') }}
           </div>
           <message-info
-            show="!trackings.length" 
+            :show="!trackings.length" 
             icon="inbox"
             title="info.aboutTrackings"
             desc="info.aboutTrackingsMore"
