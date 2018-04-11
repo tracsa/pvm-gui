@@ -3,7 +3,7 @@
     class="full-columns"
     :class="containerClass">
     <div class="row">
-      <div 
+      <div
         v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
@@ -37,7 +37,7 @@
           </ul>
         </div>
       </div>
-      <div 
+      <div
         v-else
         class="col">
         <loading />

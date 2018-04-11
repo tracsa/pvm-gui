@@ -44,7 +44,7 @@ const messages = {
       date: 'Fecha:',
     },
     tasks: {
-      my_tasks: "Mis tareas",
+      my_tasks: 'Mis tareas',
     },
     commons: {
       required: 'Requerido',
@@ -56,8 +56,8 @@ const messages = {
     errors: {
       request: {
         authorization: 'Lo sentimos, tus credenciales son inválidas.',
-      }
-    }
+      },
+    },
   },
   en: {
     header: {
@@ -73,7 +73,7 @@ const messages = {
       aboutTasksMore: 'You do not have assigned tasks yet.',
       aboutTrackings: 'Aquí aparecerán tus tareas asignadas',
       aboutTrackingsMore: 'Actualmente no tienes ninguna tarea asignada.',
-    },    
+    },
     signin: {
       title: 'SignIn',
       description: 'Sign in to start your session',
@@ -96,7 +96,7 @@ const messages = {
       date: 'Fecha:',
     },
     tasks: {
-      my_tasks: "My tasks",
+      my_tasks: 'My tasks',
     },
     commons: {
       required: 'Required',

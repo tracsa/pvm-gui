@@ -10,7 +10,7 @@
         <div class="card">
           <div class="card-header">
             <div style="float:right;">
-              <a 
+              <a
                 href="javascript:void(0);"
                 @click="loadList">
                   <icon :icon="['fas', 'sync-alt']" />
@@ -47,7 +47,7 @@
           </ul>
         </div>
       </div>
-      <div 
+      <div
         v-else
         class="col">
         <loading />

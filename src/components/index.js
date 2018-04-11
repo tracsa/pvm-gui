@@ -3,7 +3,7 @@ import Vue from 'vue';
 
 import Timeline from '@/components/Timeline';
 import TimelineAction from '@/components/TimelineAction';
-import Tasks from '@/components/Tasks'
+import Tasks from '@/components/Tasks';
 import Task from '@/components/Task';
 import Activity from './Activity';
 import DatetimeInput from './DatetimeInput';

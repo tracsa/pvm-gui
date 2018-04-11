@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="show" 
+    v-if="show"
     class="card-body card-message">
     <div class="icon">
       <icon :icon="['fas',  `${icon}`]" />
@@ -15,9 +15,9 @@
 </template>
 
 <script>
-  export default {
-    props: ['show', 'icon', 'title', 'desc'],
-  };
+export default {
+  props: ['show', 'icon', 'title', 'desc'],
+};
 </script>
 
 <style lang="scss" scoped>
