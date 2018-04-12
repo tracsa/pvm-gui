@@ -18,6 +18,11 @@
             </div>
             {{ $t('tasks.my_tasks') }}
           </div>
+          <div
+            v-for="error in errors"
+            class="alert custom-alert-danger">
+            {{ $t('error.code') }}
+          </div>
           <message-info
             :show="!tasks.length"
             icon="inbox"
@@ -52,7 +57,6 @@
         class="col">
         <loading />
       </div>
-
       <div v-if="selectedId" class="col-12 col-md-8">
         <task :taskId="selectedId" />
       </div>
@@ -70,6 +74,7 @@ export default {
       tasks: [],
       timeline: [],
       loading: true,
+      errors: [],
     };
   },
   mounted() {
@@ -88,7 +93,8 @@ export default {
         .catch((errors) => {
           self.loading = false;
           // Alert about this
-          console.error(errors);
+          this.errors = errors;
+          console.error(this.errors, "Errors");
         });
     },
   },

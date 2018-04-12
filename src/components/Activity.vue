@@ -35,6 +35,11 @@ export default {
       errors: [],
     };
   },
+  watch: {
+    model() {
+      this.errors = [];
+    },
+  },
   methods: {
     submit: function submit(formInstance) {
       const postData = {
@@ -48,6 +53,7 @@ export default {
         })
         .catch((errors) => {
           this.errors = errors;
+          console.error(errors);
         });
     },
   },
