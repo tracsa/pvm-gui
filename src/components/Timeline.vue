@@ -9,8 +9,6 @@
 </template>
 
 <script>
-import { get } from '@/utils/api';
-
 export default {
   props: ['actions'],
   computed: {
@@ -20,7 +18,7 @@ export default {
       }
 
       return this.actions[0];
-    }
+    },
   },
 };
 </script>

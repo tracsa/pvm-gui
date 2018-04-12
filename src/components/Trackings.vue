@@ -17,7 +17,7 @@
             {{ $t('trackings.trackings') }}
           </div>
           <message-info
-            :show="!trackings.length" 
+            :show="!trackings.length"
             icon="inbox"
             title="info.aboutTrackings"
             desc="info.aboutTrackingsMore"
@@ -46,7 +46,7 @@
           </ul>
         </div>
       </div>
-      <div 
+      <div
         v-else
         class="col">
         <loading />
@@ -140,7 +140,7 @@ export default {
       color: $gray-700;
       font-weight: lighter;
     }
-  }  
+  }
 
 }
 

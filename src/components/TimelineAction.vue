@@ -14,10 +14,12 @@
     </div>
     <div class="card-body">
       <div
-        v-for="actor in action.actors">
+        v-for="actor in action.actors"
+        :key="actor.user.identifier">
         <div v-if="actor">
           <p>
-            <b>{{ actor.user.human_name || actor.user.identifier }}</b> llenó la siguiente información
+            <b>{{ actor.user.human_name || actor.user.identifier }}</b>
+            llenó la siguiente información
           </p>
           <div v-for="form in actor.forms" :key="form.ref">
             <small>#{{ form.ref }}</small>
@@ -29,7 +31,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="input in form.form">
+                <tr
+                  v-for="input in form.form"
+                  :key="input.name">
                   <td scope="row">{{ input.label }}</td>
                   <td v-if="input.type === 'file'">
                     <a
@@ -76,7 +80,7 @@ export default {
       const { protocol, host, port } = settings.doqer;
       const { value } = input;
 
-      return `${protocol}://${host}:${port}/api/documents/${input.value.id}`;
+      return `${protocol}://${host}:${port}/api/documents/${value.id}`;
     },
     formInput: function formInput(data) {
       let value;
@@ -84,12 +88,15 @@ export default {
         case 'select':
         case 'radio':
           value = data.options
-            .filter(option => option.value == data.value)
+            .filter(option => option.value === data.value)
             .map(option => option.label)
             .join('');
           break;
         case 'checkbox':
-          const mapping = data.options.reduce((map, option) => map.set(option.value, option.label), new Map());
+          const mapping = data.options.reduce(
+            (map, option) => map.set(option.value, option.label),
+            new Map()
+          );
           value = data.value.map(val => mapping.get(val)).join(', ');
           break;
         case 'date':
@@ -99,7 +106,7 @@ export default {
           value = moment(data.value).format('DD/HH/YYYY HH:mm');
           break;
         default:
-          value = data.value
+          value = data.value;
           break;
       }
 
@@ -109,7 +116,7 @@ export default {
       const oldData = data;
       let newDate = new Date(data);
 
-      if(from === 'From now') {
+      if (from === 'From now') {
         newDate = moment(newDate).fromNow();
       } else if (from === 'Complete') {
         newDate = moment(newDate).format('MMMM Do YYYY, h:mm:ss a');
@@ -117,12 +124,15 @@ export default {
         newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
       }
 
-      if(newDate !== 'Invalid date') {
-        return newDate;
+      let output = null;
+      if (newDate !== 'Invalid date') {
+        output = newDate;
       } else {
-        return oldData;
+        output = oldData;
       }
+
+      return output;
     },
   },
-}
+};
 </script>
