@@ -53,6 +53,7 @@ export default {
         })
         .catch((errors) => {
           this.errors = errors;
+          console.error(errors);
         });
     },
   },

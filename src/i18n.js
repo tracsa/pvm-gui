@@ -60,7 +60,12 @@ const messages = {
           form_array: {
             0: {
               identity_card: 'Los datos enviados no son válidos.',
-              reason: 'No logramos procesar tu solicitud, debes enviar datos con un formato correcto.',
+              reason: 'No logramos procesar tu solicitud ya que el formato enviado ha sido rechazado.',
+              auth: 'Debes seleccionar alguna opción.',
+              continue: 'Debes seleccionar una tarea.',
+              datetime: 'Ocurrió una problema con fecha.',
+              secret: 'Ocurrió un detalle con un secreto.',
+              elections: '',
             },
           },
         },

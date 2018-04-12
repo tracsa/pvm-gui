@@ -57,7 +57,6 @@
         class="col">
         <loading />
       </div>
-
       <div v-if="selectedId" class="col-12 col-md-8">
         <task :taskId="selectedId" />
       </div>
