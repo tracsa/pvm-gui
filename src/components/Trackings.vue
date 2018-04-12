@@ -76,17 +76,14 @@ export default {
   },
   methods: {
     loadList: function loadList() {
-      const self = this;
-
       this.loading = true;
       get('/activity')
         .then((body) => {
-          self.loading = false;
-          self.trackings = body.data;
-          console.log(body.data);
+          this.loading = false;
+          this.trackings = body.data;
         })
         .catch((errors) => {
-          self.loading = false;
+          this.loading = false;
           // Alert about this
           console.error(errors);
         });

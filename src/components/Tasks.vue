@@ -84,7 +84,6 @@ export default {
         .then((body) => {
           self.loading = false;
           self.tasks = body.data;
-          console.log(self.tasks.length);
         })
         .catch((errors) => {
           self.loading = false;
