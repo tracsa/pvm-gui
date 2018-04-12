@@ -35,6 +35,11 @@ export default {
       errors: [],
     };
   },
+  watch: {
+    model() {
+      this.errors = [];
+    },
+  },
   methods: {
     submit: function submit(formInstance) {
       const postData = {
