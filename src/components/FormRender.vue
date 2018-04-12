@@ -114,9 +114,9 @@ export default {
     this.clearForm();
   },
   watch: {
-    form: function() {
+    forms() {
       this.clearForm();
-    }
+    },
   },
   computed: {
     isValid: function isValid() {

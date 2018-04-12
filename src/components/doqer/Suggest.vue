@@ -17,7 +17,7 @@ export default {
     };
   },
   watch: {
-    query: function queryWatcher() {
+    query() {
       this.suggestFiles();
     },
   },

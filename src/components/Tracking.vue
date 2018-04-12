@@ -38,7 +38,7 @@ export default {
     this.loadData(this.id);
   },
   watch: {
-    id: (newId) => {
+    id(newId) {
       this.loadData(newId);
     },
   },
