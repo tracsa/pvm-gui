@@ -43,7 +43,11 @@
               id="validatedCustomFile"
               @change="uploadFile($event)"
             />
-            <label class="custom-file-label" for="validatedCustomFile">Nuevo documento</label>
+            <label 
+              class="custom-file-label" 
+              for="validatedCustomFile">
+              {{ $t('doquer.new_file') }}
+            </label>
           </div>
         </div>
       </div>
@@ -74,14 +78,14 @@ export default {
     open() {
       let open = false;
       switch (this.action) {
-        case '':
-          open = false;
-          break;
         case 'suggest':
           open = this.focused;
           break;
         case 'create':
           open = true;
+          break;
+        default:
+          open = false;
           break;
       }
 

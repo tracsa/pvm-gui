@@ -14,37 +14,54 @@
     </div>
     <div class="card-body">
       <div
-        v-for="actor in action.actors">
+        v-for="actor in action.actors"
+        :key="actor.user.identifier">
         <div v-if="actor">
           <p>
-            <b>{{ actor.user.human_name || actor.user.identifier }}</b> llenó la siguiente información
+            <b>{{ actor.user.human_name || actor.user.identifier }}</b>
+            llenó la siguiente información
           </p>
-          <div v-for="form in actor.forms" :key="form.ref">
-            <small>#{{ form.ref }}</small>
-            <table class="table table-sm table-bordered">
-              <thead>
-                <tr>
-                  <th>Campo</th>
-                  <th>Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="input in form.form">
-                  <td scope="row">{{ input.label }}</td>
-                  <td v-if="input.type === 'file'">
-                    <a
-                      target="_blank"
-                      :href="input | toURI">
-                      <icon :icon="['fa', 'file']" />
-                      {{ input.value.name }}
-                    </a>
-                  </td>
-                  <td v-else>{{ input | formInput }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table class="table table-sm table-bordered">
+            <tbody
+              v-for="(form, key) in actor.forms"
+              :key="key">
+              <tr class="form-group">
+                <td
+                  :title="`#${form.ref}`"
+                  :rowspan="form.form.length + 1">
+                </td>
+              </tr>
+              <tr
+                v-for="input in form.form"
+                :key="input.name">
+                <td scope="row">{{ input.label }}</td>
+                <td v-if="input.type === 'file'">
+                  <a
+                    target="_blank"
+                    :href="input | toURI">
+                    <icon :icon="['fa', 'file']" />
+                    {{ input.value.name }}
+                  </a>
+                </td>
+                <td v-else>{{ input | formInput }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </div>
+    </div>
+  </div>
+  <div v-else-if="action.notified_users && action.notified_users.length">
+    <div class="alert custom-alert-warning" style="margin-left: 30px">
+      <div>{{ action.node.name }}</div>
+      <div>
+        <small>Asignado a</small>
+        <small
+          style="font-weight: bold;"
+          v-for="user in action.notified_users"
+          :key="user.id">
+          {{ user.identifier }}&nbsp;
+        </small>
       </div>
     </div>
   </div>
@@ -62,7 +79,7 @@ export default {
       const { protocol, host, port } = settings.doqer;
       const { value } = input;
 
-      return `${protocol}://${host}:${port}/api/documents/${input.value.id}`;
+      return `${protocol}://${host}:${port}/api/documents/${value.id}`;
     },
     formInput: function formInput(data) {
       let value;
@@ -70,19 +87,25 @@ export default {
         case 'select':
         case 'radio':
           value = data.options
-            .filter(option => option.value == data.value)
+            .filter(option => option.value === data.value)
             .map(option => option.label)
             .join('');
           break;
         case 'checkbox':
-          const mapping = data.options.reduce((map, option) => map.set(option.value, option.label), new Map());
+          const mapping = data.options.reduce(
+            (map, option) => map.set(option.value, option.label),
+            new Map()
+          );
           value = data.value.map(val => mapping.get(val)).join(', ');
+          break;
+        case 'date':
+          value = moment(data.value).format('DD/HH/YYYY');
           break;
         case 'datetime':
           value = moment(data.value).format('DD/HH/YYYY HH:mm');
           break;
         default:
-          value = data.value
+          value = data.value;
           break;
       }
 
@@ -92,7 +115,7 @@ export default {
       const oldData = data;
       let newDate = new Date(data);
 
-      if(from === 'From now') {
+      if (from === 'From now') {
         newDate = moment(newDate).fromNow();
       } else if (from === 'Complete') {
         newDate = moment(newDate).format('MMMM Do YYYY, h:mm:ss a');
@@ -100,12 +123,24 @@ export default {
         newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
       }
 
-      if(newDate !== 'Invalid date') {
-        return newDate;
+      let output = null;
+      if (newDate !== 'Invalid date') {
+        output = newDate;
       } else {
-        return oldData;
+        output = oldData;
       }
+
+      return output;
     },
   },
-}
+};
 </script>
+<style lang="scss" scoped>
+
+table {
+  td {
+    word-break: break-all;
+  }
+}
+
+</style>

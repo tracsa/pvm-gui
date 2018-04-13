@@ -3,11 +3,17 @@
     class="full-columns"
     :class="containerClass">
     <div class="row">
-      <div 
+      <div
+        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
           <div class="card-header">
+            <div style="float:right;">
+              <a href="javascript:void(0);" @click="loadList">
+                <icon :icon="['fas', 'sync-alt']" />
+              </a>
+            </div>
             {{ $t('processes.processes')}}
           </div>
           <ul class="activity-list">
@@ -31,6 +37,12 @@
           </ul>
         </div>
       </div>
+      <div
+        v-else
+        class="col">
+        <loading />
+      </div>
+
 
       <div v-if="selected" class="col-12 col-md-8">
         <activity :model="selected" />
@@ -51,18 +63,25 @@ export default {
     };
   },
   mounted() {
-    const self = this;
+    this.loadList();
+  },
+  methods: {
+    loadList: function loadList() {
+      const self = this;
 
-    get('/process')
-      .then((body) => {
-        self.loading = false;
-        self.processes = body.data;
-      })
-      .catch((errors) => {
-        self.loading = false;
-        // Alert about this
-        console.error(errors);
-      });
+      this.loading = true;
+      get('/process')
+        .then((body) => {
+          self.loading = false;
+          self.processes = body.data;
+        })
+        .catch((errors) => {
+          self.loading = false;
+          // Alert about this
+          this.errors = errors;
+          console.error(errors);
+        });
+    },
   },
   computed: {
     selectedId: function selectedId() {

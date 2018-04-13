@@ -9,7 +9,7 @@
               :to="{ path: '/task' }">
               {{ $t('header.tasks') }}
             </router-link>
-          </li>          
+          </li>
           <li class="nav-item">
             <router-link
               class="nav-link"
@@ -61,13 +61,13 @@
         </router-link>
       </div>
       <div class="col">
-        <router-link 
+        <router-link
           :to="{ path: '/' }">
             {{ $t('header.processes') }}
         </router-link>
       </div>
       <div class="col">
-        <router-link 
+        <router-link
           :to="{ path: '/tracking' }">
             {{ $t('header.trackings') }}
         </router-link>
@@ -92,8 +92,10 @@ import { getAuthToken, logout } from '../utils/auth';
 
 export default {
   data() {
+    const identifier = getAuthToken().split(/[:\\]/)[1];
+
     return {
-      username: getAuthToken().split(/[:\\]/)[1] + '@tracsa.com.mx',
+      username: `${identifier}@tracsa.com.mx`,
       menuVisible: false,
     };
   },
@@ -107,7 +109,7 @@ export default {
         this.menuVisible = false;
       }, 200);
     },
-    signOut: function() {
+    signOut: function signOut() {
       logout();
     },
   },

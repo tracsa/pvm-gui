@@ -1,6 +1,6 @@
-# pvm-gui
+# Cascara
 
->  Graphical user interface for PVM & DOQER
+>  Graphical user interface for cacahuate & DOQER
 
 ## Build Setup
 

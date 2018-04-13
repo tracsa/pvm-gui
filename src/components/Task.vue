@@ -3,31 +3,34 @@
     <div class="timeline" v-for="form in task.form_array" :key="form.ref">
       <div class="card timeline-action">
           <div class="card-body">
-          <div class="float-right">
-            <router-link :to="{ path: '/tracking'}">
-              <icon :icon="['fas', 'times']" />
-            </router-link>
-          </div>
-          <div
-            v-for="error in errors"
-            :key="error.code"
-            class="alert custom-alert-danger">
-            {{ $t('error.code') }}
-          </div>
-          <form-render
-            :form="form"
-            @submit= "submit"
-          />
+            <div class="float-right">
+              <router-link :to="{ path: '/tracking'}">
+                <icon :icon="['fas', 'times']" />
+              </router-link>
+            </div>
+            <div
+              v-for="error in errors"
+              :key="error.code"
+              class="alert custom-alert-danger">
+              {{ $t('error.code') }}
+            </div>
+            <form-render
+              :form="form"
+              @submit= "submit"
+            />
         </div>
       </div>
     </div>
 
     <timeline v-if="actions.length > 0" :actions="actions" />
   </div>
+  <div v-else>
+    <loading />
+  </div>
+
 </template>
 
 <script>
-import moment from 'moment';
 import { get, post } from '@/utils/api';
 
 export default {
@@ -41,17 +44,15 @@ export default {
     };
   },
   mounted() {
-    console.log(this.taskId)
     this.loadData(this.taskId);
   },
   watch: {
-    model(newValue, prevValue) {
+    taskId(newValue) {
       this.loadData(newValue);
     },
   },
   methods: {
     loadData: function loadData(id) {
-
       get(`/task/${id}`)
         .then((body) => {
           this.task = body.data;
@@ -64,15 +65,15 @@ export default {
         })
         .catch((errors) => {
           this.loading = false;
+          this.errors = errors;
           console.error(errors);
         });
-
     },
-    submit: function submit(formInstance) {
+    submit: function submit(formArray) {
       const postData = {
         execution_id: this.task.execution.id,
         node_id: this.task.node_id,
-        form_array: [formInstance],
+        form_array: formArray,
       };
 
       post('/pointer', postData, 'application/json')

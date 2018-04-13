@@ -4,25 +4,25 @@
     :class="containerClass">
     <div class="row">
       <div
+        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
           <div class="card-header">
+            <div style="float:right;">
+              <a href="javascript:void(0);" @click="loadList">
+                <icon :icon="['fas', 'sync-alt']" />
+              </a>
+            </div>
             {{ $t('trackings.trackings') }}
           </div>
-          <div
-            v-if="!trackings.length && !loading" 
-            class="card-body card-message">
-            <div class="icon">
-              <icon :icon="['fas', 'inbox']" />
-            </div>
-            <span>
-              {{ $t('info.aboutTrackings') }}
-            </span>
-            <small>
-              {{ $t('info.aboutTrackingsMore') }}
-            </small>
-          </div>
+          <message-info
+            :show="!trackings.length"
+            icon="inbox"
+            title="info.aboutTrackings"
+            desc="info.aboutTrackingsMore"
+          />
+
           <ul
             v-if="trackings.length"
             class="activity-list">
@@ -46,6 +46,11 @@
           </ul>
         </div>
       </div>
+      <div
+        v-else
+        class="col d-none d-md-block">
+        <loading />
+      </div>
 
       <div v-if="selectedId" class="col-12 col-md-8">
         <tracking :id="selectedId" />
@@ -67,19 +72,22 @@ export default {
     };
   },
   mounted() {
-    const self = this;
-
-    get('/activity')
-      .then((body) => {
-        self.loading = false;
-        self.trackings = body.data;
-        console.log(body.data);
-      })
-      .catch((errors) => {
-        self.loading = false;
-        // Alert about this
-        console.error(errors);
-      });
+    this.loadList();
+  },
+  methods: {
+    loadList: function loadList() {
+      this.loading = true;
+      get('/activity')
+        .then((body) => {
+          this.loading = false;
+          this.trackings = body.data;
+        })
+        .catch((errors) => {
+          this.loading = false;
+          // Alert about this
+          console.error(errors);
+        });
+    },
   },
   computed: {
     selectedId: function selectedId() {
@@ -129,7 +137,7 @@ export default {
       color: $gray-700;
       font-weight: lighter;
     }
-  }  
+  }
 
 }
 

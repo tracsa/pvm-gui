@@ -2,7 +2,9 @@
   <div class="p-3">
     <form @submit="submit($event)">
       <div class="form-group">
-        <label for="file-name">Name</label>
+        <label for="file-name">
+          {{ $t('commons.name') }}
+        </label>
         <input
           id="file-name"
           type="text"
@@ -18,13 +20,34 @@
           <div><small>{{ size | bytes }}</small></div>
         </div>
       </div>
-
+      <div class="container-progress-bar">
+        <div class="progress">
+        <span>
+          {{ $t('commons.uploading') }}
+        </span>
+        <div 
+          class="progress-bar bg-info"
+          role="progressbar"
+          :style="{width: uploading + '%' }">
+          </div>
+        </div>
+      </div>
       <div class="form-group">
-        <button class="btn btn-info">Subir</button>
+        <button
+          v-if="!uploading"
+          class="btn btn-info">
+          {{ $t('commons.upload') }}
+        </button>
+        <button
+          v-else
+          disabled="disabled"
+          class="btn btn-info">
+          {{ $t('commons.uploading') }}
+        </button>
         <button
           class="btn btn-link"
           @click="cancel">
-          Cancelar
+          {{ $t('commons.cancel') }}
         </button>
       </div>
     </form>
@@ -41,6 +64,7 @@ export default {
       name: '',
       extension: '',
       size: '',
+      uploading: false,
     };
   },
   mounted() {
@@ -62,6 +86,7 @@ export default {
     },
     submit: function submit(event) {
       event.preventDefault();
+      this.uploading = true;
 
       const { file } = this;
 
@@ -85,12 +110,16 @@ export default {
       if (event.lengthComputable) {
         this.loaded = event.loaded;
         this.total = event.total;
+        this.uploading = (this.loaded / this.total) * 100;
+        console.log(this.loaded, this.total);
+        console.log(this.uploading);
       }
     },
 
     onUploadComplete: function onUploadComplete(event) {
       const xhr = event.target;
       const res = JSON.parse(xhr.response);
+      this.uploading = false;
 
       if (res && res.data && res.data.id) {
         this.$emit('uploaded', res.data);
@@ -131,3 +160,24 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '../../styles/variables.scss';
+
+.container-progress-bar {
+  position: relative;
+  padding-bottom: 20px;
+
+  .progress {
+    height: 25px;
+
+    span {
+    position: absolute;
+    left: calc(50% - 40px);
+    padding: 3px;
+    color: #443c3c;
+    font-weight: bold;
+    }
+  }
+}
+
+</style>

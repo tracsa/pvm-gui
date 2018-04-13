@@ -10,11 +10,16 @@
           <icon :icon="['fas', 'times']" />
         </router-link>
       </div>
-        
+
       </div>
     </div>
 
     <timeline v-if="!loading" :actions="actions" />
+    <div
+      v-else
+    >
+      <loading />
+    </div>
   </div>
 </template>
 
@@ -33,7 +38,7 @@ export default {
     this.loadData(this.id);
   },
   watch: {
-    id: function (newId) {
+    id(newId) {
       this.loadData(newId);
     },
   },
@@ -44,7 +49,7 @@ export default {
       }
 
       return this.actions[0];
-    }
+    },
   },
   methods: {
     loadData: function loadData(id) {
@@ -53,10 +58,10 @@ export default {
           this.loading = false;
           this.actions = body.data;
         })
-        .catch((errors) => {
+        .catch(() => {
           this.loading = false;
         });
-    }
+    },
   },
 };
 </script>

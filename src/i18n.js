@@ -16,8 +16,8 @@ const messages = {
     info: {
       aboutTasks: 'Aquí aparecerán tus tareas asignadas',
       aboutTasksMore: 'Actualmente no tienes ninguna tarea asignada.',
-      aboutTrackings: 'Aquí aparecerán los procesos en los que estés involucrado.',
-      aboutTrackingsMore: 'Actualmente no has estado involucrado en alguno.',
+      aboutTrackings: 'Aquí aparecerán los procesos en los que estés involucrado',
+      aboutTrackingsMore: 'Actualmente no estás involucrado en alguno.',
     },
     request: {
       authorization: 'Ssadf',
@@ -38,24 +38,53 @@ const messages = {
     trackings: {
       trackings: 'Seguimiento',
     },
-    timeline:{
+    timeline: {
       by: 'Por:',
       reason: 'Motivo:',
       date: 'Fecha:',
     },
     tasks: {
-      my_tasks: "Mis tareas",
+      my_tasks: 'Mis tareas',
+    },
+    doquer: { 
+      new_file: 'Nuevo documento',
     },
     commons: {
       required: 'Requerido',
       send: 'Enviar',
       cancel: 'Cancelar',
+      loading: 'Cargando...',
+      sending: 'Enviando...',
+      upload: 'Subir',
+      uploading: 'Subiendo...',
+      name: 'Nombre',
     },
     errors: {
+      validation: {
+        required: 'Algún campo requerido está vacio, porfavor de llenar.',
+        invalid_date: 'Alguna fecha es inválida, por favor verifiquela.',
+        required_list: 'El campo debería ser una lista.',
+      },
       request: {
         authorization: 'Lo sentimos, tus credenciales son inválidas.',
-      }
-    }
+        body: {
+          form_array: {
+            0: {
+              identity_card: 'Los datos enviados no son válidos.',
+              reason: 'No logramos procesar tu solicitud ya que el formato enviado fue rechazado.',
+              auth: 'Debes seleccionar alguna opción.',
+              continue: 'Debes seleccionar una tarea.',
+              name: 'Ocurrio un error con el campo nombre.',
+              datetime: 'Ocurrió una problema con fecha.',
+              secret: 'Debes rellenar el campo "secreto".',
+              departure: 'Ocurrió un problema con la fecha de salida.',
+              arrival: 'Ocurrió un problema con la fecha de llegada.',
+              elections: 'Ocurrió un error respecto a las opciones.',
+            },
+          },
+        },
+      },
+    },
   },
   en: {
     header: {
@@ -71,7 +100,7 @@ const messages = {
       aboutTasksMore: 'You do not have assigned tasks yet.',
       aboutTrackings: 'Aquí aparecerán tus tareas asignadas',
       aboutTrackingsMore: 'Actualmente no tienes ninguna tarea asignada.',
-    },    
+    },
     signin: {
       title: 'SignIn',
       description: 'Sign in to start your session',
@@ -88,18 +117,26 @@ const messages = {
     trackings: {
       trackings: 'Seguimiento',
     },
-    timeline:{
+    timeline: {
       by: 'By:',
       reason: 'Motivo:',
       date: 'Fecha:',
     },
     tasks: {
-      my_tasks: "My tasks",
+      my_tasks: 'My tasks',
+    },
+    doquer: { 
+      new_file: 'Nuevo documento',
     },
     commons: {
       required: 'Required',
       send: 'Send',
       cancel: 'Cancel',
+      loading: 'Loading...',
+      sending: 'Sending...',
+      upload: 'Upload', 
+      uploading: 'Uploading...',
+      name: 'Nombre',
     },
   },
 };
