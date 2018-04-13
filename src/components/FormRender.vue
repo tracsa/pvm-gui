@@ -15,7 +15,8 @@
     <div>
       <button
         v-if="!sending"
-        class="btn btn-primary">
+        class="btn btn-primary"
+        :disabled="!isValid">
         {{ $t('commons.send') }}
       </button>
 
@@ -51,6 +52,39 @@ export default {
     forms() {
       this.instances = this.defaultFormsValue(this.forms);
       this.sending = false;
+    },
+  },
+  computed: {
+    isValid: function isValid() {
+      return this.forms
+        .map((form) => {
+          const { ref, inputs } = form;
+          const instances = this.instances[ref] || [];
+
+          return instances
+            .map(instance => {
+              return inputs
+                .map((input) => {
+                  const value = instance[input.name];
+
+                  if (input.required && !value) {
+                    return false;
+                  }
+
+                  if (input.regex) {
+                    const regex = new RegExp(input.regex);
+                    if (!regex.test(value)) {
+                      return false;
+                    }
+                  }
+
+                  return true;
+                })
+                .reduce((ans, bool) => ans && bool, true);
+            })
+            .reduce((ans, bool) => ans && bool, true);
+        })
+        .reduce((ans, bool) => ans && bool, true);
     },
   },
   methods: {
