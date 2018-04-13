@@ -20,7 +20,18 @@
           <div><small>{{ size | bytes }}</small></div>
         </div>
       </div>
-
+      <div class="container-progress-bar">
+        <div class="progress">
+        <span>
+          {{ $t('commons.uploading') }}
+        </span>
+        <div 
+          class="progress-bar bg-info"
+          role="progressbar"
+          :style="{width: uploading + '%' }">
+          </div>
+        </div>
+      </div>
       <div class="form-group">
         <button
           v-if="!uploading"
@@ -99,6 +110,9 @@ export default {
       if (event.lengthComputable) {
         this.loaded = event.loaded;
         this.total = event.total;
+        this.uploading = (this.loaded / this.total) * 100;
+        console.log(this.loaded, this.total);
+        console.log(this.uploading);
       }
     },
 
@@ -109,7 +123,7 @@ export default {
 
       if (res && res.data && res.data.id) {
         this.$emit('uploaded', res.data);
-      } else {
+      } else {  
         throw new Error('Unexpected');
       }
     },
@@ -146,3 +160,24 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '../../styles/variables.scss';
+
+.container-progress-bar {
+  position: relative;
+  padding-bottom: 20px;
+
+  .progress {
+    height: 25px;
+
+    span {
+    position: absolute;
+    left: calc(50% - 40px);
+    padding: 3px;
+    color: #443c3c;
+    font-weight: bold;
+    }
+  }
+}
+
+</style>
