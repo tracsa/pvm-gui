@@ -43,7 +43,11 @@
               id="validatedCustomFile"
               @change="uploadFile($event)"
             />
-            <label class="custom-file-label" for="validatedCustomFile">Nuevo documento</label>
+            <label 
+              class="custom-file-label" 
+              for="validatedCustomFile">
+              {{ $t('doquer.new_file') }}
+            </label>
           </div>
         </div>
       </div>

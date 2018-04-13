@@ -46,12 +46,18 @@ const messages = {
     tasks: {
       my_tasks: 'Mis tareas',
     },
+    doquer: { 
+      new_file: 'Nuevo documento',
+    },
     commons: {
       required: 'Requerido',
       send: 'Enviar',
       cancel: 'Cancelar',
       loading: 'Cargando...',
       sending: 'Enviando...',
+      upload: 'Subir',
+      uploading: 'Subiendo...',
+      name: 'Nombre',
     },
     errors: {
       validation: {
@@ -119,12 +125,18 @@ const messages = {
     tasks: {
       my_tasks: 'My tasks',
     },
+    doquer: { 
+      new_file: 'Nuevo documento',
+    },
     commons: {
       required: 'Required',
       send: 'Send',
       cancel: 'Cancel',
       loading: 'Loading...',
       sending: 'Sending...',
+      upload: 'Upload', 
+      uploading: 'Uploading...',
+      name: 'Nombre',
     },
   },
 };

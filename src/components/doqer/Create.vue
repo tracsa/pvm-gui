@@ -2,7 +2,9 @@
   <div class="p-3">
     <form @submit="submit($event)">
       <div class="form-group">
-        <label for="file-name">Name</label>
+        <label for="file-name">
+          {{ $t('commons.name') }}
+        </label>
         <input
           id="file-name"
           type="text"
@@ -20,11 +22,13 @@
       </div>
 
       <div class="form-group">
-        <button class="btn btn-info">Subir</button>
+        <button class="btn btn-info">
+          {{ $t('commons.upload') }}
+        </button>
         <button
           class="btn btn-link"
           @click="cancel">
-          Cancelar
+          {{ $t('commons.cancel') }}
         </button>
       </div>
     </form>
