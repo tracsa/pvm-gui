@@ -4,7 +4,6 @@
     <div
       v-for="form in forms"
       :key="form.ref">
-      <pre>{{ JSON.stringify(instances[form.ref], null, ' ') }}</pre>
       <form-instance
         v-for="instance in instances[form.ref]"
         :class="{ multiple: form.multiple }"
