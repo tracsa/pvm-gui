@@ -92,8 +92,8 @@
         class="btn btn-primary"
         :disabled="true">
         {{ $t('commons.sending') }}
-      </button>      
-  
+      </button>
+
       <router-link :to="{ name: 'processes' }">
         {{ $t('commons.cancel') }}
       </router-link>
