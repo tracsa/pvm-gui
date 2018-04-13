@@ -136,3 +136,12 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+
+table {
+  td {
+    word-break: break-all;
+  }
+}
+
+</style>
