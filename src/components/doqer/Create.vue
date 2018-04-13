@@ -22,8 +22,16 @@
       </div>
 
       <div class="form-group">
-        <button class="btn btn-info">
+        <button
+          v-if="!uploading"
+          class="btn btn-info">
           {{ $t('commons.upload') }}
+        </button>
+        <button
+          v-else
+          disabled="disabled"
+          class="btn btn-info">
+          {{ $t('commons.uploading') }}
         </button>
         <button
           class="btn btn-link"
@@ -45,6 +53,7 @@ export default {
       name: '',
       extension: '',
       size: '',
+      uploading: false,
     };
   },
   mounted() {
@@ -66,6 +75,7 @@ export default {
     },
     submit: function submit(event) {
       event.preventDefault();
+      this.uploading = true;
 
       const { file } = this;
 
@@ -95,6 +105,7 @@ export default {
     onUploadComplete: function onUploadComplete(event) {
       const xhr = event.target;
       const res = JSON.parse(xhr.response);
+      this.uploading = false;
 
       if (res && res.data && res.data.id) {
         this.$emit('uploaded', res.data);
