@@ -16,6 +16,7 @@ import TimeInput from './TimeInput';
 import Tracking from './Tracking';
 import Loading from './Loading';
 import MessageInfo from './MessageInfo';
+import FormInstance from './FormInstance';
 
 // Components
 Vue.component('app-header', Header);
@@ -30,6 +31,7 @@ Vue.component('loading', Loading);
 Vue.component('message-info', MessageInfo);
 
 // From inputs
+Vue.component('form-instance', FormInstance);
 Vue.component('time-input', TimeInput);
 Vue.component('date-input', Datepicker);
 Vue.component('datetime-input', DatetimeInput);

@@ -30,3 +30,15 @@
     overflow: hidden;
   }
 }
+
+tr.form-group {
+  background: $info;
+  color: white;
+  font-weight: bold;
+  font-size: 0.7em;
+
+  td {
+    width: 5px;
+    padding: 0;
+  }
+}

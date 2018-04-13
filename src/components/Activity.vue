@@ -9,18 +9,17 @@
       <span>{{ model.name }}</span>
     </div>
     <div class="card-body">
-      <div v-for="form in model.form_array" :key="form.ref">
-        <div
-          v-for="error in errors"
-          :key="error.where"
-          class="alert custom-alert-danger">
-          {{ $t(`errors.${error.where}`) }}
-        </div>
-        <form-render
-          :form="form"
-          @submit="submit"
-        />
+      <div
+        v-for="error in errors"
+        :key="error.where"
+        class="alert custom-alert-danger">
+        {{ $t(`errors.${error.where}`) }}
       </div>
+
+      <form-render
+        :forms="model.form_array"
+        @submit="submit"
+      />
     </div>
   </div>
 </template>
@@ -41,10 +40,10 @@ export default {
     },
   },
   methods: {
-    submit: function submit(formInstance) {
+    submit: function submit(formArray) {
       const postData = {
         process_name: this.model.id,
-        form_array: [formInstance],
+        form_array: formArray,
       };
 
       post('/execution', postData, 'application/json')

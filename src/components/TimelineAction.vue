@@ -21,33 +21,32 @@
             <b>{{ actor.user.human_name || actor.user.identifier }}</b>
             llenó la siguiente información
           </p>
-          <div v-for="form in actor.forms" :key="form.ref">
-            <small>#{{ form.ref }}</small>
-            <table class="table table-sm table-bordered">
-              <thead>
-                <tr>
-                  <th>Campo</th>
-                  <th>Valor</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="input in form.form"
-                  :key="input.name">
-                  <td scope="row">{{ input.label }}</td>
-                  <td v-if="input.type === 'file'">
-                    <a
-                      target="_blank"
-                      :href="input | toURI">
-                      <icon :icon="['fa', 'file']" />
-                      {{ input.value.name }}
-                    </a>
-                  </td>
-                  <td v-else>{{ input | formInput }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          <table class="table table-sm table-bordered">
+            <tbody
+              v-for="(form, key) in actor.forms"
+              :key="key">
+              <tr class="form-group">
+                <td
+                  :title="`#${form.ref}`"
+                  :rowspan="form.form.length + 1">
+                </td>
+              </tr>
+              <tr
+                v-for="input in form.form"
+                :key="input.name">
+                <td scope="row">{{ input.label }}</td>
+                <td v-if="input.type === 'file'">
+                  <a
+                    target="_blank"
+                    :href="input | toURI">
+                    <icon :icon="['fa', 'file']" />
+                    {{ input.value.name }}
+                  </a>
+                </td>
+                <td v-else>{{ input | formInput }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
