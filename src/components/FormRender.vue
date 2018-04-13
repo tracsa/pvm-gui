@@ -5,7 +5,8 @@
       v-for="form in forms"
       :key="form.ref">
       <form-instance
-        v-for="instance in instances[form.ref]"
+        v-for="(instance, key) in instances[form.ref]"
+        :key="key"
         :class="{ multiple: form.multiple }"
         :schema="form"
         :data="instance"
@@ -52,49 +53,45 @@ export default {
   },
   mounted() {
     this.instances = this.defaultFormsValue(this.forms);
-    this.sending = false;
   },
   watch: {
     forms() {
-      this.instances = this.defaultFormsValue(this.forms);
       this.sending = false;
+      this.instances = this.defaultFormsValue(this.forms);
     },
   },
   computed: {
     isValid: function isValid() {
-      return this.forms
-        .map((form) => {
-          const { ref, inputs } = form;
-          const instances = this.instances[ref] || [];
+      for (let i = 0; i < this.forms.length; i += 1) {
+        const { ref, inputs } = this.forms[i];
+        if (this.instances[ref] !== undefined) {
+          const instances = this.instances[ref];
 
-          return instances
-            .map(instance => {
-              return inputs
-                .map((input) => {
-                  const value = instance[input.name];
+          for (let j = 0; j < instances.length; j += 1) {
+            for (let k = 0; k < inputs.length; k += 1) {
+              const input = inputs[k];
+              const value = instances[j][input.name];
 
-                  if (input.required && !value) {
-                    return false;
-                  }
+              if (input.required && !value) {
+                return false;
+              }
 
-                  if (input.regex) {
-                    const regex = new RegExp(input.regex);
-                    if (!regex.test(value)) {
-                      return false;
-                    }
-                  }
+              if (input.regex) {
+                const regex = new RegExp(input.regex);
+                if (!regex.test(value)) {
+                  return false;
+                }
+              }
+            }
+          }
+        }
+      }
 
-                  return true;
-                })
-                .reduce((ans, bool) => ans && bool, true);
-            })
-            .reduce((ans, bool) => ans && bool, true);
-        })
-        .reduce((ans, bool) => ans && bool, true);
+      return true;
     },
   },
   methods: {
-    defaultInputValue: function (input) {
+    defaultInputValue(input) {
       let defaultValue;
       switch (input.type) {
         case 'checkbox':
@@ -116,37 +113,40 @@ export default {
 
       return defaultValue;
     },
-    defaultFormValue: function (form) {
-      return form.inputs
-        .map(input => [input.name, this.defaultInputValue(input)])
-        .reduce((obj, row) => {
-          obj[row[0]] = row[1];
-          return obj;
-        }, {});
+    defaultFormValue(form) {
+      const formData = {};
+      form.inputs
+        .forEach((input) => {
+          formData[input.name] = this.defaultInputValue(input);
+        });
+
+      return formData;
     },
-    defaultFormsValue: function (forms) {
-      return forms.reduce((instances, form) => {
+    defaultFormsValue(forms) {
+      const instances = {};
+
+      forms.forEach((form) => {
         instances[form.ref] = [
           this.defaultFormValue(form),
         ];
+      });
 
-        return instances;
-      }, {});
+      return instances;
     },
-    appendForm: function (form) {
+    appendForm(form) {
       const instance = this.defaultFormValue(form);
 
       if (this.instances[form.ref] !== undefined) {
         this.instances[form.ref].push(instance);
       }
     },
-    submit: function submit(event) {
+    submit(event) {
       event.preventDefault();
       this.sending = true;
 
       const formArray = [];
-      for (let ref in this.instances) {
-        this.instances[ref].forEach(instance => {
+      Object.keys(this.instances).forEach((ref) => {
+        this.instances[ref].forEach((instance) => {
           const data = Object.assign({}, instance);
           const form = {
             ref,
@@ -155,7 +155,7 @@ export default {
 
           formArray.push(form);
         });
-      }
+      });
 
       this.$emit('submit', formArray);
     },

@@ -84,5 +84,5 @@
 <script>
 export default {
   props: ['schema', 'data'],
-}
+};
 </script>
