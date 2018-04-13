@@ -21,7 +21,7 @@
           <div
             v-for="error in errors"
             class="alert custom-alert-danger">
-            {{ $t('error.code') }}
+            {{ $t(`errors.${error.where}`) }}
           </div>
           <message-info
             :show="!tasks.length"
@@ -94,7 +94,7 @@ export default {
           self.loading = false;
           // Alert about this
           this.errors = errors;
-          console.error(this.errors, "Errors");
+          console.error(this.errors);
         });
     },
   },

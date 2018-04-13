@@ -54,18 +54,26 @@ const messages = {
       sending: 'Enviando...',
     },
     errors: {
+      validation: {
+        required: 'Algún campo requerido está vacio, porfavor de llenar.',
+        invalid_date: 'Alguna fecha es inválida, por favor verifiquela.',
+        required_list: 'El campo debería ser una lista.',
+      },
       request: {
         authorization: 'Lo sentimos, tus credenciales son inválidas.',
         body: {
           form_array: {
             0: {
               identity_card: 'Los datos enviados no son válidos.',
-              reason: 'No logramos procesar tu solicitud ya que el formato enviado ha sido rechazado.',
+              reason: 'No logramos procesar tu solicitud ya que el formato enviado fue rechazado.',
               auth: 'Debes seleccionar alguna opción.',
               continue: 'Debes seleccionar una tarea.',
+              name: 'Ocurrio un error con el campo nombre.',
               datetime: 'Ocurrió una problema con fecha.',
-              secret: 'Ocurrió un detalle con un secreto.',
-              elections: '',
+              secret: 'Debes rellenar el campo "secreto".',
+              departure: 'Ocurrió un problema con la fecha de salida.',
+              arrival: 'Ocurrió un problema con la fecha de llegada.',
+              elections: 'Ocurrió un error respecto a las opciones.',
             },
           },
         },
