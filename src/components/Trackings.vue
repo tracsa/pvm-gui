@@ -48,7 +48,7 @@
       </div>
       <div
         v-else
-        class="col">
+        class="col d-none d-md-block">
         <loading />
       </div>
 

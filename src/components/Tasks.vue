@@ -54,7 +54,7 @@
       </div>
       <div
         v-else
-        class="col">
+        class="col d-none d-md-block">
         <loading />
       </div>
       <div v-if="selectedId" class="col-12 col-md-8">

@@ -123,7 +123,7 @@ export default {
 
       if (res && res.data && res.data.id) {
         this.$emit('uploaded', res.data);
-      } else {  
+      } else {
         throw new Error('Unexpected');
       }
     },
