@@ -68,11 +68,11 @@ export default {
           console.error(errors);
         });
     },
-    submit: function submit(formInstance) {
+    submit: function submit(formArray) {
       const postData = {
         execution_id: this.task.execution.id,
         node_id: this.task.node_id,
-        form_array: [formInstance],
+        form_array: formArray,
       };
 
       post('/pointer', postData, 'application/json')
