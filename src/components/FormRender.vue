@@ -7,9 +7,16 @@
       <pre>{{ JSON.stringify(instances[form.ref], null, ' ') }}</pre>
       <form-instance
         v-for="instance in instances[form.ref]"
+        :class="{ multiple: form.multiple }"
         :schema="form"
         :data="instance"
       />
+      <div
+        v-if="form.multiple"
+        class="duplicator"
+        @click="appendForm(form)">
+        <icon :icon="['far', 'copy']" /> Agregar
+      </div>
     </div>
 
     <div>
@@ -127,6 +134,13 @@ export default {
         return instances;
       }, {});
     },
+    appendForm: function (form) {
+      const instance = this.defaultFormValue(form);
+
+      if (this.instances[form.ref] !== undefined) {
+        this.instances[form.ref].push(instance);
+      }
+    },
     submit: function submit(event) {
       event.preventDefault();
       this.sending = true;
@@ -149,3 +163,26 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+@import '../styles/variables.scss';
+
+.multiple {
+  border-left: 3px solid $info;
+  padding: 0 0 1em 1em;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+}
+
+.duplicator {
+  cursor: pointer;
+  background: $info;
+  color: white;
+  padding: 4px 10px;
+  font-size: .9em;
+  margin-bottom: 1em;
+  display: inline-block;
+}
+</style>
