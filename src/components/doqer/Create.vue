@@ -13,14 +13,18 @@
         />
       </div>
 
-      <div class="document mb-3">
+      <div 
+        v-if="!loading"
+        class="document mb-3">
         <img src="../../assets/document.png" alt="" />
         <div style="display:inline-block">
           <div>{{ name }}.{{ extension }}</div>
           <div><small>{{ size | bytes }}</small></div>
         </div>
       </div>
-      <div class="container-progress-bar">
+      <div 
+        v-else
+        class="container-progress-bar">
         <div class="progress">
         <span>
           {{ $t('commons.uploading') }}
