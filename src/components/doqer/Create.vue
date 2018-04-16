@@ -14,7 +14,7 @@
       </div>
 
       <div 
-        v-if="!loading"
+        v-if="!uploading"
         class="document mb-3">
         <img src="../../assets/document.png" alt="" />
         <div style="display:inline-block">
@@ -178,8 +178,9 @@ export default {
     position: absolute;
     left: calc(50% - 40px);
     padding: 3px;
-    color: #443c3c;
+    color: $white;
     font-weight: bold;
+    text-shadow: 0px 0px 6px rgba(150, 150, 150, 1);
     }
   }
 }

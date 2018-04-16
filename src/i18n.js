@@ -64,6 +64,7 @@ const messages = {
         required: 'Algún campo requerido está vacio, porfavor de llenar.',
         invalid_date: 'Alguna fecha es inválida, por favor verifiquela.',
         required_list: 'El campo debería ser una lista.',
+        uploading_document: 'Ocurrió un error con el archivo.',
       },
       request: {
         authorization: 'Lo sentimos, tus credenciales son inválidas.',
