@@ -12,15 +12,23 @@
           class="form-control"
         />
       </div>
-
-      <div class="document mb-3">
+      <div
+        v-if="error"
+        class="alert custom-alert-danger">
+        {{ $t(`errors.validation.${error}`) }}
+      </div>
+      <div
+        v-if="!uploading"
+        class="document mb-3">
         <img src="../../assets/document.png" alt="" />
         <div style="display:inline-block">
           <div>{{ name }}.{{ extension }}</div>
           <div><small>{{ size | bytes }}</small></div>
         </div>
       </div>
-      <div class="container-progress-bar">
+      <div
+        v-else
+        class="container-progress-bar">
         <div class="progress">
         <span>
           {{ $t('commons.uploading') }}
@@ -65,6 +73,7 @@ export default {
       extension: '',
       size: '',
       uploading: false,
+      error: false,
     };
   },
   mounted() {
@@ -87,6 +96,7 @@ export default {
     submit: function submit(event) {
       event.preventDefault();
       this.uploading = true;
+      this.error = false;
 
       const { file } = this;
 
@@ -124,7 +134,7 @@ export default {
       if (res && res.data && res.data.id) {
         this.$emit('uploaded', res.data);
       } else {
-        throw new Error('Unexpected');
+        this.error = 'uploading_document';
       }
     },
   },
@@ -132,6 +142,7 @@ export default {
     bytes: function bytes(num) {
       let byteCount = Number(num);
       if (isNaN(byteCount)) {
+        this.error = 'invalid_file';
         throw new TypeError('Expected a number');
       }
 
@@ -174,8 +185,9 @@ export default {
     position: absolute;
     left: calc(50% - 40px);
     padding: 3px;
-    color: #443c3c;
+    color: $white;
     font-weight: bold;
+    text-shadow: 0px 0px 6px rgba(150, 150, 150, 1);
     }
   }
 }
