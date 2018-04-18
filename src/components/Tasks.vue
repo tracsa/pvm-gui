@@ -18,10 +18,12 @@
             </div>
             {{ $t('tasks.my_tasks') }}
           </div>
-          <div
-            v-for="error in errors"
-            class="alert custom-alert-danger">
-            {{ $t(`errors.${error.where}`) }}
+          <div class="container-error">
+            <div
+              v-for="error in errors"
+              class="alert custom-alert-danger">
+              {{ $t(`errors.${error.where}`) }}
+            </div>
           </div>
           <message-info
             :show="!tasks.length"
@@ -157,5 +159,9 @@ export default {
 
 .col {
   display: flex;
+}
+
+.container-error {
+  padding: 30px;
 }
 </style>
