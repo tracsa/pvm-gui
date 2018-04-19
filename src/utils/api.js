@@ -62,12 +62,14 @@ function apiFetch(method, route, params = {}, bodyEncoding = 'application/x-www-
   return new Promise((resolve, reject) => {
     fetch(url, options)
       .then((response) => {
+        if (response.status === 401) {
+          logout();
+          return Promise.resolve({});
+        }
+
         // No content to parse
         if (response.status === 204) {
           return Promise.resolve({});
-        }
-        else if (response.status === 401) {
-          logout();
         }
 
         return response.json();
