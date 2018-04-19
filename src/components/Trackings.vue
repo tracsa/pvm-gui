@@ -16,6 +16,7 @@
             </div>
             {{ $t('trackings.trackings') }}
           </div>
+
           <div
             v-if="errors.length"
             class="container-error">
@@ -93,7 +94,6 @@ export default {
       get('/activity')
         .then((body) => {
           this.loading = false;
-          this.errors = false;
           this.trackings = body.data;
         })
         .catch((errors) => {

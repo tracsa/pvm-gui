@@ -18,6 +18,7 @@
             </div>
             {{ $t('tasks.my_tasks') }}
           </div>
+
           <div
             v-if="errors.length"
             class="container-error">
@@ -79,7 +80,7 @@ export default {
       tasks: [],
       timeline: [],
       loading: true,
-      errors: false,
+      errors: [],
     };
   },
   mounted() {
