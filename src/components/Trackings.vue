@@ -16,7 +16,9 @@
             </div>
             {{ $t('trackings.trackings') }}
           </div>
-          <div class="container-error">
+          <div 
+            v-if="errors"
+            class="container-error">
             <div
               v-for="error in errors"
               class="alert custom-alert-danger">
@@ -76,6 +78,7 @@ export default {
     return {
       loading: true,
       trackings: [],
+      errors: false,
     };
   },
   mounted() {
@@ -87,11 +90,13 @@ export default {
       get('/activity')
         .then((body) => {
           this.loading = false;
+          this.errors = false;
           this.trackings = body.data;
         })
         .catch((errors) => {
           this.loading = false;
           // Alert about this
+          this.errors = errors;
           console.error(errors);
         });
     },
@@ -158,5 +163,6 @@ export default {
 
 .container-error {
   padding: 30px;
+  padding-bottom: 0;
 }
 </style>
