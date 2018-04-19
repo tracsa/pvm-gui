@@ -4,7 +4,7 @@
     :class="containerClass">
     <div class="row">
       <div
-        v-if="!loading"
+        v-if="loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
