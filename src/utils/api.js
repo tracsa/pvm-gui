@@ -1,7 +1,7 @@
 import Promise from 'promise-polyfill';
 import settings from '@/settings';
 import serialize from './serialize';
-import { getAuthToken } from './auth';
+import { getAuthToken, logout } from './auth';
 
 
 function apiFetch(method, route, params = {}, bodyEncoding = 'application/x-www-form-urlencoded') {
@@ -62,6 +62,11 @@ function apiFetch(method, route, params = {}, bodyEncoding = 'application/x-www-
   return new Promise((resolve, reject) => {
     fetch(url, options)
       .then((response) => {
+        if (response.status === 401) {
+          logout();
+          return Promise.resolve({});
+        }
+
         // No content to parse
         if (response.status === 204) {
           return Promise.resolve({});
