@@ -18,7 +18,9 @@
             </div>
             {{ $t('tasks.my_tasks') }}
           </div>
-          <div class="container-error">
+          <div 
+            v-if="errors"
+            class="container-error">
             <div
               v-for="error in errors"
               class="alert custom-alert-danger">
@@ -76,7 +78,7 @@ export default {
       tasks: [],
       timeline: [],
       loading: true,
-      errors: [],
+      errors: false,
     };
   },
   mounted() {
@@ -90,6 +92,7 @@ export default {
       get('/task')
         .then((body) => {
           self.loading = false;
+          self.errors = false;
           self.tasks = body.data;
         })
         .catch((errors) => {
