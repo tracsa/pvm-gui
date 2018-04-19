@@ -16,8 +16,9 @@
             </div>
             {{ $t('trackings.trackings') }}
           </div>
-          <div 
-            v-if="errors"
+
+          <div
+            v-if="errors.length"
             class="container-error">
             <div
               v-for="error in errors"
@@ -25,6 +26,7 @@
               {{ $t(`errors.${error.where}`) }}
             </div>
           </div>
+
           <message-info
             :show="!trackings.length"
             icon="inbox"
@@ -78,7 +80,7 @@ export default {
     return {
       loading: true,
       trackings: [],
-      errors: false,
+      errors: [],
     };
   },
   mounted() {
@@ -87,17 +89,16 @@ export default {
   methods: {
     loadList: function loadList() {
       this.loading = true;
+      this.errors = [];
+
       get('/activity')
         .then((body) => {
           this.loading = false;
-          this.errors = false;
           this.trackings = body.data;
         })
         .catch((errors) => {
           this.loading = false;
-          // Alert about this
           this.errors = errors;
-          console.error(errors);
         });
     },
   },
