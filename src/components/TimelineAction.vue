@@ -71,7 +71,6 @@
 import moment from 'moment';
 import settings from '@/settings';
 
-
 export default {
   props: ['action'],
   filters: {
