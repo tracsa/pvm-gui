@@ -51,11 +51,12 @@
       </div>
     </div>
   </div>
-  <div v-else-if="action.notified_users && action.notified_users.length">
+  <div
+    v-else-if="action.notified_users && action.notified_users.length && actualScene !== 'task'">
     <div class="alert custom-alert-warning" style="margin-left: 30px">
       <div>{{ action.node.name }}</div>
       <div>
-        <small>Asignado a</small>
+        <small>Asignado a </small>
         <small
           style="font-weight: bold;"
           v-for="user in action.notified_users"
@@ -65,14 +66,38 @@
       </div>
     </div>
   </div>
+
+
+  <div
+    v-else-if="actualScene === 'task' && action.notified_users.length > 1"
+    class="card leyend-text">
+    <div class="card-body">
+      <small>{{ $t('timeline.asignTasks') }}</small>
+      <b
+        v-for="user in action.notified_users"
+        v-if="user.identifier !== username"
+        :key="user.id">
+        {{ user.identifier }}&nbsp;
+      </b>
+    </div>
+  </div>
 </template>
 
 <script>
 import moment from 'moment';
 import settings from '@/settings';
+import { getAuthToken } from '../utils/auth';
 
 export default {
   props: ['action'],
+  data() {
+    const user = getAuthToken().split(/[:\\]/)[0];
+
+    return {
+      username: user,
+      actualScene: this.$router.history.current.name,
+    };
+  },
   filters: {
     toURI: function toUri(input) {
       const { protocol, host, port } = settings.doqer;
@@ -135,6 +160,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+.leyend-text {
+  margin-left: 30px;
+  margin-bottom: 15px;
+
+  small {
+    font-size: 15px;
+  }
+
+  b {
+    font-size: 15px;
+  }
+}
 
 table {
   td {
