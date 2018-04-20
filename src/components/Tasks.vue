@@ -165,5 +165,6 @@ export default {
 
 .container-error {
   padding: 30px;
+  padding-bottom: 0;
 }
 </style>
