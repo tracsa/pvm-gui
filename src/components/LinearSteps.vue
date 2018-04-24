@@ -2,34 +2,40 @@
   <div class="container-linear">
     <div 
       class="row line">
+      
       <div 
         v-for="(step, index) in steps"
         :class="{ 
           'col': true, 
           'no-active': !step.active || index === actualStep,  
         }">
-        <div
-          v-if="index === actualStep"
-          class="actual-active">
-          <div class="center-point"></div>
-        </div>
-        <div 
-          v-else-if="step.active"
-          class="active">
-            <icon :icon="['fas', 'check']" />
-          </div>
-        <div
-          v-else
-          class="no-active">
-        </div>
-          <div class="container-step-desc">
-            <div 
-              v-if="step.desc"
-              class="step-desc">
-                {{ step.desc }}
+          <div class="container-step">
+            <div
+              v-if="index === actualStep"
+              class="actual-active">
+              <div class="center-point"></div>
+            </div>
+            <div
+              v-else-if="step.active"
+              class="active">
+                <icon :icon="['fas', 'check']" />
+            </div>
+            <div
+              v-else
+              class="no-active">
+            </div>
+
+            <div class="container-step-desc">
+              <div
+                v-if="step.desc"
+                class="step-desc">
+                  {{ step.desc }}
+              </div>
             </div>
           </div>
-        </div>
+
+      </div>
+
     </div>
   </div>
 </template>
@@ -51,6 +57,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/variables.scss';
+@import '../styles/mixins.scss';
 
 $arrow-step-desc: 7px;
 $circle-border-size: 20px;
@@ -61,9 +68,12 @@ $line-size: 4px;
 $line-no-active-step: #e7e7e7;
 $circle-no-active-border-size: 4px;
 $circle-no-active-bg: 40px;
+$circle-active-size: 40px;
+$circle-active-center-point-size: 20px;
 
 .container-linear {
-  padding: 50px 0;
+  padding: 40px 0;
+  padding-top: 10px;
   padding-bottom: 80px;
 
   .line {
@@ -77,7 +87,6 @@ $circle-no-active-bg: 40px;
       }
 
       .container-step-desc {
-        right: 0;
         justify-content: end;
       }
 
@@ -87,89 +96,100 @@ $circle-no-active-bg: 40px;
       position: relative;
       height: $line-size;
       background: $line-background;
-      -webkit-box-shadow: 0px 0px 29px -3px rgba(73,128,248,0.55);
-      -moz-box-shadow: 0px 0px 29px -3px rgba(73,128,248,0.55);
-      box-shadow: 0px 0px 29px -3px rgba(73,128,248,0.55);
+      @include box-shadow(0px 0px 29px -3px rgba(73,128,248,0.55));
 
-      .container-step-desc {
+      .container-step {
         position: absolute;
-        top: 30px;
-        left: -8px;
-        // right: calc(50% + ((#{$step-circle-size} - 5px) / 2));
+        left: 0;
         display: flex;
         justify-content: center;
-        z-index: 15;
+        top: calc(((#{$circle-no-active-bg} / 2) - 4px) * -1);
 
-        .step-desc {
+        .container-step-desc {
+          position: absolute;
+          top: calc(#{$circle-no-active-bg} + #{$arrow-step-desc} + 3px);
+          @include mq($until: tablet) {
+            top: calc((#{$circle-no-active-bg} - 5px) + #{$arrow-step-desc} + 3px);
+          }
           display: flex;
           justify-content: center;
-          background: white;
-          color: #75777e;
-          padding: 10px;
-          height: $step-circle-size;
-          font-size: 12px;
-          border-radius: $step-circle-border-size;
-          -webkit-box-shadow: 0px 5px 6px 1px rgba(204,202,204, 0.12);
-          -moz-box-shadow: 0px 5px 6px 1px rgba(204,202,204, 0.12);
-          box-shadow: 0px 5px 6px 1px rgba(204,202,204, 0.12);
-          
-          &:after {
-            position: absolute;
-            top: -4px;
-            content: '';
-            width: 0;
-            height: 0;
-            border-left: $arrow-step-desc solid transparent;
-            border-right: $arrow-step-desc solid transparent;
-            border-bottom: $arrow-step-desc solid white;
+          z-index: 15;
+          width: 150px;
+
+          .step-desc {
+            display: flex;
+            justify-content: center;
+            background: white;
+            color: #75777e;
+            padding: 10px;
+            height: $step-circle-size;
+            font-size: 12px;
+            @include mq($until: tablet) {
+              font-size: 8px;
+              height: 30px;
+            }
+            border-radius: $step-circle-border-size;
+            @include box-shadow(0px 5px 6px 1px rgba(204,202,204, 0.12))
+
+            &:after {
+              @include arrow-up(white, $arrow-step-desc){
+                position: absolute;
+                top: -4px;
+                width: 0;
+                height: 0;
+              }
+            }
           }
         }
-
       }
 
       &.no-active {
         background: $line-no-active-step;
 
+      // Unfinished step
         .no-active {
-          position: absolute;
           height: $circle-no-active-bg;
           width: $circle-no-active-bg;
-          left: 0;
-          top: calc(50% - #{$circle-border-size});
           background: $body-bg;
           border: $line-size solid $line-no-active-step;
           border-radius: 50%;
+          @include mq($until: tablet) {
+            height: $circle-active-size - 5px;
+            width: $circle-active-size - 5px;
+          }
           z-index: 10;
         }
       }
 
+        // Finished step
         .active {
-          position: absolute;
+          background: $line-background;
           height: 5px;
           width: 5px;
-          top: calc(50% - #{$circle-border-size});
-          background: $line-background;
-          border: $circle-border-size solid $line-background;
-          border-radius: 50%;
           z-index: 10;
-          left: 0;
-          -webkit-box-shadow: 0px 5px 6px 1px rgba(204,202,204, 0.3);
-          -moz-box-shadow: 0px 5px 6px 1px rgba(204,202,204, 0.3);
-          box-shadow: 0px 5px 6px 1px rgba(204,202,204, 0.3);
+          @include center-items-vh();
 
-          svg {
-            position: absolute;
-            top: -7px;
-            right: -8px;
+          border: $circle-border-size solid $line-background;
+          @include mq($until: tablet) {
+            border: calc(#{$circle-border-size} - 3px) solid $line-background;
+          }
+          border-radius: 50%;
+          @include box-shadow(0px 5px 6px 1px rgba(204,202,204, 0.3));
+
+          svg, i {
+            margin-top: 2px;
             color: white;
           }
         }
 
+        // Actual step
         .actual-active {
-          position: absolute;
-          height: 40px;
-          width: 40px;
-          left: 0;
+          height: $circle-active-size;
+          width: $circle-active-size;
+          @include mq($until: tablet) {
+            height: $circle-active-size - 5px;
+            width: $circle-active-size - 5px;
+          }
           top: calc(50% - #{$circle-border-size});
           background: $body-bg;
           border: $line-size solid $line-background;
@@ -178,15 +198,17 @@ $circle-no-active-bg: 40px;
           display: flex;
           justify-content: center;
           align-items: center;
-          -webkit-box-shadow: 0px 5px 6px 1px rgba(204,202,204, 0.4);
-          -moz-box-shadow: 0px 5px 6px 1px rgba(204,202,204, 0.4);
-          box-shadow: 0px 5px 6px 1px rgba(204,202,204, 0.4);
+          @include box-shadow(0px 5px 6px 1px rgba(204,202,204, 0.4));
 
           .center-point {
             position: absolute;
             background: $line-background;
-            height: 20px;
-            width: 20px;
+            height: $circle-active-center-point-size;
+            width: $circle-active-center-point-size;
+            @include mq($until: tablet) {
+              height: $circle-active-center-point-size - 5px;
+              width: $circle-active-center-point-size - 5px;
+            }
             border-radius: 50%;
           }
         }
