@@ -2,6 +2,7 @@
   <div
     class="full-columns"
     :class="containerClass">
+ <linear-steps :steps="[ { active: true, desc: 'Paso 1' }, { active: true, desc: 'Paso 1' }, { active: false, desc: 'Pasoasdasd 1' }, { active: false, desc: 'Paso 1' }, { active: true, desc: 'Paso2' } ]" />
     <div class="row">
       <div
         v-if="!loading"
