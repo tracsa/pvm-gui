@@ -2,7 +2,7 @@
     <div class="card">
       <div class="card-body card-message">
         <div class="icon">
-          <icon :icon="['fas', 'sync-alt']" />
+          <icon :icon="['fas', 'spinner']" spin />
         </div>
         <span>
           {{ $t('commons.loading') }}
