@@ -2,7 +2,6 @@
   <div class="container-linear">
     <div 
       class="row line">
-      
       <div 
         v-for="(step, index) in steps"
         :class="{ 

@@ -42,6 +42,7 @@ const messages = {
       by: 'Por:',
       reason: 'Motivo:',
       date: 'Fecha:',
+      asignTasks: 'Esta tarea también puede ser realizada por',
     },
     tasks: {
       my_tasks: 'Mis tareas',
