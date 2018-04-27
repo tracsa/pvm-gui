@@ -18,7 +18,7 @@ html, body, #app {
   background: $body-bg;
 }
 
-.h-100 {
+.no-overflow-x {
   overflow: hidden;
 }
 </style>
