@@ -30,6 +30,16 @@ export default new Router({
           component: Trackings,
         },
         {
+          name: 'insights',
+          path: 'insight',
+          component: Trackings,
+        },
+        {
+          name: 'insight',
+          path: 'insights/:id',
+          component: Trackings,
+        },
+        {
           name: 'tasks',
           path: 'task',
           component: Tasks,
