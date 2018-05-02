@@ -31,7 +31,7 @@
               <span class="card-time">
                 <span
                 v-for="tag in step.tags"
-                class="badge badge-info">
+                class="badge badge-primary">
                   {{ tag.content }}
                 </span>
                 <span class="float-right">
@@ -65,6 +65,9 @@ export default {
           title: 'Paso 2',
           desc: 'Este es el segundo',
           time: '40 min',
+          tags: [
+            { type: 'primary', content: 'Seguridad' },
+          ]
         },
         {
           title: 'Paso 3',
