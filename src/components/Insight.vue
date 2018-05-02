@@ -98,9 +98,6 @@ export default {
 <style lang="scss">
 @import '../styles/variables.scss';
 
-$insight-arrow-color: $purple;
-$insight-arrow-size: 25px;
-
 .insights {
   width: 100%;
   
