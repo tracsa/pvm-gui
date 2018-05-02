@@ -18,6 +18,7 @@ import Loading from './Loading';
 import MessageInfo from './MessageInfo';
 import FormInstance from './FormInstance';
 import LinearSteps from './LinearSteps';
+import Step from './Step';
 
 // Components
 Vue.component('app-header', Header);
@@ -31,6 +32,7 @@ Vue.component('tracking', Tracking);
 Vue.component('loading', Loading);
 Vue.component('message-info', MessageInfo);
 Vue.component('linear-steps', LinearSteps);
+Vue.component('step', Step);
 
 // From inputs
 Vue.component('form-instance', FormInstance);
