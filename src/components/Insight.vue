@@ -43,6 +43,9 @@
               </span>
             </div>
           </div>
+          <div class="arrow">
+            <icon :icon="['fas', 'arrow-down']" />
+          </div>
         </div>
       </div>
 
@@ -95,6 +98,9 @@ export default {
 <style lang="scss">
 @import '../styles/variables.scss';
 
+$insight-arrow-color: $purple;
+$insight-arrow-size: 25px;
+
 .insights {
   width: 100%;
   
@@ -110,6 +116,17 @@ export default {
 
     &:nth-child(odd) {
       padding: 15px;
+    }
+
+    &:last-child .arrow {
+      display: none;
+    }
+
+    .arrow {
+      padding-top: 15px;
+      text-align: center;
+      font-size: $insight-arrow-size;
+      color: $insight-arrow-color;
     }
 
     .card {
