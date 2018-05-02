@@ -44,6 +44,9 @@ const messages = {
       date: 'Fecha:',
       asignTasks: 'Esta tarea también puede ser realizada por',
     },
+    step: {
+      time: '',
+    },
     tasks: {
       my_tasks: 'Mis tareas',
     },

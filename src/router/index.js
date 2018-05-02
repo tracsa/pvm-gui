@@ -7,6 +7,9 @@ import Trackings from '@/components/Trackings';
 import Processes from '@/components/Processes';
 import Tasks from '@/components/Tasks';
 
+import Insights from '@/components/Insights';
+import Step from '@/components/Step';
+
 import SignIn from '@/components/SignIn';
 import '@/components';
 
@@ -37,7 +40,7 @@ export default new Router({
         {
           name: 'insight',
           path: 'insights/:id',
-          component: Trackings,
+          component: Step,
         },
         {
           name: 'tasks',
