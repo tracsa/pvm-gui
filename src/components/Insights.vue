@@ -36,8 +36,10 @@
                   {{ step.desc }}
                 </p>
                 <span class="card-time">
-                  {{$t('insights.insight.time')}}
-                  {{ step.time }}
+                  <span class="float-right">
+                    {{$t('insights.insight.time')}}
+                    {{ step.time }}
+                  </span>
                 </span>
               </div>
             </div>
@@ -75,7 +77,7 @@ export default {
           time: '40 min',
         }
       ],
-      loading: true,
+      loading: false,
     };
   },
   methods: {
@@ -110,10 +112,9 @@ export default {
           border-top: 1px solid #c3c3c3;
           width: 100%;
           display: block;
-          padding: 10px;
+          padding: 10px 0;
           padding-bottom: 0;
           font-size: 20px;
-          text-align: end;
           color: $gray-600;
         }
       }

@@ -15,7 +15,9 @@
           </div>
         </div>
       </div>
-      <div class="insights">
+      <div 
+      v-if="!loading"
+      class="insights">
         <div 
         v-for="step in steps"
         class="insight col-12">
@@ -42,6 +44,12 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <div
+      class="col-12"
+      v-else>
+        <loading />
       </div>
     </div>
   </div>
@@ -74,7 +82,8 @@ export default {
           desc: 'Este es el tercero',
           time: '40 min',
         }
-      ]
+      ],
+      loading: false,
     };
   },
   methods: {
