@@ -44,8 +44,12 @@ const messages = {
       date: 'Fecha:',
       asignTasks: 'Esta tarea también puede ser realizada por',
     },
-    step: {
-      time: '',
+    insights: {
+      title: 'Insights',
+      insight: {
+        title: 'Steps',
+        time: '',
+      }
     },
     tasks: {
       my_tasks: 'Mis tareas',
@@ -122,6 +126,12 @@ const messages = {
     },
     trackings: {
       trackings: 'Seguimiento',
+    },
+    insights: {
+      title: '',
+    },
+    step: {
+      time: '',
     },
     timeline: {
       by: 'By:',

@@ -11,7 +11,7 @@
                   <icon :icon="['fas', 'sync-alt']" />
               </a>
             </div>
-            {{ $t('insights.title') }}
+            {{ $t('insights.insight.title') }}
           </div>
         </div>
       </div>
@@ -19,27 +19,28 @@
         <div 
         v-for="step in steps"
         class="insight col-12">
-          <router-link
-          :to="{ 
-            name: 'insight',
-            params: { id: step.id }
-          }">
-            <div 
-            class="card">
-              <div class="card-body">
-                <h4 class="card-title">
-                  {{ step.title }}
-                </h4>
-                <p class="card-text">
-                  {{ step.desc }}
-                </p>
-                <span class="card-time">
+          <div 
+          class="card">
+            <div class="card-body">
+              <h4 class="card-title">
+                {{ step.title }}
+              </h4>
+              <p class="card-text">
+                {{ step.desc }}
+              </p>
+              <span class="card-time">
+                <span
+                v-for="tag in step.tags"
+                class="badge badge-info">
+                  {{ tag.content }}
+                </span>
+                <span class="float-right">
                   {{$t('insights.insight.time')}}
                   {{ step.time }}
                 </span>
-              </div>
+              </span>
             </div>
-          </router-link>
+          </div>
         </div>
       </div>
     </div>
@@ -47,23 +48,27 @@
 </template>
 <script>
 export default {
-  props: ['id'],
   data() {
     return {
       steps: [
-        { id: 1,
-          title: 'proceso 1',
-          desc: 'Este es el primer proceso',
+        {
+          title: 'Paso 1',
+          desc: 'Este es el primero',
+          time: '40 min',
+          tags: [
+            { type: 'info', content: 'Validación' },
+            { type: 'light', content: 'Requiere autorizacíon' },
+            { type: 'primary', content: 'Seguridad' },
+          ]
+        },
+        {
+          title: 'Paso 2',
+          desc: 'Este es el segundo',
           time: '40 min',
         },
-        { id: 2,
-          title: 'proceso 2',
-          desc: 'Este es el proceso segundo',
-          time: '40 min',
-        },
-        { id: 3,
-          title: 'proceso 3',
-          desc: 'Este es el primer tercero',
+        {
+          title: 'Paso 3',
+          desc: 'Este es el tercero',
           time: '40 min',
         }
       ]
@@ -98,14 +103,19 @@ export default {
     .card {
       .card-body {
         .card-time {
-          border-top: 1px solid #c3c3c3;
-          width: 100%;
           display: block;
-          padding: 10px;
+          width: 100%;
+          padding: 10px 0;
           padding-bottom: 0;
+          border-top: 1px solid #c3c3c3;
           font-size: 20px;
-          text-align: end;
           color: $gray-600;
+          
+          .badge {
+            font-size: 12px;
+            padding: 7px 8px;
+            margin-right: 5px;
+          }
         }
       }
     }
