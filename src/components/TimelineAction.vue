@@ -107,6 +107,8 @@ export default {
     },
     formInput: function formInput(data) {
       let value;
+      let mapping;
+
       switch (data.type) {
         case 'select':
         case 'radio':
@@ -116,10 +118,8 @@ export default {
             .join('');
           break;
         case 'checkbox':
-          const mapping = data.options.reduce(
-            (map, option) => map.set(option.value, option.label),
-            new Map()
-          );
+          mapping = data.options
+            .reduce((map, option) => map.set(option.value, option.label), new Map());
           value = data.value.map(val => mapping.get(val)).join(', ');
           break;
         case 'date':

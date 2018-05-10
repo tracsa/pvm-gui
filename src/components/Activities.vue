@@ -59,8 +59,7 @@ export default {
       })
       .catch((errors) => {
         self.loading = false;
-        // Alert about this
-        console.error(errors);
+        // @TODO: Alert about this
       });
   },
   computed: {

@@ -23,7 +23,8 @@
             v-if="errors.length"
             class="container-error">
             <div
-              v-for="error in errors"
+              v-for="(error, index) in errors"
+              :key="index"
               class="alert custom-alert-danger">
               {{ $t(`errors.${error.where}`) }}
             </div>

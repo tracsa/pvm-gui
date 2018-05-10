@@ -1,12 +1,13 @@
 <template>
   <div class="container-linear">
-    <div 
+    <div
       class="row line">
-      <div 
+      <div
         v-for="(step, index) in steps"
-        :class="{ 
-          'col': true, 
-          'no-active': !step.active || index === actualStep,  
+        :key="index"
+        :class="{
+          'col': true,
+          'no-active': !step.active || index === actualStep,
         }">
           <div class="container-step">
             <div
@@ -43,13 +44,14 @@
 export default {
   props: ['steps'],
   data() {
-    let step = null;
-    this.steps.map(function(s, i) {
-      if(step === null && !s.active) step = i;
+    let actualStep = null;
+    this.steps.forEach((step, index) => {
+      if (actualStep === null && !step.active) {
+        actualStep = index;
+      }
     });
-    return {
-      actualStep: step,
-    };
+
+    return { actualStep };
   },
 };
 </script>
