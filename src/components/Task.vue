@@ -67,7 +67,6 @@ export default {
         .catch((errors) => {
           this.loading = false;
           this.errors = errors;
-          console.error(errors);
         });
     },
     submit: function submit(formArray) {
@@ -80,7 +79,6 @@ export default {
       post('/pointer', postData, 'application/json')
         .then((data) => {
           this.$router.push(`/tracking/${this.task.execution.id}`);
-          console.log('data', data);
         })
         .catch((errors) => {
           this.errors = errors;

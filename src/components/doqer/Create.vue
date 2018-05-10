@@ -121,8 +121,6 @@ export default {
         this.loaded = event.loaded;
         this.total = event.total;
         this.uploading = (this.loaded / this.total) * 100;
-        console.log(this.loaded, this.total);
-        console.log(this.uploading);
       }
     },
 
