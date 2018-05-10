@@ -1,12 +1,12 @@
 <template>
   <div class="container-linear">
-    <div 
+    <div
       class="row line">
-      <div 
+      <div
         v-for="(step, index) in steps"
-        :class="{ 
-          'col': true, 
-          'no-active': !step.active || index === actualStep,  
+        :class="{
+          'col': true,
+          'no-active': !step.active || index === actualStep,
         }">
           <div class="container-step">
             <div

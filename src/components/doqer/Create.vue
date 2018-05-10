@@ -33,7 +33,7 @@
         <span>
           {{ $t('commons.uploading') }}
         </span>
-        <div 
+        <div
           class="progress-bar bg-info"
           role="progressbar"
           :style="{width: uploading + '%' }">

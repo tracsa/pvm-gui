@@ -47,7 +47,7 @@ const messages = {
     tasks: {
       my_tasks: 'Mis tareas',
     },
-    doquer: { 
+    doquer: {
       new_file: 'Nuevo documento',
     },
     commons: {
@@ -128,7 +128,7 @@ const messages = {
     tasks: {
       my_tasks: 'My tasks',
     },
-    doquer: { 
+    doquer: {
       new_file: 'Nuevo documento',
     },
     commons: {
@@ -137,7 +137,7 @@ const messages = {
       cancel: 'Cancel',
       loading: 'Loading...',
       sending: 'Sending...',
-      upload: 'Upload', 
+      upload: 'Upload',
       uploading: 'Uploading...',
       name: 'Nombre',
     },
