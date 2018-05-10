@@ -44,13 +44,14 @@
 export default {
   props: ['steps'],
   data() {
-    let step = null;
-    this.steps.map(function(s, i) {
-      if(step === null && !s.active) step = i;
+    let actualStep = null;
+    this.steps.forEach((step, index) => {
+      if (actualStep === null && !step.active) {
+        actualStep = index;
+      }
     });
-    return {
-      actualStep: step,
-    };
+
+    return { actualStep };
   },
 };
 </script>
