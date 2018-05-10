@@ -4,6 +4,7 @@
       class="row line">
       <div
         v-for="(step, index) in steps"
+        :key="index"
         :class="{
           'col': true,
           'no-active': !step.active || index === actualStep,

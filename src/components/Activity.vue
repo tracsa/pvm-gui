@@ -10,8 +10,8 @@
     </div>
     <div class="card-body">
       <div
-        v-for="error in errors"
-        :key="error.where"
+        v-for="(error, index) in errors"
+        :key="index"
         class="alert custom-alert-danger">
         {{ $t(`errors.${error.where}`) }}
       </div>
