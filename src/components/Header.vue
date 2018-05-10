@@ -34,7 +34,7 @@
               @click="toggleMenu"
               @blur="closeMenu"
               >
-              {{ this.username }}
+              {{ this.firstname }}
             </a>
             <div
               class="dropdown-menu dropdown-menu-right"
@@ -88,14 +88,15 @@
 </template>
 
 <script>
-import { getAuthToken, logout } from '../utils/auth';
+import { getAuthUser, logout } from '../utils/auth';
 
 export default {
   data() {
-    const identifier = getAuthToken().split(/[:\\]/)[1];
+    const user = getAuthUser();
 
     return {
-      username: `${identifier}@tracsa.com.mx`,
+      firstname: user.humanname.split(/\s+/)[0],
+      username: user.humanname,
       menuVisible: false,
     };
   },
