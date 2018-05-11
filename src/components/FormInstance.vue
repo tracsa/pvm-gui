@@ -3,7 +3,8 @@
     <div
       v-for="input in schema.inputs"
       :key="input.name"
-      class="form-group">
+      class="form-group"
+      :class="{ 'has-error': (errors && errors[input.name]) }">
       <label :for="input.name">
         {{ input.label }}
         <small
@@ -77,12 +78,21 @@
         v-if="input.helper">
         {{ input.helper }}
       </small>
+
+      <div v-if="(errors && errors[input.name])">
+        <small
+          v-for="(error, index) in errors[input.name]"
+          :key="index"
+          class="form-text text-danger">
+          {{ $t(error.code) || error.detail }}
+        </small>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['schema', 'data'],
+  props: ['schema', 'data', 'errors'],
 };
 </script>

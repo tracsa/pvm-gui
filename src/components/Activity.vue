@@ -18,6 +18,7 @@
 
       <form-render
         :forms="model.form_array"
+        :errors="errors"
         @submit="submit"
       />
     </div>
