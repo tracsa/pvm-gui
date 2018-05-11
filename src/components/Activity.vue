@@ -10,10 +10,10 @@
     </div>
     <div class="card-body">
       <div
-        v-for="(error, index) in errors"
+        v-for="(error, index) in errors.global"
         :key="index"
         class="alert custom-alert-danger">
-        {{ $t(`errors.${error.where}`) }}
+        {{ error.code || error.detail }}
       </div>
 
       <form-render
@@ -31,12 +31,16 @@ export default {
   props: ['model'],
   data() {
     return {
-      errors: [],
+      errors: {
+        global: [],
+      },
     };
   },
   watch: {
     model() {
-      this.errors = [];
+      this.errors = {
+        global: [],
+      };
     },
   },
   methods: {
@@ -51,7 +55,43 @@ export default {
           this.$router.push(`/tracking/${data.data.id}`);
         })
         .catch((errors) => {
-          this.errors = errors;
+          const formated = errors.reduce((obj, error) => {
+            // jslint :'(
+            const ref = obj;
+
+            let used = false;
+            if (typeof error.where === 'string') {
+              const match = error.where.match(/request.body.form_array.(\d+).(\w+)/);
+              if (match) {
+                const index = match[1];
+                const name = match[2];
+
+                if (ref[index] === undefined) {
+                  ref[index] = {};
+                }
+
+                if (ref[index][name] === undefined) {
+                  ref[index][name] = [];
+                }
+
+                ref[index][name].push(error);
+                used = true;
+              }
+            }
+
+            if (!used) {
+              if (ref.global === undefined) {
+                ref.global = [];
+              }
+
+              ref.global.push(error);
+            }
+
+            return ref;
+          }, { global: [] });
+
+          console.log(JSON.stringify(formated, null, ' '));
+          this.errors = formated;
         });
     },
   },
