@@ -91,7 +91,6 @@ export default {
             return ref;
           }, { global: [] });
 
-          console.log(JSON.stringify(formated, null, ' '));
           this.errors = formated;
         });
     },
