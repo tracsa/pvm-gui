@@ -3,11 +3,11 @@
     color: $danger;
   }
 
-  .form-control {
+  .form-control, .custom-select {
     border-color: $danger;
 
     &:focus {
-      box-shadow: 0 0 0 0.2rem lighten($danger, 40);
+      box-shadow: 0 0 0 0.2rem lighten($danger, 30);
     }
   }
 }
