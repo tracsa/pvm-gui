@@ -33,6 +33,7 @@ export default {
   props: ['model'],
   data() {
     return {
+      sending: false,
       errors: {
         global: [],
       },
@@ -40,9 +41,9 @@ export default {
   },
   watch: {
     model() {
+      this.sending = false;
       this.errors = {
         global: [],
-        sending: false,
       };
     },
   },
