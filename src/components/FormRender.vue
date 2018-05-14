@@ -44,11 +44,14 @@
 
 <script>
 export default {
-  props: ['forms', 'errors'],
+  props: [
+    'forms',
+    'errors',
+    'sending',
+  ],
   data() {
     return {
       instances: {},
-      sending: false,
     };
   },
   mounted() {
@@ -56,7 +59,6 @@ export default {
   },
   watch: {
     forms() {
-      this.sending = false;
       this.instances = this.defaultFormsValue(this.forms);
     },
   },
@@ -142,7 +144,6 @@ export default {
     },
     submit(event) {
       event.preventDefault();
-      this.sending = true;
 
       const formArray = [];
       Object.keys(this.instances).forEach((ref) => {

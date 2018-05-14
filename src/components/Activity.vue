@@ -19,6 +19,7 @@
       <form-render
         :forms="model.form_array"
         :errors="errors"
+        :sending="sending"
         @submit="submit"
       />
     </div>
@@ -41,6 +42,7 @@ export default {
     model() {
       this.errors = {
         global: [],
+        sending: false,
       };
     },
   },
@@ -51,8 +53,10 @@ export default {
         form_array: formArray,
       };
 
+      this.sending = true;
       post('/execution', postData, 'application/json')
         .then((data) => {
+          this.sending = false;
           this.$router.push(`/tracking/${data.data.id}`);
         })
         .catch((errors) => {
@@ -91,6 +95,7 @@ export default {
             return ref;
           }, { global: [] });
 
+          this.sending = false;
           this.errors = formated;
         });
     },

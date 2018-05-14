@@ -17,6 +17,7 @@
 
           <form-render
             :forms="task.form_array"
+            :sending="sending"
             @submit= "submit"
           />
         </div>
@@ -40,6 +41,7 @@ export default {
     return {
       errors: [],
       loading: true,
+      sending: false,
       task: null,
       actions: [],
     };
@@ -76,11 +78,14 @@ export default {
         form_array: formArray,
       };
 
+      this.sending = true;
       post('/pointer', postData, 'application/json')
         .then(() => {
+          this.sending = false;
           this.$router.push(`/tracking/${this.task.execution.id}`);
         })
         .catch((errors) => {
+          this.sending = false;
           this.errors = errors;
         });
     },
