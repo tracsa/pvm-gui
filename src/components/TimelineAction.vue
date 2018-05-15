@@ -18,7 +18,7 @@
         :key="actor.user.identifier">
         <div v-if="actor">
           <p>
-            <b>{{ actor.user.human_name || actor.user.identifier }}</b>
+            <b>{{ actor.user.fullname }}</b>
             llenó la siguiente información
           </p>
           <table class="table table-sm table-bordered">
@@ -61,7 +61,7 @@
           style="font-weight: bold;"
           v-for="user in action.notified_users"
           :key="user.id">
-          {{ user.identifier }}&nbsp;
+          {{ user.fullname }}&nbsp;
         </small>
       </div>
     </div>
@@ -75,9 +75,9 @@
       <small>{{ $t('timeline.asignTasks') }}</small>
       <b
         v-for="user in action.notified_users"
-        v-if="user.identifier !== username"
+        v-if="user.identifier !== user.identifier"
         :key="user.id">
-        {{ user.identifier }}&nbsp;
+        {{ user.fullname }}&nbsp;
       </b>
     </div>
   </div>
@@ -94,7 +94,7 @@ export default {
     const user = getAuthToken().split(/[:\\]/)[0];
 
     return {
-      username: user,
+      user: user,
       actualScene: this.$router.history.current.name,
     };
   },

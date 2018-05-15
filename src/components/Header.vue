@@ -39,7 +39,7 @@
             <div
               class="dropdown-menu dropdown-menu-right"
               :class="{ show: menuVisible }">
-              <h6 class="dropdown-header">{{ this.username }}</h6>
+              <h6 class="dropdown-header">{{ this.fullname }}</h6>
               <div class="dropdown-divider"></div>
               <a
                 class="dropdown-item"
@@ -95,8 +95,8 @@ export default {
     const user = getAuthUser();
 
     return {
-      firstname: user.humanname.split(/\s+/)[0],
-      username: user.humanname,
+      firstname: user.fullname.split(/\s+/)[0],
+      fullname: user.fullname,
       menuVisible: false,
     };
   },
