@@ -28,11 +28,11 @@
               <tr class="form-group">
                 <td
                   :title="`#${form.ref}`"
-                  :rowspan="form.form.length + 1">
+                  :rowspan="form.inputs.length + 1">
                 </td>
               </tr>
               <tr
-                v-for="input in form.form"
+                v-for="input in form.inputs"
                 :key="input.name">
                 <td scope="row">{{ input.label }}</td>
                 <td v-if="input.type === 'file'">
