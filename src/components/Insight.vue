@@ -1,56 +1,50 @@
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-12">
-         <div class="card">
-          <div class="card-header">
-            <div style="float:right;">
-              <a
-                href="javascript:void(0);"
-                @click="loadList">
-                  <icon :icon="['fas', 'sync-alt']" />
-              </a>
-            </div>
-            {{ $t('insights.insight.title') }}
-          </div>
-        </div>
-      </div>
-      <div 
-      v-if="!loading"
-      class="insights">
-        <div 
-        v-for="step in steps"
-        class="insight col-12">
-          <div 
-          class="card">
-            <div class="card-body">
-              <h4 class="card-title">
-                {{ step.title }}
-              </h4>
-              <p class="card-text">
-                {{ step.desc }}
-              </p>
-              <span class="card-time">
-                <span
-                v-for="tag in step.tags"
-                class="badge badge-primary">
-                  {{ tag.content }}
-                </span>
-                <span class="float-right">
-                  {{$t('insights.insight.time')}}
-                  {{ step.time }}
-                </span>
-              </span>
-            </div>
-          </div>
-          <div class="arrow">
-            <icon :icon="['fas', 'arrow-down']" />
-          </div>
-        </div>
-      </div>
-
       <div
-      class="col-12"
+      v-if="!loading"
+      class="col">
+        <div class="card">
+          <div class="card-header">
+            {{ $t('insights.insight.title') }}
+            <router-link
+            :to="{ path: '/insight' }"
+            class="float-right">
+              {{ $t('commons.back') }}
+            </router-link>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive-sm">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>{{ $t('insights.activity') }}</th>
+                    <th>{{ $t('insights.actors') }}</th>
+                    <th>{{ $t('insights.time') }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                  v-for="step in steps"
+                  >
+                    <td :title="step.desc">{{ step.title }}</td>
+                    <td>
+                      <span
+                      v-for="tag in step.tags"
+                      class="badge badge-primary">
+                        {{ tag.content }}
+                      </span>
+                    </td>
+                    <td>{{ step.time }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+      class="col"
       v-else>
         <loading />
       </div>
@@ -98,54 +92,20 @@ export default {
 <style lang="scss">
 @import '../styles/variables.scss';
 
-.insights {
-  width: 100%;
-  
-  a {
-    color: $gray-700;
-
-    &:hover {
-    text-decoration: none;
-    }
-  }
-
-  .insight {
-
-    &:nth-child(odd) {
-      padding: 15px;
-    }
-
-    &:last-child .arrow {
-      display: none;
-    }
-
-    .arrow {
-      padding-top: 15px;
-      text-align: center;
-      font-size: $insight-arrow-size;
-      color: $insight-arrow-color;
-    }
-
-    .card {
-      .card-body {
-        .card-time {
-          display: block;
-          width: 100%;
-          padding: 10px 0;
-          padding-bottom: 0;
-          border-top: 1px solid #c3c3c3;
-          font-size: 20px;
-          color: $gray-600;
-          
-          .badge {
-            font-size: 12px;
-            padding: 7px 8px;
-            margin-right: 5px;
-          }
-        }
+table {
+  thead {
+    tr {
+      th {
+        border-top: none !important;
       }
     }
   }
+}
+
+.badge {
+  font-size: 12px;
+  padding: 4px 6px;
+  margin-right: 5px;
 }
 
 </style>
