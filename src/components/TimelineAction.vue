@@ -67,17 +67,16 @@
     </div>
   </div>
 
-
   <div
     v-else-if="actualScene === 'task' && action.notified_users.length > 1"
     class="card leyend-text">
     <div class="card-body">
       <small>{{ $t('timeline.asignTasks') }}</small>
       <b
-        v-for="user in action.notified_users"
-        v-if="user.identifier !== user.identifier"
-        :key="user.id">
-        {{ user.fullname }}&nbsp;
+        v-for="iuser in action.notified_users"
+        v-if="iuser.identifier !== user.identifier"
+        :key="iuser.id">
+        {{ iuser.fullname }}&nbsp;
       </b>
     </div>
   </div>
@@ -86,15 +85,15 @@
 <script>
 import moment from 'moment';
 import settings from '@/settings';
-import { getAuthToken } from '../utils/auth';
+import { getAuthUser } from '../utils/auth';
 
 export default {
   props: ['action'],
   data() {
-    const user = getAuthToken().split(/[:\\]/)[0];
+    const user = getAuthUser();
 
     return {
-      user: user,
+      user,
       actualScene: this.$router.history.current.name,
     };
   },
