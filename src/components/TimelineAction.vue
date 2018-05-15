@@ -51,6 +51,7 @@
       </div>
     </div>
   </div>
+
   <div
     v-else-if="action.notified_users && action.notified_users.length && actualScene !== 'task'">
     <div class="alert custom-alert-warning" style="margin-left: 30px">

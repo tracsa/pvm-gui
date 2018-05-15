@@ -2,22 +2,19 @@
   <div>
     <div v-if="last !== null" class="text-primary">
       <div class="row">
-      <div class="col-11">
-        <b>{{ last.execution.name }}</b>
-      </div>
-      <div class="col-1 text-right">
-        <router-link :to="{ path: '/tracking'}">
-          <icon :icon="['fas', 'times']" />
-        </router-link>
-      </div>
-
+        <div class="col-11">
+          <b>{{ last.execution.name }}</b>
+        </div>
+        <div class="col-1 text-right">
+          <router-link :to="{ path: '/tracking'}">
+            <icon :icon="['fas', 'times']" />
+          </router-link>
+        </div>
       </div>
     </div>
 
     <timeline v-if="!loading" :actions="actions" />
-    <div
-      v-else
-    >
+    <div v-else>
       <loading />
     </div>
   </div>
