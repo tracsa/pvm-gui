@@ -7,7 +7,6 @@
           <th style="width:1px"></th>
           <th>Campo</th>
           <th>Valor</th>
-          <th>Dueño</th>
         </tr>
       </thead>
       <tbody>
@@ -24,7 +23,6 @@
           </td>
           <td>{{ field.label }}</td>
           <td>{{ field.value }}</td>
-          <td>Og</td>
         </tr>
       </tbody>
     </table>
