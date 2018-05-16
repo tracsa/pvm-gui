@@ -28,6 +28,7 @@
 
 <script>
 import { post } from '@/utils/api';
+import formatErrors from '@/utils/formatErrors';
 
 export default {
   props: ['model'],
@@ -61,43 +62,8 @@ export default {
           this.$router.push(`/tracking/${data.data.id}`);
         })
         .catch((errors) => {
-          const formated = errors.reduce((obj, error) => {
-            // jslint :'(
-            const ref = obj;
-
-            let used = false;
-            if (typeof error.where === 'string') {
-              const match = error.where.match(/request.body.form_array.(\d+).(\w+)/);
-              if (match) {
-                const index = match[1];
-                const name = match[2];
-
-                if (ref[index] === undefined) {
-                  ref[index] = {};
-                }
-
-                if (ref[index][name] === undefined) {
-                  ref[index][name] = [];
-                }
-
-                ref[index][name].push(error);
-                used = true;
-              }
-            }
-
-            if (!used) {
-              if (ref.global === undefined) {
-                ref.global = [];
-              }
-
-              ref.global.push(error);
-            }
-
-            return ref;
-          }, { global: [] });
-
           this.sending = false;
-          this.errors = formated;
+          this.errors = formatErrors(errors);
         });
     },
   },
