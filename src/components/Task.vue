@@ -9,15 +9,26 @@
             </router-link>
           </div>
           <div
-            v-for="error in errors"
-            :key="error.code"
+            v-for="(error, index) in errors.global"
+            :key="index"
             class="alert custom-alert-danger">
-            {{ $t('error.code') }}
+            {{ error.code || error.detail }}
           </div>
 
           <form-render
+            v-if="task.node_type === 'action'"
             :forms="task.form_array"
+            :errors="errors"
+            :sending="sending"
             @submit= "submit"
+          />
+
+          <data-validator
+            v-if="task.node_type === 'validation'"
+            :fields="task.fields"
+            :errors="errors"
+            :sending="sending"
+            @submit= "validate"
           />
         </div>
       </div>
@@ -38,8 +49,11 @@ export default {
   props: ['taskId'],
   data() {
     return {
-      errors: [],
+      errors: {
+        global: [],
+      },
       loading: true,
+      sending: false,
       task: null,
       actions: [],
     };
@@ -50,6 +64,9 @@ export default {
   watch: {
     taskId(newValue) {
       this.loadData(newValue);
+      this.errors = {
+        global: [],
+      };
     },
   },
   methods: {
@@ -64,10 +81,26 @@ export default {
           this.loading = false;
           this.actions = body.data;
         })
-        .catch((errors) => {
-          this.loading = false;
-          this.errors = errors;
-          console.error(errors);
+        .catch(() => {
+          // notify user about error
+        });
+    },
+    validate: function validate(validation) {
+      const postData = Object.assign({
+        execution_id: this.task.execution.id,
+        node_id: this.task.node_id,
+      }, validation);
+
+      console.log(postData);
+
+      this.sending = true;
+      post('/pointer', postData, 'application/json')
+        .then(() => {
+          this.sending = false;
+          this.$router.push(`/tracking/${this.task.execution.id}`);
+        })
+        .catch(() => {
+          // TODO notify user
         });
     },
     submit: function submit(formArray) {
@@ -77,13 +110,50 @@ export default {
         form_array: formArray,
       };
 
+      this.sending = true;
       post('/pointer', postData, 'application/json')
-        .then((data) => {
+        .then(() => {
+          this.sending = false;
           this.$router.push(`/tracking/${this.task.execution.id}`);
-          console.log('data', data);
         })
         .catch((errors) => {
-          this.errors = errors;
+          const formated = errors.reduce((obj, error) => {
+            // jslint :'(
+            const ref = obj;
+
+            let used = false;
+            if (typeof error.where === 'string') {
+              const match = error.where.match(/request.body.form_array.(\d+).(\w+)/);
+              if (match) {
+                const index = match[1];
+                const name = match[2];
+
+                if (ref[index] === undefined) {
+                  ref[index] = {};
+                }
+
+                if (ref[index][name] === undefined) {
+                  ref[index][name] = [];
+                }
+
+                ref[index][name].push(error);
+                used = true;
+              }
+            }
+
+            if (!used) {
+              if (ref.global === undefined) {
+                ref.global = [];
+              }
+
+              ref.global.push(error);
+            }
+
+            return ref;
+          }, { global: [] });
+
+          this.sending = false;
+          this.errors = formated;
         });
     },
 

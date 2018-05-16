@@ -18,7 +18,7 @@
         :key="actor.user.identifier">
         <div v-if="actor">
           <p>
-            <b>{{ actor.user.human_name || actor.user.identifier }}</b>
+            <b>{{ actor.user.fullname }}</b>
             llenó la siguiente información
           </p>
           <table class="table table-sm table-bordered">
@@ -28,11 +28,11 @@
               <tr class="form-group">
                 <td
                   :title="`#${form.ref}`"
-                  :rowspan="form.form.length + 1">
+                  :rowspan="form.inputs.length + 1">
                 </td>
               </tr>
               <tr
-                v-for="input in form.form"
+                v-for="input in form.inputs"
                 :key="input.name">
                 <td scope="row">{{ input.label }}</td>
                 <td v-if="input.type === 'file'">
@@ -51,18 +51,34 @@
       </div>
     </div>
   </div>
-  <div v-else-if="action.notified_users && action.notified_users.length">
+
+  <div
+    v-else-if="action.notified_users && action.notified_users.length && actualScene !== 'task'">
     <div class="alert custom-alert-warning" style="margin-left: 30px">
       <div>{{ action.node.name }}</div>
       <div>
-        <small>Asignado a</small>
+        <small>Asignado a </small>
         <small
           style="font-weight: bold;"
           v-for="user in action.notified_users"
           :key="user.id">
-          {{ user.identifier }}&nbsp;
+          {{ user.fullname }}&nbsp;
         </small>
       </div>
+    </div>
+  </div>
+
+  <div
+    v-else-if="actualScene === 'task' && action.notified_users.length > 1"
+    class="card leyend-text">
+    <div class="card-body">
+      <small>{{ $t('timeline.asignTasks') }}</small>
+      <b
+        v-for="iuser in action.notified_users"
+        v-if="iuser.identifier !== user.identifier"
+        :key="iuser.id">
+        {{ iuser.fullname }}&nbsp;
+      </b>
     </div>
   </div>
 </template>
@@ -70,10 +86,18 @@
 <script>
 import moment from 'moment';
 import settings from '@/settings';
-
+import { getAuthUser } from '../utils/auth';
 
 export default {
   props: ['action'],
+  data() {
+    const user = getAuthUser();
+
+    return {
+      user,
+      actualScene: this.$router.history.current.name,
+    };
+  },
   filters: {
     toURI: function toUri(input) {
       const { protocol, host, port } = settings.doqer;
@@ -83,6 +107,8 @@ export default {
     },
     formInput: function formInput(data) {
       let value;
+      let mapping;
+
       switch (data.type) {
         case 'select':
         case 'radio':
@@ -92,10 +118,8 @@ export default {
             .join('');
           break;
         case 'checkbox':
-          const mapping = data.options.reduce(
-            (map, option) => map.set(option.value, option.label),
-            new Map()
-          );
+          mapping = data.options
+            .reduce((map, option) => map.set(option.value, option.label), new Map());
           value = data.value.map(val => mapping.get(val)).join(', ');
           break;
         case 'date':
@@ -136,6 +160,19 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+.leyend-text {
+  margin-left: 30px;
+  margin-bottom: 15px;
+
+  small {
+    font-size: 15px;
+  }
+
+  b {
+    font-size: 15px;
+  }
+}
 
 table {
   td {

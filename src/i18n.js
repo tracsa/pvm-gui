@@ -42,11 +42,12 @@ const messages = {
       by: 'Por:',
       reason: 'Motivo:',
       date: 'Fecha:',
+      asignTasks: 'Esta tarea también puede ser realizada por',
     },
     tasks: {
       my_tasks: 'Mis tareas',
     },
-    doquer: { 
+    doquer: {
       new_file: 'Nuevo documento',
     },
     commons: {
@@ -58,33 +59,19 @@ const messages = {
       upload: 'Subir',
       uploading: 'Subiendo...',
       name: 'Nombre',
+      approve: 'Aprobar',
+      reject: 'Rechazar',
+    },
+    validation: {
+      required: 'Este campo es requerido',
+      invalid_date: 'Fecha inválida',
+      required_list: 'Este campo es requerido',
+      uploading_document: 'Ocurrió un error al cargar el archivo.',
+      invalid_file: 'El archivo es inválido.',
     },
     errors: {
-      validation: {
-        required: 'Algún campo requerido está vacio, porfavor de llenar.',
-        invalid_date: 'Alguna fecha es inválida, por favor verifiquela.',
-        required_list: 'El campo debería ser una lista.',
-        uploading_document: 'Ocurrió un error al cargar el archivo.',
-        invalid_file: 'El archivo es inválido.',
-      },
       request: {
         authorization: 'Lo sentimos, tus credenciales son inválidas.',
-        body: {
-          form_array: {
-            0: {
-              identity_card: 'Los datos enviados no son válidos.',
-              reason: 'No logramos procesar tu solicitud ya que el formato enviado fue rechazado.',
-              auth: 'Debes seleccionar alguna opción.',
-              continue: 'Debes seleccionar una tarea.',
-              name: 'Ocurrio un error con el campo nombre.',
-              datetime: 'Ocurrió una problema con fecha.',
-              secret: 'Debes rellenar el campo "secreto".',
-              departure: 'Ocurrió un problema con la fecha de salida.',
-              arrival: 'Ocurrió un problema con la fecha de llegada.',
-              elections: 'Ocurrió un error respecto a las opciones.',
-            },
-          },
-        },
       },
     },
   },
@@ -127,7 +114,7 @@ const messages = {
     tasks: {
       my_tasks: 'My tasks',
     },
-    doquer: { 
+    doquer: {
       new_file: 'Nuevo documento',
     },
     commons: {
@@ -136,9 +123,11 @@ const messages = {
       cancel: 'Cancel',
       loading: 'Loading...',
       sending: 'Sending...',
-      upload: 'Upload', 
+      upload: 'Upload',
       uploading: 'Uploading...',
       name: 'Nombre',
+      approve: 'Approve',
+      reject: 'Reject',
     },
   },
 };

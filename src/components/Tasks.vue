@@ -18,11 +18,18 @@
             </div>
             {{ $t('tasks.my_tasks') }}
           </div>
+
           <div
-            v-for="error in errors"
-            class="alert custom-alert-danger">
-            {{ $t(`errors.${error.where}`) }}
+            v-if="errors.length"
+            class="container-error">
+            <div
+              v-for="(error, index) in errors"
+              :key="index"
+              class="alert custom-alert-danger">
+              {{ $t(`errors.${error.where}`) }}
+            </div>
           </div>
+
           <message-info
             :show="!tasks.length"
             icon="inbox"
@@ -82,19 +89,17 @@ export default {
   },
   methods: {
     loadList: function loadList() {
-      const self = this;
-
       this.loading = true;
+      this.errors = [];
+
       get('/task')
         .then((body) => {
-          self.loading = false;
-          self.tasks = body.data;
+          this.loading = false;
+          this.tasks = body.data;
         })
         .catch((errors) => {
-          self.loading = false;
-          // Alert about this
+          this.loading = false;
           this.errors = errors;
-          console.error(this.errors);
         });
     },
   },
@@ -157,5 +162,10 @@ export default {
 
 .col {
   display: flex;
+}
+
+.container-error {
+  padding: 30px;
+  padding-bottom: 0;
 }
 </style>

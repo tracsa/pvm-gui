@@ -2,12 +2,13 @@
   <form
     @submit="submit($event)">
     <div
-      v-for="form in forms"
+      v-for="(form, index) in forms"
       :key="form.ref">
       <form-instance
         v-for="(instance, key) in instances[form.ref]"
         :key="key"
         :class="{ multiple: form.multiple }"
+        :errors="errors[index]"
         :schema="form"
         :data="instance"
       />
@@ -43,11 +44,14 @@
 
 <script>
 export default {
-  props: ['forms'],
+  props: [
+    'forms',
+    'errors',
+    'sending',
+  ],
   data() {
     return {
       instances: {},
-      sending: false,
     };
   },
   mounted() {
@@ -55,7 +59,6 @@ export default {
   },
   watch: {
     forms() {
-      this.sending = false;
       this.instances = this.defaultFormsValue(this.forms);
     },
   },
@@ -141,7 +144,6 @@ export default {
     },
     submit(event) {
       event.preventDefault();
-      this.sending = true;
 
       const formArray = [];
       Object.keys(this.instances).forEach((ref) => {
