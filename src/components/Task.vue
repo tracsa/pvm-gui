@@ -39,7 +39,6 @@
   <div v-else>
     <loading />
   </div>
-
 </template>
 
 <script>
@@ -121,7 +120,6 @@ export default {
           this.errors = formatErrors(errors);
         });
     },
-
   },
 };
 </script>

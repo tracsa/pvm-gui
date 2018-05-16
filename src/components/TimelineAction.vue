@@ -14,8 +14,8 @@
     </div>
     <div class="card-body">
       <div
-        v-for="actor in action.actors"
-        :key="actor.user.identifier">
+        v-for="(actor, identifier) in action.actors.items"
+        :key="identifier">
         <div v-if="actor">
           <p>
             <b>{{ actor.user.fullname }}</b>
@@ -28,11 +28,11 @@
               <tr class="form-group">
                 <td
                   :title="`#${form.ref}`"
-                  :rowspan="form.inputs.length + 1">
+                  :rowspan="form.inputs.item_order.length + 1">
                 </td>
               </tr>
               <tr
-                v-for="input in form.inputs"
+                v-for="input in form.inputs.item_order.map(key => form.inputs.items[key])"
                 :key="input.name">
                 <td scope="row">{{ input.label }}</td>
                 <td v-if="input.type === 'file'">
