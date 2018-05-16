@@ -16,10 +16,19 @@
           </div>
 
           <form-render
+            v-if="task.node_type === 'action'"
             :forms="task.form_array"
             :errors="errors"
             :sending="sending"
             @submit= "submit"
+          />
+
+          <data-validator
+            v-if="task.node_type === 'validation'"
+            :fields="task.fields"
+            :errors="errors"
+            :sending="sending"
+            @submit= "validate"
           />
         </div>
       </div>
@@ -75,6 +84,9 @@ export default {
         .catch(() => {
           // notify user about error
         });
+    },
+    validate: function validate(validation) {
+      console.log(validation);
     },
     submit: function submit(formArray) {
       const postData = {

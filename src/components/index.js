@@ -18,6 +18,7 @@ import Loading from './Loading';
 import MessageInfo from './MessageInfo';
 import FormInstance from './FormInstance';
 import LinearSteps from './LinearSteps';
+import DataValidator from './DataValidator';
 
 // Components
 Vue.component('app-header', Header);
@@ -42,3 +43,6 @@ Vue.component('datetime-input', DatetimeInput);
 Vue.component('doqer-input', DoqerSelect);
 Vue.component('doqer-create', DoqerCreate);
 Vue.component('doqer-suggest', DoqerSuggest);
+
+// Data validator
+Vue.component('data-validator', DataValidator);
