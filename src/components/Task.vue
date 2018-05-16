@@ -9,14 +9,15 @@
             </router-link>
           </div>
           <div
-            v-for="error in errors"
-            :key="error.code"
+            v-for="(error, index) in errors.global"
+            :key="index"
             class="alert custom-alert-danger">
-            {{ $t('error.code') }}
+            {{ error.code || error.detail }}
           </div>
 
           <form-render
             :forms="task.form_array"
+            :errors="errors"
             :sending="sending"
             @submit= "submit"
           />
@@ -39,7 +40,9 @@ export default {
   props: ['taskId'],
   data() {
     return {
-      errors: [],
+      errors: {
+        global: [],
+      },
       loading: true,
       sending: false,
       task: null,
@@ -52,6 +55,9 @@ export default {
   watch: {
     taskId(newValue) {
       this.loadData(newValue);
+      this.errors = {
+        global: [],
+      };
     },
   },
   methods: {
@@ -66,9 +72,8 @@ export default {
           this.loading = false;
           this.actions = body.data;
         })
-        .catch((errors) => {
-          this.loading = false;
-          this.errors = errors;
+        .catch(() => {
+          // notify user about error
         });
     },
     submit: function submit(formArray) {
@@ -85,8 +90,43 @@ export default {
           this.$router.push(`/tracking/${this.task.execution.id}`);
         })
         .catch((errors) => {
+          const formated = errors.reduce((obj, error) => {
+            // jslint :'(
+            const ref = obj;
+
+            let used = false;
+            if (typeof error.where === 'string') {
+              const match = error.where.match(/request.body.form_array.(\d+).(\w+)/);
+              if (match) {
+                const index = match[1];
+                const name = match[2];
+
+                if (ref[index] === undefined) {
+                  ref[index] = {};
+                }
+
+                if (ref[index][name] === undefined) {
+                  ref[index][name] = [];
+                }
+
+                ref[index][name].push(error);
+                used = true;
+              }
+            }
+
+            if (!used) {
+              if (ref.global === undefined) {
+                ref.global = [];
+              }
+
+              ref.global.push(error);
+            }
+
+            return ref;
+          }, { global: [] });
+
           this.sending = false;
-          this.errors = errors;
+          this.errors = formated;
         });
     },
 
