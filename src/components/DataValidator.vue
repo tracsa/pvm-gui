@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit="submit($event)">
     <label for="">Aprobación</label>
     <table class="table table-sm table-bordered">
       <thead>
@@ -53,7 +53,7 @@
         }"
         :disabled="sending || (!response && !comment)">
         <span v-if="sending">{{ $t('commons.sending') }}</span>
-        <span v-if="response">{{ $t('commons.approve') }}</span>
+        <span v-else-if="response">{{ $t('commons.approve') }}</span>
         <span v-else>{{ $t('commons.reject') }}</span>
       </button>
     </div>
@@ -90,6 +90,22 @@ export default {
   methods: {
     toogle(ref) {
       this.validity[ref] = !this.validity[ref];
+    },
+    submit(event) {
+      event.preventDefault();
+
+      const validation = {
+        response: this.response ? 'accept' : 'reject',
+        comment: this.comment,
+      };
+
+      if (!this.response) {
+        validation.fields = this.fields
+          .filter(field => !this.validity[field.ref])
+          .map(field => ({ ref: field.ref }));
+      }
+
+      this.$emit('submit', validation);
     },
   },
 };
