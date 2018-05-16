@@ -86,7 +86,22 @@ export default {
         });
     },
     validate: function validate(validation) {
-      console.log(validation);
+      const postData = Object.assign({
+        execution_id: this.task.execution.id,
+        node_id: this.task.node_id,
+      }, validation);
+
+      console.log(postData);
+
+      this.sending = true;
+      post('/pointer', postData, 'application/json')
+        .then(() => {
+          this.sending = false;
+          this.$router.push(`/tracking/${this.task.execution.id}`);
+        })
+        .catch(() => {
+          // TODO notify user
+        });
     },
     submit: function submit(formArray) {
       const postData = {
