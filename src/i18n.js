@@ -59,6 +59,8 @@ const messages = {
       upload: 'Subir',
       uploading: 'Subiendo...',
       name: 'Nombre',
+      approve: 'Aprobar',
+      reject: 'Rechazar',
     },
     validation: {
       required: 'Este campo es requerido',
@@ -124,6 +126,8 @@ const messages = {
       upload: 'Upload',
       uploading: 'Uploading...',
       name: 'Nombre',
+      approve: 'Approve',
+      reject: 'Reject',
     },
   },
 };
