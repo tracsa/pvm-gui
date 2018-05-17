@@ -2,9 +2,9 @@
   <div class="card">
     <div class="card-header">
       <div style="font-size:16px;float:right;">
-        <router-link :to="{ name: 'processes' }">
+        <a @click="this.$router.go(-1)">
           <icon :icon="['fas', 'times']" />
-        </router-link>
+        </a>
       </div>
       <span>{{ model.name }}</span>
     </div>

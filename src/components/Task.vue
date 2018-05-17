@@ -4,9 +4,9 @@
       <div class="card timeline-action">
         <div class="card-body">
           <div class="float-right">
-            <router-link :to="{ path: '/tracking'}">
+            <a @click="this.$router.go(-1)">
               <icon :icon="['fas', 'times']" />
-            </router-link>
+            </a>
           </div>
           <div
             v-for="error in errors"
