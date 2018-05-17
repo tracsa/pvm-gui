@@ -1,5 +1,5 @@
 <template>
-  <div class="container-linear">
+  <div v-if="steps.lenght > 1" class="container-linear">
     <div
       class="row line">
       <div
