@@ -4,7 +4,7 @@
       <div class="card timeline-action">
         <div class="card-body">
           <div class="float-right">
-            <router-link :to="{ path: '/tracking'}">
+            <router-link :to="{ path: '/task'}">
               <icon :icon="['fas', 'times']" />
             </router-link>
           </div>
