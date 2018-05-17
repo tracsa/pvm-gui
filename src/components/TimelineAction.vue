@@ -84,10 +84,10 @@
 </template>
 
 <script>
+import moment from 'moment';
 import settings from '@/settings';
 import { getAuthUser } from '../utils/auth';
-import moment from 'moment';
-import 'moment/locale/es';
+
 moment.locale('es');
 
 export default {
