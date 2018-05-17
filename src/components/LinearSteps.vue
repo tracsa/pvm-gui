@@ -16,7 +16,7 @@
               <div class="center-point"></div>
             </div>
             <div
-              v-else-if="step.active"
+              v-else-if="step.active == 1"
               class="active">
                 <icon :icon="['fas', 'check']" />
             </div>
@@ -66,15 +66,14 @@ $step-circle-size: 35px;
 $step-circle-border-size: 10px;
 $line-background: #4C84FF;
 $line-size: 4px;
-$line-no-active-step: #e7e7e7;
+$line-no-active-step: #D8D8D8;
 $circle-no-active-border-size: 4px;
 $circle-no-active-bg: 40px;
 $circle-active-size: 40px;
 $circle-active-center-point-size: 20px;
 
 .container-linear {
-  padding: 40px 0;
-  padding-top: 10px;
+  padding: 20px 20px;
   padding-bottom: 80px;
 
   .line {
@@ -144,7 +143,9 @@ $circle-active-center-point-size: 20px;
         }
       }
 
-      &.no-active {
+      }
+
+      .no-active {
         background: $line-no-active-step;
 
       // Unfinished step
@@ -160,8 +161,6 @@ $circle-active-center-point-size: 20px;
           }
           z-index: 10;
         }
-      }
-
         // Finished step
         .active {
           background: $line-background;

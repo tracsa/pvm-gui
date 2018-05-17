@@ -64,7 +64,7 @@
         <loading />
       </div>
 
-      <div v-if="selectedId" class="col-12 col-md-8">
+      <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">
         <tracking :id="selectedId" />
       </div>
 
