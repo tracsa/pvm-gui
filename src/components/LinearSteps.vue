@@ -42,19 +42,7 @@
 
 <script>
 export default {
-  props: ['steps'],
-  data() {
-    return { actualStep: null };
-  },
-  mounted() {
-    let actualStep = null;
-    this.steps.forEach((step, index) => {
-      if (actualStep === null && step.active !== 1) {
-        actualStep = index;
-      }
-    });
-    this.actualStep = actualStep;
-  },
+  props: ['steps', 'actualStep'],
 };
 </script>
 

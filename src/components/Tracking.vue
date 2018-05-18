@@ -1,6 +1,6 @@
 <template>
   <div>
-    <linear-steps :steps="this.nodes"/>
+    <linear-steps :actualStep="actualStep" :steps="this.nodes"/>
     <div v-if="last !== null" class="text-primary">
       <div class="row">
         <div class="col-11">
@@ -30,6 +30,7 @@ export default {
       loading: true,
       actions: [],
       nodes: [],
+      actualStep: 0,
     };
   },
   mounted() {
@@ -50,6 +51,16 @@ export default {
     },
   },
   methods: {
+    getSteps: function getSteps(steps) {
+      console.log("sdfd");
+      let actualStep = null;
+      steps.forEach((step, index) => {
+        if (actualStep === null && step.active !== 1) {
+          actualStep = index;
+        }
+      });
+      this.actualStep = actualStep;
+    },
     loadData: function loadData(id) {
       get(`/execution/${id}`).then((nodes) => {
         const items = nodes.data.state.items;
@@ -65,6 +76,7 @@ export default {
           };
         });
         this.nodes = order;
+        this.getSteps(order);
       });
 
       get(`/log/${id}`)
