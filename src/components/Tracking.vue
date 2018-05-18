@@ -52,10 +52,9 @@ export default {
   },
   methods: {
     getSteps: function getSteps(steps) {
-      console.log("sdfd");
       let actualStep = null;
       steps.forEach((step, index) => {
-        if (actualStep === null && step.active !== 1) {
+        if (actualStep === null && step.active !== 1 && step.active !== 3) {
           actualStep = index;
         }
       });
@@ -68,7 +67,7 @@ export default {
         let active;
         let state;
         order = order.map((key) => {
-          state = ['unfilled', 'filled', 'invalid'];
+          state = ['unfilled', 'filled', 'invalid', 'valid'];
           active = state.indexOf(items[key].state);
           return {
             desc: items[key].id,

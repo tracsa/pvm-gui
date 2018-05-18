@@ -16,7 +16,7 @@
               <div class="center-point"></div>
             </div>
             <div
-              v-else-if="step.active == 1"
+              v-else-if="step.active == 1 || step.active == 3"
               class="active">
                 <icon :icon="['fas', 'check']" />
             </div>
