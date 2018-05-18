@@ -52,7 +52,6 @@ export default {
   },
   methods: {
     getSteps: function getSteps(steps) {
-      console.log("sdfd");
       let actualStep = null;
       steps.forEach((step, index) => {
         if (actualStep === null && step.active !== 1) {
