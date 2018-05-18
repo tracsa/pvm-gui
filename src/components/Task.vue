@@ -39,11 +39,11 @@
   <div v-else>
     <loading />
   </div>
-
 </template>
 
 <script>
 import { get, post } from '@/utils/api';
+import formatErrors from '@/utils/formatErrors';
 
 export default {
   props: ['taskId'],
@@ -82,7 +82,7 @@ export default {
           this.actions = body.data;
         })
         .catch(() => {
-          // notify user about error
+          // TODO notify user
         });
     },
     validate: function validate(validation) {
@@ -91,16 +91,15 @@ export default {
         node_id: this.task.node_id,
       }, validation);
 
-      console.log(postData);
-
       this.sending = true;
       post('/pointer', postData, 'application/json')
         .then(() => {
           this.sending = false;
           this.$router.push(`/tracking/${this.task.execution.id}`);
         })
-        .catch(() => {
-          // TODO notify user
+        .catch((errors) => {
+          this.sending = false;
+          this.errors = formatErrors(errors);
         });
     },
     submit: function submit(formArray) {
@@ -117,46 +116,10 @@ export default {
           this.$router.push(`/tracking/${this.task.execution.id}`);
         })
         .catch((errors) => {
-          const formated = errors.reduce((obj, error) => {
-            // jslint :'(
-            const ref = obj;
-
-            let used = false;
-            if (typeof error.where === 'string') {
-              const match = error.where.match(/request.body.form_array.(\d+).(\w+)/);
-              if (match) {
-                const index = match[1];
-                const name = match[2];
-
-                if (ref[index] === undefined) {
-                  ref[index] = {};
-                }
-
-                if (ref[index][name] === undefined) {
-                  ref[index][name] = [];
-                }
-
-                ref[index][name].push(error);
-                used = true;
-              }
-            }
-
-            if (!used) {
-              if (ref.global === undefined) {
-                ref.global = [];
-              }
-
-              ref.global.push(error);
-            }
-
-            return ref;
-          }, { global: [] });
-
           this.sending = false;
-          this.errors = formated;
+          this.errors = formatErrors(errors);
         });
     },
-
   },
 };
 </script>

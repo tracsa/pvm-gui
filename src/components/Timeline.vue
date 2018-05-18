@@ -1,10 +1,27 @@
 <template>
   <div class="timeline">
-    <timeline-action
-      v-for="action in actions"
-      :key="action.id"
-      :action="action"
-    />
+    <div
+      class="timeline-action"
+      v-for="node in actions"
+      :key="node.id"
+    >
+      <span class="timeline-dot" />
+
+      <timeline-pending
+        v-if="node.finished_at === null"
+        :node="node"
+      />
+
+      <timeline-validation
+        v-else-if="node.node.type === 'validation'"
+        :validation="node"
+      />
+
+      <timeline-action
+        v-else-if="node.node.type === 'action'"
+        :action="node"
+      />
+    </div>
   </div>
 </template>
 
