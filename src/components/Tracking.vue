@@ -52,16 +52,17 @@ export default {
   methods: {
     loadData: function loadData(id) {
       get(`/execution/${id}`).then((nodes) => {
-        let items = nodes.data.state.items;
+        const items = nodes.data.state.items;
         let order = nodes.data.state.item_order;
-        let active, state;
+        let active;
+        let state;
         order = order.map((key) => {
-          let state = ['unfilled', 'filled', 'invalid']
+          state = ['unfilled', 'filled', 'invalid'];
           active = state.indexOf(items[key].state);
-          return { 
+          return {
             desc: items[key].id,
             active,
-          }
+          };
         });
         this.nodes = order;
       });
