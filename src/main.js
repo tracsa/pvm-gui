@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import moment from 'moment';
 import 'whatwg-fetch';
 import App from './App';
 import router from './router';
@@ -6,6 +7,8 @@ import './fontawesome';
 import i18n from './i18n';
 
 Vue.config.productionTip = false;
+
+moment.locale('es');
 
 /* eslint-disable no-new */
 new Vue({

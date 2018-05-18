@@ -2,17 +2,24 @@
   <div
     class="alert"
     :class="{ 'custom-alert-success': state, 'custom-alert-danger': !state }">
-    <div>{{ validation.node.name }}</div>
     <div
       v-for="actor in validation.actors.items"
       :key="actor.user.id">
-      <small style="font-weight: bold;">
+      <span style="font-weight: bold;">
         {{ actor.user.fullname }}&nbsp;
-      </small>
+      </span>
 
-      <small>
+      <span>
         {{ actor.forms[0].inputs.items.comment.value }}
-      </small>
+      </span>
+    </div>
+
+    <div>
+      <span
+        class="badge badge-primary"
+        :class="{ 'badge-success': state, 'badge-danger': !state }">
+        {{ state ? 'Aprobado' : 'Rechazado' }}
+      </span>
     </div>
   </div>
 </template>
