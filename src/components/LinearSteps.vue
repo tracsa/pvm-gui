@@ -50,18 +50,6 @@ export default {
 @import '../styles/variables.scss';
 @import '../styles/mixins.scss';
 
-$arrow-step-desc: 7px;
-$circle-border-size: 20px;
-$step-circle-size: 35px;
-$step-circle-border-size: 10px;
-$line-background: #4C84FF;
-$line-size: 4px;
-$line-no-active-step: #D8D8D8;
-$circle-no-active-border-size: 4px;
-$circle-no-active-bg: 40px;
-$circle-active-size: 40px;
-$circle-active-center-point-size: 20px;
-
 .container-linear {
   padding: 20px 20px;
   padding-bottom: 80px;
@@ -128,7 +116,7 @@ $circle-active-center-point-size: 20px;
             display: flex;
             justify-content: center;
             background: white;
-            color: #75777e;
+            color: lighten($line-background, 5%);
             padding: 10px;
             height: $step-circle-size;
             font-size: 12px;
@@ -137,7 +125,7 @@ $circle-active-center-point-size: 20px;
               height: 30px;
             }
             border-radius: $step-circle-border-size;
-            @include box-shadow(0px 5px 6px 1px rgba(204,202,204, 0.12))
+            @include box-shadow(0px 0px 8px 3px rgba(204,202,204, 0.20))
 
             &:after {
               @include arrow-up(white, $arrow-step-desc){
