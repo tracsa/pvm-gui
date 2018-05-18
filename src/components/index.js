@@ -1,24 +1,25 @@
 import Datepicker from 'vuejs-datepicker';
 import Vue from 'vue';
 
-import Timeline from '@/components/Timeline';
-import TimelineAction from '@/components/TimelineAction';
-import Tasks from '@/components/Tasks';
-import Task from '@/components/Task';
+import './timeline';
 import Activity from './Activity';
+import DataValidator from './DataValidator';
 import DatetimeInput from './DatetimeInput';
 import DoqerCreate from './doqer/Create';
 import DoqerSelect from './doqer/Select';
 import DoqerSuggest from './doqer/Suggest';
+import FormInstance from './FormInstance';
 import FormRender from './FormRender';
 import Header from './Header';
-import TimeInput from './TimeInput';
-import Tracking from './Tracking';
+import LinearSteps from './LinearSteps';
 import Loading from './Loading';
 import MessageInfo from './MessageInfo';
-import FormInstance from './FormInstance';
-import LinearSteps from './LinearSteps';
-import DataValidator from './DataValidator';
+import Task from './Task';
+import Tasks from './Tasks';
+import TimeInput from './TimeInput';
+import Timeline from './Timeline';
+import Tracking from './Tracking';
+
 
 // Components
 Vue.component('app-header', Header);
@@ -26,7 +27,6 @@ Vue.component('activity', Activity);
 Vue.component('tasks', Tasks);
 Vue.component('task', Task);
 Vue.component('timeline', Timeline);
-Vue.component('timeline-action', TimelineAction);
 Vue.component('form-render', FormRender);
 Vue.component('tracking', Tracking);
 Vue.component('loading', Loading);
