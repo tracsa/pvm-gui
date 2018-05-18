@@ -1,5 +1,21 @@
 <template>
-  <div v-if="action.finished_at !== null" class="card timeline-action">
+  <div v-if="action.node.type === 'validation'" class="card timeline-action">
+    <span
+      class="timeline-dot"
+      :title="action.finished_at | setMoment('Complete')">
+    </span>
+    <div class="card-body">
+      <div
+        v-for="(actor, identifier) in action.actors.items"
+        :key="identifier">
+        {{ actor | validationShortcut('fullname') }}
+        {{ actor | validationShortcut('response') }}
+        <p>{{ actor | validationShortcut('comment') }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div v-else-if="action.finished_at !== null" class="card timeline-action">
     <span
       class="timeline-dot"
       :title="action.finished_at | setMoment('Complete')">
@@ -14,8 +30,8 @@
     </div>
     <div class="card-body">
       <div
-        v-for="actor in action.actors"
-        :key="actor.user.identifier">
+        v-for="(actor, identifier) in action.actors.items"
+        :key="identifier">
         <div v-if="actor">
           <p>
             <b>{{ actor.user.fullname }}</b>
@@ -28,11 +44,11 @@
               <tr class="form-group">
                 <td
                   :title="`#${form.ref}`"
-                  :rowspan="form.inputs.length + 1">
+                  :rowspan="form.inputs.item_order.length + 1">
                 </td>
               </tr>
               <tr
-                v-for="input in form.inputs"
+                v-for="input in form.inputs.item_order.map(key => form.inputs.items[key])"
                 :key="input.name">
                 <td scope="row">{{ input.label }}</td>
                 <td v-if="input.type === 'file'">
@@ -84,10 +100,10 @@
 </template>
 
 <script>
+import moment from 'moment';
 import settings from '@/settings';
 import { getAuthUser } from '../utils/auth';
-import moment from 'moment';
-import 'moment/locale/es';
+
 moment.locale('es');
 
 export default {
@@ -158,11 +174,29 @@ export default {
 
       return output;
     },
+    validationShortcut(data, key) {
+      let response;
+      switch (key) {
+        case 'fullname':
+          response = data.user.fullname;
+          break;
+        case 'response':
+          response = data.forms[0].inputs.items.response.value;
+          break;
+        case 'comment':
+          response = data.forms[0].inputs.items.comment.value;
+          break;
+        default:
+          response = '';
+          break;
+      }
+
+      return response;
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-
 .leyend-text {
   margin-left: 30px;
   margin-bottom: 15px;
@@ -181,5 +215,4 @@ table {
     word-break: break-all;
   }
 }
-
 </style>

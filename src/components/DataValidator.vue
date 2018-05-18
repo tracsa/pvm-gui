@@ -98,7 +98,7 @@ export default {
       };
 
       if (!this.response) {
-        validation.fields = this.fields
+        validation.inputs = this.fields
           .filter(field => !this.validity[field.ref])
           .map(field => ({ ref: field.ref }));
       }

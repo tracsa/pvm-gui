@@ -39,16 +39,16 @@
             v-if="trackings.length"
             class="activity-list">
             <li
-              :class="{ active: selectedId === tracking.execution.id }"
+              :class="{ active: selectedId === tracking.id }"
               v-for="tracking in trackings"
-              :key="tracking.execution.id">
+              :key="tracking.id">
               <router-link
                 :to="{
                   name: 'tracking',
-                  params: { id: tracking.execution.id },
+                  params: { id: tracking.id },
                 }">
                 <div class="activity-name">
-                  {{ tracking.execution.name }}
+                  {{ tracking.name }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -64,7 +64,7 @@
         <loading />
       </div>
 
-      <div v-if="selectedId" class="col-12 col-md-8">
+      <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">
         <tracking :id="selectedId" />
       </div>
 
