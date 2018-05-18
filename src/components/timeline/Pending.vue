@@ -1,5 +1,5 @@
 <template>
-  <div class="alert custom-alert-warning">
+  <div v-if="!hidden" class="alert custom-alert-warning">
     <div>{{ node.node.name }}</div>
     <div>
       <small>Asignado a </small>
@@ -16,5 +16,9 @@
 <script>
 export default {
   props: ['node'],
+  data() {
+    const hidden = (this.$router.history.current.name === 'task') ? true : false;
+    return { hidden };
+  },
 };
 </script>
