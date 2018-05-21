@@ -5,8 +5,9 @@
     <div class="row line">
       <div
         v-for="node in nodes"
-        :key="node.id"
+        v-if="node.state === 'ongoing' || node.milestone"
         class="col"
+        :key="node.id"
         :class="{
           'no-active': (node.state === 'ongoing' || node.state === 'unfilled'),
         }">
