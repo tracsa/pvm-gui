@@ -1,6 +1,6 @@
 <template>
   <div
-    v-if="nodes.length > 1"
+    v-if="nodeCount > 1"
     class="container-linear d-none d-md-block">
     <div class="row line">
       <div
@@ -41,6 +41,11 @@
 <script>
 export default {
   props: ['nodes'],
+  computed: {
+    nodeCount() {
+      return this.nodes.filter(node => node.state === 'ongoing' || node.milestone).length;
+    },
+  },
 };
 </script>
 
