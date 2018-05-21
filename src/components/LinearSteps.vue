@@ -1,5 +1,7 @@
 <template>
-  <div v-if="steps.length > 1" class="container-linear d-none d-md-block">
+  <div
+    v-if="steps.length > 1"
+    class="container-linear d-none d-md-block">
     <div class="row line">
       <div
         v-for="(step, index) in steps"
@@ -17,14 +19,14 @@
             <div
               v-else-if="step.active == 1 || step.active == 3"
               class="active">
-                <icon :icon="['fas', 'check']" />
+              <icon :icon="['fas', 'check']" />
             </div>
             <div
               v-else
               class="no-active">
             </div>
 
-            <div class="container-step-desc">
+            <div v-if="false" class="container-step-desc">
               <div
                 v-if="step.desc"
                 class="step-desc">
@@ -32,9 +34,7 @@
               </div>
             </div>
           </div>
-
       </div>
-
     </div>
   </div>
 </template>
@@ -51,7 +51,7 @@ export default {
 
 .container-linear {
   padding: 20px 20px;
-  padding-bottom: 80px;
+  padding-bottom: 50px;
 
   .line {
     margin: 0;
