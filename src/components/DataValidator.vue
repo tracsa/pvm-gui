@@ -13,8 +13,7 @@
         <tr
           v-for="field in fields"
           :key="field.ref"
-          @click="toogle(field.ref)"
-          >
+          @click="toogle(field.ref)">
           <td>
             <input
               type="checkbox"
@@ -22,7 +21,7 @@
             />
           </td>
           <td>{{ field.label }}</td>
-          <td>{{ field.value }}</td>
+          <td><value-render :input="field" /></td>
         </tr>
       </tbody>
     </table>

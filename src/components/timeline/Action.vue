@@ -32,15 +32,7 @@
                 v-for="input in form.inputs.item_order.map(key => form.inputs.items[key])"
                 :key="input.name">
                 <td scope="row">{{ input.label }}</td>
-                <td v-if="input.type === 'file'">
-                  <a
-                    target="_blank"
-                    :href="input | toURI">
-                    <icon :icon="['fa', 'file']" />
-                    {{ input.value.name }}
-                  </a>
-                </td>
-                <td v-else>{{ input | formInput }}</td>
+                <td><value-render :input="input" /></td>
               </tr>
             </tbody>
           </table>
@@ -52,49 +44,11 @@
 
 <script>
 import moment from 'moment';
-import settings from '@/settings';
-
 
 export default {
   props: ['action'],
   filters: {
-    toURI: function toUri(input) {
-      const { protocol, host, port } = settings.doqer;
-      const { value } = input;
-
-      return `${protocol}://${host}:${port}/api/documents/${value.id}`;
-    },
-    formInput: function formInput(data) {
-      let value;
-      let mapping;
-
-      switch (data.type) {
-        case 'select':
-        case 'radio':
-          value = data.options
-            .filter(option => option.value === data.value)
-            .map(option => option.label)
-            .join('');
-          break;
-        case 'checkbox':
-          mapping = data.options
-            .reduce((map, option) => map.set(option.value, option.label), new Map());
-          value = data.value.map(val => mapping.get(val)).join(', ');
-          break;
-        case 'date':
-          value = moment(data.value).format('DD/HH/YYYY');
-          break;
-        case 'datetime':
-          value = moment(data.value).format('DD/HH/YYYY HH:mm');
-          break;
-        default:
-          value = data.value;
-          break;
-      }
-
-      return value;
-    },
-    setMoment: function setMoment(data, from) {
+    setMoment(data, from) {
       const oldData = data;
       let newDate = new Date(data);
 

@@ -194,13 +194,13 @@ $input-focus-border-color:              lighten($primary, 25%) !default;
 
 // Linear steps
 $circle-border-size: 20px;
-$line-background: #4C84FF;
+$line-background: $purple;
 
 $arrow-step-desc: 7px;
 $circle-border-size: 20px;
 $step-circle-size: 35px;
 $step-circle-border-size: 10px;
-$line-background: #4C84FF;
+$line-background: lighten($purple, 10%);
 $line-size: 4px;
 $line-no-active-step: #D8D8D8;
 $circle-no-active-border-size: 4px;

@@ -1,17 +1,19 @@
 <template>
   <div>
-    <linear-steps :actualStep="actualStep" :steps="this.nodes"/>
-    <div v-if="last !== null" class="text-primary">
-      <div class="row">
-        <div class="col-11">
-          <b>{{ last.execution.name }}</b>
-        </div>
-        <div class="col-1 text-right">
-          <router-link :to="{ path: '/tracking'}">
-            <icon :icon="['fas', 'times']" />
-          </router-link>
+    <div class="head-container">
+      <div v-if="last !== null" class="text-primary">
+        <div class="row">
+          <div class="col-11">
+            <b>{{ last.execution.name }}</b>
+          </div>
+          <div class="col-1 text-right">
+            <router-link :to="{ path: '/tracking'}">
+              <icon :icon="['fas', 'times']" />
+            </router-link>
+          </div>
         </div>
       </div>
+      <linear-steps :actualStep="actualStep" :steps="this.nodes"/>
     </div>
     <timeline v-if="!loading" :actions="actions" />
     <div v-else>
@@ -54,7 +56,7 @@ export default {
     getSteps: function getSteps(steps) {
       let actualStep = null;
       steps.forEach((step, index) => {
-        if (actualStep === null && step.active !== 1) {
+        if (actualStep === null && step.active !== 1 && step.active !== 3) {
           actualStep = index;
         }
       });
@@ -67,7 +69,7 @@ export default {
         let active;
         let state;
         order = order.map((key) => {
-          state = ['unfilled', 'filled', 'invalid'];
+          state = ['unfilled', 'filled', 'invalid', 'valid'];
           active = state.indexOf(items[key].state);
           return {
             desc: items[key].id,
@@ -90,3 +92,18 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+@import '../styles/variables.scss';
+
+$head-container-title-color: $gray-700 !important;
+
+  .head-container {
+    background: white;
+    border: 3px solid #c7b5e7;
+    padding: 0 20px;
+    .text-primary {
+      padding: 20px 20px;
+      color: $black-light !important;
+    }
+  }
+</style>
