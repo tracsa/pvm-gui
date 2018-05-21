@@ -36,7 +36,8 @@ export default {
     };
   },
   mounted() {
-    this.loadData(this.id);
+    this.loadData(this.id)
+    setInterval(() => this.loadData(this.id), 30000);
   },
   watch: {
     id(newId) {
