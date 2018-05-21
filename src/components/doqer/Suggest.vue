@@ -24,13 +24,6 @@ export default {
   methods: {
     suggestFiles: function suggestFiles() {
       const suggestions = [];
-      const results = Math.floor(Math.random() * 10);
-      for (let i = 0; i <= results; i += 1) {
-        suggestions.push({
-          label: Math.floor(Math.random() * 100),
-          value: i,
-        });
-      }
 
       this.suggestions = suggestions;
     },

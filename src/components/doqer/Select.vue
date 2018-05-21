@@ -10,12 +10,12 @@
             {{ selected.attributes.name }}
           </div>
           <div class="col text-right pt-1" style="font-size: 0.8em;">
-              <icon
-                class="clear-file"
-                style="cursor:pointer"
-                @click="clearFile"
-                :icon="['fas', 'times']"
-              />
+            <icon
+              class="clear-file"
+              style="cursor:pointer"
+              @click="clearFile"
+              :icon="['fas', 'times']"
+            />
           </div>
         </div>
       </div>
@@ -121,7 +121,11 @@ export default {
       this.$emit('change', fileRef);
     },
     clearFile: function clearFile() {
+      this.action = 'suggest';
+      this.query = '';
+      this.file = null;
       this.selected = null;
+
       this.$emit('change', null);
     },
   },
@@ -170,7 +174,7 @@ $input-height: 38px;
 
 .helper-window {
   position: absolute;
-  z-index: 1;
+  z-index: 100;
   background: white;
   border: 1px solid $input-focus-border-color;
   width: 100%;
