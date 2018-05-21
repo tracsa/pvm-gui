@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-      <linear-steps :actualStep="actualStep" :steps="this.nodes"/>
+      <linear-steps :nodes="nodes"/>
     </div>
     <timeline v-if="!loading" :actions="actions" />
     <div v-else>
@@ -32,7 +32,6 @@ export default {
       loading: true,
       actions: [],
       nodes: [],
-      actualStep: 0,
     };
   },
   mounted() {
@@ -53,31 +52,12 @@ export default {
     },
   },
   methods: {
-    getSteps: function getSteps(steps) {
-      let actualStep = null;
-      steps.forEach((step, index) => {
-        if (actualStep === null && step.active !== 1 && step.active !== 3) {
-          actualStep = index;
-        }
-      });
-      this.actualStep = actualStep;
-    },
     loadData: function loadData(id) {
-      get(`/execution/${id}`).then((nodes) => {
-        const items = nodes.data.state.items;
-        let order = nodes.data.state.item_order;
-        let active;
-        let state;
-        order = order.map((key) => {
-          state = ['unfilled', 'filled', 'invalid', 'valid'];
-          active = state.indexOf(items[key].state);
-          return {
-            desc: items[key].id,
-            active,
-          };
-        });
-        this.nodes = order;
-        this.getSteps(order);
+      get(`/execution/${id}`).then((execution) => {
+        const state = execution.data.state;
+        const nodes = state.item_order.map(key => state.items[key]);
+
+        this.nodes = nodes;
       });
 
       get(`/log/${id}`)

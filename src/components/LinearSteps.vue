@@ -1,23 +1,23 @@
 <template>
   <div
-    v-if="steps.length > 1"
+    v-if="nodes.length > 1"
     class="container-linear d-none d-md-block">
     <div class="row line">
       <div
-        v-for="(step, index) in steps"
-        :key="index"
+        v-for="node in nodes"
+        :key="node.id"
+        class="col"
         :class="{
-          'col': true,
-          'no-active': !step.active || step.active === 2 || index === actualStep,
+          'no-active': (node.state === 'ongoing' || node.state === 'unfilled'),
         }">
           <div class="container-step">
             <div
-              v-if="index === actualStep"
+              v-if="node.state === 'ongoing'"
               class="actual-active">
               <div class="center-point" />
             </div>
             <div
-              v-else-if="step.active == 1 || step.active == 3"
+              v-else-if="node.state === 'valid'"
               class="active">
               <icon :icon="['fas', 'check']" />
             </div>
@@ -26,11 +26,9 @@
               class="no-active">
             </div>
 
-            <div v-if="false" class="container-step-desc">
-              <div
-                v-if="step.desc"
-                class="step-desc">
-                  {{ step.desc }}
+            <div v-if="true" class="container-step-desc">
+              <div class="step-desc">
+                {{ node.state }}
               </div>
             </div>
           </div>
@@ -41,7 +39,7 @@
 
 <script>
 export default {
-  props: ['steps', 'actualStep'],
+  props: ['nodes'],
 };
 </script>
 
@@ -189,9 +187,7 @@ export default {
           border-radius: 50%;
         }
       }
-
     }
   }
 }
-
 </style>
