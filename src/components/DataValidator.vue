@@ -13,8 +13,7 @@
         <tr
           v-for="field in fields"
           :key="field.ref"
-          @click="toogle(field.ref)"
-          >
+          @click="toogle(field.ref)">
           <td>
             <input
               type="checkbox"
@@ -22,7 +21,16 @@
             />
           </td>
           <td>{{ field.label }}</td>
-          <td>{{ field.value }}</td>
+          <td v-if="field.type === 'file'">
+            <a
+              v-if="field.value"
+              target="_blank"
+              :href="field | toURI">
+              <icon :icon="['fa', 'file']" />
+              {{ field.value.name }}
+            </a>
+          </td>
+          <td v-else>{{ input | formInput }}</td>
         </tr>
       </tbody>
     </table>
@@ -59,6 +67,10 @@
 </template>
 
 <script>
+import moment from 'moment';
+import settings from '@/settings';
+
+
 export default {
   props: ['fields', 'sending', 'errors'],
   data() {
@@ -104,6 +116,44 @@ export default {
       }
 
       this.$emit('submit', validation);
+    },
+  },
+  filters: {
+    toURI(input) {
+      const { protocol, host, port } = settings.doqer;
+      const { value } = input;
+
+      return `${protocol}://${host}:${port}/api/documents/${value.id}`;
+    },
+    formInput(data) {
+      let value;
+      let mapping;
+
+      switch (data.type) {
+        case 'select':
+        case 'radio':
+          value = data.options
+            .filter(option => option.value === data.value)
+            .map(option => option.label)
+            .join('');
+          break;
+        case 'checkbox':
+          mapping = data.options
+            .reduce((map, option) => map.set(option.value, option.label), new Map());
+          value = data.value.map(val => mapping.get(val)).join(', ');
+          break;
+        case 'date':
+          value = moment(data.value).format('DD/HH/YYYY');
+          break;
+        case 'datetime':
+          value = moment(data.value).format('DD/HH/YYYY HH:mm');
+          break;
+        default:
+          value = data.value;
+          break;
+      }
+
+      return value;
     },
   },
 };
