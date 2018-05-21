@@ -34,6 +34,7 @@
                 <td scope="row">{{ input.label }}</td>
                 <td v-if="input.type === 'file'">
                   <a
+                    v-if="input.value !== null"
                     target="_blank"
                     :href="input | toURI">
                     <icon :icon="['fa', 'file']" />
@@ -58,13 +59,13 @@ import settings from '@/settings';
 export default {
   props: ['action'],
   filters: {
-    toURI: function toUri(input) {
+    toURI(input) {
       const { protocol, host, port } = settings.doqer;
       const { value } = input;
 
       return `${protocol}://${host}:${port}/api/documents/${value.id}`;
     },
-    formInput: function formInput(data) {
+    formInput(data) {
       let value;
       let mapping;
 
@@ -94,7 +95,7 @@ export default {
 
       return value;
     },
-    setMoment: function setMoment(data, from) {
+    setMoment(data, from) {
       const oldData = data;
       let newDate = new Date(data);
 
