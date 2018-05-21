@@ -170,7 +170,7 @@ $input-height: 38px;
 
 .helper-window {
   position: absolute;
-  z-index: 1;
+  z-index: 100;
   background: white;
   border: 1px solid $input-focus-border-color;
   width: 100%;
