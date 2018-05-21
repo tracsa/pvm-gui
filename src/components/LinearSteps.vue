@@ -27,7 +27,7 @@
               class="no-active">
             </div>
 
-            <div v-if="true" class="container-step-desc">
+            <div v-if="false" class="container-step-desc">
               <div class="step-desc">
                 {{ node.state }}
               </div>
