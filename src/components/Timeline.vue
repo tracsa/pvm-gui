@@ -1,12 +1,8 @@
 <template>
   <div class="timeline">
     <div
-      class="timeline-action"
       v-for="node in actions"
-      :key="node.id"
-    >
-      <span class="timeline-dot" />
-
+      :key="node.id">
       <timeline-pending
         v-if="node.finished_at === null"
         :node="node"

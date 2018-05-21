@@ -10,6 +10,7 @@
 .timeline-action {
   position: relative;
   margin-left: $line-distance;
+  margin-bottom: 1rem;
 
   & + .timeline-action {
     margin-top: 0;
@@ -24,6 +25,18 @@
     width: $dot-size;
     border: $line-width solid $body-bg;
     border-radius: 50%;
+
+    &.dot-red {
+      background: $red;
+    }
+
+    &.dot-green {
+      background: $green;
+    }
+
+    &.dot-orange {
+      background: $orange;
+    }
   }
 
   .card {
