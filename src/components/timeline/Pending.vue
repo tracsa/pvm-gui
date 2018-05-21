@@ -17,7 +17,7 @@
 export default {
   props: ['node'],
   data() {
-    const hidden = (this.$router.history.current.name === 'task') ? true : false;
+    const hidden = (this.$router.history.current.name === 'task');
     return { hidden };
   },
 };
