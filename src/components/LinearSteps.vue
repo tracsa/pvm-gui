@@ -1,7 +1,6 @@
 <template>
   <div v-if="steps.length > 1" class="container-linear d-none d-md-block">
-    <div
-      class="row line">
+    <div class="row line">
       <div
         v-for="(step, index) in steps"
         :key="index"
@@ -13,7 +12,7 @@
             <div
               v-if="index === actualStep"
               class="actual-active">
-              <div class="center-point"></div>
+              <div class="center-point" />
             </div>
             <div
               v-else-if="step.active == 1 || step.active == 3"
