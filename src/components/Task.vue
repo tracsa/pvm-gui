@@ -18,6 +18,7 @@
           <form-render
             v-if="task.node_type === 'action'"
             :forms="task.form_array"
+            :prevWork="task.prev_work"
             :errors="errors"
             :sending="sending"
             @submit= "submit"
