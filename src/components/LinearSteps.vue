@@ -28,7 +28,7 @@
             </div>
 
             <div class="container-step-desc">
-              <div class="step-desc">
+              <div class="step-desc" :title="node.description">
                 {{ node.name }}
               </div>
             </div>
@@ -114,6 +114,7 @@ export default {
           width: 150px;
 
           .step-desc {
+            cursor: default;
             display: flex;
             justify-content: center;
             background: $line-background;
