@@ -2,6 +2,14 @@
   <div v-if="!loading">
     <div class="timeline">
       <div class="card timeline-action">
+        <div class="card-header">
+          <div class="row">
+            <div class="col">
+              {{ task.name }}
+            </div>
+          </div>
+        </div>
+
         <div class="card-body">
           <div class="float-right">
             <router-link :to="{ path: '/tracking'}">
@@ -18,6 +26,7 @@
           <form-render
             v-if="task.node_type === 'action'"
             :forms="task.form_array"
+            :prevWork="task.prev_work"
             :errors="errors"
             :sending="sending"
             @submit= "submit"

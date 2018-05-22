@@ -27,9 +27,9 @@
               class="no-active">
             </div>
 
-            <div v-if="false" class="container-step-desc">
-              <div class="step-desc">
-                {{ node.state }}
+            <div class="container-step-desc">
+              <div class="step-desc" :title="node.description">
+                {{ node.name }}
               </div>
             </div>
           </div>
@@ -55,7 +55,7 @@ export default {
 
 .container-linear {
   padding: 20px 20px;
-  padding-bottom: 50px;
+  padding-bottom: 80px;
 
   .line {
     margin: 0;
@@ -70,7 +70,6 @@ export default {
       .container-step-desc {
         justify-content: end;
       }
-
     }
 
     .col {
@@ -82,7 +81,6 @@ export default {
       &.no-active {
         background: $line-no-active-step;
 
-      // Unfinished step
         .no-active {
           height: $circle-no-active-bg;
           width: $circle-no-active-bg;
@@ -116,10 +114,11 @@ export default {
           width: 150px;
 
           .step-desc {
+            cursor: default;
             display: flex;
             justify-content: center;
-            background: white;
-            color: lighten($line-background, 5%);
+            background: $line-background;
+            color: white;
             padding: 10px;
             height: $step-circle-size;
             font-size: 12px;
@@ -131,9 +130,9 @@ export default {
             @include box-shadow(0px 0px 8px 3px rgba(204,202,204, 0.20))
 
             &:after {
-              @include arrow-up(white, $arrow-step-desc){
+              @include arrow-up($line-background, $arrow-step-desc){
                 position: absolute;
-                top: -4px;
+                top: -6px;
                 width: 0;
                 height: 0;
               }

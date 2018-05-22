@@ -46,6 +46,7 @@
 export default {
   props: [
     'forms',
+    'prevWork',
     'errors',
     'sending',
   ],
@@ -125,13 +126,39 @@ export default {
       return formData;
     },
     defaultFormsValue(forms) {
-      const instances = {};
+      let instances = {};
 
-      forms.forEach((form) => {
-        instances[form.ref] = [
-          this.defaultFormValue(form),
-        ];
-      });
+      if (this.prevWork !== undefined) {
+        instances = this.prevWork.reduce((insts, formState) => {
+          const instsRef = insts;
+          const inputsState = formState.inputs;
+          const inputs = inputsState.item_order.reduce((obj, key) => {
+            const ref = obj;
+            const inputState = inputsState.items[key];
+            ref[key] = inputState.value;
+
+            if (ref[key] === null) {
+              ref[key] = this.defaultInputValue(inputState);
+            }
+
+            return ref;
+          }, {});
+
+          if (instsRef[formState.ref] === undefined) {
+            instsRef[formState.ref] = [];
+          }
+
+          instsRef[formState.ref].push(inputs);
+
+          return instsRef;
+        }, {});
+      } else {
+        forms.forEach((form) => {
+          instances[form.ref] = [
+            this.defaultFormValue(form),
+          ];
+        });
+      }
 
       return instances;
     },
