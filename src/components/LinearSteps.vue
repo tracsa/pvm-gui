@@ -11,7 +11,7 @@
         :class="{
           'no-active': (node.state === 'ongoing' || node.state === 'unfilled'),
         }">
-          <div class="container-step">
+          <div class="container-step" :title="node.name">
             <div
               v-if="node.state === 'ongoing'"
               class="actual-active">
@@ -27,7 +27,7 @@
               class="no-active">
             </div>
 
-            <div class="container-step-desc">
+            <div v-if="false" class="container-step-desc">
               <div class="step-desc" :title="node.description">
                 {{ node.name }}
               </div>
@@ -55,7 +55,7 @@ export default {
 
 .container-linear {
   padding: 20px 20px;
-  padding-bottom: 80px;
+  padding-bottom: 50px;
 
   .line {
     margin: 0;
