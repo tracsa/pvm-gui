@@ -5,6 +5,7 @@
       :key="input.name"
       class="form-group"
       :class="{ 'has-error': (errors && errors[input.name]) }">
+
       <label :for="input.name">
         {{ input.label }}
         <small
@@ -61,7 +62,10 @@
         </div>
       </div>
       <div v-else-if="input.type === 'file' && input.provider == 'doqer'">
-        <doqer-input @change="file => data[input.name] = file" />
+        <doqer-input
+          :initial="data[input.name]"
+          @change="file => data[input.name] = file"
+        />
       </div>
       <div v-else>
         <input
