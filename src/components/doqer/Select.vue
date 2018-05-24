@@ -65,13 +65,27 @@
 
 <script>
 export default {
+  props: ['initial'],
   data() {
+    let selected = null;
+    let action = 'suggest';
+    if (this.initial) {
+      action = '';
+      selected = {
+        id: this.initial.id,
+        attributes: {
+          name: this.initial.name,
+          mimetype: this.initial.mime,
+        },
+      };
+    }
+
     return {
-      action: 'suggest',
+      action,
       query: '',
       focused: false,
       file: null,
-      selected: null,
+      selected,
     };
   },
   computed: {
