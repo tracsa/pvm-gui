@@ -32,13 +32,17 @@ export default {
       loading: true,
       actions: [],
       nodes: [],
+      sleep: 0,
+      timeoutId: 0,
     };
   },
   mounted() {
-    this.loadData(this.id);
+    this.reloadJob();
   },
   watch: {
     id(newId) {
+      this.sleep = 0;
+      this.reloadJob();
       this.loadData(newId);
     },
   },
@@ -52,6 +56,22 @@ export default {
     },
   },
   methods: {
+    reloadJob() {
+      // In case of dead component
+      if (!this || !this.loadData || !this.id) {
+        return;
+      }
+
+      // Clear prev timeout
+      clearTimeout(this.timeoutId);
+
+      // Load data
+      this.loadData(this.id);
+
+      // Set new timeout with +1s delay
+      this.sleep = this.sleep + 1000;
+      this.timeoutId = setTimeout(this.reloadJob, this.sleep);
+    },
     loadData: function loadData(id) {
       get(`/execution/${id}`).then((execution) => {
         const state = execution.data.state;
