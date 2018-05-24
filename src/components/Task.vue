@@ -23,6 +23,8 @@
             {{ error.code || error.detail }}
           </div>
 
+          <p>{{ task.description }}</p>
+
           <form-render
             v-if="task.node_type === 'action'"
             :forms="task.form_array"
