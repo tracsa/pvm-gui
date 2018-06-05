@@ -5,6 +5,10 @@
   & + .timeline {
     padding-top: 0;
   }
+
+  &:first-child {
+    padding-top: 0;
+  }
 }
 
 .timeline-action {
