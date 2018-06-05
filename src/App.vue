@@ -11,7 +11,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import './styles/main.scss';
+@import './styles/cascara.scss';
 
 html, body, #app {
   height: 100vh;
