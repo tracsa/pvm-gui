@@ -12,7 +12,7 @@
 </template>
 
 <style lang="scss" scoped>
-@import '../styles/variables.scss';
+@import '../styles/_variables.scss';
 
 .card {
   border-radius: 3px 3px 0 0;

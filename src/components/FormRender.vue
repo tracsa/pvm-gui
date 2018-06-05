@@ -192,7 +192,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/variables.scss';
+@import '../styles/_variables.scss';
 
 .multiple {
   border-left: 3px solid $info;
