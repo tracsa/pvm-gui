@@ -17,8 +17,4 @@ html, body, #app {
   height: 100vh;
   background: $body-bg;
 }
-
-.no-overflow-x {
-  overflow-x: hidden;
-}
 </style>

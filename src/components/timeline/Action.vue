@@ -78,19 +78,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.leyend-text {
-  margin-left: 30px;
-  margin-bottom: 15px;
-
-  small {
-    font-size: 15px;
-  }
-
-  b {
-    font-size: 15px;
-  }
-}
-
 table {
   td {
     word-break: break-all;
