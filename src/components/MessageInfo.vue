@@ -50,7 +50,5 @@ export default {
       font-weight: lighter;
     }
   }
-
 }
-
 </style>
