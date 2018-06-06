@@ -1,10 +1,6 @@
 .timeline {
   border-left: $line-width solid lighten($purple, 30);
-  padding: 15px 0;
-
-  & + .timeline {
-    padding-top: 0;
-  }
+  padding: 0 0 15px 0;
 }
 
 .timeline-action {
