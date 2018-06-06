@@ -6,16 +6,17 @@
           <div class="row">
             <div class="col">
               {{ task.name }}
+              <div class="float-right">
+                <router-link :to="{ path: '/tracking'}">
+                  <icon :icon="['fas', 'times']" />
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="card-body">
-          <div class="float-right">
-            <router-link :to="{ path: '/tracking'}">
-              <icon :icon="['fas', 'times']" />
-            </router-link>
-          </div>
+
           <div
             v-for="(error, index) in errors.global"
             :key="index"
