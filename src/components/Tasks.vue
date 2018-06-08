@@ -4,7 +4,6 @@
     :class="containerClass">
     <div class="row">
       <div
-        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
@@ -31,13 +30,21 @@
           </div>
 
           <message-info
-            :show="!tasks.length"
+            v-if="loading"
+            icon="spinner"
+            title="commons.loading"
+            spin
+          />
+
+          <message-info
+            v-else-if="tasks.length === 0"
             icon="inbox"
             title="info.aboutTasks"
             desc="info.aboutTasksMore"
           />
+
           <ul
-            v-if="tasks.length && !loading"
+            v-else
             class="activity-list">
             <li
               :class="{ active: selectedId === task.execution.id }"
@@ -59,15 +66,10 @@
           </ul>
         </div>
       </div>
-      <div
-        v-else
-        class="col d-none d-md-block">
-        <loading />
-      </div>
+
       <div v-if="selectedId" class="col-12 col-md-8">
         <task :taskId="selectedId" />
       </div>
-
     </div>
   </div>
 </template>

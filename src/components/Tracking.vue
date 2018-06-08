@@ -17,7 +17,12 @@
     </div>
     <timeline v-if="!loading" :actions="actions" />
     <div v-else>
-      <loading />
+      <message-info
+        v-if="loading"
+        icon="spinner"
+        title="commons.loading"
+        spin
+      />
     </div>
   </div>
 </template>

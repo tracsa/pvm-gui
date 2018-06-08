@@ -1,9 +1,10 @@
 <template>
-  <div
-    v-if="show"
-    class="card-body card-message">
+  <div class="card-body card-message">
     <div class="icon">
-      <icon :icon="['fas',  `${icon}`]" />
+      <icon
+        :icon="['fas',  `${icon}`]"
+        :spin="spin"
+      />
     </div>
     <span>
       {{ $t(title) }}
@@ -16,7 +17,12 @@
 
 <script>
 export default {
-  props: ['show', 'icon', 'title', 'desc'],
+  props: [
+    'icon',
+    'title',
+    'desc',
+    'spin',
+  ],
 };
 </script>
 

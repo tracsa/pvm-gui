@@ -4,7 +4,6 @@
     :class="containerClass">
     <div class="row">
       <div
-        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
@@ -29,14 +28,21 @@
           </div>
 
           <message-info
-            :show="!trackings.length"
+            v-if="loading"
+            icon="spinner"
+            title="commons.loading"
+            spin
+          />
+
+          <message-info
+            v-else-if="trackings.length === 0"
             icon="inbox"
             title="info.aboutTrackings"
             desc="info.aboutTrackingsMore"
           />
 
           <ul
-            v-if="trackings.length"
+            v-else
             class="activity-list">
             <li
               :class="{ active: selectedId === tracking.id }"
@@ -57,11 +63,6 @@
             </li>
           </ul>
         </div>
-      </div>
-      <div
-        v-else
-        class="col d-none d-md-block">
-        <loading />
       </div>
 
       <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">

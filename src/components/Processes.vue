@@ -4,7 +4,6 @@
     :class="containerClass">
     <div class="row">
       <div
-        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
@@ -16,7 +15,22 @@
             </div>
             {{ $t('processes.processes')}}
           </div>
-          <ul class="activity-list">
+
+          <message-info
+            v-if="loading"
+            icon="spinner"
+            title="commons.loading"
+            spin
+          />
+
+          <message-info
+            v-else-if="processes.length === 0"
+            icon="inbox"
+          />
+
+          <ul
+            v-else
+            class="activity-list">
             <li
               :class="{ active: selectedId === process.id }"
               v-for="process in processes"
@@ -37,12 +51,6 @@
           </ul>
         </div>
       </div>
-      <div
-        v-else
-        class="col">
-        <loading />
-      </div>
-
 
       <div v-if="selected" class="col-12 col-md-8">
         <activity :model="selected" />

@@ -16,7 +16,6 @@
         </div>
 
         <div class="card-body">
-
           <div
             v-for="(error, index) in errors.global"
             :key="index"
@@ -49,7 +48,12 @@
     <timeline v-if="actions.length > 0" :actions="actions" />
   </div>
   <div v-else>
-    <loading />
+    <message-info
+      v-if="loading"
+      icon="spinner"
+      title="commons.loading"
+      spin
+    />
   </div>
 </template>
 
