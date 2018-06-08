@@ -29,6 +29,7 @@ const messages = {
       password_placeholder: 'Contraseña',
       button: 'Ingresar',
       error_signin: 'El usuario o contraseña son incorrectos.',
+      advanced_options: 'Opciones avanzadas',
     },
     processes: {
       start_process: 'Iniciar proceso',

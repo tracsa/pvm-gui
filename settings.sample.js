@@ -3,7 +3,12 @@ const settings = {
     'protocol': 'http',
     'host': 'localhost',
     'port': 5000,
-    'authProvider': 'ldap',
+    'authProviders': [
+      {
+        'value': 'ldap',
+        'label': 'LDAP',
+      },
+    ],
   },
   'doqer': {
     'protocol': 'http',

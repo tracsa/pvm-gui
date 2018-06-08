@@ -46,8 +46,8 @@ function clearAuthUser() {
   localStorage.removeItem(ID_USER_KEY);
 }
 
-export function login(username, password, callback) {
-  const { protocol, host, port, authProvider } = settings.pvm;
+export function login(username, password, authProvider, callback) {
+  const { protocol, host, port } = settings.pvm;
   const authUri = `${protocol}://${host}:${port}/v1/auth/signin/${authProvider}`;
 
   const form = new FormData();
