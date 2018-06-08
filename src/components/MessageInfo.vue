@@ -1,5 +1,5 @@
 <template>
-  <div class="card-body card-message">
+  <div class="hero">
     <div class="icon">
       <icon
         :icon="['fas',  `${icon}`]"
@@ -25,8 +25,3 @@ export default {
   ],
 };
 </script>
-
-<style lang="scss" scoped>
-@import '../styles/_variables.scss';
-@import '../styles/helpers.scss';
-</style>
