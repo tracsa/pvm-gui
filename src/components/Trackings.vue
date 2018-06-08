@@ -124,9 +124,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/_variables.scss';
-@import '../styles/helpers.scss';
-
 .card, .row {
   flex: 1 1 auto;
 }
