@@ -90,7 +90,7 @@ export default {
     this.loadList();
   },
   methods: {
-    loadList: function loadList() {
+    loadList() {
       this.loading = true;
       this.errors = [];
 
@@ -106,7 +106,7 @@ export default {
     },
   },
   computed: {
-    selectedId: function selectedId() {
+    selectedId() {
       const { id } = this.$route.params;
       if (!id) {
         return null;
@@ -114,7 +114,7 @@ export default {
 
       return id;
     },
-    containerClass: function containerClass() {
+    containerClass() {
       return {
         container: this.selectedId === null,
         'container-fluid': this.selectedId !== null,

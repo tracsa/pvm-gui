@@ -74,23 +74,22 @@ export default {
     this.loadList();
   },
   methods: {
-    loadList: function loadList() {
-      const self = this;
-
+    loadList() {
       this.loading = true;
+
       get('/process')
         .then((body) => {
-          self.loading = false;
-          self.processes = body.data;
+          this.loading = false;
+          this.processes = body.data;
         })
         .catch((errors) => {
-          self.loading = false;
+          this.loading = false;
           this.errors = errors;
         });
     },
   },
   computed: {
-    selectedId: function selectedId() {
+    selectedId() {
       const { id } = this.$route.params;
       if (!id) {
         return null;
@@ -98,7 +97,7 @@ export default {
 
       return id;
     },
-    selected: function selected() {
+    selected() {
       const { id } = this.$route.params;
       if (!id) {
         return null;
@@ -108,7 +107,7 @@ export default {
         .filter(p => p.id === id)
         .reduce((a, p) => (a || p), null);
     },
-    containerClass: function containerClass() {
+    containerClass() {
       return {
         container: this.selectedId === null,
         'container-fluid': this.selectedId !== null,
