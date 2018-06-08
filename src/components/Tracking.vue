@@ -17,7 +17,7 @@
     </div>
     <timeline v-if="!loading" :actions="actions" />
     <div v-else>
-      <message-info
+      <hero
         v-if="loading"
         icon="spinner"
         title="commons.loading"

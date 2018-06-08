@@ -27,14 +27,14 @@
             </div>
           </div>
 
-          <message-info
+          <hero
             v-if="loading"
             icon="spinner"
             title="commons.loading"
             spin
           />
 
-          <message-info
+          <hero
             v-else-if="trackings.length === 0"
             icon="inbox"
             title="info.aboutTrackings"

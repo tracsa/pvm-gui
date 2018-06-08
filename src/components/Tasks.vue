@@ -29,14 +29,14 @@
             </div>
           </div>
 
-          <message-info
+          <hero
             v-if="loading"
             icon="spinner"
             title="commons.loading"
             spin
           />
 
-          <message-info
+          <hero
             v-else-if="tasks.length === 0"
             icon="inbox"
             title="info.aboutTasks"
