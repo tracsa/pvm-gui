@@ -100,8 +100,6 @@ export default {
 <style lang="scss" scoped>
 @import '../styles/_variables.scss';
 
-$head-container-title-color: $gray-700 !important;
-
 .head-container {
   background: white;
   border: 3px solid #c7b5e7;
