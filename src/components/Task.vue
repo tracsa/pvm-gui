@@ -98,6 +98,7 @@ export default {
           this.actions = body.data;
         })
         .catch(() => {
+          this.loading = false;
           // TODO notify user
         });
     },
