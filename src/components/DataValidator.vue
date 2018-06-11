@@ -4,7 +4,13 @@
     <table class="table table-sm table-bordered">
       <thead>
         <tr>
-          <th style="width:1px"></th>
+          <th style="width:1px">
+            <input 
+              type="checkbox" 
+              name="" 
+              @click="checkField"
+              checked="">
+          </th>
           <th>Campo</th>
           <th>Valor</th>
         </tr>
@@ -85,6 +91,17 @@ export default {
     },
   },
   methods: {
+    checkField: function (event) {
+      if (event.target.checked) {
+        for(var x in this.validity) {
+          this.validity[x] = true;
+        }
+      } else {
+        for(var x in this.validity) {
+          this.validity[x] = false;
+        }      
+      }
+    },
     toogle(ref) {
       this.validity[ref] = !this.validity[ref];
     },
