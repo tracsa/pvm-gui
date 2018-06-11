@@ -8,7 +8,7 @@
             <input 
               type="checkbox" 
               name="" 
-              @click="checkFields"
+              @click="checkField"
               checked="">
           </th>
           <th>Campo</th>
@@ -91,7 +91,7 @@ export default {
     },
   },
   methods: {
-    checkFields: function (event) {
+    checkField: function (event) {
       if (event.target.checked) {
         for(var x in this.validity) {
           this.validity[x] = true;
