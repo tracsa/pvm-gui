@@ -1,6 +1,6 @@
 <template>
   <div
-    v-else-if="actualScene === 'task' && action.notified_users.length > 1"
+    v-if="actualScene === 'task' && action.notified_users.length > 1"
     class="card leyend-text">
     <div class="card-body">
       <small>{{ $t('timeline.asignTasks') }}</small>
