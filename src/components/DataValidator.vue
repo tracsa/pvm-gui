@@ -5,9 +5,9 @@
       <thead>
         <tr>
           <th style="width:1px">
-            <input 
-              type="checkbox" 
-              name="" 
+            <input
+              type="checkbox"
+              name=""
               @click="checkField"
               checked="">
           </th>
@@ -91,16 +91,10 @@ export default {
     },
   },
   methods: {
-    checkField: function (event) {
-      if (event.target.checked) {
-        for(var x in this.validity) {
-          this.validity[x] = true;
-        }
-      } else {
-        for(var x in this.validity) {
-          this.validity[x] = false;
-        }      
-      }
+    checkField(event) {
+      this.fields.forEach((f) => {
+        this.validity[f.ref] = event.target.checked;
+      });
     },
     toogle(ref) {
       this.validity[ref] = !this.validity[ref];
