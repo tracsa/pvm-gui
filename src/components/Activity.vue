@@ -9,7 +9,7 @@
       <span>{{ model.name }}</span>
     </div>
     <div class="card-body">
-      <div><i>{{ model.description }}</i></div>
+      <div class="card-desc">{{ model.description }}</div>
       <div
         v-for="(error, index) in errors.global"
         :key="index"
