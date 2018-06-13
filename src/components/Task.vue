@@ -2,22 +2,45 @@
   <div v-if="!loading">
     <div class="timeline">
       <div class="card timeline-action">
-        <div class="card-body">
-          <div class="float-right">
-            <router-link :to="{ path: '/tracking'}">
-              <icon :icon="['fas', 'times']" />
-            </router-link>
+        <div class="card-header">
+          <div class="row">
+            <div class="col">
+              {{ task.name }}
+              <div class="float-right">
+                <router-link :to="{ path: '/tracking'}">
+                  <icon :icon="['fas', 'times']" />
+                </router-link>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <div class="card-body">
+
           <div
-            v-for="error in errors"
-            :key="error.code"
+            v-for="(error, index) in errors.global"
+            :key="index"
             class="alert custom-alert-danger">
-            {{ $t('error.code') }}
+            {{ error.code || error.detail }}
           </div>
 
+          <p>{{ task.description }}</p>
+
           <form-render
+            v-if="task.node_type === 'action'"
             :forms="task.form_array"
+            :prevWork="task.prev_work"
+            :errors="errors"
+            :sending="sending"
             @submit= "submit"
+          />
+
+          <data-validator
+            v-if="task.node_type === 'validation'"
+            :fields="task.fields"
+            :errors="errors"
+            :sending="sending"
+            @submit= "validate"
           />
         </div>
       </div>
@@ -28,18 +51,21 @@
   <div v-else>
     <loading />
   </div>
-
 </template>
 
 <script>
 import { get, post } from '@/utils/api';
+import formatErrors from '@/utils/formatErrors';
 
 export default {
   props: ['taskId'],
   data() {
     return {
-      errors: [],
+      errors: {
+        global: [],
+      },
       loading: true,
+      sending: false,
       task: null,
       actions: [],
     };
@@ -50,6 +76,9 @@ export default {
   watch: {
     taskId(newValue) {
       this.loadData(newValue);
+      this.errors = {
+        global: [],
+      };
     },
   },
   methods: {
@@ -64,10 +93,25 @@ export default {
           this.loading = false;
           this.actions = body.data;
         })
+        .catch(() => {
+          // TODO notify user
+        });
+    },
+    validate: function validate(validation) {
+      const postData = Object.assign({
+        execution_id: this.task.execution.id,
+        node_id: this.task.node_id,
+      }, validation);
+
+      this.sending = true;
+      post('/pointer', postData, 'application/json')
+        .then(() => {
+          this.sending = false;
+          this.$router.push(`/tracking/${this.task.execution.id}`);
+        })
         .catch((errors) => {
-          this.loading = false;
-          this.errors = errors;
-          console.error(errors);
+          this.sending = false;
+          this.errors = formatErrors(errors);
         });
     },
     submit: function submit(formArray) {
@@ -77,16 +121,17 @@ export default {
         form_array: formArray,
       };
 
+      this.sending = true;
       post('/pointer', postData, 'application/json')
-        .then((data) => {
+        .then(() => {
+          this.sending = false;
           this.$router.push(`/tracking/${this.task.execution.id}`);
-          console.log('data', data);
         })
         .catch((errors) => {
-          this.errors = errors;
+          this.sending = false;
+          this.errors = formatErrors(errors);
         });
     },
-
   },
 };
 </script>

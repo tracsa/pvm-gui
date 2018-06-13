@@ -21,7 +21,8 @@
             v-if="errors.length"
             class="container-error">
             <div
-              v-for="error in errors"
+              v-for="(error, index) in errors"
+              :key="index"
               class="alert custom-alert-danger">
               {{ $t(`errors.${error.where}`) }}
             </div>
@@ -38,16 +39,16 @@
             v-if="trackings.length"
             class="activity-list">
             <li
-              :class="{ active: selectedId === tracking.execution.id }"
+              :class="{ active: selectedId === tracking.id }"
               v-for="tracking in trackings"
-              :key="tracking.execution.id">
+              :key="tracking.id">
               <router-link
                 :to="{
                   name: 'tracking',
-                  params: { id: tracking.execution.id },
+                  params: { id: tracking.id },
                 }">
                 <div class="activity-name">
-                  {{ tracking.execution.name }}
+                  {{ tracking.name }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -63,7 +64,7 @@
         <loading />
       </div>
 
-      <div v-if="selectedId" class="col-12 col-md-8">
+      <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">
         <tracking :id="selectedId" />
       </div>
 
@@ -123,36 +124,7 @@ export default {
 
 <style lang="scss" scoped>
 @import '../styles/variables.scss';
-
-.card {
-  border-radius: 3px 3px 0 0;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  flex: 1;
-
-  .card-message {
-    text-align: center;
-
-    .icon {
-      color: $purple;
-      font-size: 70px;
-    }
-
-    span {
-      display: block;
-      font-size: 20px;
-      font-weight: 500;
-      padding-bottom: 10px;
-    }
-
-    small {
-      font-size: 13px;
-      color: $gray-700;
-      font-weight: lighter;
-    }
-  }
-
-}
+@import '../styles/helpers.scss';
 
 .card, .row {
   flex: 1 1 auto;

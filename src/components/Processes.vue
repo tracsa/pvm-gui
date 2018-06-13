@@ -77,9 +77,7 @@ export default {
         })
         .catch((errors) => {
           self.loading = false;
-          // Alert about this
           this.errors = errors;
-          console.error(errors);
         });
     },
   },

@@ -1,5 +1,5 @@
 <template>
-  <div class="h-100 no-overflow-x">
+  <div class="h-100">
     <app-header />
     <router-view />
   </div>

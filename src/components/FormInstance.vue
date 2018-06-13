@@ -3,7 +3,9 @@
     <div
       v-for="input in schema.inputs"
       :key="input.name"
-      class="form-group">
+      class="form-group"
+      :class="{ 'has-error': (errors && errors[input.name]) }">
+
       <label :for="input.name">
         {{ input.label }}
         <small
@@ -60,7 +62,10 @@
         </div>
       </div>
       <div v-else-if="input.type === 'file' && input.provider == 'doqer'">
-        <doqer-input @change="file => data[input.name] = file" />
+        <doqer-input
+          :initial="data[input.name]"
+          @change="file => data[input.name] = file"
+        />
       </div>
       <div v-else>
         <input
@@ -77,12 +82,21 @@
         v-if="input.helper">
         {{ input.helper }}
       </small>
+
+      <div v-if="(errors && errors[input.name])">
+        <small
+          v-for="(error, index) in errors[input.name]"
+          :key="index"
+          class="form-text text-danger">
+          {{ $t(error.code) || error.detail }}
+        </small>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['schema', 'data'],
+  props: ['schema', 'data', 'errors'],
 };
 </script>

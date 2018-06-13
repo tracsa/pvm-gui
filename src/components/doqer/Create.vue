@@ -33,7 +33,7 @@
         <span>
           {{ $t('commons.uploading') }}
         </span>
-        <div 
+        <div
           class="progress-bar bg-info"
           role="progressbar"
           :style="{width: uploading + '%' }">
@@ -121,8 +121,6 @@ export default {
         this.loaded = event.loaded;
         this.total = event.total;
         this.uploading = (this.loaded / this.total) * 100;
-        console.log(this.loaded, this.total);
-        console.log(this.uploading);
       }
     },
 
@@ -191,5 +189,4 @@ export default {
     }
   }
 }
-
 </style>

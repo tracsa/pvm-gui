@@ -1,5 +1,7 @@
 # Cascara
 
+[![Build Status](https://travis-ci.org/tracsa/cascara.svg?branch=master)](https://travis-ci.org/tracsa/cascara)
+
 >  Graphical user interface for cacahuate & DOQER
 
 ## Build Setup

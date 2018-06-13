@@ -19,6 +19,6 @@ html, body, #app {
 }
 
 .no-overflow-x {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 </style>
