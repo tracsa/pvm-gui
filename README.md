@@ -4,30 +4,27 @@
 
 >  Graphical user interface for cacahuate & DOQER
 
-## Build Setup
-
+## .env
 ``` bash
-# configure your instance
-cp settings.sample.js settings.js && $EDITOR settings.js
+export CACAHUATE_URL='"https://{my-cacahuate-server}"'
+export DOQER_URL='"https://{my-doqer-server}"'
+```
 
-# install dependencies
+## Develop
+``` bash
+source .env
 npm install
+npm start
+```
 
-# serve with hot reload at localhost:8080
-npm run dev
+## Lint
+``` bash
+npm run lint
+```
 
-# build for production with minification
+## Build
+``` bash
+source .env
+npm install
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
 ```
