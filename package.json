@@ -1,6 +1,6 @@
 {
   "name": "cascara",
-  "version": "2.1.8",
+  "version": "2.1.10",
   "description": " Graphical user interface for cacahuate & DOQER ",
   "author": "Og Astorga <og@ogastorga.com>",
   "private": true,
@@ -20,6 +20,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.8",
     "@fortawesome/vue-fontawesome": "^0.0.22",
     "bootstrap": "^4.0.0",
+    "dotenv": "^6.0.0",
     "moment": "^2.22.0",
     "node-sass": "^4.7.2",
     "promise-polyfill": "^7.1.1",

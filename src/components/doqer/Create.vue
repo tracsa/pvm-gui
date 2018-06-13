@@ -63,8 +63,6 @@
 </template>
 
 <script>
-import settings from '@/settings';
-
 export default {
   props: ['file'],
   data() {
@@ -102,9 +100,7 @@ export default {
 
       // Prepare request
       const xhr = new XMLHttpRequest();
-      const { protocol, host, port } = settings.doqer;
-
-      xhr.open('POST', `${protocol}://${host}:${port}/api/documents`, true);
+      xhr.open('POST', `${process.env.DOQER_URL}/api/documents`, true);
 
       xhr.upload.onprogress = this.onUploadProgress.bind(this);
       xhr.onload = this.onUploadComplete.bind(this);
@@ -169,8 +165,9 @@ export default {
   },
 };
 </script>
+
 <style lang="scss" scoped>
-@import '../../styles/variables.scss';
+@import '../../styles/_variables.scss';
 
 .container-progress-bar {
   position: relative;

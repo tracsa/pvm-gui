@@ -12,14 +12,13 @@ import FormInstance from './FormInstance';
 import FormRender from './FormRender';
 import Header from './Header';
 import LinearSteps from './LinearSteps';
-import Loading from './Loading';
-import MessageInfo from './MessageInfo';
 import Task from './Task';
 import Tasks from './Tasks';
 import TimeInput from './TimeInput';
 import Timeline from './Timeline';
 import Tracking from './Tracking';
 import ValueRender from './ValueRender';
+import Hero from './Hero';
 
 
 // Components
@@ -30,10 +29,9 @@ Vue.component('task', Task);
 Vue.component('timeline', Timeline);
 Vue.component('form-render', FormRender);
 Vue.component('tracking', Tracking);
-Vue.component('loading', Loading);
-Vue.component('message-info', MessageInfo);
 Vue.component('linear-steps', LinearSteps);
 Vue.component('value-render', ValueRender);
+Vue.component('hero', Hero);
 
 // From inputs
 Vue.component('form-instance', FormInstance);

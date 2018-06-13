@@ -4,7 +4,6 @@
     :class="containerClass">
     <div class="row">
       <div
-        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
@@ -30,14 +29,22 @@
             </div>
           </div>
 
-          <message-info
-            :show="!tasks.length"
+          <hero
+            v-if="loading"
+            icon="spinner"
+            title="commons.loading"
+            spin
+          />
+
+          <hero
+            v-else-if="tasks.length === 0"
             icon="inbox"
             title="info.aboutTasks"
             desc="info.aboutTasksMore"
           />
+
           <ul
-            v-if="tasks.length && !loading"
+            v-else
             class="activity-list">
             <li
               :class="{ active: selectedId === task.execution.id }"
@@ -59,15 +66,10 @@
           </ul>
         </div>
       </div>
-      <div
-        v-else
-        class="col d-none d-md-block">
-        <loading />
-      </div>
+
       <div v-if="selectedId" class="col-12 col-md-8">
         <task :taskId="selectedId" />
       </div>
-
     </div>
   </div>
 </template>
@@ -88,7 +90,7 @@ export default {
     this.loadList();
   },
   methods: {
-    loadList: function loadList() {
+    loadList() {
       this.loading = true;
       this.errors = [];
 
@@ -104,7 +106,7 @@ export default {
     },
   },
   computed: {
-    selectedId: function selectedId() {
+    selectedId() {
       const { id } = this.$route.params;
       if (!id) {
         return null;
@@ -112,7 +114,7 @@ export default {
 
       return id;
     },
-    containerClass: function containerClass() {
+    containerClass() {
       return {
         container: this.selectedId === null,
         'container-fluid': this.selectedId !== null,
@@ -121,10 +123,8 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '../styles/variables.scss';
-@import '../styles/helpers.scss';
 
+<style lang="scss" scoped>
 .card, .row {
   flex: 1 1 auto;
 }
