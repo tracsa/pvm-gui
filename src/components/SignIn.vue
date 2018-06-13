@@ -34,6 +34,24 @@
                 :class="{'is-invalid': hasError}">
             </div>
 
+            <small>
+              <a href="#" v-on:click="toggleAdvancedOptions">{{ $t('signin.advanced_options') }}</a>
+            </small>
+
+            <div class="form-group" v-if="showAdvancedOptions">
+              <select
+                v-model="provider"
+                class="form-control"
+                :class="{'is-invalid': hasError}">
+                <option
+                  v-for="option in providers"
+                  :key="option.value"
+                  :value="option.value">
+                  {{ option.label }}
+                </option>
+              </select>
+            </div>
+
             <button
               class="btn btn-primary btn-block mt-3"
               :disabled="signingIn">
@@ -47,6 +65,7 @@
 </template>
 
 <script>
+import settings from '@/settings';
 import { login } from '../utils/auth';
 
 export default {
@@ -54,19 +73,27 @@ export default {
     return {
       username: '',
       password: '',
+      provider: settings.pvm.authProviders[0].value,
+      providers: settings.pvm.authProviders,
       hasError: false,
       signingIn: false,
+      showAdvancedOptions: false,
     };
   },
   methods: {
+    toggleAdvancedOptions: function toggleAdvancedOptions(event) {
+      event.preventDefault();
+
+      this.showAdvancedOptions = !this.showAdvancedOptions;
+    },
     signIn: function signIn(event) {
       event.preventDefault();
 
       this.hasError = false;
       this.signingIn = true;
 
-      const { username, password } = this;
-      login(username, password, (err) => {
+      const { username, password, provider } = this;
+      login(username, password, provider, (err) => {
         this.signingIn = false;
 
         if (err) {

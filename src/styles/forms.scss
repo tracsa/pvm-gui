@@ -1,0 +1,13 @@
+.form-group.has-error {
+  label {
+    color: $danger;
+  }
+
+  .form-control, .custom-select {
+    border-color: $danger;
+
+    &:focus {
+      box-shadow: 0 0 0 0.2rem lighten($danger, 30);
+    }
+  }
+}

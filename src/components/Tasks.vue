@@ -18,11 +18,18 @@
             </div>
             {{ $t('tasks.my_tasks') }}
           </div>
+
           <div
-            v-for="error in errors"
-            class="alert custom-alert-danger">
-            {{ $t(`errors.${error.where}`) }}
+            v-if="errors.length"
+            class="container-error">
+            <div
+              v-for="(error, index) in errors"
+              :key="index"
+              class="alert custom-alert-danger">
+              {{ $t(`errors.${error.where}`) }}
+            </div>
           </div>
+
           <message-info
             :show="!tasks.length"
             icon="inbox"
@@ -82,19 +89,17 @@ export default {
   },
   methods: {
     loadList: function loadList() {
-      const self = this;
-
       this.loading = true;
+      this.errors = [];
+
       get('/task')
         .then((body) => {
-          self.loading = false;
-          self.tasks = body.data;
+          this.loading = false;
+          this.tasks = body.data;
         })
         .catch((errors) => {
-          self.loading = false;
-          // Alert about this
+          this.loading = false;
           this.errors = errors;
-          console.error(this.errors);
         });
     },
   },
@@ -116,40 +121,9 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 @import '../styles/variables.scss';
-
-
-.card {
-  border-radius: 3px 3px 0 0;
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);
-  border: 1px solid rgba(0, 0, 0, 0.125);
-  flex: 1;
-
-  .card-message {
-    text-align: center;
-
-    .icon {
-      color: $purple;
-      font-size: 70px;
-    }
-
-    span {
-      display: block;
-      font-size: 20px;
-      font-weight: 500;
-      padding-bottom: 10px;
-    }
-
-    small {
-      font-size: 13px;
-      color: $gray-700;
-      font-weight: lighter;
-    }
-  }
-
-}
+@import '../styles/helpers.scss';
 
 .card, .row {
   flex: 1 1 auto;
@@ -157,5 +131,10 @@ export default {
 
 .col {
   display: flex;
+}
+
+.container-error {
+  padding: 30px;
+  padding-bottom: 0;
 }
 </style>

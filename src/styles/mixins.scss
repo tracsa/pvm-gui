@@ -1,0 +1,28 @@
+// Importing responsive mixins
+@import '../styles/_mq.scss';
+
+//######### Mixins ############
+
+// Box-Shadow 
+
+@mixin box-shadow($values...) {
+  @each $val in $values {
+    -webkit-box-shadow: #{$val};
+    -moz-box-shadow: #{$val};
+    box-shadow: #{$val};
+  }
+}
+
+@mixin arrow-up($bg-color, $size) {
+  @content;
+  content: '';
+  border-left: $size solid transparent;
+  border-right: $size solid transparent;
+  border-bottom: $size solid $bg-color;
+}
+
+@mixin center-items-vh() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
