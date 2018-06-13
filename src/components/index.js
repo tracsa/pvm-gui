@@ -19,6 +19,7 @@ import Tasks from './Tasks';
 import TimeInput from './TimeInput';
 import Timeline from './Timeline';
 import Tracking from './Tracking';
+import ValueRender from './ValueRender';
 
 
 // Components
@@ -32,6 +33,7 @@ Vue.component('tracking', Tracking);
 Vue.component('loading', Loading);
 Vue.component('message-info', MessageInfo);
 Vue.component('linear-steps', LinearSteps);
+Vue.component('value-render', ValueRender);
 
 // From inputs
 Vue.component('form-instance', FormInstance);

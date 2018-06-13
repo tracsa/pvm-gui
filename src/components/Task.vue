@@ -2,12 +2,21 @@
   <div v-if="!loading">
     <div class="timeline">
       <div class="card timeline-action">
-        <div class="card-body">
-          <div class="float-right">
-            <router-link :to="{ path: '/tracking'}">
-              <icon :icon="['fas', 'times']" />
-            </router-link>
+        <div class="card-header">
+          <div class="row">
+            <div class="col">
+              {{ task.name }}
+              <div class="float-right">
+                <router-link :to="{ path: '/tracking'}">
+                  <icon :icon="['fas', 'times']" />
+                </router-link>
+              </div>
+            </div>
           </div>
+        </div>
+
+        <div class="card-body">
+
           <div
             v-for="(error, index) in errors.global"
             :key="index"
@@ -15,9 +24,12 @@
             {{ error.code || error.detail }}
           </div>
 
+          <p>{{ task.description }}</p>
+
           <form-render
             v-if="task.node_type === 'action'"
             :forms="task.form_array"
+            :prevWork="task.prev_work"
             :errors="errors"
             :sending="sending"
             @submit= "submit"

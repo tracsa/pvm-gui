@@ -1,48 +1,51 @@
 <template>
-  <div v-if="steps.length > 1" class="container-linear d-none d-md-block">
-    <div
-      class="row line">
+  <div
+    v-if="nodeCount > 1"
+    class="container-linear d-none d-md-block">
+    <div class="row line">
       <div
-        v-for="(step, index) in steps"
-        :key="index"
+        v-for="node in nodes"
+        v-if="node.state === 'ongoing' || node.milestone"
+        class="col"
+        :key="node.id"
         :class="{
-          'col': true,
-          'no-active': !step.active || step.active === 2 || index === actualStep,
+          'no-active': (node.state === 'ongoing' || node.state === 'unfilled'),
         }">
-          <div class="container-step">
+          <div class="container-step" :title="node.name">
             <div
-              v-if="index === actualStep"
+              v-if="node.state === 'ongoing'"
               class="actual-active">
-              <div class="center-point"></div>
+              <div class="center-point" />
             </div>
             <div
-              v-else-if="step.active == 1 || step.active == 3"
+              v-else-if="node.state === 'valid'"
               class="active">
-                <icon :icon="['fas', 'check']" />
+              <icon :icon="['fas', 'check']" />
             </div>
             <div
               v-else
               class="no-active">
             </div>
 
-            <div class="container-step-desc">
-              <div
-                v-if="step.desc"
-                class="step-desc">
-                  {{ step.desc }}
+            <div v-if="false" class="container-step-desc">
+              <div class="step-desc" :title="node.description">
+                {{ node.name }}
               </div>
             </div>
           </div>
-
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  props: ['steps', 'actualStep'],
+  props: ['nodes'],
+  computed: {
+    nodeCount() {
+      return this.nodes.filter(node => node.state === 'ongoing' || node.milestone).length;
+    },
+  },
 };
 </script>
 
@@ -52,7 +55,7 @@ export default {
 
 .container-linear {
   padding: 20px 20px;
-  padding-bottom: 80px;
+  padding-bottom: 50px;
 
   .line {
     margin: 0;
@@ -67,7 +70,6 @@ export default {
       .container-step-desc {
         justify-content: end;
       }
-
     }
 
     .col {
@@ -79,7 +81,6 @@ export default {
       &.no-active {
         background: $line-no-active-step;
 
-      // Unfinished step
         .no-active {
           height: $circle-no-active-bg;
           width: $circle-no-active-bg;
@@ -113,10 +114,11 @@ export default {
           width: 150px;
 
           .step-desc {
+            cursor: default;
             display: flex;
             justify-content: center;
-            background: white;
-            color: lighten($line-background, 5%);
+            background: $line-background;
+            color: white;
             padding: 10px;
             height: $step-circle-size;
             font-size: 12px;
@@ -128,9 +130,9 @@ export default {
             @include box-shadow(0px 0px 8px 3px rgba(204,202,204, 0.20))
 
             &:after {
-              @include arrow-up(white, $arrow-step-desc){
+              @include arrow-up($line-background, $arrow-step-desc){
                 position: absolute;
-                top: -4px;
+                top: -6px;
                 width: 0;
                 height: 0;
               }
@@ -190,9 +192,7 @@ export default {
           border-radius: 50%;
         }
       }
-
     }
   }
 }
-
 </style>

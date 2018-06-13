@@ -57,7 +57,7 @@ export default {
         self.loading = false;
         self.activities = body.data;
       })
-      .catch((errors) => {
+      .catch(() => {
         self.loading = false;
         // @TODO: Alert about this
       });
