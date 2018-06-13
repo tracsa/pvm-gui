@@ -91,6 +91,7 @@ export function logout() {
   clearAuthToken();
   clearAuthUser();
 
+  router.replace({ path: SIGNIN_PATH });
   router.go(SIGNIN_PATH);
 }
 
