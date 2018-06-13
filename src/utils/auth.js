@@ -1,6 +1,5 @@
 import Router from 'vue-router';
 import Promise from 'promise-polyfill';
-import settings from '@/settings';
 
 
 const ID_TOKEN_KEY = 'auth_token';
@@ -47,8 +46,7 @@ function clearAuthUser() {
 }
 
 export function login(username, password, authProvider, callback) {
-  const { protocol, host, port } = settings.pvm;
-  const authUri = `${protocol}://${host}:${port}/v1/auth/signin/${authProvider}`;
+  const authUri = `${process.env.CACAHUATE_URL}/v1/auth/signin/${authProvider}`;
 
   const form = new FormData();
   form.append('username', username);

@@ -65,7 +65,6 @@
 </template>
 
 <script>
-import settings from '@/settings';
 import { login } from '../utils/auth';
 
 export default {
@@ -73,8 +72,8 @@ export default {
     return {
       username: '',
       password: '',
-      provider: settings.pvm.authProviders[0].value,
-      providers: settings.pvm.authProviders,
+      provider: process.env.CACAHUATE_AUTHS[0].value,
+      providers: process.env.CACAHUATE_AUTHS,
       hasError: false,
       signingIn: false,
       showAdvancedOptions: false,

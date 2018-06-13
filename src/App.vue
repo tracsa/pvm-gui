@@ -11,14 +11,10 @@ export default {
 </script>
 
 <style lang="scss">
-@import './styles/main.scss';
+@import './styles/cascara.scss';
 
 html, body, #app {
   height: 100vh;
   background: $body-bg;
-}
-
-.no-overflow-x {
-  overflow-x: hidden;
 }
 </style>

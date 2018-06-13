@@ -119,7 +119,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../styles/variables.scss";
+@import "../styles/_variables.scss";
 
 .pvm-navbar {
   border-top: 3px solid $purple;

@@ -17,7 +17,12 @@
     </div>
     <timeline v-if="!loading" :actions="actions" />
     <div v-else>
-      <loading />
+      <hero
+        v-if="loading"
+        icon="spinner"
+        title="commons.loading"
+        spin
+      />
     </div>
   </div>
 </template>
@@ -93,17 +98,15 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '../styles/variables.scss';
+@import '../styles/_variables.scss';
 
-$head-container-title-color: $gray-700 !important;
-
-  .head-container {
-    background: white;
-    border: 3px solid #c7b5e7;
-    padding: 0 20px;
-    .text-primary {
-      padding: 20px 20px;
-      color: $black-light !important;
-    }
+.head-container {
+  background: white;
+  border: 3px solid #c7b5e7;
+  padding: 0 20px;
+  .text-primary {
+    padding: 20px 20px;
+    color: $black-light !important;
   }
+}
 </style>

@@ -3,7 +3,7 @@
 
 //######### Mixins ############
 
-// Box-Shadow 
+// Box-Shadow
 
 @mixin box-shadow($values...) {
   @each $val in $values {
