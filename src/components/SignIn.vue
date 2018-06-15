@@ -12,8 +12,9 @@
           >
             <div
               class="text-danger"
-              v-if="hasError">
-              {{ $t('signin.error_signin') }}
+              v-if="this.errorMessage == 'validation.required'"
+              >
+              {{ $t('errors.request.authorization') }}
             </div>
 
             <div class="form-group mt-3">
@@ -77,6 +78,7 @@ export default {
       hasError: false,
       signingIn: false,
       showAdvancedOptions: false,
+      errorMessage: true,
     };
   },
   methods: {
@@ -90,6 +92,7 @@ export default {
 
       this.hasError = false;
       this.signingIn = true;
+
 
       const { username, password, provider } = this;
       login(username, password, provider, (err) => {
@@ -105,6 +108,11 @@ export default {
         if ($route.query.redirect !== undefined) {
           redirect = $route.query.redirect;
         }
+
+        const a = err.response.json();
+        a.then((res) => {
+          this.errorMessage = res.errors[0].code;
+        });
 
         $router.push(redirect);
       });
