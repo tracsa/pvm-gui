@@ -90,8 +90,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/variables.scss';
-
 .card {
   border-radius: 3px 3px 0 0;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);

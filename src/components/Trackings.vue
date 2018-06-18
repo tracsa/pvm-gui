@@ -4,7 +4,6 @@
     :class="containerClass">
     <div class="row">
       <div
-        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
@@ -28,15 +27,22 @@
             </div>
           </div>
 
-          <message-info
-            :show="!trackings.length"
+          <hero
+            v-if="loading"
+            icon="spinner"
+            title="commons.loading"
+            spin
+          />
+
+          <hero
+            v-else-if="trackings.length === 0"
             icon="inbox"
             title="info.aboutTrackings"
             desc="info.aboutTrackingsMore"
           />
 
           <ul
-            v-if="trackings.length"
+            v-else
             class="activity-list">
             <li
               :class="{ active: selectedId === tracking.id }"
@@ -57,11 +63,6 @@
             </li>
           </ul>
         </div>
-      </div>
-      <div
-        v-else
-        class="col d-none d-md-block">
-        <loading />
       </div>
 
       <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">
@@ -123,9 +124,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/variables.scss';
-@import '../styles/helpers.scss';
-
 .card, .row {
   flex: 1 1 auto;
 }

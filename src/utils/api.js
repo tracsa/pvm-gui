@@ -1,12 +1,10 @@
 import Promise from 'promise-polyfill';
-import settings from '@/settings';
 import serialize from './serialize';
 import { getAuthToken, logout } from './auth';
 
 
 function apiFetch(method, route, params = {}, bodyEncoding = 'application/x-www-form-urlencoded') {
-  const { protocol, host, port } = settings.pvm;
-  const endpoint = `${protocol}://${host}:${port}`;
+  const endpoint = process.env.CACAHUATE_URL;
   const headers = {
     'Content-Type': 'application/json',
   };

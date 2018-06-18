@@ -4,7 +4,6 @@
     :class="containerClass">
     <div class="row">
       <div
-        v-if="!loading"
         :class="{ 'd-none d-md-block': selectedId }"
         class="col">
         <div class="card">
@@ -16,7 +15,22 @@
             </div>
             {{ $t('processes.processes')}}
           </div>
-          <ul class="activity-list">
+
+          <hero
+            v-if="loading"
+            icon="spinner"
+            title="commons.loading"
+            spin
+          />
+
+          <hero
+            v-else-if="processes.length === 0"
+            icon="inbox"
+          />
+
+          <ul
+            v-else
+            class="activity-list">
             <li
               :class="{ active: selectedId === process.id }"
               v-for="process in processes"
@@ -37,12 +51,6 @@
           </ul>
         </div>
       </div>
-      <div
-        v-else
-        class="col">
-        <loading />
-      </div>
-
 
       <div v-if="selected" class="col-12 col-md-8">
         <activity :model="selected" />
@@ -66,23 +74,22 @@ export default {
     this.loadList();
   },
   methods: {
-    loadList: function loadList() {
-      const self = this;
-
+    loadList() {
       this.loading = true;
+
       get('/process')
         .then((body) => {
-          self.loading = false;
-          self.processes = body.data;
+          this.loading = false;
+          this.processes = body.data;
         })
         .catch((errors) => {
-          self.loading = false;
+          this.loading = false;
           this.errors = errors;
         });
     },
   },
   computed: {
-    selectedId: function selectedId() {
+    selectedId() {
       const { id } = this.$route.params;
       if (!id) {
         return null;
@@ -90,7 +97,7 @@ export default {
 
       return id;
     },
-    selected: function selected() {
+    selected() {
       const { id } = this.$route.params;
       if (!id) {
         return null;
@@ -100,7 +107,7 @@ export default {
         .filter(p => p.id === id)
         .reduce((a, p) => (a || p), null);
     },
-    containerClass: function containerClass() {
+    containerClass() {
       return {
         container: this.selectedId === null,
         'container-fluid': this.selectedId !== null,
@@ -111,8 +118,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/variables.scss';
-
 .card {
   border-radius: 3px 3px 0 0;
   box-shadow: 0 1px 3px 0 rgba(0,0,0,0.15);

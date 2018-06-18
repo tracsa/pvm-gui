@@ -10,10 +10,16 @@
     </div>
     <div class="card-body">
       <div
+        class="card-desc">
+        {{ model.description }}
+      </div>
+      <div
         v-for="(error, index) in errors.global"
         :key="index"
         class="alert custom-alert-danger">
         {{ error.code || error.detail }}
+      </div>
+      <div>
       </div>
 
       <form-render

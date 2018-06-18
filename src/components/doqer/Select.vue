@@ -147,7 +147,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../../styles/variables.scss';
+@import '../../styles/_variables.scss';
 
 $input-height: 38px;
 

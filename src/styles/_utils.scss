@@ -1,0 +1,21 @@
+.hero {
+  text-align: center;
+
+  .icon {
+    color: $purple;
+    font-size: 70px;
+  }
+
+  span {
+    display: block;
+    font-size: 20px;
+    font-weight: 500;
+    padding-bottom: 10px;
+  }
+
+  small {
+    font-size: 13px;
+    color: $gray-700;
+    font-weight: lighter;
+  }
+}
