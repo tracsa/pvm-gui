@@ -29,6 +29,8 @@ const messages = {
       password_placeholder: 'Contraseña',
       button: 'Ingresar',
       error_signin: 'El usuario o contraseña son incorrectos.',
+      'validation.invalid': 'Las credenciales son inválidas.',
+      'validation.required': 'Este campo es requerido.',
       advanced_options: 'Opciones avanzadas',
     },
     processes: {

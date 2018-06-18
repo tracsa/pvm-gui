@@ -12,9 +12,9 @@
           >
             <div
               class="text-danger"
-              v-if="this.errorMessage == 'validation.required'"
+              v-if="hasError"
               >
-              {{ $t('errors.request.authorization') }}
+              {{ $t('signin["' + this.errorMessage + '"]') }}
             </div>
 
             <div class="form-group mt-3">
@@ -100,6 +100,10 @@ export default {
 
         if (err) {
           this.hasError = true;
+          const a = err.response.json();
+          a.then((res) => {
+            this.errorMessage = res.errors[0].code;
+          });
         }
 
         const { $route, $router } = this;
@@ -108,11 +112,6 @@ export default {
         if ($route.query.redirect !== undefined) {
           redirect = $route.query.redirect;
         }
-
-        const a = err.response.json();
-        a.then((res) => {
-          this.errorMessage = res.errors[0].code;
-        });
 
         $router.push(redirect);
       });
