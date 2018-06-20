@@ -15,6 +15,9 @@ const envVars = [{
     value: 'ldap',
     label: 'LDAP',
   }],
+}, {
+  name: 'LOCALE',
+  default: 'es',
 }];
 
 const base = {};
