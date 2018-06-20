@@ -33,8 +33,8 @@
 </template>
 
 <script>
-import { post } from '@/utils/api';
-import formatErrors from '@/utils/formatErrors';
+import { post } from '../utils/api';
+import formatErrors from '../utils/formatErrors';
 
 export default {
   props: ['model'],

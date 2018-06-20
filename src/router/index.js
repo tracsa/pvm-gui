@@ -1,14 +1,14 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { requireAuth, requireAnon } from '@/utils/auth';
-import App from '@/components/App';
+import { requireAuth, requireAnon } from '../utils/auth';
+import App from '../components/App';
 
-import Trackings from '@/components/Trackings';
-import Processes from '@/components/Processes';
-import Tasks from '@/components/Tasks';
+import Trackings from '../components/Trackings';
+import Processes from '../components/Processes';
+import Tasks from '../components/Tasks';
 
-import SignIn from '@/components/SignIn';
-import '@/components';
+import SignIn from '../components/SignIn';
+import '../components';
 
 Vue.use(Router);
 

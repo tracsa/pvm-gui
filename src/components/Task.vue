@@ -58,8 +58,8 @@
 </template>
 
 <script>
-import { get, post } from '@/utils/api';
-import formatErrors from '@/utils/formatErrors';
+import { get, post } from '../utils/api';
+import formatErrors from '../utils/formatErrors';
 
 export default {
   props: ['taskId'],
