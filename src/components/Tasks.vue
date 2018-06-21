@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import { get } from '@/utils/api';
+import { get } from '../utils/api';
 
 export default {
   data() {
