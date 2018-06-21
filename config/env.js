@@ -1,9 +1,6 @@
 'use strict'
 
 const envVars = [{
-  name: 'NODE_ENV',
-  default: 'production',
-}, {
   name: 'CACAHUATE_URL',
   default: 'http://localhost:5000',
 }, {
