@@ -32,7 +32,7 @@
                   </td>
                 </tr>
                 <tr
-                  v-for="input in form.inputs.item_order.map(key => form.inputs.items[key])"
+                  v-for="input in form.inputs.item_order.map(key => form.inputs.items[key]).filter(input => !input.hidden)"
                   :key="input.name">
                   <td scope="row">{{ input.label }}</td>
                   <td><value-render :input="input" /></td>
