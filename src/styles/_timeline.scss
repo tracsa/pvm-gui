@@ -1,5 +1,5 @@
 .timeline {
-  border-left: $line-width solid lighten($purple, 30);
+  border-left: $line-width solid $timeline-bg;
   padding: 1rem 0 15px 0;
 }
 
@@ -45,5 +45,15 @@ tr.form-group {
   td {
     width: 5px;
     padding: 0;
+  }
+}
+
+.head-container {
+  background: white;
+  border: 3px solid $timeline-bg;
+  padding: 0 20px;
+  .text-primary {
+    padding: 20px 20px;
+    color: $black-light !important;
   }
 }
