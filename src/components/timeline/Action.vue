@@ -32,7 +32,7 @@
                   </td>
                 </tr>
                 <tr
-                  v-for="input in form.inputs.item_order.map(key => form.inputs.items[key]).filter(input => !input.hidden)"
+                  v-for="input in listInputs(form.inputs)"
                   :key="input.name">
                   <td scope="row">{{ input.label }}</td>
                   <td><value-render :input="input" /></td>
@@ -51,6 +51,13 @@ import moment from 'moment';
 
 export default {
   props: ['action'],
+  methods: {
+    listInputs(inputs) {
+      return inputs.item_order
+        .map(key => inputs.items[key])
+        .filter(input => !input.hidden);
+    },
+  },
   filters: {
     setMoment(data, from) {
       const oldData = data;
