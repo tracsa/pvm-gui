@@ -97,16 +97,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '../styles/_variables.scss';
-
-.head-container {
-  background: white;
-  border: 3px solid #c7b5e7;
-  padding: 0 20px;
-  .text-primary {
-    padding: 20px 20px;
-    color: $black-light !important;
-  }
-}
-</style>
