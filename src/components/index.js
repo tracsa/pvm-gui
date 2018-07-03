@@ -1,5 +1,6 @@
 import Datepicker from 'vuejs-datepicker';
 import Vue from 'vue';
+import './timeline';
 
 import App from './App';
 import Activity from './Activity';
