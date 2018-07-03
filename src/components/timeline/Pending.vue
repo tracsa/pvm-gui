@@ -12,7 +12,7 @@
           style="font-weight: bold;"
           v-for="user in node.notified_users"
           :key="user.id">
-          {{ user.fullname }}&nbsp;
+          {{ user.fullname || user.identifier }}&nbsp;
         </small>
       </div>
     </div>
