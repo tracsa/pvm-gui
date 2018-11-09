@@ -35,13 +35,18 @@ export default new Router({
         },
         {
           name: 'processes',
-          path: '',
+          path: 'process',
           component: Vue.component('processes'),
         },
         {
           name: 'process',
           path: 'process/:id',
           component: Vue.component('processes'),
+        },
+        {
+          name: 'default',
+          path: '',
+          component: Vue.component('tasks'),
         },
       ],
     },
