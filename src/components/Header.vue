@@ -6,21 +6,21 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
-              :to="{ path: '/task' }">
+              :to="{ name: 'tasks' }">
               {{ $t('header.tasks') }}
             </router-link>
           </li>
           <li class="nav-item">
             <router-link
               class="nav-link"
-              :to="{ path: '/' }">
+              :to="{ name: 'processes' }">
               {{ $t('header.processes') }}
             </router-link>
           </li>
           <li class="nav-item">
             <router-link
               class="nav-link"
-              :to="{ path: '/tracking' }">
+              :to="{ name: 'trackings' }">
               {{ $t('header.trackings') }}
             </router-link>
           </li>
