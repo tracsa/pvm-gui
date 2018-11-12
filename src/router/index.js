@@ -9,6 +9,18 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
+      path: '/admin/',
+      beforeEnter: requireAuth,
+      component: Vue.component('admin-app'),
+      children: [
+        {
+          name: 'default',
+          path: '',
+          component: Vue.component('admin-trackings'),
+        },
+      ],
+    },
+    {
       path: '/',
       beforeEnter: requireAuth,
       component: Vue.component('app'),
