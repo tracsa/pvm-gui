@@ -24,6 +24,7 @@
       v-if="!loading"
       :users="node.notified_users"
       class="card-body"/>
+
     <div v-else>
       <hero
         v-if="loading"
@@ -32,22 +33,61 @@
         spin
       />
     </div>
+
+    <div class="card-body">
+      <form
+        @submit="addUser($event)">
+        <div
+          class="text-danger"
+          v-if="hasError">
+          {{ $t('signin.error_signin') }}
+        </div>
+
+        <!-- TODO: i18n this -->
+        <div class="form-group mt-3">
+          <input
+            v-model="username"
+            type="text"
+            :placeholder="'User'"
+            class="form-control"
+            :class="{'is-invalid': hasError}"
+          >
+        </div>
+
+        <button
+          class="btn btn-primary mt-3"
+          :disabled="sigingIn"
+        >
+          <!-- TODO: i18n this -->
+          Add user
+        </button>
+
+      </form>
+    </div>
+
   </div>
 </template>
 
 <script>
-import { get } from '../utils/api';
+import { get, post } from '../utils/api';
 
 export default {
   props: ['id', 'node'],
   data() {
     return {
-      loading: false,
-      actions: [],
+      // form: username
+      username: '',
+      // current execution
       execution: [],
+      // all execution' nodes
       nodes: [],
+      // checks
+      hasError: false,
+      addingUser: false,
+      loading: false,
       sleep: 0,
       timeoutId: 0,
+      errors: [],
     };
   },
   mounted() {
@@ -86,6 +126,28 @@ export default {
         this.nodes = nodes;
         this.loading = false;
       });
+    },
+    addUser: function addUser(event) {
+        event.preventDefault();
+
+        this.hasError = false;
+        this.addingUser = true;
+
+        const { username } = this;
+        const postData = {
+          'identifier': this.username,
+          'node_id': this.node.node.id,
+        };
+
+        post(`/execution/${this.id}/add_user`, postData, 'application/json')
+          .then((data) => {
+            this.sending = false;
+            this.$router.push(`/admin/tracking`);
+          })
+          .catch((errors) => {
+            this.sending = false;
+            this.errors = formatErrors(errors);
+          });
     },
   },
 };

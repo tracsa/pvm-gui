@@ -41,23 +41,20 @@
             desc="info.aboutTrackingsMore"
           />
 
-          <!-- TODO: Mode to style file -->
+          <!-- TODO: Move to style file -->
           <table width=100%
             v-else
             class="activity-table">
             <!--TODO: i18n-->
             <th>
-              <a href="javascript:void(0);" @click="loadList">
                 Proceso
               </a>
             </th>
             <th>
-              <a href="javascript:void(0);" @click="loadList">
                 Usuario(s)
               </a>
             </th>
             <th>
-              <a href="javascript:void(0);" @click="loadList">
                 Estado
               </a>
             </th>
