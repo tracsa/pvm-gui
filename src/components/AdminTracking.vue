@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { get, post } from '../utils/api';
+import { get, put } from '../utils/api';
 
 export default {
   props: ['id', 'node'],
@@ -134,12 +134,12 @@ export default {
         this.addingUser = true;
 
         const { username } = this;
-        const postData = {
+        const requestData = {
           'identifier': this.username,
           'node_id': this.node.node.id,
         };
 
-        post(`/execution/${this.id}/add_user`, postData, 'application/json')
+        put(`/execution/${this.id}/user`, requestData, 'application/json')
           .then((data) => {
             this.sending = false;
             this.$router.push(`/admin/tracking`);
