@@ -3,27 +3,6 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-white d-none d-lg-block">
       <div class="container">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link
-              class="nav-link"
-              :to="{ name: 'tasks' }">
-              {{ $t('header.tasks') }}
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              class="nav-link"
-              :to="{ name: 'processes' }">
-              {{ $t('header.processes') }}
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <router-link
-              class="nav-link"
-              :to="{ name: 'trackings' }">
-              {{ $t('header.trackings') }}
-            </router-link>
-          </li>
         </ul>
 
         <ul class="navbar-nav">
@@ -50,28 +29,11 @@
             </div>
           </li>
         </ul>
+
       </div>
     </nav>
 
     <div class="mobile-header row d-lg-none">
-      <div class="col">
-        <router-link
-          :to="{ path: '/task' }">
-            {{ $t('header.tasks') }}
-        </router-link>
-      </div>
-      <div class="col">
-        <router-link
-          :to="{ path: '/' }">
-            {{ $t('header.processes') }}
-        </router-link>
-      </div>
-      <div class="col">
-        <router-link
-          :to="{ path: '/tracking' }">
-            {{ $t('header.trackings') }}
-        </router-link>
-      </div>
       <div class="col">
         <a
           href="javascript:void(0);"

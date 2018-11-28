@@ -3,6 +3,10 @@ import Vue from 'vue';
 import './timeline';
 
 import App from './App';
+import AdminApp from './AdminApp';
+import AdminHeader from './AdminHeader';
+import AdminTrackings from './AdminTrackings';
+import AdminTracking from './AdminTracking';
 import Activity from './Activity';
 import DataValidator from './DataValidator';
 import DatetimeInput from './DatetimeInput';
@@ -19,6 +23,7 @@ import TimeInput from './TimeInput';
 import Timeline from './Timeline';
 import Trackings from './Trackings';
 import Tracking from './Tracking';
+import UserList from './UserList';
 import ValueRender from './ValueRender';
 import Hero from './Hero';
 import Processes from './Processes';
@@ -40,6 +45,13 @@ Vue.component('value-render', ValueRender);
 Vue.component('hero', Hero);
 Vue.component('processes', Processes);
 Vue.component('sign-in', SignIn);
+
+// Admin
+Vue.component('admin-app', AdminApp);
+Vue.component('admin-app-header', AdminHeader);
+Vue.component('admin-trackings', AdminTrackings);
+Vue.component('admin-tracking', AdminTracking);
+Vue.component('user-list', UserList);
 
 // From inputs
 Vue.component('form-instance', FormInstance);
