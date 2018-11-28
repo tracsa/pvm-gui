@@ -136,7 +136,7 @@ const messages = {
 };
 
 const i18n = new VueI18n({
-  locale: 'es', // set locale
+  locale: process.env.LOCALE, // set locale
   messages, // set locale messages
 });
 

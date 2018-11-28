@@ -1,9 +1,11 @@
 {
   "name": "cascara",
-  "version": "2.1.10",
-  "description": " Graphical user interface for cacahuate & DOQER ",
-  "author": "Og Astorga <og@ogastorga.com>",
-  "private": true,
+  "description": "GUI for cacahuate",
+  "version": "2.2.5",
+  "author": "The cascara authors (https://github.com/tracsa/cascara/graphs/contributors)",
+  "contributors": [
+    "Tracsa SAPI"
+  ],
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
@@ -13,6 +15,14 @@
     "lint": "eslint --ext .js,.vue src test/unit test/e2e/specs",
     "build": "node build/build.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tracsa/cascara.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tracsa/cascara/issues"
+  },
+  "license": "ISC",
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.4",
     "@fortawesome/fontawesome-free-brands": "^5.0.8",

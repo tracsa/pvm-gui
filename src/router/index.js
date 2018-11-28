@@ -1,14 +1,8 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { requireAuth, requireAnon } from '@/utils/auth';
-import App from '@/components/App';
+import { requireAuth, requireAnon } from '../utils/auth';
 
-import Trackings from '@/components/Trackings';
-import Processes from '@/components/Processes';
-import Tasks from '@/components/Tasks';
-
-import SignIn from '@/components/SignIn';
-import '@/components';
+import '../components';
 
 Vue.use(Router);
 
@@ -17,44 +11,44 @@ export default new Router({
     {
       path: '/',
       beforeEnter: requireAuth,
-      component: App,
+      component: Vue.component('app'),
       children: [
         {
           name: 'trackings',
           path: 'tracking',
-          component: Trackings,
+          component: Vue.component('trackings'),
         },
         {
           name: 'tracking',
           path: 'tracking/:id',
-          component: Trackings,
+          component: Vue.component('trackings'),
         },
         {
           name: 'tasks',
           path: 'task',
-          component: Tasks,
+          component: Vue.component('tasks'),
         },
         {
           name: 'task',
           path: 'task/:id',
-          component: Tasks,
+          component: Vue.component('tasks'),
         },
         {
           name: 'processes',
           path: '',
-          component: Processes,
+          component: Vue.component('processes'),
         },
         {
           name: 'process',
           path: 'process/:id',
-          component: Processes,
+          component: Vue.component('processes'),
         },
       ],
     },
     {
       path: '/signin',
       beforeEnter: requireAnon,
-      component: SignIn,
+      component: Vue.component('sign-in'),
     },
   ],
 });

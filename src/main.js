@@ -8,7 +8,11 @@ import i18n from './i18n';
 
 Vue.config.productionTip = false;
 
-moment.locale('es');
+moment.locale(process.env.LOCALE);
+
+// show env vars
+/* eslint-disable no-console */
+console.info('process.env', process.env);
 
 /* eslint-disable no-new */
 new Vue({
@@ -18,4 +22,3 @@ new Vue({
   components: { App },
   template: '<App/>',
 });
-

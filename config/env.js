@@ -1,9 +1,5 @@
 'use strict'
 
-const base = {
-  NODE_ENV: '"production"',
-};
-
 const envVars = [{
   name: 'CACAHUATE_URL',
   default: 'http://localhost:5000',
@@ -16,7 +12,12 @@ const envVars = [{
     value: 'ldap',
     label: 'LDAP',
   }],
+}, {
+  name: 'LOCALE',
+  default: 'es',
 }];
+
+const base = {};
 
 envVars.forEach((envVar) => {
   let value = JSON.stringify(envVar.default);

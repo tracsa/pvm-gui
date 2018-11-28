@@ -1,7 +1,8 @@
 import Datepicker from 'vuejs-datepicker';
 import Vue from 'vue';
-
 import './timeline';
+
+import App from './App';
 import Activity from './Activity';
 import DataValidator from './DataValidator';
 import DatetimeInput from './DatetimeInput';
@@ -16,22 +17,29 @@ import Task from './Task';
 import Tasks from './Tasks';
 import TimeInput from './TimeInput';
 import Timeline from './Timeline';
+import Trackings from './Trackings';
 import Tracking from './Tracking';
 import ValueRender from './ValueRender';
 import Hero from './Hero';
+import Processes from './Processes';
+import SignIn from '../components/SignIn';
 
 
 // Components
+Vue.component('app', App);
 Vue.component('app-header', Header);
 Vue.component('activity', Activity);
 Vue.component('tasks', Tasks);
 Vue.component('task', Task);
 Vue.component('timeline', Timeline);
 Vue.component('form-render', FormRender);
+Vue.component('trackings', Trackings);
 Vue.component('tracking', Tracking);
 Vue.component('linear-steps', LinearSteps);
 Vue.component('value-render', ValueRender);
 Vue.component('hero', Hero);
+Vue.component('processes', Processes);
+Vue.component('sign-in', SignIn);
 
 // From inputs
 Vue.component('form-instance', FormInstance);
