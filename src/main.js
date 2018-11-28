@@ -2,6 +2,7 @@ import Vue from 'vue';
 import moment from 'moment';
 import 'whatwg-fetch';
 import App from './App';
+import './components';
 import router from './router';
 import './fontawesome';
 import i18n from './i18n';

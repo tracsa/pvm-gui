@@ -2,8 +2,6 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import { requireAuth, requireAnon } from '../utils/auth';
 
-import '../components';
-
 Vue.use(Router);
 
 export default new Router({
