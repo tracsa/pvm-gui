@@ -12,8 +12,9 @@
           >
             <div
               class="text-danger"
-              v-if="hasError">
-              {{ $t('signin.error_signin') }}
+              v-if="hasError"
+              >
+              {{ $t('signin["' + this.errorMessage + '"]') }}
             </div>
 
             <div class="form-group mt-3">
@@ -77,6 +78,7 @@ export default {
       hasError: false,
       signingIn: false,
       showAdvancedOptions: false,
+      errorMessage: true,
     };
   },
   methods: {
@@ -91,12 +93,17 @@ export default {
       this.hasError = false;
       this.signingIn = true;
 
+
       const { username, password, provider } = this;
       login(username, password, provider, (err) => {
         this.signingIn = false;
 
         if (err) {
           this.hasError = true;
+          const a = err.response.json();
+          a.then((res) => {
+            this.errorMessage = res.errors[0].code;
+          });
         }
 
         const { $route, $router } = this;
