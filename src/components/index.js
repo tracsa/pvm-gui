@@ -27,7 +27,7 @@ import UserList from './UserList';
 import ValueRender from './ValueRender';
 import Hero from './Hero';
 import Processes from './Processes';
-import SignIn from '../components/SignIn';
+import SignIn from './SignIn';
 
 
 // Components
