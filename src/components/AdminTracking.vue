@@ -128,26 +128,21 @@ export default {
       });
     },
     addUser: function addUser(event) {
-        event.preventDefault();
+      event.preventDefault();
 
-        this.hasError = false;
-        this.addingUser = true;
+      this.hasError = false;
+      this.addingUser = true;
 
-        const { username } = this;
-        const requestData = {
-          'identifier': this.username,
-          'node_id': this.node.node.id,
-        };
+      const requestData = {
+        identifier: this.username,
+        node_id: this.node.node.id,
+      };
 
-        put(`/execution/${this.id}/user`, requestData, 'application/json')
-          .then((data) => {
-            this.sending = false;
-            this.$router.push(`/admin/tracking`);
-          })
-          .catch((errors) => {
-            this.sending = false;
-            this.errors = formatErrors(errors);
-          });
+      put(`/execution/${this.id}/user`, requestData, 'application/json')
+        .then(() => {
+          this.sending = false;
+          this.$router.push('/admin/tracking');
+        });
     },
   },
 };

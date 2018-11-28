@@ -48,15 +48,12 @@
             <!--TODO: i18n-->
             <th>
                 Proceso
-              </a>
             </th>
             <th>
                 Usuario(s)
-              </a>
             </th>
             <th>
                 Estado
-              </a>
             </th>
             <th />
 
