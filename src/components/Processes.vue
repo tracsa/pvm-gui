@@ -3,9 +3,7 @@
     class="full-columns"
     :class="containerClass">
     <div class="row">
-      <div
-        :class="{ 'd-none d-md-block': selectedId }"
-        class="col">
+      <div :class="{ 'd-none d-md-block': selectedId }" class="col">
         <div class="card">
           <div class="card-header">
             <div style="float:right;">
@@ -32,21 +30,27 @@
             v-else
             class="activity-list">
             <li
-              :class="{ active: selectedId === process.id }"
-              v-for="process in processes"
+              style="display:flex"
+              :class="{ active: selectedId === process.id }" v-for="process in processes"
               :key="process.id">
               <router-link
+                style='width:96%'
                 :to="{
                   name: 'process',
                   params: { id: process.id },
-                }">
-                <div class="activity-name">
+                }"><div class="activity-name">
                   {{ process.name }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
                 </div>
               </router-link>
+                <div class="eye">
+                  <a :href="url + process.id + '.' + process.version + '.xml' "
+                  target="_blank" class="button">
+                    <icon :icon="['fa', 'eye']" />
+                  </a>
+                </div>
             </li>
           </ul>
         </div>
@@ -68,6 +72,7 @@ export default {
     return {
       processes: [],
       loading: true,
+      url: `${process.env.CACAHUATE_URL}/v1/process/`,
     };
   },
   mounted() {
@@ -132,4 +137,12 @@ export default {
 .col {
   display: flex;
 }
+
+.eye {
+  justify-align:right;
+  margin-top: 10px;
+  margin-right: 10px;
+  opacity: 0.5;
+}
+
 </style>
