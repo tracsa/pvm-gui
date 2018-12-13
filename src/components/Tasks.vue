@@ -58,7 +58,7 @@
                 <div class="activity-name">
                   {{ task.execution.name }} — {{ task.node.name }}
                 </div>
-                <div>
+                <div class="small">
                     {{ task.started_at | setMoment('From now') }}
                 </div>
                 <div class="activity-caret">
