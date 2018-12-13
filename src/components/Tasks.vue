@@ -56,7 +56,10 @@
                   params: { id: task.id },
                 }">
                 <div class="activity-name">
-                  {{ task.execution.name }} — {{ task.name }}
+                  {{ task.execution.name }} — {{ task.node.name }}
+                </div>
+                <div>
+                    {{ task.started_at | setMoment('From now') }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -75,6 +78,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { get } from '../utils/api';
 
 export default {
@@ -94,7 +98,7 @@ export default {
       this.loading = true;
       this.errors = [];
 
-      get('/task')
+      get('/log?current_user=true')
         .then((body) => {
           this.loading = false;
           this.tasks = body.data;
@@ -103,6 +107,29 @@ export default {
           this.loading = false;
           this.errors = errors;
         });
+    },
+  },
+  filters: {
+    setMoment(data, from) {
+      const oldData = data;
+      let newDate = new Date(data);
+
+      if (from === 'From now') {
+        newDate = moment(newDate).fromNow();
+      } else if (from === 'Complete') {
+        newDate = moment(newDate).format('MMMM Do YYYY, h:mm:ss a');
+      } else {
+        newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
+      }
+
+      let output = null;
+      if (newDate !== 'Invalid date') {
+        output = newDate;
+      } else {
+        output = oldData;
+      }
+
+      return output;
     },
   },
   computed: {
