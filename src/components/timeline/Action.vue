@@ -8,7 +8,7 @@
           <div class="col">
             {{ action.node.name }}
             —
-            <small>{{ action.finished_at | setMoment('From now') }}</small>
+            <small>{{ action.finished_at | relativeDate }}</small>
           </div>
         </div>
       </div>
@@ -59,26 +59,8 @@ export default {
     },
   },
   filters: {
-    setMoment(data, from) {
-      const oldData = data;
-      let newDate = new Date(data);
-
-      if (from === 'From now') {
-        newDate = moment(newDate).fromNow();
-      } else if (from === 'Complete') {
-        newDate = moment(newDate).format('MMMM Do YYYY, h:mm:ss a');
-      } else {
-        newDate = moment(newDate).format('DD/MM/YYYY HH:mm');
-      }
-
-      let output = null;
-      if (newDate !== 'Invalid date') {
-        output = newDate;
-      } else {
-        output = oldData;
-      }
-
-      return output;
+    relativeDate(date) {
+      return moment(date).fromNow();
     },
   },
 };
