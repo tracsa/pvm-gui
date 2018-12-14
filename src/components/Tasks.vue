@@ -80,14 +80,18 @@
 <script>
 import moment from 'moment';
 import { get } from '../utils/api';
+import { getAuthUser } from '../utils/auth';
 
 export default {
   data() {
+    const user = getAuthUser();
+
     return {
       tasks: [],
       timeline: [],
       loading: true,
       errors: [],
+      userId: user.username,
     };
   },
   mounted() {
@@ -98,7 +102,7 @@ export default {
       this.loading = true;
       this.errors = [];
 
-      get('/log?current_user=true')
+      get(`/log?user_identifier=${this.userId}`)
         .then((body) => {
           this.loading = false;
           this.tasks = body.data;
