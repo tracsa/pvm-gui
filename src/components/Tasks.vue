@@ -56,7 +56,10 @@
                   params: { id: task.id },
                 }">
                 <div class="activity-name">
-                  {{ task.execution.name }} — {{ task.name }}
+                  {{ task.execution.name }} — {{ task.node.name }}
+                </div>
+                <div class="small">
+                    {{ task.started_at | relativeDate }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -75,15 +78,20 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { get } from '../utils/api';
+import { getAuthUser } from '../utils/auth';
 
 export default {
   data() {
+    const user = getAuthUser();
+
     return {
       tasks: [],
       timeline: [],
       loading: true,
       errors: [],
+      userId: user.username,
     };
   },
   mounted() {
@@ -94,7 +102,7 @@ export default {
       this.loading = true;
       this.errors = [];
 
-      get('/task')
+      get(`/log?user_identifier=${this.userId}`)
         .then((body) => {
           this.loading = false;
           this.tasks = body.data;
@@ -103,6 +111,11 @@ export default {
           this.loading = false;
           this.errors = errors;
         });
+    },
+  },
+  filters: {
+    relativeDate(date) {
+      return moment(date).fromNow();
     },
   },
   computed: {
