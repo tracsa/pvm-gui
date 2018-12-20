@@ -3,8 +3,6 @@ import Vue from 'vue';
 import './timeline';
 
 import App from './App';
-import AdminApp from './AdminApp';
-import AdminHeader from './AdminHeader';
 import AdminTrackings from './AdminTrackings';
 import AdminTracking from './AdminTracking';
 import Activity from './Activity';
@@ -47,8 +45,6 @@ Vue.component('processes', Processes);
 Vue.component('sign-in', SignIn);
 
 // Admin
-Vue.component('admin-app', AdminApp);
-Vue.component('admin-app-header', AdminHeader);
 Vue.component('admin-trackings', AdminTrackings);
 Vue.component('admin-tracking', AdminTracking);
 Vue.component('user-list', UserList);
