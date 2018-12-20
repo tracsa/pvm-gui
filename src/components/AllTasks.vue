@@ -9,8 +9,10 @@
         <div class="card">
           <div class="card-header">
             <div style="float:right;">
-              <a href="javascript:void(0);" @click="loadList">
-                <icon :icon="['fas', 'sync-alt']" />
+              <a
+                href="javascript:void(0);"
+                @click="loadList">
+                  <icon :icon="['fas', 'sync-alt']" />
               </a>
             </div>
             {{ $t('trackings.trackings') }}
@@ -35,85 +37,67 @@
           />
 
           <hero
-            v-else-if="trackings.length === 0"
+            v-else-if="tasks.length === 0"
             icon="inbox"
-            title="info.aboutTrackings"
-            desc="info.aboutTrackingsMore"
+            title="info.aboutTasks"
+            desc="info.aboutTasksMore"
           />
 
-          <!-- TODO: Move to style file -->
-          <table width=100%
+          <ul
             v-else
-            class="activity-table">
-            <!--TODO: i18n-->
-            <th>
-                Proceso
-            </th>
-            <th>
-                Usuario(s)
-            </th>
-            <th>
-                Estado
-            </th>
-            <th />
-
-            <router-link
-              :to="{
-                name: 'admin-tracking',
-                params: { id: tracking.execution.id },
-              }"
-              tag="tr"
-              v-for="tracking in trackings"
-              :key="tracking.execution.id">
-
-              <td>
-                {{ tracking.execution.name }}
-              </td>
-
-              <td>
+            class="activity-list">
+            <li
+              :class="{ active: selectedId === task.execution.id }"
+              v-for="task in tasks"
+              :key="task.execution.id">
+              <router-link
+                :to="{
+                  name: 'admin-tracking',
+                  params: { id: task.execution.id },
+                }">
                 <div
-                  v-for="(user, index) in tracking.notified_users"
-                  :key="index">
-                  {{ user.fullname }}
+                  class="col-5 activity-name">
+                  {{ task.execution.name }} — {{ task.node.name }}
                 </div>
-              </td>
-
-              <td>
-                {{ tracking.node.name }}
-              </td>
-
-              <td>
+                <div class="col full-columns">
+                  <div
+                    v-for="(user, index) in task.notified_users"
+                    :key="index">
+                    {{ user.fullname }}
+                  </div>
+                </div>
+                <div class="small"
+                  :title="task.started_at | formatDate">
+                    {{ task.started_at | relativeDate }}
+                </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
                 </div>
-              </td>
-            </router-link>
-
-          </table>
-
+              </router-link>
+            </li>
+          </ul>
         </div>
       </div>
 
-      <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">
+      <div v-if="selectedId" class="col-12 col-md-8">
         <admin-tracking
           :id="selectedId"
-          :node="trackings[selectedId]"
-        />
+          :node="tasks[selectedId]"/>
       </div>
-
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment';
 import { get } from '../utils/api';
 
 export default {
-  props: ['model'],
   data() {
     return {
+      tasks: [],
+      timeline: [],
       loading: true,
-      trackings: {},
       errors: [],
     };
   },
@@ -121,14 +105,13 @@ export default {
     this.loadList();
   },
   methods: {
-    loadList: function loadList() {
+    loadList() {
       this.loading = true;
       this.errors = [];
 
       get('/log')
         .then((body) => {
           this.loading = false;
-          this.trackings = {};
 
           const nodes = body.data;
 
@@ -140,7 +123,7 @@ export default {
               return obj;
             }, {});
 
-          this.trackings = arrToObj(nodes);
+          this.tasks = arrToObj(nodes);
         })
         .catch((errors) => {
           this.loading = false;
@@ -148,15 +131,31 @@ export default {
         });
     },
   },
+  filters: {
+    relativeDate(val) {
+      const date = new Date(val);
+      const yesterday = new Date() - (24 * 60 * 60 * 1000);
+
+      if (yesterday < date) {
+        return moment(val).fromNow();
+      }
+
+      return moment(val).calendar();
+    },
+    formatDate(val) {
+      return moment(val).format('LLLL');
+    },
+  },
   computed: {
-    selectedId: function selectedId() {
+    selectedId() {
       const { id } = this.$route.params;
       if (!id) {
         return null;
       }
+
       return id;
     },
-    containerClass: function containerClass() {
+    containerClass() {
       return {
         container: this.selectedId === null,
         'container-fluid': this.selectedId !== null,
