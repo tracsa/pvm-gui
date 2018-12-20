@@ -66,7 +66,8 @@
                     {{ user.fullname }}
                   </div>
                 </div>
-                <div class="small">
+                <div class="small"
+                  :title="task.started_at | formatDate">
                     {{ task.started_at | relativeDate }}
                 </div>
                 <div class="activity-caret">
@@ -140,6 +141,9 @@ export default {
       }
 
       return moment(val).calendar();
+    },
+    formatDate(val) {
+      return moment(val).format('LLLL');
     },
   },
   computed: {
