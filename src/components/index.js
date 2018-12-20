@@ -3,8 +3,8 @@ import Vue from 'vue';
 import './timeline';
 
 import App from './App';
-import AdminTrackings from './AdminTrackings';
 import AdminTracking from './AdminTracking';
+import AllTasks from './AllTasks';
 import Activity from './Activity';
 import DataValidator from './DataValidator';
 import DatetimeInput from './DatetimeInput';
@@ -45,8 +45,8 @@ Vue.component('processes', Processes);
 Vue.component('sign-in', SignIn);
 
 // Admin
-Vue.component('admin-trackings', AdminTrackings);
 Vue.component('admin-tracking', AdminTracking);
+Vue.component('all-tasks', AllTasks);
 Vue.component('user-list', UserList);
 
 // From inputs
