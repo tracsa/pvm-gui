@@ -114,8 +114,15 @@ export default {
     },
   },
   filters: {
-    relativeDate(date) {
-      return moment(date).fromNow();
+    relativeDate(val) {
+      const date = new Date(val);
+      const yesterday = new Date() - (24 * 60 * 60 * 1000);
+
+      if (yesterday < date) {
+        return moment(val).fromNow();
+      }
+
+      return moment(val).calendar();
     },
   },
   computed: {
