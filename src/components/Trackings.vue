@@ -75,14 +75,18 @@
 
 <script>
 import { get } from '../utils/api';
+import { getAuthUser } from '../utils/auth';
 
 export default {
   props: ['model'],
   data() {
+    const user = getAuthUser();
+
     return {
       loading: true,
       trackings: [],
       errors: [],
+      userId: user.username,
     };
   },
   mounted() {
