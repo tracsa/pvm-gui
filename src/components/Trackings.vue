@@ -97,7 +97,7 @@ export default {
       this.loading = true;
       this.errors = [];
 
-      get('/activity')
+      get(`/execution?user_identifier=${this.userId}`)
         .then((body) => {
           this.loading = false;
           this.trackings = body.data;
