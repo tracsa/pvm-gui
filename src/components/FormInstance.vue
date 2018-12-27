@@ -67,6 +67,12 @@
           @change="file => data[input.name] = file"
         />
       </div>
+      <div v-else-if="input.type === 'link'">
+        <link-input
+          :value="data[input.name]"
+          @change="link => data[input.name] = link"
+        />
+      </div>
       <div v-else>
         <input
           :id="input.name"

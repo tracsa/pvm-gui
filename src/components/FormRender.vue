@@ -106,6 +106,12 @@ export default {
         case 'doqer:file':
           defaultValue = null;
           break;
+        case 'link':
+          defaultValue = {
+            label: '',
+            href: '',
+          };
+          break;
         default:
           defaultValue = '';
           if (input.default !== undefined) {
