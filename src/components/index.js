@@ -26,6 +26,7 @@ import ValueRender from './ValueRender';
 import Hero from './Hero';
 import Processes from './Processes';
 import SignIn from './SignIn';
+import LinkInput from './LinkInput';
 
 
 // Components
@@ -54,6 +55,7 @@ Vue.component('form-instance', FormInstance);
 Vue.component('time-input', TimeInput);
 Vue.component('date-input', Datepicker);
 Vue.component('datetime-input', DatetimeInput);
+Vue.component('link-input', LinkInput);
 
 // Doqer components
 Vue.component('doqer-input', DoqerSelect);
