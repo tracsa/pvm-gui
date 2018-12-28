@@ -56,6 +56,10 @@
                 <div class="activity-name">
                   {{ tracking.name }}
                 </div>
+                <div class="small"
+                  :title="tracking.started_at | formatDate">
+                  {{ tracking.started_at | relativeDate }}
+                </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
                 </div>
@@ -74,15 +78,20 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { get } from '../utils/api';
+import { getAuthUser } from '../utils/auth';
 
 export default {
   props: ['model'],
   data() {
+    const user = getAuthUser();
+
     return {
       loading: true,
       trackings: [],
       errors: [],
+      userId: user.username,
     };
   },
   mounted() {
@@ -93,7 +102,7 @@ export default {
       this.loading = true;
       this.errors = [];
 
-      get('/activity')
+      get(`/execution?user_identifier=${this.userId}`)
         .then((body) => {
           this.loading = false;
           this.trackings = body.data;
@@ -102,6 +111,21 @@ export default {
           this.loading = false;
           this.errors = errors;
         });
+    },
+  },
+  filters: {
+    relativeDate(val) {
+      const date = new Date(val);
+      const yesterday = new Date() - (24 * 60 * 60 * 1000);
+
+      if (yesterday < date) {
+        return moment(val).fromNow();
+      }
+
+      return moment(val).calendar();
+    },
+    formatDate(val) {
+      return moment(val).format('LLLL');
     },
   },
   computed: {
