@@ -13,7 +13,7 @@ export default new Router({
       children: [
         {
           name: 'all-tasks',
-          path: 'all-tasks',
+          path: 'tracking',
           component: Vue.component('all-tasks'),
         },
         {
