@@ -54,7 +54,8 @@
                 :to="{
                   name: 'task',
                   params: { id: task.id },
-                }">
+                }"
+                replace>
                 <div class="activity-name">
                   {{ task.execution.name }} — {{ task.node.name }}
                 </div>
