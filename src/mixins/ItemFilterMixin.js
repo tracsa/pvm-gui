@@ -6,8 +6,8 @@ const itemFilterMixin = {
       pageSize: 1000,
       pageNumber: 1,
       menuVisible: false,
-      filters: {},
-      order: [],
+      filters: process.env.TRACKINGS_FILTERS.filters,
+      order: process.env.TRACKINGS_FILTERS.orderBy,
       orderBy: null,
       appliedFilters: {},
     };
@@ -54,7 +54,6 @@ const itemFilterMixin = {
       }, 200);
     },
     clear: function clear() {
-      debugger;
       this.query = '';
       this.orderBy = null;
       this.initializeAttributeFilters();

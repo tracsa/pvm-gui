@@ -15,6 +15,12 @@ const envVars = [{
 }, {
   name: 'LOCALE',
   default: 'es',
+}, {
+  name: 'TRACKINGS_FILTERS',
+  default: {filters: {}, orderBy: [
+    {attribute: 'name', orderFunction: ''},
+    {attribute: 'id', orderFunction: ''},
+  ]},
 }];
 
 const base = {};
