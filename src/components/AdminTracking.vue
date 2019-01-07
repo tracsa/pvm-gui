@@ -9,7 +9,7 @@
               <b>{{ execution.name }}</b>
             </div>
             <div class="col-1 text-right">
-              <router-link :to="{ path: '/admin/tracking'}">
+              <router-link :to="{ path: '/admin/tracking'}" replace>
                 <icon :icon="['fas', 'times']" />
               </router-link>
             </div>
@@ -141,7 +141,7 @@ export default {
       put(`/execution/${this.id}/user`, requestData, 'application/json')
         .then(() => {
           this.sending = false;
-          this.$router.push('/admin/tracking');
+          this.$router.replace('/admin/tracking');
         });
     },
   },

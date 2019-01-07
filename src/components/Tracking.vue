@@ -7,7 +7,7 @@
             <b>{{ last.execution.name }}</b>
           </div>
           <div class="col-1 text-right">
-            <router-link :to="{ path: '/tracking'}">
+            <router-link :to="{ path: '/tracking'}" replace>
               <icon :icon="['fas', 'times']" />
             </router-link>
           </div>
