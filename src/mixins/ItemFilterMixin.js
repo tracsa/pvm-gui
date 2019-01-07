@@ -105,6 +105,12 @@ const itemFilterMixin = {
       }
       return result;
     },
+    haveFilters() {
+      return Object.keys(this.filters).length > 0;
+    },
+    haveFiltersOrder() {
+      return this.order.length || this.filters.length;
+    },
   },
 };
 

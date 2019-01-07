@@ -9,11 +9,67 @@
         <div class="card">
           <div class="card-header">
             <div style="float:right;">
-              <a href="javascript:void(0);" @click="loadList">
-                <icon :icon="['fas', 'sync-alt']" />
-              </a>
+              <form class="form-inline">
+                <div class="form-group">
+                  <input class="form-control" v-model="query" type="text" @change="clear"/>
+                </div>
+                <div style="display: inline;">
+                  <a
+                    href="javascript:void(0);"
+                    @click="toggleMenu"
+                  ><icon style="min-width: 25px;" :icon="['fas', 'ellipsis-v']" />
+                  </a>
+                </div>
+                <a href="javascript:void(0);" @click="loadList">
+                  <icon :icon="['fas', 'sync-alt']" />
+                </a>
+              </form>
             </div>
             {{ $t('trackings.trackings') }}
+          </div>
+
+          <div class="filters-menu" v-if="menuVisible" style="position: relative;">
+            <div class="popover-content">
+              <div v-if="order.length">
+                <b>Order by</b>
+                <div v-for="o in order" :key="o.attribute">
+                  <input
+                    v-model="orderBy"
+                    type="radio"
+                    name="orderby"
+                    :value="o.attribute"
+                    :id="o.attribute">
+                  <label> {{ o.attribute }} </label>
+                </div>
+              </div>
+              <div v-if="haveFilters">
+                <b>Filter by</b>
+                <div v-for="(filter, index) in filters" :key="index">
+                  <small>{{ index }}</small>
+                  <div v-for="value in filter.values" :key="value">
+                    <label>
+                      <input
+                        type="checkbox"
+                        :name="value"
+                        :id="value"
+                        :value="value"
+                        v-model="appliedFilters[index].values">
+                        {{ value }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!haveFiltersOrder">
+                <p>No se han establecido filtros para esta vista.</p>
+              </div>
+              <hr/>
+              <div v-if="haveFiltersOrder" style="text-align: right;">
+                <span class="btn btn-secondary" @click="clear">Clear</span>
+                <span class="btn btn-primary" @click="loadList">Apply</span>
+                <span class="btn btn-danger" @click="toggleMenu">Cancel</span>
+                <div class="clearfix"></div>
+              </div>
+            </div>
           </div>
 
           <div
@@ -35,7 +91,7 @@
           />
 
           <hero
-            v-else-if="trackings.length === 0"
+            v-else-if="showedItems.length === 0"
             icon="inbox"
             title="info.aboutTrackings"
             desc="info.aboutTrackingsMore"
@@ -46,7 +102,7 @@
             class="activity-list">
             <li
               :class="{ active: selectedId === tracking.id }"
-              v-for="tracking in trackings"
+              v-for="tracking in showedItems"
               :key="tracking.id">
               <router-link
                 :to="{
@@ -54,7 +110,7 @@
                   params: { id: tracking.id },
                 }">
                 <div class="activity-name">
-                  {{ tracking.name }}
+                  {{ tracking.name }}!
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -75,13 +131,15 @@
 
 <script>
 import { get } from '../utils/api';
+import itemFilterMixin from '../mixins/ItemFilterMixin';
 
 export default {
   props: ['model'],
+  mixins: [itemFilterMixin],
   data() {
     return {
       loading: true,
-      trackings: [],
+      items: [],
       errors: [],
     };
   },
@@ -96,7 +154,7 @@ export default {
       get('/activity')
         .then((body) => {
           this.loading = false;
-          this.trackings = body.data;
+          this.items = body.data;
         })
         .catch((errors) => {
           this.loading = false;
@@ -135,5 +193,9 @@ export default {
 .container-error {
   padding: 30px;
   padding-bottom: 0;
+}
+
+.filters-menu {
+  margin: 15px;
 }
 </style>
