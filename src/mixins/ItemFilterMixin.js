@@ -3,7 +3,7 @@ const itemFilterMixin = {
     return {
       showedItems: [],
       query: '',
-      pageSize: 1000,
+      pageSize: process.env.PAGE_SIZE,
       pageNumber: 1,
       menuVisible: false,
       filters: process.env.TRACKINGS_FILTERS.filters,

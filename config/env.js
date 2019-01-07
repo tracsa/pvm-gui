@@ -17,10 +17,16 @@ const envVars = [{
   default: 'es',
 }, {
   name: 'TRACKINGS_FILTERS',
-  default: {filters: {}, orderBy: [
-    {attribute: 'name', orderFunction: ''},
-    {attribute: 'id', orderFunction: ''},
-  ]},
+  default: {
+    filters: {},
+    orderBy: [
+      {attribute: 'name', orderFunction: ''},
+      {attribute: 'id', orderFunction: ''},
+    ]
+  },
+}, {
+  name: 'PAGE_SIZE',
+  default: 1000,
 }];
 
 const base = {};
