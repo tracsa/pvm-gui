@@ -58,8 +58,9 @@
                 <div class="activity-name">
                   {{ task.execution.name }} — {{ task.node.name }}
                 </div>
-                <div class="small">
-                    {{ task.started_at | relativeDate }}
+                <div class="small"
+                  :title="task.started_at | formatDate">
+                  {{ task.started_at | relativeDate }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
@@ -114,8 +115,18 @@ export default {
     },
   },
   filters: {
-    relativeDate(date) {
-      return moment(date).fromNow();
+    relativeDate(val) {
+      const date = new Date(val);
+      const yesterday = new Date() - (24 * 60 * 60 * 1000);
+
+      if (yesterday < date) {
+        return moment(val).fromNow();
+      }
+
+      return moment(val).calendar();
+    },
+    formatDate(val) {
+      return moment(val).format('LLLL');
     },
   },
   computed: {
