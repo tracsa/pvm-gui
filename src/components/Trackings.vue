@@ -124,7 +124,7 @@
                   params: { id: tracking.id },
                 }">
                 <div class="activity-name">
-                  {{ tracking.name }}!
+                  {{ tracking.name }}
                 </div>
                 <div class="small"
                   :title="tracking.started_at | formatDate">
