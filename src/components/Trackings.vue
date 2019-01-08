@@ -238,7 +238,7 @@ export default {
 }
 
 .mb-3 {
-  margin-bottom: 0rem !important;
+  margin-bottom: 0 !important;
 }
 
 </style>

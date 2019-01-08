@@ -76,11 +76,15 @@ const itemFilterMixin = {
       if (this.orderBy === null) {
         return this.showedItems;
       }
+      let order = 1;
+      if (this.order[this.orderBy].orderFunction === 'DESC') {
+        order = -1;
+      }
       return this.showedItems.slice().sort((a, b) => {
         if (a[this.orderBy] < b[this.orderBy]) {
-          return -1;
+          return -1 * order;
         } else if (a[this.orderBy] < b[this.orderBy]) {
-          return 1;
+          return 1 * order;
         }
         return 0;
       });
