@@ -10,10 +10,15 @@
           <div class="card-header">
             <div style="float:right;">
               <form class="form-inline">
-                <div class="form-group">
-                  <input class="form-control" v-model="query" type="text" @change="clear"/>
+                <div class="input-group mb-3">
+                  <input class="form-control" v-model="query" type="text"/>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" @click="filterList">
+                      <icon style="min-width: 25px;" :icon="['fas', 'search']" />
+                    </button>
+                  </div>
                 </div>
-                <div style="display: inline;">
+                <div class="form-group">
                   <a
                     href="javascript:void(0);"
                     @click="toggleMenu"
@@ -44,7 +49,7 @@
               </div>
               <div v-if="haveFilters">
                 <b>Filter by</b>
-                <div v-for="(filter, index) in filters" :key="index">
+                <div v-for="(filter, index) in dataFilters" :key="index">
                   <small>{{ index }}</small>
                   <div v-for="value in filter.values" :key="value">
                     <label>
@@ -222,4 +227,9 @@ export default {
 .filters-menu {
   margin: 15px;
 }
+
+.mb-3 {
+  margin-bottom: 0rem !important;
+}
+
 </style>

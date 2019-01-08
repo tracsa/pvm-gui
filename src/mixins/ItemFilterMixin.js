@@ -6,7 +6,7 @@ const itemFilterMixin = {
       pageSize: process.env.PAGE_SIZE,
       pageNumber: 1,
       menuVisible: false,
-      filters: process.env.TRACKINGS_FILTERS.filters,
+      dataFilters: process.env.TRACKINGS_FILTERS.filters,
       order: process.env.TRACKINGS_FILTERS.orderBy,
       orderBy: null,
       appliedFilters: {},
@@ -28,7 +28,7 @@ const itemFilterMixin = {
       this.showedItems = this.paginedData;
     },
     initializeAttributeFilters() {
-      const filters = Object.keys(this.filters);
+      const filters = Object.keys(this.dataFilters);
       for (let i = 0; i < filters.length; i += 1) {
         this.appliedFilters[filters[i]] = {
           values: [],
@@ -36,7 +36,7 @@ const itemFilterMixin = {
       }
     },
     checkFilters() {
-      const filters = Object.keys(this.filters);
+      const filters = Object.keys(this.dataFilters);
       for (let i = 0; i < filters.length; i += 1) {
         if (this.appliedFilters[filters[i]].values.length > 0) {
           return true;
@@ -105,10 +105,10 @@ const itemFilterMixin = {
       return result;
     },
     haveFilters() {
-      return Object.keys(this.filters).length > 0;
+      return Object.keys(this.dataFilters).length > 0;
     },
     haveFiltersOrder() {
-      return this.order.length || this.filters.length;
+      return this.order.length || this.dataFilters.length;
     },
   },
 };
