@@ -9,7 +9,7 @@
         <div class="card">
           <div class="card-header">
             <div style="float:right;">
-              <form class="form-inline">
+              <form class="form-inline" v-on:submit.prevent>
                 <div class="input-group mb-3">
                   <input class="form-control" v-model="query" type="text"/>
                   <div class="input-group-append">
@@ -75,7 +75,7 @@
                   {{ $t('dataFilters.buttons.clear')}}</span>
                 <span
                   class="btn btn-primary"
-                  @click="loadList">
+                  @click="filterList">
                   {{ $t('dataFilters.buttons.apply')}}</span>
                 <span
                   class="btn btn-danger"
@@ -178,6 +178,7 @@ export default {
         .then((body) => {
           this.loading = false;
           this.items = body.data;
+          this.filterList();
         })
         .catch((errors) => {
           this.loading = false;
