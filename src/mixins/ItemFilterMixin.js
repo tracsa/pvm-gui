@@ -77,7 +77,8 @@ const itemFilterMixin = {
         return this.showedItems;
       }
       let order = 1;
-      if (this.order[this.orderBy].orderFunction === 'DESC') {
+      const orderCriteria = this.order.find(x => x.attribute === this.orderBy);
+      if (orderCriteria.orderFunction === 'DESC') {
         order = -1;
       }
       return this.showedItems.slice().sort((a, b) => {
