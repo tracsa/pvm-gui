@@ -36,7 +36,7 @@
           <div class="filters-menu" v-if="menuVisible" style="position: relative;">
             <div class="popover-content">
               <div v-if="order.length">
-                <b>Order by</b>
+                <b>{{ $t('dataFilters.labels.orderBy')}}</b>
                 <div v-for="o in order" :key="o.attribute">
                   <input
                     v-model="orderBy"
@@ -48,7 +48,7 @@
                 </div>
               </div>
               <div v-if="haveFilters">
-                <b>Filter by</b>
+                <b>{{ $t('dataFilters.labels.filterBy')}}</b>
                 <div v-for="(filter, index) in dataFilters" :key="index">
                   <small>{{ index }}</small>
                   <div v-for="value in filter.values" :key="value">
@@ -65,13 +65,22 @@
                 </div>
               </div>
               <div v-if="!haveFiltersOrder">
-                <p>No se han establecido filtros para esta vista.</p>
+                <p>{{ $t('dataFilters.messages.noFilters')}}</p>
               </div>
               <hr/>
               <div v-if="haveFiltersOrder" style="text-align: right;">
-                <span class="btn btn-secondary" @click="clear">Clear</span>
-                <span class="btn btn-primary" @click="loadList">Apply</span>
-                <span class="btn btn-danger" @click="toggleMenu">Cancel</span>
+                <span
+                  class="btn btn-secondary"
+                  @click="clear">
+                  {{ $t('dataFilters.buttons.clear')}}</span>
+                <span
+                  class="btn btn-primary"
+                  @click="loadList">
+                  {{ $t('dataFilters.buttons.apply')}}</span>
+                <span
+                  class="btn btn-danger"
+                  @click="toggleMenu">
+                  {{ $t('dataFilters.buttons.cancel')}}</span>
                 <div class="clearfix"></div>
               </div>
             </div>
