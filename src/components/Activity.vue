@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card-header">
       <div style="font-size:16px;float:right;">
-        <router-link :to="{ name: 'processes' }">
+        <router-link :to="{ name: 'processes' }" replace>
           <icon :icon="['fas', 'times']" />
         </router-link>
       </div>

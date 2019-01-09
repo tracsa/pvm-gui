@@ -54,7 +54,8 @@
                 :to="{
                   name: 'admin-tracking',
                   params: { id: task.execution.id },
-                }">
+                }"
+                replace>
                 <div
                   class="col-5 activity-name">
                   {{ task.execution.name }} — {{ task.node.name }}

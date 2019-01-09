@@ -35,7 +35,7 @@
         {{ $t('commons.sending') }}
       </button>
 
-      <router-link :to="{ name: 'processes' }">
+      <router-link :to="{ name: 'processes' }" replace>
         {{ $t('commons.cancel') }}
       </router-link>
     </div>

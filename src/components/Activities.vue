@@ -17,7 +17,8 @@
                 :to="{
                   name: 'timeline',
                   params: { id: activity.execution.id },
-                }">
+                }"
+                replace>
                 <div class="activity-name">
                   {{ activity.execution.id }}
                 </div>

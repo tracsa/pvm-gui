@@ -122,7 +122,8 @@
                 :to="{
                   name: 'tracking',
                   params: { id: tracking.id },
-                }">
+                }"
+                replace>
                 <div class="activity-name">
                   {{ tracking.name }}
                 </div>

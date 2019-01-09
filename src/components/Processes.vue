@@ -38,7 +38,8 @@
                 :to="{
                   name: 'process',
                   params: { id: process.id },
-                }"><div class="activity-name">
+                }"
+                replace><div class="activity-name">
                   {{ process.name }}
                 </div>
                 <div class="activity-caret">
