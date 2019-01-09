@@ -77,6 +77,20 @@ const messages = {
         authorization: 'Lo sentimos, tus credenciales son inválidas.',
       },
     },
+    dataFilters: {
+      buttons: {
+        apply: 'Filtrar',
+        clear: 'Limpiar',
+        cancel: 'Cancelar',
+      },
+      messages: {
+        noFilters: 'No se han establecido filtros para esta vista.',
+      },
+      labels: {
+        orderBy: 'Ordenar por',
+        filterBy: 'Filtrar por',
+      },
+    },
   },
   en: {
     header: {
@@ -131,6 +145,20 @@ const messages = {
       name: 'Nombre',
       approve: 'Approve',
       reject: 'Reject',
+    },
+    dataFilters: {
+      buttons: {
+        apply: 'Filter',
+        clear: 'Clear',
+        cancel: 'Cancel',
+      },
+      messages: {
+        noFilters: 'There are no filters in this view.',
+      },
+      labels: {
+        orderBy: 'Order by',
+        filterBy: 'Filter by',
+      },
     },
   },
 };

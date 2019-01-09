@@ -9,11 +9,81 @@
         <div class="card">
           <div class="card-header">
             <div style="float:right;">
-              <a href="javascript:void(0);" @click="loadList">
-                <icon :icon="['fas', 'sync-alt']" />
-              </a>
+              <form class="form-inline" v-on:submit.prevent>
+                <div class="input-group mb-3">
+                  <input class="form-control" v-model="query" type="text"/>
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-primary" type="button" @click="filterList">
+                      <icon style="min-width: 25px;" :icon="['fas', 'search']" />
+                    </button>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <a
+                    href="javascript:void(0);"
+                    @click="toggleMenu"
+                  ><icon style="min-width: 25px;" :icon="['fas', 'ellipsis-v']" />
+                  </a>
+                </div>
+                <a href="javascript:void(0);" @click="loadList">
+                  <icon :icon="['fas', 'sync-alt']" />
+                </a>
+              </form>
             </div>
             {{ $t('trackings.trackings') }}
+          </div>
+
+          <div class="filters-menu" v-if="menuVisible" style="position: relative;">
+            <div class="popover-content">
+              <div v-if="order.length">
+                <b>{{ $t('dataFilters.labels.orderBy')}}</b>
+                <div v-for="o in order" :key="o.attribute">
+                  <input
+                    v-model="orderBy"
+                    type="radio"
+                    name="orderby"
+                    :value="o.attribute"
+                    :id="o.attribute">
+                  <label> {{ o.attribute }} </label>
+                </div>
+              </div>
+              <div v-if="haveFilters">
+                <b>{{ $t('dataFilters.labels.filterBy')}}</b>
+                <div v-for="(filter, index) in dataFilters" :key="index">
+                  <small>{{ index }}</small>
+                  <div v-for="value in filter.values" :key="value">
+                    <label>
+                      <input
+                        type="checkbox"
+                        :name="value"
+                        :id="value"
+                        :value="value"
+                        v-model="appliedFilters[index].values">
+                        {{ value }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div v-if="!haveFiltersOrder">
+                <p>{{ $t('dataFilters.messages.noFilters')}}</p>
+              </div>
+              <hr/>
+              <div v-if="haveFiltersOrder" style="text-align: right;">
+                <span
+                  class="btn btn-secondary"
+                  @click="clear">
+                  {{ $t('dataFilters.buttons.clear')}}</span>
+                <span
+                  class="btn btn-primary"
+                  @click="filterList">
+                  {{ $t('dataFilters.buttons.apply')}}</span>
+                <span
+                  class="btn btn-danger"
+                  @click="toggleMenu">
+                  {{ $t('dataFilters.buttons.cancel')}}</span>
+                <div class="clearfix"></div>
+              </div>
+            </div>
           </div>
 
           <div
@@ -35,7 +105,7 @@
           />
 
           <hero
-            v-else-if="trackings.length === 0"
+            v-else-if="showedItems.length === 0"
             icon="inbox"
             title="info.aboutTrackings"
             desc="info.aboutTrackingsMore"
@@ -46,7 +116,7 @@
             class="activity-list">
             <li
               :class="{ active: selectedId === tracking.id }"
-              v-for="tracking in trackings"
+              v-for="tracking in showedItems"
               :key="tracking.id">
               <router-link
                 :to="{
@@ -81,16 +151,18 @@
 <script>
 import moment from 'moment';
 import { get } from '../utils/api';
+import itemFilterMixin from '../mixins/ItemFilterMixin';
 import { getAuthUser } from '../utils/auth';
 
 export default {
   props: ['model'],
+  mixins: [itemFilterMixin],
   data() {
     const user = getAuthUser();
 
     return {
       loading: true,
-      trackings: [],
+      items: [],
       errors: [],
       userId: user.username,
     };
@@ -106,7 +178,8 @@ export default {
       get(`/execution?user_identifier=${this.userId}`)
         .then((body) => {
           this.loading = false;
-          this.trackings = body.data;
+          this.items = body.data;
+          this.filterList();
         })
         .catch((errors) => {
           this.loading = false;
@@ -161,4 +234,13 @@ export default {
   padding: 30px;
   padding-bottom: 0;
 }
+
+.filters-menu {
+  margin: 15px;
+}
+
+.mb-3 {
+  margin-bottom: 0 !important;
+}
+
 </style>
