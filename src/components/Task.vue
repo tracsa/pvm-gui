@@ -23,7 +23,7 @@
             {{ error.code || error.detail }}
           </div>
 
-          <p>{{ task.description }}</p>
+          <div class="task-description" v-html="task.description_html" />
 
           <form-render
             v-if="task.node_type === 'action'"
@@ -61,6 +61,8 @@
 import { get, post } from '../utils/api';
 import formatErrors from '../utils/formatErrors';
 
+const md = require('markdown-it')();
+
 export default {
   props: ['taskId'],
   data() {
@@ -90,6 +92,7 @@ export default {
       get(`/task/${id}`)
         .then((body) => {
           this.task = body.data;
+          this.task.description_html = md.render(this.task.description);
 
           return get(`/log/${this.task.execution.id}`);
         })
