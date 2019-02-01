@@ -4,8 +4,11 @@
     :class="containerClass">
     <div class="row">
       <div
-        :class="{ 'd-none d-md-block': selectedId }"
-        class="col">
+        :class="{
+          'd-none d-md-block': selectedId,
+          'col-12': !selectedId,
+          'col-4': selectedId,
+        }">
         <div class="card">
           <div class="card-header">
             <div style="float:right;">
@@ -113,27 +116,18 @@
 
           <ul
             v-else
-            class="activity-list">
+            class="inbox-list">
             <li
-              :class="{ active: selectedId === tracking.id }"
-              v-for="tracking in showedItems"
-              :key="tracking.id">
+              v-for="item in items"
+              :class="{ active: selectedId === item.id }"
+              :key="item.id">
               <router-link
                 :to="{
                   name: 'tracking',
-                  params: { id: tracking.id },
+                  params: { id: item.id },
                 }"
                 replace>
-                <div class="activity-name">
-                  {{ tracking.name }}
-                </div>
-                <div class="small"
-                  :title="tracking.started_at | formatDate">
-                  {{ tracking.started_at | relativeDate }}
-                </div>
-                <div class="activity-caret">
-                  <icon :icon="['fas', 'caret-right']" />
-                </div>
+                <process-list-item :process="item" />
               </router-link>
             </li>
           </ul>
@@ -175,7 +169,7 @@ export default {
       this.loading = true;
       this.errors = [];
 
-      get(`/execution?user_identifier=${this.userId}`)
+      get(`/inbox?user_identifier=${this.userId}`)
         .then((body) => {
           this.loading = false;
           this.items = body.data;
@@ -242,5 +236,4 @@ export default {
 .mb-3 {
   margin-bottom: 0 !important;
 }
-
 </style>

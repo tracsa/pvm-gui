@@ -27,6 +27,7 @@ import Hero from './Hero';
 import Processes from './Processes';
 import SignIn from './SignIn';
 import LinkInput from './LinkInput';
+import ProcessListItem from './ProcessListItem';
 
 
 // Components
@@ -64,3 +65,4 @@ Vue.component('doqer-suggest', DoqerSuggest);
 
 // Data validator
 Vue.component('data-validator', DataValidator);
+Vue.component('process-list-item', ProcessListItem);
