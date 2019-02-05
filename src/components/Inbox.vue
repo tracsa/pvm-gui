@@ -33,7 +33,7 @@
                 </a>
               </form>
             </div>
-            {{ $t('trackings.trackings') }}
+            {{ $t('inbox.page_title') }}
           </div>
 
           <div class="filters-menu" v-if="menuVisible" style="position: relative;">
@@ -123,11 +123,11 @@
               :key="item.id">
               <router-link
                 :to="{
-                  name: 'tracking',
+                  name: 'inbox-item',
                   params: { id: item.id },
                 }"
                 replace>
-                <process-list-item :process="item" />
+                <inbox-list-item :process="item" />
               </router-link>
             </li>
           </ul>
@@ -169,7 +169,8 @@ export default {
       this.loading = true;
       this.errors = [];
 
-      get(`/inbox?user_identifier=${this.userId}`)
+      // name, pointer, id
+      get(`/inbox?user_identifier=${this.userId}&exclude=actors,description,finished_at,started_at,state,status,values`)
         .then((body) => {
           this.loading = false;
           this.items = body.data;

@@ -12,6 +12,7 @@ const messages = {
       processes: 'Procesos',
       tasks: 'Tareas',
       signout: 'Salir',
+      inbox: 'Bandeja de entrada',
     },
     info: {
       aboutTasks: 'Aquí aparecerán tus tareas asignadas',
@@ -90,6 +91,10 @@ const messages = {
         orderBy: 'Ordenar por',
         filterBy: 'Filtrar por',
       },
+    },
+    inbox: {
+      page_title: 'Bandeja de entrada',
+      assigned_to: 'Asignado a',
     },
   },
   en: {

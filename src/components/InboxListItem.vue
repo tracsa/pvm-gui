@@ -18,7 +18,9 @@
       </span>
       <div class="popover bs-popover-bottom">
         <div class="arrow"></div>
-        <h3 class="popover-header">Tarea asignada a</h3>
+        <h3 class="popover-header">
+          {{ $t('inbox.assigned_to') }}
+        </h3>
         <div class="popover-body">
           <div
             v-for="assignee in assignees"
@@ -42,8 +44,8 @@ export default {
       const now = new Date();
       const timestamp = new Date(val);
 
-      const tminusone = now - (24 * 60 * 1000)
-      const tminustwo = now - 2 * (24 * 60 * 1000)
+      const tminusone = now - (24 * 60 * 1000);
+      const tminustwo = now - (2 * 24 * 60 * 1000);
 
       if (tminusone < timestamp) {
         return moment(val).fromNow();
@@ -63,7 +65,7 @@ export default {
     pointer: function pointer() {
       const pointers = this.process.pointer;
 
-      if (pointers.length == 0) {
+      if (pointers.length === 0) {
         return null;
       }
 
@@ -74,7 +76,7 @@ export default {
         id: user.id,
         abbr: user.fullname.slice(0, 2),
         title: user.fullname,
-        email: user.email
+        email: user.email,
       }));
     },
   },

@@ -20,8 +20,8 @@
           <li class="nav-item">
             <router-link
               class="nav-link"
-              :to="{ name: 'trackings' }">
-              {{ $t('header.trackings') }}
+              :to="{ name: 'inbox' }">
+              {{ $t('header.inbox') }}
             </router-link>
           </li>
         </ul>
@@ -68,8 +68,8 @@
       </div>
       <div class="col">
         <router-link
-          :to="{ path: '/tracking' }">
-            {{ $t('header.trackings') }}
+          :to="{ path: '/inbox' }">
+            {{ $t('header.inbox') }}
         </router-link>
       </div>
       <div class="col">

@@ -115,7 +115,7 @@ export default {
       post('/pointer', postData, 'application/json')
         .then(() => {
           this.sending = false;
-          this.$router.replace(`/tracking/${this.task.execution.id}`);
+          this.$router.replace(`/inbox/${this.task.execution.id}`);
         })
         .catch((errors) => {
           this.sending = false;
@@ -133,7 +133,7 @@ export default {
       post('/pointer', postData, 'application/json')
         .then(() => {
           this.sending = false;
-          this.$router.replace(`/tracking/${this.task.execution.id}`);
+          this.$router.replace(`/inbox/${this.task.execution.id}`);
         })
         .catch((errors) => {
           this.sending = false;

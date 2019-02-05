@@ -34,14 +34,14 @@ export default new Router({
       component: Vue.component('app'),
       children: [
         {
-          name: 'trackings',
-          path: 'tracking',
-          component: Vue.component('trackings'),
+          name: 'inbox',
+          path: 'inbox',
+          component: Vue.component('inbox'),
         },
         {
-          name: 'tracking',
-          path: 'tracking/:id',
-          component: Vue.component('trackings'),
+          name: 'inbox-item',
+          path: 'inbox/:id',
+          component: Vue.component('inbox'),
         },
         {
           name: 'tasks',
