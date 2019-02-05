@@ -64,13 +64,7 @@ export default {
   },
   computed: {
     pointer: function pointer() {
-      const pointers = this.process.pointer;
-
-      if (pointers.length === 0) {
-        return null;
-      }
-
-      return pointers[pointers.length - 1];
+      return this.process.pointer;
     },
     assignees: function assignees() {
       return this.pointer.notified_users.map(user => ({
