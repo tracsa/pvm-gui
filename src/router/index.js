@@ -68,6 +68,11 @@ export default new Router({
           path: '',
           component: Vue.component('tasks'),
         },
+        {
+          name: 'history',
+          path: 'history',
+          component: Vue.component('history'),
+        },
       ],
     },
     {

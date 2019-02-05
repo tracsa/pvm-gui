@@ -24,6 +24,14 @@
               {{ $t('header.trackings') }}
             </router-link>
           </li>
+
+          <li class="nav-item">
+            <router-link
+              class="nav-link"
+              :to="{ name: 'history' }">
+              {{ $t('header.history') }}
+            </router-link>
+          </li>
         </ul>
 
         <ul class="navbar-nav">

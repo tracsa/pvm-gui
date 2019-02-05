@@ -12,6 +12,7 @@ const messages = {
       processes: 'Procesos',
       tasks: 'Tareas',
       signout: 'Salir',
+      history: 'Historial',
     },
     info: {
       aboutTasks: 'Aquí aparecerán tus tareas asignadas',
@@ -100,6 +101,7 @@ const messages = {
       processes: 'Processes',
       tasks: 'Tasks',
       logout: 'SignOut',
+      history: 'History',
     },
     info: {
       aboutTasks: 'Your assigned tasks will be appear here.',
