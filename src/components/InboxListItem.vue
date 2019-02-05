@@ -44,8 +44,9 @@ export default {
       const now = new Date();
       const timestamp = new Date(val);
 
-      const tminusone = now - (24 * 60 * 1000);
-      const tminustwo = now - (2 * 24 * 60 * 1000);
+      const day = 24 * 60 * 60 * 1000;
+      const tminusone = now - day;
+      const tminustwo = now - (2 * day);
 
       if (tminusone < timestamp) {
         return moment(val).fromNow();
