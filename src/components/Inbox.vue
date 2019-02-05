@@ -12,12 +12,8 @@
         }">
         <div
           class="card inbox-control"
-          :class="{
-            'fixed': fixedControl,
-          }"
-          :style="{
-            'max-height': maxHeight,
-          }">
+          :class="{ 'fixed': fixedControl }"
+          :style="{ 'max-height': maxHeight }">
           <div class="card-header">
             <div style="float:right;">
               <form class="form-inline" v-on:submit.prevent>
@@ -145,7 +141,6 @@
       <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">
         <tracking :id="selectedId" />
       </div>
-
 
     </div>
   </div>
