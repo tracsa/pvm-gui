@@ -9,5 +9,13 @@ ul.inbox-list {
       cursor: pointer;
       text-decoration: none;
     }
+
+    &:hover {
+      background: #e4dcf3;
+    }
+
+    &.active {
+      background: blanchedalmond;
+    }
   }
 }

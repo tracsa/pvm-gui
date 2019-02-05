@@ -99,10 +99,6 @@ $listitem-height: 58px;
   align-items: stretch;
   align-content: stretch;
 
-  &:hover {
-    background: #e4dcf3;
-  }
-
   $assignee-margin: 10px;
   $assignee-size: $listitem-height - 2 * $assignee-margin;
 
