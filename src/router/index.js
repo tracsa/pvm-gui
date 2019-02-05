@@ -76,7 +76,7 @@ export default new Router({
         {
           name: 'history-item',
           path: 'history/:id',
-          component: Vue.component('trackings'),
+          component: Vue.component('history'),
         },
       ],
     },

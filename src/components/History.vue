@@ -42,10 +42,6 @@
                 <div class="activity-name">
                   {{ tracking.name }}
                 </div>
-                <div class="small"
-                  :title="tracking.started_at | formatDate">
-                  {{ tracking.started_at | relativeDate }}
-                </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
                 </div>
