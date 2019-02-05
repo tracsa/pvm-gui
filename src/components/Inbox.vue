@@ -17,7 +17,7 @@
           <div class="card-header">
             <div style="float:right;">
               <form class="form-inline" v-on:submit.prevent>
-                <div class="input-group mb-3">
+                <div class="input-group">
                   <input class="form-control" v-model="query" type="text"/>
                   <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="button" @click="filterList">
@@ -31,12 +31,11 @@
                 </div>
               </form>
             </div>
-            {{ $t('inbox.page_title') }}
+            <span>{{ $t('inbox.page_title') }}</span>
           </div>
 
           <div
-            v-if="errors.length"
-            class="container-error">
+            v-if="errors.length">
             <div
               v-for="(error, index) in errors"
               :key="index"
@@ -182,40 +181,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.card, .row {
-  flex: 1 1 auto;
-}
-
-.col {
-  display: flex;
-}
-
-.container-error {
-  padding: 30px;
-  padding-bottom: 0;
-}
-
-.filters-menu {
-  margin: 15px;
-}
-
-.mb-3 {
-  margin-bottom: 0 !important;
-}
-
-.inbox-control {
-  &.fixed {
-    position: fixed;
-    top: 10px;
-    left: 15px;
-    bottom: 10px;
-    width: calc(33.33333% - 30px);
-  }
-
-  .inbox-list {
-    overflow: auto;
-  }
-}
-</style>
