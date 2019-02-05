@@ -4,12 +4,20 @@
     :class="containerClass">
     <div class="row">
       <div
+        ref="inbox-container"
         :class="{
           'd-none d-md-block': selectedId,
           'col-12': !selectedId,
           'col-4': selectedId,
         }">
-        <div class="card">
+        <div
+          class="card inbox-control"
+          :class="{
+            'fixed': fixedControl,
+          }"
+          :style="{
+            'max-height': maxHeight,
+          }">
           <div class="card-header">
             <div style="float:right;">
               <form class="form-inline" v-on:submit.prevent>
@@ -159,13 +167,48 @@ export default {
       items: [],
       errors: [],
       userId: user.username,
+      fixedControl: undefined,
+      maxHeight: '400px',
     };
   },
+  created() {
+    window.addEventListener('scroll', this.handleScreenChange);
+    window.addEventListener('resize', this.handleScreenChange);
+  },
+  destroyed() {
+    window.removeEventListener('scroll', this.handleScreenChange);
+    window.removeEventListener('resize', this.handleScreenChange);
+  },
   mounted() {
-    this.loadList();
+    this.loadList(() => {
+      this.handleScreenChange();
+    });
   },
   methods: {
-    loadList: function loadList() {
+    handleScreenChange: function handleScreenChange() {
+      const inboxContainer = this.$refs['inbox-container'];
+      const screenHeight = window.document.documentElement.clientHeight;
+      const scrollTop = window.pageYOffset;
+      const paddingTB = 10;
+
+      let offsetTop = 0;
+      let DOMIterator = inboxContainer;
+      while (DOMIterator.tagName !== 'BODY') {
+        offsetTop += DOMIterator.offsetTop;
+        DOMIterator = DOMIterator.offsetParent;
+
+        // This means that sidebar is hidden
+        if (DOMIterator === null) {
+          return;
+        }
+      }
+
+      const maxHeight = screenHeight - offsetTop - paddingTB;
+
+      this.fixedControl = scrollTop > offsetTop - paddingTB;
+      this.maxHeight = `${maxHeight}px`;
+    },
+    loadList: function loadList(cb = null) {
       this.loading = true;
       this.errors = [];
 
@@ -175,6 +218,10 @@ export default {
           this.loading = false;
           this.items = body.data;
           this.filterList();
+
+          if (cb) {
+            cb(this.items);
+          }
         })
         .catch((errors) => {
           this.loading = false;
@@ -236,5 +283,19 @@ export default {
 
 .mb-3 {
   margin-bottom: 0 !important;
+}
+
+.inbox-control {
+  &.fixed {
+    position: fixed;
+    top: 10px;
+    left: 15px;
+    bottom: 10px;
+    width: calc(33.33333% - 30px);
+  }
+
+  .inbox-list {
+    overflow: auto;
+  }
 }
 </style>
