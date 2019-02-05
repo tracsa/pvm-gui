@@ -23,74 +23,15 @@
                     <button class="btn btn-outline-primary" type="button" @click="filterList">
                       <icon style="min-width: 25px;" :icon="['fas', 'search']" />
                     </button>
+
+                    <button class="btn btn-outline-primary" type="button" @click="loadList">
+                      <icon style="min-width: 25px;" :icon="['fas', 'sync-alt']" />
+                    </button>
                   </div>
                 </div>
-                <div class="form-group">
-                  <a
-                    href="javascript:void(0);"
-                    @click="toggleMenu"
-                  ><icon style="min-width: 25px;" :icon="['fas', 'ellipsis-v']" />
-                  </a>
-                </div>
-                <a href="javascript:void(0);" @click="loadList">
-                  <icon :icon="['fas', 'sync-alt']" />
-                </a>
               </form>
             </div>
             {{ $t('inbox.page_title') }}
-          </div>
-
-          <div class="filters-menu" v-if="menuVisible" style="position: relative;">
-            <div class="popover-content">
-              <div v-if="order.length">
-                <b>{{ $t('dataFilters.labels.orderBy')}}</b>
-                <div v-for="o in order" :key="o.attribute">
-                  <input
-                    v-model="orderBy"
-                    type="radio"
-                    name="orderby"
-                    :value="o.attribute"
-                    :id="o.attribute">
-                  <label> {{ o.attribute }} </label>
-                </div>
-              </div>
-              <div v-if="haveFilters">
-                <b>{{ $t('dataFilters.labels.filterBy')}}</b>
-                <div v-for="(filter, index) in dataFilters" :key="index">
-                  <small>{{ index }}</small>
-                  <div v-for="value in filter.values" :key="value">
-                    <label>
-                      <input
-                        type="checkbox"
-                        :name="value"
-                        :id="value"
-                        :value="value"
-                        v-model="appliedFilters[index].values">
-                        {{ value }}
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div v-if="!haveFiltersOrder">
-                <p>{{ $t('dataFilters.messages.noFilters')}}</p>
-              </div>
-              <hr/>
-              <div v-if="haveFiltersOrder" style="text-align: right;">
-                <span
-                  class="btn btn-secondary"
-                  @click="clear">
-                  {{ $t('dataFilters.buttons.clear')}}</span>
-                <span
-                  class="btn btn-primary"
-                  @click="filterList">
-                  {{ $t('dataFilters.buttons.apply')}}</span>
-                <span
-                  class="btn btn-danger"
-                  @click="toggleMenu">
-                  {{ $t('dataFilters.buttons.cancel')}}</span>
-                <div class="clearfix"></div>
-              </div>
-            </div>
           </div>
 
           <div
@@ -122,7 +63,7 @@
             v-else
             class="inbox-list">
             <li
-              v-for="item in items"
+              v-for="item in showedItems"
               :class="{ active: selectedId === item.id }"
               :key="item.id">
               <router-link
