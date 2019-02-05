@@ -11,7 +11,7 @@
                 <icon :icon="['fas', 'sync-alt']" />
               </a>
             </div>
-            {{ $t('processes.processes')}}
+            {{ $t('history.history')}}
           </div>
 
           <hero
@@ -30,35 +30,33 @@
             v-else
             class="activity-list">
             <li
-              style="display:flex"
-              :class="{ active: selectedId === process.id }" v-for="process in processes"
-              :key="process.id">
+              :class="{ active: selectedId === tracking.id }"
+              v-for="tracking in processes"
+              :key="tracking.id">
               <router-link
-                style='width:96%'
                 :to="{
-                  name: 'process',
-                  params: { id: process.id },
+                  name: 'history-item',
+                  params: { id: tracking.id },
                 }"
-                replace><div class="activity-name">
-                  {{ process.name }}
+                replace>
+                <div class="activity-name">
+                  {{ tracking.name }}
+                </div>
+                <div class="small"
+                  :title="tracking.started_at | formatDate">
+                  {{ tracking.started_at | relativeDate }}
                 </div>
                 <div class="activity-caret">
                   <icon :icon="['fas', 'caret-right']" />
                 </div>
               </router-link>
-                <div class="eye">
-                  <a :href="url + process.id + '.' + process.version + '.xml' "
-                  target="_blank" class="button">
-                    <icon :icon="['fa', 'eye']" />
-                  </a>
-                </div>
             </li>
           </ul>
         </div>
       </div>
 
-      <div v-if="selected" class="col-12 col-md-8">
-        <activity :model="selected" />
+      <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">
+        <tracking :id="selectedId" />
       </div>
     </div>
   </div>

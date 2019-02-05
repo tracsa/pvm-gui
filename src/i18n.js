@@ -51,6 +51,9 @@ const messages = {
     tasks: {
       my_tasks: 'Mis tareas',
     },
+    history: {
+      history: 'Historial de procesos',
+    },
     doquer: {
       new_file: 'Nuevo documento',
     },
@@ -132,6 +135,9 @@ const messages = {
     },
     tasks: {
       my_tasks: 'My tasks',
+    },
+    history: {
+      history: 'Process history',
     },
     doquer: {
       new_file: 'Nuevo documento',
