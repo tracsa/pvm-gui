@@ -44,16 +44,6 @@ export default new Router({
           component: Vue.component('inbox'),
         },
         {
-          name: 'tasks',
-          path: 'task',
-          component: Vue.component('tasks'),
-        },
-        {
-          name: 'task',
-          path: 'task/:id',
-          component: Vue.component('tasks'),
-        },
-        {
           name: 'processes',
           path: 'process',
           component: Vue.component('processes'),
@@ -66,7 +56,7 @@ export default new Router({
         {
           name: 'default',
           path: '',
-          component: Vue.component('tasks'),
+          component: Vue.component('inbox'),
         },
       ],
     },
