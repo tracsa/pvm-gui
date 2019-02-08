@@ -1,7 +1,12 @@
 <template>
   <div class="timeline">
+    <timeline-task
+      v-if="task"
+      :task="task"
+    />
+
     <div
-      v-for="node in actions"
+      v-for="node in pointers"
       :key="node.id">
       <timeline-pending
         v-if="node.finished_at === null"
@@ -23,15 +28,6 @@
 
 <script>
 export default {
-  props: ['actions'],
-  computed: {
-    last: function last() {
-      if (this.actions.length === 0) {
-        return null;
-      }
-
-      return this.actions[0];
-    },
-  },
+  props: ['pointers', 'task'],
 };
 </script>

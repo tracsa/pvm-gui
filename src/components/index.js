@@ -29,9 +29,11 @@ import LinkInput from './LinkInput';
 
 import Inbox from './Inbox';
 import InboxListItem from './InboxListItem';
+import InboxItem from './InboxItem';
 
 Vue.component('inbox', Inbox);
 Vue.component('inbox-list-item', InboxListItem);
+Vue.component('inbox-item', InboxItem);
 
 
 // Components

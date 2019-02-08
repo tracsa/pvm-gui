@@ -45,7 +45,7 @@
           </div>
 
           <hero
-            v-if="loading"
+            v-if="loadingList"
             icon="spinner"
             title="commons.loading"
             spin
@@ -79,7 +79,16 @@
       </div>
 
       <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">
-        <tracking :id="selectedId" />
+        <div v-if="loadingItem">
+          <hero
+            icon="spinner"
+            title="commons.loading"
+            spin
+          />
+        </div>
+        <div v-else>
+          <inbox-item :item="selectedItem" />
+        </div>
       </div>
 
     </div>
@@ -87,6 +96,7 @@
 </template>
 
 <script>
+import Promise from 'promise-polyfill';
 import { get } from '../utils/api';
 import itemFilterMixin from '../mixins/ItemFilterMixin';
 import { getAuthUser } from '../utils/auth';
@@ -98,12 +108,19 @@ export default {
     const user = getAuthUser();
 
     return {
-      loading: true,
-      items: [],
-      errors: [],
+      // fixed over lifetime
       userId: user.username,
       fixedControl: undefined,
       maxHeight: '400px',
+
+      // for list of items
+      loadingList: true,
+      items: [],
+      errors: [],
+
+      // for selected items
+      loadingItem: this.selectedId !== null,
+      selectedItem: null,
     };
   },
   created() {
@@ -144,12 +161,12 @@ export default {
       this.maxHeight = `${maxHeight}px`;
     },
     loadList: function loadList(cb = null) {
-      this.loading = true;
+      this.loadingList = true;
       this.errors = [];
 
-      get(`/inbox?user_identifier=${this.userId}&exclude=actors,description,finished_at,started_at,state,status,values`)
+      get(`/inbox?pointer.user_identifier=${this.userId}`)
         .then((body) => {
-          this.loading = false;
+          this.loadingList = false;
           this.items = body.data;
           this.filterList();
 
@@ -158,8 +175,69 @@ export default {
           }
         })
         .catch((errors) => {
-          this.loading = false;
+          this.loadingList = false;
           this.errors = errors;
+        });
+    },
+    loadItem(id) {
+      const self = this;
+      const item = {
+        execution: null,
+        task: null,
+        pointers: null,
+      };
+
+      const next = function next() {
+        if (
+          item.execution !== null &&
+          item.pointers !== null
+        ) {
+          self.loadingItem = false;
+          self.selectedItem = item;
+        }
+      };
+
+      get(`/execution/${id}`)
+        .then((body) => {
+          const execution = body.data;
+          item.execution = execution;
+
+          next();
+        });
+
+      get(`/log/${id}`)
+        .then((body) => {
+          const pointers = body.data;
+          item.pointers = pointers;
+
+          const doable = pointers.filter((pointer) => {
+            if (pointer.finished_at !== null) {
+              return false;
+            }
+
+            if (pointer.notified_users.map(user => user.identifier).indexOf(this.userId) === -1) {
+              return false;
+            }
+
+            return true;
+          });
+
+          let answer;
+          if (doable.length > 0) {
+            answer = get(`/task/${doable[0].id}`);
+          } else {
+            answer = Promise.resolve(null);
+          }
+
+          return answer;
+        })
+        .then((body) => {
+          if (body && body.data) {
+            const task = body.data;
+            item.task = task;
+          }
+
+          next();
         });
     },
   },
@@ -177,6 +255,11 @@ export default {
         container: this.selectedId === null,
         'container-fluid': this.selectedId !== null,
       };
+    },
+  },
+  watch: {
+    selectedId(selectedId) {
+      this.loadItem(selectedId);
     },
   },
 };
