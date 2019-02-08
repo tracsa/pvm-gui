@@ -259,7 +259,10 @@ export default {
   },
   watch: {
     selectedId(selectedId) {
-      this.loadItem(selectedId);
+      if (selectedId) {
+        this.loadingItem = true;
+        this.loadItem(selectedId);
+      }
     },
   },
 };
