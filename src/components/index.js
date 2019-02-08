@@ -16,7 +16,6 @@ import FormRender from './FormRender';
 import Header from './Header';
 import LinearSteps from './LinearSteps';
 import TimeInput from './TimeInput';
-import Timeline from './Timeline';
 import UserList from './UserList';
 import ValueRender from './ValueRender';
 import Hero from './Hero';
@@ -28,16 +27,15 @@ import Inbox from './Inbox';
 import InboxListItem from './InboxListItem';
 import InboxItem from './InboxItem';
 
+// Inbox
 Vue.component('inbox', Inbox);
 Vue.component('inbox-list-item', InboxListItem);
 Vue.component('inbox-item', InboxItem);
-
 
 // Components
 Vue.component('app', App);
 Vue.component('app-header', Header);
 Vue.component('activity', Activity);
-Vue.component('timeline', Timeline);
 Vue.component('form-render', FormRender);
 Vue.component('linear-steps', LinearSteps);
 Vue.component('value-render', ValueRender);

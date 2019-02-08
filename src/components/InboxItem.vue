@@ -15,7 +15,32 @@
       </div>
       <linear-steps :nodes="steps"/>
     </div>
-    <timeline :pointers="pointers" :task="task" />
+
+    <div class="timeline">
+      <timeline-task
+        v-if="task"
+        :task="task"
+      />
+
+      <div
+        v-for="pointer in pointers"
+        :key="pointer.id">
+        <timeline-pending
+          v-if="pointer.finished_at === null"
+          :node="pointer"
+        />
+
+        <timeline-validation
+        v-else-if="pointer.node.type === 'validation'"
+        :validation="pointer"
+        />
+
+        <timeline-action
+          v-else-if="pointer.node.type === 'action'"
+          :action="pointer"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
