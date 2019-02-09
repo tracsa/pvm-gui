@@ -204,15 +204,47 @@ export default {
 
       const next = function next() {
         // verify that requests are complete
-        if (loaded.execution && loaded.task) {
-          self.loadingItem = false;
-          if (JSON.stringify(item) !== JSON.stringify(self.selectedItem)) {
-            self.selectedItem = item;
+        if (!loaded.execution || !loaded.task) {
+          return;
+        }
+
+        self.loadingItem = false;
+        if (JSON.stringify(item) !== JSON.stringify(self.selectedItem)) {
+          self.selectedItem = item;
+        }
+
+        let pointer = null;
+        if (item.pointers !== null && item.pointers.length > 0) {
+          pointer = item.pointers[0];
+
+          for (let i = 1; i < item.pointers.length; i += 1) {
+            const ptr = item.pointers[i];
+            if (ptr.started_at > pointer.started_at) {
+              pointer = ptr;
+            }
           }
         }
 
         // sync list
-        // @TODO
+        const listItem = {
+          id: item.execution.id,
+          name: item.execution.name,
+          pointer,
+        };
+
+        if (self.items instanceof Array) {
+          self.items = self.items.map((itm) => {
+            let response;
+            if (itm.id === listItem.id) {
+              response = listItem;
+            } else {
+              response = itm;
+            }
+
+            return response;
+          });
+          self.filterList();
+        }
       };
 
       get(`/execution/${id}`)
