@@ -20,6 +20,7 @@
       <timeline-task
         v-if="task"
         :task="task"
+        @complete="handleComplete"
       />
 
       <div
@@ -53,8 +54,11 @@ export default {
       timeoutId: 0,
     };
   },
-  mounted() {
+  created() {
     this.reloadJob();
+  },
+  destroyed() {
+    clearTimeout(this.timeoutId);
   },
   computed: {
     execution() {
@@ -90,7 +94,7 @@ export default {
   methods: {
     reloadJob() {
       // In case of dead component
-      if (!this || !this.loadData || !this.id) {
+      if (!this || !this.item) {
         return;
       }
 
@@ -98,13 +102,15 @@ export default {
       clearTimeout(this.timeoutId);
 
       // Load data
-      this.loadData(this.id);
+      this.$emit('refresh');
 
       // Set new timeout with +1s delay
       this.sleep = this.sleep + 1000;
       this.timeoutId = setTimeout(this.reloadJob, this.sleep);
     },
-    loadData: function loadData() {
+    handleComplete() {
+      this.sleep = 0;
+      this.reloadJob();
     },
   },
 };

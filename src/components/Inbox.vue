@@ -87,7 +87,10 @@
           />
         </div>
         <div v-else>
-          <inbox-item :item="selectedItem" />
+          <inbox-item
+            :item="selectedItem"
+            @refresh="refreshItem"
+          />
         </div>
       </div>
 
@@ -135,6 +138,10 @@ export default {
     this.loadList(() => {
       this.handleScreenChange();
     });
+
+    if (this.selectedId) {
+      this.loadItem(this.selectedId);
+    }
   },
   methods: {
     handleScreenChange: function handleScreenChange() {
@@ -164,7 +171,7 @@ export default {
       this.loadingList = true;
       this.errors = [];
 
-      get(`/inbox?pointer.user_identifier=${this.userId}`)
+      get(`/inbox?user_identifier=${this.userId}`)
         .then((body) => {
           this.loadingList = false;
           this.items = body.data;
@@ -179,6 +186,9 @@ export default {
           this.errors = errors;
         });
     },
+    refreshItem() {
+      this.loadItem(this.selectedId);
+    },
     loadItem(id) {
       const self = this;
       const item = {
@@ -187,20 +197,29 @@ export default {
         pointers: null,
       };
 
+      const loaded = {
+        execution: false,
+        task: false,
+      };
+
       const next = function next() {
-        if (
-          item.execution !== null &&
-          item.pointers !== null
-        ) {
+        // verify that requests are complete
+        if (loaded.execution && loaded.task) {
           self.loadingItem = false;
-          self.selectedItem = item;
+          if (JSON.stringify(item) !== JSON.stringify(self.selectedItem)) {
+            self.selectedItem = item;
+          }
         }
+
+        // sync list
+        // @TODO
       };
 
       get(`/execution/${id}`)
         .then((body) => {
           const execution = body.data;
           item.execution = execution;
+          loaded.execution = true;
 
           next();
         });
@@ -236,6 +255,7 @@ export default {
             const task = body.data;
             item.task = task;
           }
+          loaded.task = true;
 
           next();
         });

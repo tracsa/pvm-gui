@@ -67,8 +67,7 @@ export default {
       post('/pointer', postData, 'application/json')
         .then(() => {
           this.sending = false;
-          // @TODO update GUI
-          alert('ok');
+          this.$emit('complete');
         })
         .catch((errors) => {
           this.sending = false;
@@ -86,8 +85,7 @@ export default {
       post('/pointer', postData, 'application/json')
         .then(() => {
           this.sending = false;
-          // @TODO update GUI
-          alert('ok');
+          this.$emit('complete');
         })
         .catch((errors) => {
           this.sending = false;
