@@ -171,7 +171,7 @@ export default {
       this.loadingList = true;
       this.errors = [];
 
-      get(`/inbox?user_identifier=${this.userId}&status=ongoing&include=id,name,pointer`)
+      get(`/inbox?user_identifier=${this.userId}&status=ongoing&include=id,name,pointer&sort=pointer.started_at,DESCENDING`)
         .then((body) => {
           this.loadingList = false;
           this.items = body.data;
