@@ -1,7 +1,5 @@
 <template>
-  <div
-    v-if="!hidden"
-    class="timeline-action">
+  <div v-if="!hidden" class="timeline-action">
     <span class="timeline-dot dot-orange" />
 
     <div class="alert custom-alert-warning">
@@ -20,11 +18,17 @@
 </template>
 
 <script>
+import { getAuthUser } from '../../utils/auth';
+
 export default {
   props: ['node'],
-  data() {
-    const hidden = (this.$router.history.current.name === 'task');
-    return { hidden };
+  computed: {
+    hidden() {
+      const user = getAuthUser();
+      const assignees = this.node.notified_users.map(u => u.identifier);
+
+      return assignees.indexOf(user.username) !== -1;
+    },
   },
 };
 </script>

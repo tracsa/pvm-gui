@@ -15,12 +15,7 @@ import FormInstance from './FormInstance';
 import FormRender from './FormRender';
 import Header from './Header';
 import LinearSteps from './LinearSteps';
-import Task from './Task';
-import Tasks from './Tasks';
 import TimeInput from './TimeInput';
-import Timeline from './Timeline';
-import Trackings from './Trackings';
-import Tracking from './Tracking';
 import UserList from './UserList';
 import ValueRender from './ValueRender';
 import Hero from './Hero';
@@ -28,17 +23,20 @@ import Processes from './Processes';
 import SignIn from './SignIn';
 import LinkInput from './LinkInput';
 
+import Inbox from './Inbox';
+import InboxListItem from './InboxListItem';
+import InboxItem from './InboxItem';
+
+// Inbox
+Vue.component('inbox', Inbox);
+Vue.component('inbox-list-item', InboxListItem);
+Vue.component('inbox-item', InboxItem);
 
 // Components
 Vue.component('app', App);
 Vue.component('app-header', Header);
 Vue.component('activity', Activity);
-Vue.component('tasks', Tasks);
-Vue.component('task', Task);
-Vue.component('timeline', Timeline);
 Vue.component('form-render', FormRender);
-Vue.component('trackings', Trackings);
-Vue.component('tracking', Tracking);
 Vue.component('linear-steps', LinearSteps);
 Vue.component('value-render', ValueRender);
 Vue.component('hero', Hero);
