@@ -21,6 +21,7 @@
         v-if="task"
         :task="task"
         @complete="handleComplete"
+        :highlight="task.id === highlightId"
       />
 
       <div
@@ -29,16 +30,19 @@
         <timeline-pending
           v-if="pointer.finished_at === null"
           :node="pointer"
+          :highlight="pointer.id === highlightId"
         />
 
         <timeline-validation
-        v-else-if="pointer.node.type === 'validation'"
-        :validation="pointer"
+          v-else-if="pointer.node.type === 'validation'"
+          :validation="pointer"
+          :highlight="pointer.id === highlightId"
         />
 
         <timeline-action
           v-else-if="pointer.node.type === 'action'"
           :action="pointer"
+          :highlight="pointer.id === highlightId"
         />
       </div>
     </div>
@@ -61,6 +65,14 @@ export default {
     clearTimeout(this.timeoutId);
   },
   computed: {
+    highlightId: function selectedId() {
+      const { pid } = this.$route.params;
+      if (!pid) {
+        return null;
+      }
+
+      return pid;
+    },
     execution() {
       if (!this.item) {
         return null;

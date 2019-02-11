@@ -66,6 +66,7 @@
               :class="{ active: selectedId === item.id }"
               :key="item.id">
               <router-link
+                v-if="selectedId !== item.id"
                 :to="{
                   name: 'inbox-item',
                   params: { id: item.id },
@@ -73,6 +74,9 @@
                 replace>
                 <inbox-list-item :process="item" />
               </router-link>
+              <div style="cursor: pointer;" v-else>
+                <inbox-list-item :process="item" />
+              </div>
             </li>
           </ul>
         </div>
@@ -243,7 +247,13 @@ export default {
 
             return response;
           });
+
           self.filterList();
+        }
+
+        // replace URL
+        if (item.task !== null && self.pointerId === null) {
+          self.$router.replace(`/inbox/${self.selectedId}/${item.task.id}`);
         }
       };
 
@@ -302,6 +312,14 @@ export default {
 
       return id;
     },
+    pointerId() {
+      const { pid } = this.$route.params;
+      if (!pid) {
+        return null;
+      }
+
+      return pid;
+    },
     containerClass: function containerClass() {
       return {
         container: this.selectedId === null,
@@ -310,7 +328,11 @@ export default {
     },
   },
   watch: {
-    selectedId(selectedId) {
+    selectedId(selectedId, prevSelectedId) {
+      if (selectedId === prevSelectedId) {
+        return;
+      }
+
       if (selectedId) {
         this.loadingItem = true;
         this.loadItem(selectedId);

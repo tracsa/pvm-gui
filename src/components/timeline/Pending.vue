@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!hidden" class="timeline-action">
+  <div :id="node.id" v-if="!hidden" class="timeline-action">
     <span class="timeline-dot dot-orange" />
 
     <div class="alert custom-alert-warning">

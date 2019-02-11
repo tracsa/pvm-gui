@@ -44,6 +44,11 @@ export default new Router({
           component: Vue.component('inbox'),
         },
         {
+          name: 'inbox-item',
+          path: 'inbox/:id/:pid',
+          component: Vue.component('inbox'),
+        },
+        {
           name: 'processes',
           path: 'process',
           component: Vue.component('processes'),
@@ -52,6 +57,11 @@ export default new Router({
           name: 'process',
           path: 'process/:id',
           component: Vue.component('processes'),
+        },
+        {
+          name: 'task-redirect',
+          path: 'task/:id',
+          component: Vue.component('task-redirect'),
         },
         {
           name: 'default',

@@ -1,5 +1,5 @@
 <template>
-  <div class="card timeline-action">
+  <div :id="task.id" class="card timeline-action" :class="{'highlight': highlight}">
     <span class="timeline-dot" />
 
     <div class="card-header">
@@ -47,7 +47,7 @@ import formatErrors from '../../utils/formatErrors';
 const md = require('markdown-it')();
 
 export default {
-  props: ['task'],
+  props: ['task', 'highlight'],
   data() {
     return {
       errors: {

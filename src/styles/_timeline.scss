@@ -4,6 +4,16 @@
 }
 
 .timeline-action {
+  &.highlight {
+    .card-header {
+      background: blanchedalmond;
+    }
+
+    .alert {
+      background: blanchedalmond !important;
+    }
+  }
+
   position: relative;
   margin-left: $line-distance;
   margin-bottom: 1rem;
