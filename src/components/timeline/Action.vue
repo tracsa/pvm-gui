@@ -1,5 +1,5 @@
 <template>
-  <div class="timeline-action">
+  <div :id="action.id" class="timeline-action" :class="{'highlight': highlight}">
     <span class="timeline-dot" />
 
     <div class="card">
@@ -50,7 +50,7 @@
 import moment from 'moment';
 
 export default {
-  props: ['action'],
+  props: ['action', 'highlight'],
   methods: {
     listInputs(inputs) {
       return inputs.item_order

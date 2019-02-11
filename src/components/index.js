@@ -22,6 +22,7 @@ import Hero from './Hero';
 import Processes from './Processes';
 import SignIn from './SignIn';
 import LinkInput from './LinkInput';
+import TaskRedirect from './TaskRedirect';
 
 import Inbox from './Inbox';
 import InboxListItem from './InboxListItem';
@@ -62,3 +63,5 @@ Vue.component('doqer-suggest', DoqerSuggest);
 
 // Data validator
 Vue.component('data-validator', DataValidator);
+
+Vue.component('task-redirect', TaskRedirect);

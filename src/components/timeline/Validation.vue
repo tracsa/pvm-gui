@@ -1,5 +1,5 @@
 <template>
-  <div class="timeline-action">
+  <div :id="validation.id" class="timeline-action" :class="{'highlight': highlight}">
     <span
       class="timeline-dot"
       :class="{ 'dot-green': state, 'dot-red': !state }" />
@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  props: ['validation'],
+  props: ['validation', 'highlight'],
   computed: {
     state() {
       let state = true;
