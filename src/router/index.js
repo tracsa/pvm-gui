@@ -44,7 +44,7 @@ export default new Router({
           component: Vue.component('inbox'),
         },
         {
-          name: 'inbox-item',
+          name: 'inbox-item-pid',
           path: 'inbox/:id/:pid',
           component: Vue.component('inbox'),
         },
