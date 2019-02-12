@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     loadList() {
-      get(`/inbox?actor=${this.userIdentifier}&status=finished`)
+      get(`/inbox?actor_identifier=${this.userIdentifier}&status=finished`)
         .then((body) => {
           this.loading = false;
           this.processes = body.data;
