@@ -24,7 +24,6 @@ import SignIn from './SignIn';
 import LinkInput from './LinkInput';
 import History from './History';
 import TaskRedirect from './TaskRedirect';
-
 import Inbox from './Inbox';
 import InboxListItem from './InboxListItem';
 import InboxItem from './InboxItem';

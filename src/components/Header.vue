@@ -17,13 +17,6 @@
               {{ $t('header.processes') }}
             </router-link>
           </li>
-          <li class="nav-item">
-            <router-link
-              class="nav-link"
-              :to="{ name: 'trackings' }">
-              {{ $t('header.trackings') }}
-            </router-link>
-          </li>
 
           <li class="nav-item">
             <router-link
