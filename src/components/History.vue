@@ -175,7 +175,7 @@ export default {
       this.loadingList = true;
       this.errors = [];
 
-      get(`/inbox?actor_identifier=${this.userId}&status=finished`)
+      get(`/inbox?actor_identifier=${this.userIdentifier}&status=finished`)
         .then((body) => {
           this.loadingList = false;
           this.items = body.data;
