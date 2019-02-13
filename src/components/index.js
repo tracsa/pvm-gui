@@ -23,10 +23,10 @@ import Processes from './Processes';
 import SignIn from './SignIn';
 import LinkInput from './LinkInput';
 import TaskRedirect from './TaskRedirect';
-
 import Inbox from './Inbox';
 import InboxListItem from './InboxListItem';
 import InboxItem from './InboxItem';
+import Management from './Management';
 
 // Inbox
 Vue.component('inbox', Inbox);
@@ -48,6 +48,7 @@ Vue.component('sign-in', SignIn);
 Vue.component('admin-tracking', AdminTracking);
 Vue.component('all-tasks', AllTasks);
 Vue.component('user-list', UserList);
+Vue.component('management', Management);
 
 // From inputs
 Vue.component('form-instance', FormInstance);

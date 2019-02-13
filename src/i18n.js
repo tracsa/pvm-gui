@@ -96,6 +96,9 @@ const messages = {
       page_title: 'Bandeja de entrada',
       assigned_to: 'Asignado a',
     },
+    management: {
+      page_title: 'Administración',
+    },
   },
   en: {
     header: {
@@ -135,6 +138,9 @@ const messages = {
     },
     tasks: {
       my_tasks: 'My tasks',
+    },
+    management: {
+      page_title: 'Management',
     },
     doquer: {
       new_file: 'Nuevo documento',
