@@ -34,24 +34,19 @@ export default new Router({
       component: Vue.component('app'),
       children: [
         {
-          name: 'trackings',
-          path: 'tracking',
-          component: Vue.component('trackings'),
+          name: 'inbox',
+          path: 'inbox',
+          component: Vue.component('inbox'),
         },
         {
-          name: 'tracking',
-          path: 'tracking/:id',
-          component: Vue.component('trackings'),
+          name: 'inbox-item',
+          path: 'inbox/:id',
+          component: Vue.component('inbox'),
         },
         {
-          name: 'tasks',
-          path: 'task',
-          component: Vue.component('tasks'),
-        },
-        {
-          name: 'task',
-          path: 'task/:id',
-          component: Vue.component('tasks'),
+          name: 'inbox-item-pid',
+          path: 'inbox/:id/:pid',
+          component: Vue.component('inbox'),
         },
         {
           name: 'processes',
@@ -64,9 +59,14 @@ export default new Router({
           component: Vue.component('processes'),
         },
         {
+          name: 'task-redirect',
+          path: 'task/:id',
+          component: Vue.component('task-redirect'),
+        },
+        {
           name: 'default',
           path: '',
-          component: Vue.component('tasks'),
+          component: Vue.component('inbox'),
         },
         {
           name: 'history',

@@ -65,7 +65,7 @@ export default {
       post('/execution', postData, 'application/json')
         .then((data) => {
           this.sending = false;
-          this.$router.push(`/tracking/${data.data.id}`);
+          this.$router.push(`/inbox/${data.data.id}`);
         })
         .catch((errors) => {
           this.sending = false;
