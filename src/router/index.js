@@ -78,6 +78,16 @@ export default new Router({
           path: '',
           component: Vue.component('inbox'),
         },
+        {
+          name: 'history',
+          path: 'history',
+          component: Vue.component('history'),
+        },
+        {
+          name: 'history-item',
+          path: 'history/:id',
+          component: Vue.component('history'),
+        },
       ],
     },
     {

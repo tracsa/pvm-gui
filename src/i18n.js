@@ -12,6 +12,7 @@ const messages = {
       processes: 'Procesos',
       tasks: 'Tareas',
       signout: 'Salir',
+      history: 'Historial',
       inbox: 'Bandeja de entrada',
     },
     info: {
@@ -50,6 +51,9 @@ const messages = {
     },
     tasks: {
       my_tasks: 'Mis tareas',
+    },
+    history: {
+      history: 'Historial de procesos',
     },
     doquer: {
       new_file: 'Nuevo documento',
@@ -108,6 +112,7 @@ const messages = {
       processes: 'Processes',
       tasks: 'Tasks',
       logout: 'SignOut',
+      history: 'History',
     },
     info: {
       aboutTasks: 'Your assigned tasks will be appear here.',
@@ -141,6 +146,9 @@ const messages = {
     },
     management: {
       page_title: 'Management',
+    },
+    history: {
+      history: 'Process history',
     },
     doquer: {
       new_file: 'Nuevo documento',
