@@ -59,6 +59,16 @@ export default new Router({
           component: Vue.component('processes'),
         },
         {
+          name: 'management',
+          path: 'management',
+          component: Vue.component('management'),
+        },
+        {
+          name: 'management-item',
+          path: 'management/:id',
+          component: Vue.component('management'),
+        },
+        {
           name: 'task-redirect',
           path: 'task/:id',
           component: Vue.component('task-redirect'),
