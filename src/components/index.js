@@ -22,8 +22,8 @@ import Hero from './Hero';
 import Processes from './Processes';
 import SignIn from './SignIn';
 import LinkInput from './LinkInput';
+import History from './History';
 import TaskRedirect from './TaskRedirect';
-
 import Inbox from './Inbox';
 import InboxListItem from './InboxListItem';
 import InboxItem from './InboxItem';
@@ -43,6 +43,7 @@ Vue.component('value-render', ValueRender);
 Vue.component('hero', Hero);
 Vue.component('processes', Processes);
 Vue.component('sign-in', SignIn);
+Vue.component('history', History);
 
 // Admin
 Vue.component('admin-tracking', AdminTracking);
