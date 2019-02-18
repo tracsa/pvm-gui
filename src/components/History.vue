@@ -198,7 +198,7 @@ export default {
       const item = {
         execution: null,
         task: null,
-        pointers: null,
+        pointers: [],
       };
 
       const loaded = {
@@ -267,7 +267,7 @@ export default {
           item.pointers = pointers;
 
           const doable = pointers.filter((pointer) => {
-            if (pointer.finished_at !== null) {
+            if (pointer.state !== 'ongoing') {
               return false;
             }
 

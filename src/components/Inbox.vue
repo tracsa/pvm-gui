@@ -300,9 +300,6 @@ export default {
           loaded.task = true;
 
           next();
-        })
-        .catch(() => {
-          next();
         });
     },
   },
