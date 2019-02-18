@@ -54,8 +54,8 @@
           <hero
             v-else-if="showedItems.length === 0"
             icon="inbox"
-            title="info.aboutTrackings"
-            desc="info.aboutTrackingsMore"
+            title="info.aboutManagement"
+            desc="info.aboutManagementMore"
           />
 
           <ul
