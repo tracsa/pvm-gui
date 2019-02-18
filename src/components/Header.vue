@@ -56,29 +56,16 @@
 
     <div class="mobile-header row d-lg-none">
       <div class="col">
-        <router-link
-          :to="{ path: '/task' }">
-            {{ $t('header.tasks') }}
-        </router-link>
+        <router-link :to="{ name: 'processes' }">{{ $t('header.processes') }}</router-link>
       </div>
       <div class="col">
-        <router-link
-          :to="{ path: '/' }">
-            {{ $t('header.processes') }}
-        </router-link>
+        <router-link :to="{ name: 'inbox' }">{{ $t('header.inbox') }}</router-link>
       </div>
       <div class="col">
-        <router-link
-          :to="{ path: '/inbox' }">
-            {{ $t('header.inbox') }}
-        </router-link>
+        <router-link :to="{ name: 'history' }">{{ $t('header.history') }}</router-link>
       </div>
       <div class="col">
-        <a
-          href="javascript:void(0);"
-          @click="signOut">
-            {{ $t('header.signout') }}
-        </a>
+        <a href="javascript:void(0);" @click="signOut">{{ $t('header.signout') }}</a>
       </div>
     </div>
 
