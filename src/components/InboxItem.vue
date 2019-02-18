@@ -28,24 +28,24 @@
         v-for="pointer in pointers"
         :key="pointer.id">
         <timeline-patch
-          v-if="pointer.patch"
+          v-if="pointer.state === 'cancelled' && pointer.patch"
           :patch="pointer.patch"
         />
 
         <timeline-pending
-          v-else-if="pointer.finished_at === null"
+          v-else-if="pointer.state === 'ongoing'"
           :node="pointer"
           :highlight="pointer.id === highlightId"
         />
 
         <timeline-validation
-          v-else-if="pointer.node.type === 'validation'"
+          v-else-if="pointer.state === 'finished' && pointer.node.type === 'validation'"
           :validation="pointer"
           :highlight="pointer.id === highlightId"
         />
 
         <timeline-action
-          v-else-if="pointer.node.type === 'action'"
+          v-else-if="pointer.state === 'finished' && pointer.node.type === 'action'"
           :action="pointer"
           :highlight="pointer.id === highlightId"
         />
