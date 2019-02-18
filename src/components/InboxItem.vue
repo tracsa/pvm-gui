@@ -27,8 +27,13 @@
       <div
         v-for="pointer in pointers"
         :key="pointer.id">
+        <timeline-patch
+          v-if="pointer.patch"
+          :patch="pointer.patch"
+        />
+
         <timeline-pending
-          v-if="pointer.finished_at === null"
+          v-else-if="pointer.finished_at === null"
           :node="pointer"
           :highlight="pointer.id === highlightId"
         />
