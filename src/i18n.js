@@ -20,6 +20,10 @@ const messages = {
       aboutTasksMore: 'Actualmente no tienes ninguna tarea asignada.',
       aboutTrackings: 'Aquí aparecerán los procesos en los que estés involucrado',
       aboutTrackingsMore: 'Actualmente no estás involucrado en alguno.',
+      aboutHistory: 'Aquí aparecerán tus tareas finalizadas',
+      aboutHistoryMore: 'Actualmente no tienes ninguna tarea finalizada.',
+      aboutManagement: 'Aquí aparecerán tus tareas en proceso',
+      aboutManagementMore: 'Actualmente no tienes ninguna tarea en proceso.',
     },
     request: {
       authorization: 'Ssadf',
@@ -119,6 +123,10 @@ const messages = {
       aboutTasksMore: 'You do not have assigned tasks yet.',
       aboutTrackings: 'Aquí aparecerán tus tareas asignadas',
       aboutTrackingsMore: 'Actualmente no tienes ninguna tarea asignada.',
+      aboutHistory: 'Your finished assigned tasks will be appear here.',
+      aboutHistoryMore: 'You do not have assigned finished tasks yet',
+      aboutManagement: 'Your on going assigned tasks will be appear here.',
+      aboutManagementMore: 'You do not have assigned on going tasks yet',
     },
     signin: {
       title: 'SignIn',
