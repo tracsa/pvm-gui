@@ -13,7 +13,7 @@
         <div
           class="card inbox-control"
           :class="{ 'fixed': fixedControl }"
-          :style="{ 'max-height': maxHeight }">
+          :style="{ 'height': maxHeight, 'max-height': maxHeight }">
           <div class="card-header">
             <div style="float:right;">
               <form class="form-inline" v-on:submit.prevent>
