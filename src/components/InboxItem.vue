@@ -7,7 +7,7 @@
             <b>{{ execution.name }}</b>
           </div>
           <div class="col-1 text-right">
-            <router-link :to="{ path: '/inbox'}" replace>
+            <router-link :to="{ path: path}" replace>
               <icon :icon="['fas', 'times']" />
             </router-link>
           </div>
@@ -106,6 +106,12 @@ export default {
 
       const state = this.execution.state;
       return state.item_order.map(key => state.items[key]);
+    },
+    path() {
+      if (this.$route.name === 'history-item') {
+        return '/history';
+      }
+      return '/inbox';
     },
   },
   methods: {
