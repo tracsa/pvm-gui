@@ -18,7 +18,10 @@
             <div style="float:right;">
               <form class="form-inline" v-on:submit.prevent>
                 <div class="input-group">
-                  <input class="form-control" v-model="query" type="text"/>
+                  <input
+                    class="form-control"
+                    v-model="query" type="text"
+                    v-on:keyup.enter="filterList"/>
                   <div class="input-group-append">
                     <button class="btn btn-outline-primary" type="button" @click="filterList">
                       <icon style="min-width: 25px;" :icon="['fas', 'search']" />
