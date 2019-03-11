@@ -18,7 +18,7 @@
         {{ error.code || error.detail }}
       </div>
 
-      <div class="task-description" v-html="description_render" />
+      <div v-if="task.description" class="task-description" v-html="description_render" />
 
       <form-render
         v-if="task.node_type === 'action'"
