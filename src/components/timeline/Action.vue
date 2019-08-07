@@ -7,6 +7,7 @@
         <div>
           <div class="actions">
             <icon
+              class="toggle"
               @click="toggleCollapse"
               :icon="collapseClassName"
             />
@@ -102,5 +103,14 @@ table {
   td {
     word-break: break-all;
   }
+}
+
+.actions .toggle {
+  color: #888;
+  cursor: pointer;
+}
+
+.actions .toggle:hover {
+  color: #333;
 }
 </style>
