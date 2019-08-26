@@ -73,6 +73,7 @@ const messages = {
       name: 'Nombre',
       approve: 'Aprobar',
       reject: 'Rechazar',
+      hide: 'Ocultar',
     },
     validation: {
       required: 'Este campo es requerido',

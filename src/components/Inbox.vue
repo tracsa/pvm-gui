@@ -5,6 +5,7 @@
     <div class="row">
       <div
         ref="inbox-container"
+        v-if="shown"
         :class="{
           'd-none d-md-block': selectedId,
           'col-12': !selectedId,
@@ -15,8 +16,20 @@
           :class="{ 'fixed': fixedControl }"
           :style="{ 'height': maxHeight, 'max-height': maxHeight }">
           <div class="card-header">
-            <div style="float:right;">
-              <form class="form-inline" v-on:submit.prevent>
+            <div v-if="selectedId" class="mb-3">
+              <div style="float: right;">
+                <a href="javascript:void()" @click="toggleMenu">{{ $t('commons.hide') }}</a>
+              </div>
+              <div>{{ $t('inbox.page_title') }}</div>
+            </div>
+            <div :style="{ 'float': selectedId ? 'none' : 'right' }">
+              <form
+                :class="{
+                  'form': selectedId,
+                  'form-inline': !selectedId,
+                }"
+                v-on:submit.prevent
+              >
                 <div class="input-group">
                   <input
                     class="form-control"
@@ -34,7 +47,7 @@
                 </div>
               </form>
             </div>
-            <span>{{ $t('inbox.page_title') }}</span>
+            <span v-if="!selectedId">{{ $t('inbox.page_title') }}</span>
           </div>
 
           <div
@@ -85,7 +98,11 @@
         </div>
       </div>
 
-      <div v-if="selectedId" class="col-12 col-md-8 no-overflow-x">
+      <div v-if="selectedId" :class="{
+          'col-12': true,
+          'no-overflow-x': true,
+          'col-md-8': shown
+        }">
         <div v-if="loadingItem">
           <hero
             icon="spinner"
@@ -129,6 +146,7 @@ export default {
       errors: [],
 
       // for selected items
+      shown: true,
       loadingItem: this.selectedId !== null,
       selectedItem: null,
     };
@@ -305,6 +323,9 @@ export default {
           next();
         });
     },
+    toggleMenu() {
+      this.shown = !this.shown;
+    },
   },
   computed: {
     selectedId: function selectedId() {
@@ -325,8 +346,8 @@ export default {
     },
     containerClass: function containerClass() {
       return {
-        container: this.selectedId === null,
-        'container-fluid': this.selectedId !== null,
+        container: this.selectedId === null || !this.shown,
+        'container-fluid': this.selectedId !== null && this.shown,
       };
     },
   },
@@ -339,6 +360,8 @@ export default {
       if (selectedId) {
         this.loadingItem = true;
         this.loadItem(selectedId);
+      } else {
+        this.shown = true;
       }
     },
   },
