@@ -4,15 +4,20 @@
 
     <div class="card">
       <div class="card-header">
-        <div class="row">
-          <div class="col">
-            <div v-if="action.node.name" class="task-description" v-html="name_render" />
-            —
-            <small>{{ action.finished_at | relativeDate }}</small>
+        <div>
+          <div class="actions">
+            <icon
+              class="toggle"
+              @click="toggleCollapse"
+              :icon="collapseClassName"
+            />
           </div>
+          <div v-if="action.node.name" class="task-description" v-html="name_render" />
+          &bull;
+          <small>{{ action.finished_at | relativeDate }}</small>
         </div>
       </div>
-      <div class="card-body">
+      <div class="card-body" v-if="!collapse">
         <div
           v-for="(actor, identifier) in action.actors.items"
           :key="identifier">
@@ -53,11 +58,31 @@ const md = require('markdown-it')();
 
 export default {
   props: ['action', 'highlight'],
+  data() {
+    return {
+      collapse: false,
+    };
+  },
   methods: {
+    toggleCollapse() {
+      this.collapse = !this.collapse;
+    },
     listInputs(inputs) {
       return inputs.item_order
         .map(key => inputs.items[key])
         .filter(input => !input.hidden);
+    },
+  },
+  computed: {
+    collapseClassName() {
+      const response = ['fas'];
+      if (this.collapse) {
+        response.push('chevron-down');
+      } else {
+        response.push('chevron-up');
+      }
+
+      return response;
     },
   },
   filters: {
@@ -90,5 +115,14 @@ table {
   td {
     word-break: break-all;
   }
+}
+
+.actions .toggle {
+  color: #888;
+  cursor: pointer;
+}
+
+.actions .toggle:hover {
+  color: #333;
 }
 </style>
