@@ -31,9 +31,6 @@ export default {
     toURI(input) {
       return `${process.env.DOQER_URL}/api/documents/${input.value.id}`;
     },
-  },
-
-  filters: {
     relativeDate(val) {
       const date = new Date(val);
       const yesterday = new Date() - (24 * 60 * 60 * 1000);
