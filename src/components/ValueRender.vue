@@ -16,15 +16,31 @@
       {{ input.value.label }}
     </a>
   </div>
+  <div v-else-if="input.type === 'date'">
+    {{ input.value | relativeDate }}
+  </div>
   <div v-else>{{ input.value_caption }}</div>
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   props: ['input'],
   filters: {
     toURI(input) {
       return `${process.env.DOQER_URL}/api/documents/${input.value.id}`;
+    },
+    relativeDate(val) {
+      const date = new Date(val);
+      const yesterday = new Date() - (24 * 60 * 60 * 1000);
+      const tomorrow = new Date() + (24 * 60 * 60 * 1000);
+
+      if (yesterday < date && date < tomorrow) {
+        return moment(val).fromNow();
+      }
+
+      return moment(val).format('LL');
     },
   },
 };
