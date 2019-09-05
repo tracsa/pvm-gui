@@ -6,7 +6,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col">
-            {{ action.node.name }}
+            <div v-if="action.node.name" class="task-description" v-html="name_render" />
             —
             <small>{{ action.finished_at | relativeDate }}</small>
           </div>
@@ -49,6 +49,8 @@
 <script>
 import moment from 'moment';
 
+const md = require('markdown-it')();
+
 export default {
   props: ['action', 'highlight'],
   methods: {
@@ -68,6 +70,16 @@ export default {
       }
 
       return moment(val).calendar();
+    },
+  },
+
+  computed: {
+    name_render() {
+      if (!this.action.node) {
+        return '';
+      }
+
+      return md.render(this.action.node.name);
     },
   },
 };
