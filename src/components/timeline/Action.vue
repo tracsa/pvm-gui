@@ -84,6 +84,14 @@ export default {
 
       return response;
     },
+
+    name_render() {
+      if (!this.action.node) {
+        return '';
+      }
+
+      return md.render(this.action.node.name);
+    },
   },
   filters: {
     relativeDate(val) {
@@ -95,16 +103,6 @@ export default {
       }
 
       return moment(val).calendar();
-    },
-  },
-
-  computed: {
-    name_render() {
-      if (!this.action.node) {
-        return '';
-      }
-
-      return md.render(this.action.node.name);
     },
   },
 };
