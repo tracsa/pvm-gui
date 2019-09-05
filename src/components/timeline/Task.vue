@@ -5,7 +5,7 @@
     <div class="card-header">
       <div class="row">
         <div class="col">
-          {{ task.name }}
+          <div v-if="task.name" class="task-description" v-html="name_render" />
         </div>
       </div>
     </div>
@@ -100,6 +100,14 @@ export default {
       }
 
       return md.render(this.task.description);
+    },
+
+    name_render() {
+      if (!this.task) {
+        return '';
+      }
+
+      return md.render(this.task.name);
     },
   },
 };
