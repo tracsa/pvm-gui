@@ -36,7 +36,7 @@ export default {
       const yesterday = new Date() - (24 * 60 * 60 * 1000);
       const tomorrow = new Date() + (24 * 60 * 60 * 1000);
 
-      if (yesterday < date && date < tomorrow ) {
+      if (yesterday < date && date < tomorrow) {
         return moment(val).fromNow();
       }
 
