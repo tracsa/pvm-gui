@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-      <linear-steps :nodes="steps"/>
+      <linear-steps :nodes="steps" @click="handleStepClick"/>
     </div>
 
     <div class="timeline">
@@ -134,6 +134,19 @@ export default {
     handleComplete() {
       this.sleep = 0;
       this.reloadJob();
+    },
+    handleStepClick(nodeId) {
+      let highlight;
+      for (let i = this.pointers.length - 1; i >= 0; i -= 1) {
+        const pointer = this.pointers[i];
+        if (nodeId === pointer.node.id) {
+          highlight = pointer.id;
+        }
+      }
+
+      // Scroll to element
+      const el = document.getElementById(highlight);
+      window.scrollBy(0, el.offsetTop + 110);
     },
   },
 };
