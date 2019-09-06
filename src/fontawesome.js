@@ -9,3 +9,5 @@ fontawesome.library.add(solid); // Use any icon from the Solid style
 fontawesome.library.add(regular); // Use any icon from the Solid style
 
 Vue.component('icon', FontAwesomeIcon);
+
+export default FontAwesomeIcon;
