@@ -19,6 +19,7 @@
             </div>
             <div
               v-else-if="node.state === 'valid'"
+              @click="emitClick(node.id)"
               class="active">
               <icon :icon="['fas', 'check']" />
             </div>
@@ -44,6 +45,11 @@ export default {
   computed: {
     nodeCount() {
       return this.nodes.filter(node => node.state === 'ongoing' || node.milestone).length;
+    },
+  },
+  methods: {
+    emitClick(nodeId) {
+      this.$emit('click', nodeId);
     },
   },
 };
