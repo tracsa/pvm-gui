@@ -147,6 +147,7 @@ export default {
         height: 5px;
         width: 5px;
         z-index: 10;
+        cursor: pointer;
         @include center-items-vh();
 
         border: $circle-border-size solid $line-background;
@@ -159,6 +160,11 @@ export default {
         svg, i {
           margin-top: 2px;
           color: white;
+        }
+
+        &:hover {
+          background: lighten($line-background, 10);
+          border-color: lighten($line-background, 10);
         }
       }
 
