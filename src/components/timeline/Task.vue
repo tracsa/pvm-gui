@@ -5,7 +5,7 @@
     <div class="card-header">
       <div class="row">
         <div class="col">
-          <div v-if="task.name" class="task-description" v-html="name_render" />
+          <div v-if="task.name" v-html="name_render" />
         </div>
       </div>
     </div>

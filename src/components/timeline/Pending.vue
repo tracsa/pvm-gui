@@ -3,7 +3,7 @@
     <span class="timeline-dot dot-orange" />
 
     <div class="alert custom-alert-warning">
-      <div v-if="node.node.name" class="task-description" v-html="name_render" />
+      <div v-if="node.node.name" v-html="name_render" />
       <div>
         <small>Asignado a </small>
         <small

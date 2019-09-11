@@ -12,7 +12,7 @@
               :icon="collapseClassName"
             />
           </div>
-          <div v-if="action.node.name" class="task-description" v-html="name_render" />
+          <div v-if="action.node.name" v-html="name_render" />
           &bull;
           <small>{{ action.finished_at | relativeDate }}</small>
         </div>
