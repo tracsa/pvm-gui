@@ -33,6 +33,11 @@ export default {
     },
     relativeDate(val) {
       const date = new Date(val);
+
+      if (isNaN(date) !== true) {
+        return '';
+      }
+
       const yesterday = new Date() - (24 * 60 * 60 * 1000);
       const tomorrow = new Date() + (24 * 60 * 60 * 1000);
 
