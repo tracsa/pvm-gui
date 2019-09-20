@@ -32,9 +32,9 @@ export default {
       return `${process.env.DOQER_URL}/api/documents/${input.value.id}`;
     },
     relativeDate(val) {
-      const date = new Date(val);
+      const date = Date.parse(val);
 
-      if (isNaN(date) !== true) {
+      if (isNaN(date)) {
         return '';
       }
 
