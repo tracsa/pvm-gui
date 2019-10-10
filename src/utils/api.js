@@ -3,7 +3,12 @@ import serialize from './serialize';
 import { getAuthToken, logout } from './auth';
 
 
-function apiFetch(method, route, params = {}, bodyEncoding = 'application/x-www-form-urlencoded') {
+function apiFetch(
+  method,
+  route,
+  params = {},
+  bodyEncoding = 'application/x-www-form-urlencoded',
+  parseResponse = true) {
   const endpoint = process.env.CACAHUATE_URL;
   const headers = {
     'Content-Type': 'application/json',
@@ -63,6 +68,10 @@ function apiFetch(method, route, params = {}, bodyEncoding = 'application/x-www-
         if (response.status === 401) {
           logout();
           return Promise.resolve({});
+        }
+
+        if (!parseResponse) {
+          return Promise.resolve(response);
         }
 
         // No content to parse
