@@ -14,9 +14,31 @@
         </div>
       </div>
       <linear-steps :nodes="steps" @click="handleStepClick"/>
+      <ul class="nav nav-pills mb-3">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            :class="{ 'active': display === 'timeline' }"
+            @click="display = 'timeline'"
+            href="javascript:void(0);"
+          >Timeline</a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            :class="{ 'active': display === 'summary' }"
+            @click="display = 'summary'"
+            href="javascript:void(0);"
+          >Summary</a>
+        </li>
+      </ul>
     </div>
 
-    <div class="timeline">
+    <div class="card mt-3" v-if="display === 'summary'">
+      <div class="card-body" v-html="summary"></div>
+    </div>
+
+    <div class="timeline" v-if="display === 'timeline'">
       <timeline-task
         v-if="task"
         :task="task"
@@ -61,6 +83,7 @@ export default {
     return {
       sleep: 0,
       timeoutId: 0,
+      display: 'timeline',
     };
   },
   created() {
@@ -98,6 +121,9 @@ export default {
       }
 
       return this.item.task;
+    },
+    summary() {
+      return this.item.summary;
     },
     steps() {
       if (!this.execution) {
