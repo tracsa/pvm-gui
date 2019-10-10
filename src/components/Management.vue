@@ -110,6 +110,7 @@ import Promise from 'promise-polyfill';
 import { get } from '../utils/api';
 import itemFilterMixin from '../mixins/ItemFilterMixin';
 import { getAuthUser } from '../utils/auth';
+import Utf8ArrayToString from '../utils/utf8ArrayToString';
 
 export default {
   props: ['model'],
@@ -207,11 +208,12 @@ export default {
       const loaded = {
         execution: false,
         task: false,
+        summary: false,
       };
 
       const next = function next() {
         // verify that requests are complete
-        if (!loaded.execution || !loaded.task) {
+        if (!loaded.execution || !loaded.task || !loaded.summary) {
           return;
         }
 
@@ -298,6 +300,24 @@ export default {
           loaded.task = true;
 
           next();
+        });
+
+      get(`/execution/${id}/summary`, {}, 'application/json', false)
+        .then((response) => {
+          const reader = response.body.getReader();
+          let summary = '';
+
+          reader.read().then(function processText({ done, value }) {
+            if (done) {
+              item.summary = summary;
+              loaded.summary = true;
+              return next();
+            }
+
+            summary += Utf8ArrayToString(value);
+
+            return reader.read().then(processText);
+          });
         });
     },
   },
