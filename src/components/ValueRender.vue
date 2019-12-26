@@ -32,7 +32,12 @@ export default {
       return `${process.env.DOQER_URL}/api/documents/${input.value.id}`;
     },
     relativeDate(val) {
-      const date = new Date(val);
+      const date = Date.parse(val);
+
+      if (isNaN(date)) {
+        return '';
+      }
+
       const yesterday = new Date() - (24 * 60 * 60 * 1000);
       const tomorrow = new Date() + (24 * 60 * 60 * 1000);
 
