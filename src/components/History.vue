@@ -179,11 +179,11 @@ export default {
       this.loadingList = true;
       this.errors = [];
 
-      const status_value = encodeURIComponent(JSON.stringify({
-          "$in": ["finished", "cancelled"]
+      const statusValue = encodeURIComponent(JSON.stringify({
+        $in: ['finished', 'cancelled'],
       }));
 
-      get(`/inbox?actor_identifier=${this.userId}&status=${status_value}&include=id,name,pointer`)
+      get(`/inbox?actor_identifier=${this.userId}&status=${statusValue}&include=id,name,pointer`)
         .then((body) => {
           this.loadingList = false;
           this.items = body.data;
