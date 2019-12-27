@@ -272,7 +272,22 @@ export default {
 
       get(`/log/${id}`)
         .then((body) => {
-          const pointers = body.data;
+          const pointersData = body.data;
+
+          let pointers = [];
+          if (item.execution === null ||
+            item.execution.status !== 'ongoing'
+          ) {
+            pointers = pointersData.filter((pointer) => {
+              if (pointer.state === 'ongoing') {
+                return false;
+              }
+              return true;
+            });
+          } else {
+            pointers = pointersData;
+          }
+
           item.pointers = pointers;
 
           const doable = pointers.filter((pointer) => {
