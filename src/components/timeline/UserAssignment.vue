@@ -4,11 +4,14 @@
       <div class="card-header">
         <div>
           <div class="actions">
-            <icon
-              class="toggle"
+            <button class="btn"
               @click="toggleCollapse"
-              :icon="collapseClassName"
-            />
+            >
+              <icon
+                class="toggle"
+                :icon="collapseClassName"
+              />
+            </button>
           </div>
           {{ $t('management.userAssignment.assignTask') }}
           <b><span v-html="name_render"/></b>
