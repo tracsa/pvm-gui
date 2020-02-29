@@ -19,7 +19,7 @@ export default {
         return '';
       }
 
-      return md.render(this.patch.comment);
+      return md.renderInline(this.patch.comment);
     },
   },
 };

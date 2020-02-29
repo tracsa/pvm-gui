@@ -14,6 +14,8 @@ const messages = {
       signout: 'Salir',
       history: 'Historial',
       inbox: 'Bandeja de entrada',
+      timeline: 'Linea de tiempo',
+      summary: 'Resumen',
     },
     info: {
       aboutTasks: 'Aquí aparecerán tus tareas asignadas',
@@ -126,6 +128,8 @@ const messages = {
       tasks: 'Tasks',
       logout: 'SignOut',
       history: 'History',
+      timeline: 'Timeline',
+      summary: 'Summary',
     },
     info: {
       aboutTasks: 'Your assigned tasks will be appear here.',

@@ -6,13 +6,16 @@
       <div class="card-header">
         <div>
           <div class="actions">
-            <icon
-              class="toggle"
+            <a class="btn"
               @click="toggleCollapse"
-              :icon="collapseClassName"
-            />
+            >
+              <icon
+                class="toggle"
+                :icon="collapseClassName"
+              />
+            </a>
           </div>
-          <div v-if="action.node.name" v-html="name_render" />
+          <span v-if="action.node.name" v-html="name_render" />
           &bull;
           <small>{{ action.finished_at | relativeDate }}</small>
         </div>
@@ -60,7 +63,7 @@ export default {
   props: ['action', 'highlight'],
   data() {
     return {
-      collapse: false,
+      collapse: true,
     };
   },
   methods: {
@@ -77,9 +80,9 @@ export default {
     collapseClassName() {
       const response = ['fas'];
       if (this.collapse) {
-        response.push('chevron-down');
+        response.push('chevron-left');
       } else {
-        response.push('chevron-up');
+        response.push('chevron-down');
       }
 
       return response;
@@ -90,7 +93,7 @@ export default {
         return '';
       }
 
-      return md.render(this.action.node.name);
+      return md.renderInline(this.action.node.name);
     },
   },
   filters: {
