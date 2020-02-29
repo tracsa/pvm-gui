@@ -12,7 +12,7 @@
               :icon="collapseClassName"
             />
           </div>
-          <div v-if="action.node.name" v-html="name_render" />
+          <span v-if="action.node.name" v-html="name_render" />
           &bull;
           <small>{{ action.finished_at | relativeDate }}</small>
         </div>
@@ -90,7 +90,7 @@ export default {
         return '';
       }
 
-      return md.render(this.action.node.name);
+      return md.renderInline(this.action.node.name);
     },
   },
   filters: {

@@ -99,7 +99,7 @@ export default {
         return '';
       }
 
-      return md.render(this.task.description);
+      return md.renderInline(this.task.description);
     },
 
     name_render() {
@@ -107,7 +107,7 @@ export default {
         return '';
       }
 
-      return md.render(this.task.name);
+      return md.renderInline(this.task.name);
     },
   },
 };
