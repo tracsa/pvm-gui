@@ -6,14 +6,14 @@
       <div class="card-header">
         <div>
           <div class="actions">
-            <button class="btn"
+            <a class="btn"
               @click="toggleCollapse"
             >
               <icon
                 class="toggle"
                 :icon="collapseClassName"
               />
-            </button>
+            </a>
           </div>
           <span v-if="action.node.name" v-html="name_render" />
           &bull;
