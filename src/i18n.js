@@ -88,6 +88,9 @@ const messages = {
       request: {
         authorization: 'Lo sentimos, tus credenciales son inválidas.',
       },
+      username: {
+        invalid: 'El nombre de usuario es invalido',
+      },
     },
     dataFilters: {
       buttons: {
@@ -109,6 +112,11 @@ const messages = {
     },
     management: {
       page_title: 'Administración',
+      userAssignment: {
+        userAssignationSuccesful: 'Asignación de usuario exitosa',
+        newUser: 'Nuevo usuario',
+        assignTask: 'Asignar tarea',
+      },
     },
   },
   en: {
@@ -159,6 +167,11 @@ const messages = {
     },
     management: {
       page_title: 'Management',
+      userAssignment: {
+        userAssignationSuccesful: 'User Assignation Succesful',
+        newUser: 'New user',
+        assignTask: 'Assign task',
+      },
     },
     history: {
       history: 'Process history',
@@ -177,6 +190,14 @@ const messages = {
       name: 'Nombre',
       approve: 'Approve',
       reject: 'Reject',
+    },
+    errors: {
+      request: {
+        authorization: 'Your credentials are invalid, sorry',
+      },
+      username: {
+        invalid: 'Invalid username',
+      },
     },
     dataFilters: {
       buttons: {
