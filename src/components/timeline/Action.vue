@@ -6,11 +6,14 @@
       <div class="card-header">
         <div>
           <div class="actions">
-            <icon
-              class="toggle"
+            <button class="btn"
               @click="toggleCollapse"
-              :icon="collapseClassName"
-            />
+            >
+              <icon
+                class="toggle"
+                :icon="collapseClassName"
+              />
+            </button>
           </div>
           <span v-if="action.node.name" v-html="name_render" />
           &bull;
