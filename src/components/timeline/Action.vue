@@ -60,7 +60,7 @@ export default {
   props: ['action', 'highlight'],
   data() {
     return {
-      collapse: false,
+      collapse: true,
     };
   },
   methods: {
