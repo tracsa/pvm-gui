@@ -4,10 +4,10 @@
     class="container-linear d-none d-md-block">
     <div class="row line">
       <div
-        v-for="node in nodes"
+        v-for="(node, index) in nodes"
         v-if="node.state === 'ongoing' || node.milestone"
         class="col"
-        :key="node.id"
+        :key="index"
         :class="{
           'no-active': (node.state === 'ongoing' || node.state === 'unfilled'),
         }">
