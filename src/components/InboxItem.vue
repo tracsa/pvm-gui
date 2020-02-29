@@ -49,6 +49,12 @@
       <div
         v-for="pointer in pointers"
         :key="pointer.id">
+
+        <timeline-user-assignment
+          v-if="assignable && pointer.state === 'ongoing'"
+          :node="pointer"
+        />
+
         <timeline-patch
           v-if="pointer.state === 'cancelled' && pointer.patch"
           :patch="pointer.patch"
@@ -77,15 +83,20 @@
 </template>
 
 <script>
+import { getAuthUser } from '../utils/auth';
+
 export default {
   props: ['item'],
+
   data() {
     return {
+      user: getAuthUser(),
       sleep: 0,
       timeoutId: 0,
       display: 'timeline',
     };
   },
+
   created() {
     this.reloadJob();
   },
@@ -93,6 +104,9 @@ export default {
     clearTimeout(this.timeoutId);
   },
   computed: {
+    assignable() {
+      return this.user.role === 'admin';
+    },
     highlightId: function selectedId() {
       const { pid } = this.$route.params;
       if (!pid) {
