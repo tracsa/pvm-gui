@@ -37,7 +37,7 @@ export default {
         return '';
       }
 
-      return md.render(this.node.node.name);
+      return md.renderInline(this.node.node.name);
     },
   },
 };

@@ -18,7 +18,7 @@
         {{ error.code || error.detail }}
       </div>
 
-      <div v-if="task.description" class="task-description" v-html="description_render" />
+      <p v-if="task.description" class="card-desc" v-html="description_render" />
 
       <form-render
         v-if="task.node_type === 'action'"
@@ -99,7 +99,7 @@ export default {
         return '';
       }
 
-      return md.render(this.task.description);
+      return md.renderInline(this.task.description);
     },
 
     name_render() {
@@ -107,7 +107,7 @@ export default {
         return '';
       }
 
-      return md.render(this.task.name);
+      return md.renderInline(this.task.name);
     },
   },
 };
