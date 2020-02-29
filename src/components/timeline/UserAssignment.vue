@@ -152,9 +152,9 @@ export default {
     collapseClassName() {
       const response = ['fas'];
       if (this.collapse) {
-        response.push('chevron-down');
+        response.push('chevron-left');
       } else {
-        response.push('chevron-up');
+        response.push('chevron-down');
       }
 
       return response;
