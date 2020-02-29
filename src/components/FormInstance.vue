@@ -10,8 +10,8 @@
         {{ input.label }}
         <small
           class="text-info"
-          v-if="input.required">
-          {{ $t('commons.required') }}
+          v-if="!input.required">
+          {{ $t('commons.optional') }}
         </small>
       </label>
 

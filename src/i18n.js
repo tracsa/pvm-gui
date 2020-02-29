@@ -74,6 +74,7 @@ const messages = {
       approve: 'Aprobar',
       reject: 'Rechazar',
       hide: 'Ocultar',
+      optional: 'Opcional',
     },
     validation: {
       required: 'Este campo es requerido',
@@ -173,6 +174,7 @@ const messages = {
       name: 'Nombre',
       approve: 'Approve',
       reject: 'Reject',
+      optional: 'Optional',
     },
     dataFilters: {
       buttons: {
