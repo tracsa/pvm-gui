@@ -10,7 +10,7 @@
               :icon="collapseClassName"
             />
           </div>
-          Asignar tarea:
+          {{ $t('management.userAssignment.assignTask') }}
           <b><span v-html="name_render"/></b>
         </div>
       </div>
@@ -25,14 +25,14 @@
           <div class="form-group">
             <label
               for="user-assignment"
-            >Nuevo usuario</label>
+            >{{ $t('management.userAssignment.newUser') }}</label>
             <input
               class="form-control"
               id="user-assignment"
               v-model="userid"
-              :class="{ 'is-invalid': errors.length > 0 }"
+              :class="{ 'is-invalid': errors }"
               aria-describedby="userAssignmentHelp"
-              @input="errors = []; assigned = false;"
+              @input="errors = false; assigned = false;"
               >
             <span
               id="userAssignmentHelp"
@@ -52,7 +52,7 @@
             <button
               v-if="!sending"
               class="btn btn-primary"
-              :disabled="!isValid">
+              :disabled="!isValid || assigned || errors">
               {{ $t('commons.send') }}
             </button>
 
@@ -66,7 +66,10 @@
           </div>
           <div
             v-if="assigned">
-            El usuario se asignó con éxito
+            {{ $t('management.userAssignment.userAssignationSuccesful') }}
+          </div>
+          <div v-if="errors">
+            {{ $t('errors.username.invalid') }}
           </div>
         </form>
       </div>
@@ -89,7 +92,7 @@ export default {
       collapse: true,
       sending: false,
       userid: '',
-      errors: [],
+      errors: false,
       foo: {},
     };
   },
@@ -109,29 +112,20 @@ export default {
     assignUser() {
       const vm = this;
 
-      if (vm.cleanUsername === '') {
-        vm.errors = [
-          'String must not be empty',
-        ];
-        vm.sending = false;
-      } else {
-        const requestData = {
-          identifier: vm.cleanUsername,
-          node_id: vm.node.node.id,
-        };
+      const requestData = {
+        identifier: vm.cleanUsername,
+        node_id: vm.node.node.id,
+      };
 
-        put(`/execution/${vm.node.execution.id}/user`, requestData, 'application/json')
-          .then(() => {
-            vm.sending = false;
-            vm.assigned = true;
-          })
-          .catch(() => {
-            vm.sending = false;
-            vm.errors = [
-              'Unable to set user',
-            ];
-          });
-      }
+      put(`/execution/${vm.node.execution.id}/user`, requestData, 'application/json')
+        .then(() => {
+          vm.sending = false;
+          vm.assigned = true;
+        })
+        .catch(() => {
+          vm.sending = false;
+          vm.errors = true;
+        });
     },
   },
 
