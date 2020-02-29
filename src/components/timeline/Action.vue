@@ -95,14 +95,7 @@ export default {
   },
   filters: {
     relativeDate(val) {
-      const date = new Date(val);
-      const yesterday = new Date() - (24 * 60 * 60 * 1000);
-
-      if (yesterday < date) {
-        return moment(val).fromNow();
-      }
-
-      return moment(val).calendar();
+      return moment(val).format('LLLL');
     },
   },
 };
