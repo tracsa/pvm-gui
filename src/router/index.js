@@ -7,28 +7,6 @@ Vue.use(Router);
 export default new Router({
   routes: [
     {
-      path: '/admin/',
-      beforeEnter: requireAuth,
-      component: Vue.component('app'),
-      children: [
-        {
-          name: 'all-tasks',
-          path: 'tracking',
-          component: Vue.component('all-tasks'),
-        },
-        {
-          name: 'admin-tracking',
-          path: 'tracking/:id',
-          component: Vue.component('all-tasks'),
-        },
-        {
-          name: 'admin-default',
-          path: '',
-          component: Vue.component('all-tasks'),
-        },
-      ],
-    },
-    {
       path: '/',
       beforeEnter: requireAuth,
       component: Vue.component('app'),
