@@ -21,7 +21,7 @@
             :class="{ 'active': display === 'timeline' }"
             @click="display = 'timeline'"
             href="javascript:void(0);"
-          >Timeline</a>
+          >{{ $t('header.timeline') }}</a>
         </li>
         <li class="nav-item">
           <a
@@ -29,7 +29,7 @@
             :class="{ 'active': display === 'summary' }"
             @click="display = 'summary'"
             href="javascript:void(0);"
-          >Summary</a>
+          >{{ $t('header.summary') }}</a>
         </li>
       </ul>
     </div>
