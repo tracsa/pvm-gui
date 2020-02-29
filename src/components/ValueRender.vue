@@ -19,6 +19,9 @@
   <div v-else-if="input.type === 'date'">
     {{ input.value | relativeDate }}
   </div>
+  <div v-else-if="input.type === 'currency'">
+    {{ input.value | currency }}
+  </div>
   <div v-else>{{ input.value_caption }}</div>
 </template>
 
@@ -46,6 +49,17 @@ export default {
       }
 
       return moment(val).format('LL');
+    },
+    currency(val) {
+      if (typeof val !== 'number') {
+        return val;
+      }
+      const formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+        minimumFractionDigits: 2,
+      });
+      return formatter.format(val);
     },
   },
 };
