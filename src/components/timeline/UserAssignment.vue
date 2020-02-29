@@ -65,7 +65,7 @@
 
           </div>
           <div
-            v-if="!assigned">
+            v-if="assigned">
             El usuario se asignó con éxito
           </div>
         </form>
