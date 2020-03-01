@@ -9,8 +9,13 @@
       <label :for="input.name">
         {{ input.label }}
         <small
-          class="text-info"
-          v-if="!input.required">
+          v-if="input.required"
+          class="text-danger">
+          {{ $t('commons.required') }}
+        </small>
+        <small
+          v-else
+          class="text-info">
           {{ $t('commons.optional') }}
         </small>
       </label>
