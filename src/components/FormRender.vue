@@ -1,24 +1,60 @@
 <template>
   <form
     @submit="submit($event)">
+
     <div
       v-for="(form, index) in forms"
-      :key="form.ref">
-      <form-instance
-        v-for="(instance, key) in instances[form.ref]"
-        :key="key"
-        :class="{ multiple: form.multiple }"
-        :errors="errors[index]"
-        :schema="form"
-        :data="instance"
-      />
+      :key="form.ref"
+    >
+      <!-- Simple forms -->
       <div
-        v-if="form.multiple"
-        class="duplicator"
-        @click="appendForm(form)">
-        <icon :icon="['far', 'copy']" /> Agregar
+        v-if="!form.multiple"
+        class="border-top border-left border-info"
+      >
+        <form-instance
+          v-for="(instance, key) in instances[form.ref]"
+          class="p-3"
+          :key="key"
+          :errors="errors[index]"
+          :schema="form"
+          :data="instance"
+        />
       </div>
+
+      <!-- Multiple forms -->
+      <b-tabs
+        v-else
+        class="border-top border-left border-info"
+        pills
+      >
+        <b-tab
+          v-for="(instance, key) in instances[form.ref]"
+          class="p-3"
+          :key="key"
+          :title="'' + (key + 1)">
+          <form-instance
+            :errors="errors[index]"
+            :schema="form"
+            :data="instance"
+          />
+
+          <b-button
+            variant="warning"
+            v-if="instances[form.ref].length > 1"
+            @click="removeForm(form, key)">
+            <icon :icon="['fa', 'trash']" /> Eliminar
+          </b-button>
+
+        </b-tab>
+
+        <template v-slot:tabs-end>
+          <b-nav-item @click.prevent="appendForm(form)"><b>+</b></b-nav-item>
+        </template>
+      </b-tabs>
+
+
     </div>
+
 
     <div>
       <button
@@ -175,6 +211,11 @@ export default {
         this.instances[form.ref].push(instance);
       }
     },
+    removeForm(form, key) {
+      if (this.instances[form.ref] !== undefined) {
+        this.instances[form.ref].splice(key, 1);
+      }
+    },
     submit(event) {
       event.preventDefault();
 
@@ -199,23 +240,4 @@ export default {
 
 <style lang="scss">
 @import '../styles/_variables.scss';
-
-.multiple {
-  border-left: 3px solid $info;
-  padding: 0 0 1em 1em;
-
-  .form-group {
-    margin-bottom: 0;
-  }
-}
-
-.duplicator {
-  cursor: pointer;
-  background: $info;
-  color: white;
-  padding: 4px 10px;
-  font-size: .9em;
-  margin-bottom: 1em;
-  display: inline-block;
-}
 </style>
