@@ -30,6 +30,7 @@
     "@fortawesome/fontawesome-free-solid": "^5.0.8",
     "@fortawesome/vue-fontawesome": "^0.0.22",
     "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.5.0",
     "dotenv": "^6.2.0",
     "markdown-it": "^8.4.2",
     "moment": "^2.24.0",

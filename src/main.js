@@ -5,6 +5,7 @@ import App from './App';
 import './components';
 import router from './router';
 import './fontawesome';
+import './bootstrapvue';
 import i18n from './i18n';
 
 Vue.config.productionTip = false;

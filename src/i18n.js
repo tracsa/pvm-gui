@@ -84,6 +84,7 @@ const messages = {
       required_list: 'Este campo es requerido',
       uploading_document: 'Ocurrió un error al cargar el archivo.',
       invalid_file: 'El archivo es inválido.',
+      required_int: 'Este campo debe ser un número entero.',
     },
     errors: {
       request: {
