@@ -11,8 +11,8 @@
           'col-4': selectedId,
         }">
         <div
-          class="card inbox-control"
-          :class="{ 'fixed': fixedControl }"
+          class="card"
+          :class="{ 'fixed': fixedControl, 'border-secondary': admin }"
           :style="{ 'height': maxHeight, 'max-height': maxHeight }">
           <div class="card-header">
             <div style="float:right;">
@@ -34,6 +34,7 @@
                 </div>
               </form>
             </div>
+            <span v-if="admin"><icon style="min-width: 25px" :icon="['fas', 'eye']"/></span>
             <span>{{ $t('history.history') }}</span>
           </div>
 
@@ -63,9 +64,11 @@
 
           <ul
             v-else
-            class="inbox-list">
+            style="overflow: auto;"
+            class="list-group list-group-flush">
             <li
               v-for="item in showedItems"
+              class="list-group-item flex-column"
               :class="{ active: selectedId === item.id }"
               :key="item.id">
               <router-link
@@ -120,6 +123,7 @@ export default {
 
     return {
       // fixed over lifetime
+      admin: user.role === 'admin',
       userId: user.username,
       fixedControl: undefined,
       maxHeight: '400px',
@@ -183,7 +187,17 @@ export default {
         $in: ['finished', 'cancelled'],
       }));
 
-      get(`/inbox?actor_identifier=${this.userId}&status=${statusValue}&include=id,name,pointer`)
+      let itemsUrl = (
+        '/inbox?' +
+        `&status=${statusValue}` +
+        '&include=id,name,pointer,pointer'
+      );
+
+      if (!this.admin) {
+        itemsUrl += `&user_identifier=${this.userId}`;
+      }
+
+      get(itemsUrl)
         .then((body) => {
           this.loadingList = false;
           this.items = body.data;
