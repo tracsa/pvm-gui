@@ -1,27 +1,24 @@
 <template>
-  <div class="inbox-list-item">
-    <div class="inbox-info">
-      <small>{{ process.name }}</small><br />
-      {{ pointer.node.name }}
-    </div>
-
-    <div class="time-info" :title="pointer.started_at | formatDate">
-      {{ pointer.started_at | relativeDate }}
-    </div>
-
-    <div v-if="assignees.length > 0" class="assignee">
-      <span v-if="assignees.length == 1">
-        {{ assignees[0].abbr }}
-      </span>
-      <span v-else>
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="text-truncate w-75">
+        <small>{{ process.name }}</small><br />
+        <b>{{ pointer.node.name }}</b>
+      </div>
+      <div
+        :id="'assignees-' + process.id"
+        class="rounded border border-light bg-secondary text-white p-1"
+      >
         {{ assignees.length }}
-      </span>
-      <div class="popover bs-popover-bottom">
-        <div class="arrow"></div>
-        <h3 class="popover-header">
-          {{ $t('inbox.assigned_to') }}
-        </h3>
-        <div class="popover-body">
+        <icon :icon="['fa', 'users']"/>
+      </div>
+      <b-popover
+        v-if="assignees.length"
+        :target="'assignees-' + process.id"
+        triggers="hover focus"
+        placement="leftbottom">
+        <template v-slot:title>{{ $t('inbox.assigned_to') }}</template>
+        <div>
           <div
             v-for="assignee in assignees"
             :key="assignee.id">
@@ -29,6 +26,12 @@
             <a :href="'mailto:' + assignee.email">{{ assignee.email }}</a>
           </div>
         </div>
+      </b-popover>
+    </div>
+
+    <div class="d-flex justify-content-end align-items-center">
+      <div :title="pointer.started_at | formatDate">
+        {{ pointer.started_at | relativeDate }}<br/>
       </div>
     </div>
   </div>
