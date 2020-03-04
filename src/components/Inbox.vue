@@ -12,15 +12,16 @@
           'col-4': selectedId,
         }">
         <div
-          class="card inbox-control"
-          :class="{ 'fixed': fixedControl }"
+          class="card"
+          :class="{ 'fixed': fixedControl, 'border-secondary': admin }"
           :style="{ 'height': maxHeight, 'max-height': maxHeight }">
           <div class="card-header">
             <div v-if="selectedId" class="mb-3">
               <div style="float: right;">
                 <a href="javascript:void()" @click="toggleMenu">{{ $t('commons.hide') }}</a>
               </div>
-              <div>{{ $t('inbox.page_title') }}</div>
+              <span v-if="admin"><icon :icon="['fas', 'eye']"/></span>
+              <span>{{ $t('inbox.page_title') }}</span>
             </div>
             <div :style="{ 'float': selectedId ? 'none' : 'right' }">
               <form
@@ -47,7 +48,10 @@
                 </div>
               </form>
             </div>
-            <span v-if="!selectedId">{{ $t('inbox.page_title') }}</span>
+            <span v-if="!selectedId">
+              <span v-if="admin"><icon :icon="['fas', 'eye']"/></span>
+              <span>{{ $t('inbox.page_title') }}</span>
+            </span>
           </div>
 
           <div
@@ -76,9 +80,11 @@
 
           <ul
             v-else
-            class="inbox-list">
+            style="overflow: auto;"
+            class="list-group list-group-flush">
             <li
               v-for="item in showedItems"
+              class="list-group-item flex-column"
               :class="{ active: selectedId === item.id }"
               :key="item.id">
               <router-link
@@ -137,6 +143,7 @@ export default {
 
     return {
       // fixed over lifetime
+      admin: user.role === 'admin',
       userId: user.username,
       fixedControl: undefined,
       maxHeight: '400px',
@@ -197,7 +204,18 @@ export default {
       this.loadingList = true;
       this.errors = [];
 
-      get(`/inbox?user_identifier=${this.userId}&status=ongoing&include=id,name,pointer&sort=pointer.started_at,DESCENDING`)
+      let itemsUrl = (
+        '/inbox?' +
+        '&status=ongoing' +
+        '&include=id,name,pointer,pointer' +
+        '&sort=pointer.started_at,DESCENDING'
+      );
+
+      if (!this.admin) {
+        itemsUrl += `&user_identifier=${this.userId}`;
+      }
+
+      get(itemsUrl)
         .then((body) => {
           this.loadingList = false;
           this.items = body.data;
