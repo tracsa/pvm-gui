@@ -47,6 +47,14 @@
                   </div>
                 </div>
               </form>
+              <b-form-checkbox
+                class="float-right p-1"
+                v-model="onlyTasks"
+                id="checkbox-1"
+                name="checkbox-1"
+              >
+                {{ $t('inbox.onlyMyTasks') }}
+              </b-form-checkbox>
             </div>
             <span v-if="!selectedId">
               <span v-if="admin"><icon :icon="['fas', 'eye']"/></span>
@@ -82,24 +90,28 @@
             v-else
             style="overflow: auto;"
             class="list-group list-group-flush">
-            <li
+            <template
               v-for="item in showedItems"
-              class="list-group-item flex-column"
-              :class="{ active: selectedId === item.id }"
-              :key="item.id">
-              <router-link
-                v-if="selectedId !== item.id"
-                :to="{
-                  name: 'inbox-item',
-                  params: { id: item.id },
-                }"
-                replace>
-                <inbox-list-item :process="item" />
-              </router-link>
-              <div style="cursor: pointer;" v-else>
-                <inbox-list-item :process="item" />
-              </div>
-            </li>
+            >
+              <li
+                v-if="!onlyTasks || (onlyTasks && doableByUser(item))"
+                class="list-group-item flex-column"
+                :class="{ active: selectedId === item.id }"
+                :key="item.id">
+                <router-link
+                  v-if="selectedId !== item.id"
+                  :to="{
+                    name: 'inbox-item',
+                    params: { id: item.id },
+                  }"
+                  replace>
+                  <inbox-list-item :process="item" />
+                </router-link>
+                <div style="cursor: pointer;" v-else>
+                  <inbox-list-item :process="item" />
+                </div>
+              </li>
+            </template>
           </ul>
         </div>
       </div>
@@ -152,6 +164,7 @@ export default {
       loadingList: true,
       items: [],
       errors: [],
+      onlyTasks: false,
 
       // for selected items
       shown: true,
@@ -207,7 +220,7 @@ export default {
       let itemsUrl = (
         '/inbox?' +
         '&status=ongoing' +
-        '&include=id,name,pointer,pointer' +
+        '&include=id,name,pointer' +
         '&sort=pointer.started_at,DESCENDING'
       );
 
@@ -232,6 +245,14 @@ export default {
     },
     refreshItem() {
       this.loadItem(this.selectedId);
+    },
+    doableByUser(execution) {
+      if (!execution.pointer.notified_users) return false;
+
+      const users = execution.pointer.notified_users;
+      const ids = users.map(user => user.identifier);
+
+      return ids.includes(this.userId);
     },
     loadItem(id) {
       const self = this;

@@ -111,6 +111,7 @@ const messages = {
     inbox: {
       page_title: 'Bandeja de entrada',
       assigned_to: 'Asignado a',
+      onlyMyTasks: 'Solo mis tareas',
     },
     management: {
       page_title: 'Administración',

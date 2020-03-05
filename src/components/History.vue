@@ -15,8 +15,18 @@
           :class="{ 'fixed': fixedControl, 'border-secondary': admin }"
           :style="{ 'height': maxHeight, 'max-height': maxHeight }">
           <div class="card-header">
-            <div style="float:right;">
-              <form class="form-inline" v-on:submit.prevent>
+            <span v-if="selectedId">
+              <span v-if="admin"><icon :icon="['fas', 'eye']"/></span>
+              <span>{{ $t('history.history') }}</span>
+            </span>
+            <div :style="{ 'float': selectedId ? 'none' : 'right' }">
+              <form
+                :class="{
+                  'form': selectedId,
+                  'form-inline': !selectedId,
+                }"
+                v-on:submit.prevent
+              >
                 <div class="input-group">
                   <input
                     class="form-control"
@@ -34,8 +44,10 @@
                 </div>
               </form>
             </div>
-            <span v-if="admin"><icon style="min-width: 25px" :icon="['fas', 'eye']"/></span>
-            <span>{{ $t('history.history') }}</span>
+            <span v-if="!selectedId">
+              <span v-if="admin"><icon :icon="['fas', 'eye']"/></span>
+              <span>{{ $t('history.history') }}</span>
+            </span>
           </div>
 
           <div
