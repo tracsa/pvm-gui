@@ -90,24 +90,28 @@
             v-else
             style="overflow: auto;"
             class="list-group list-group-flush">
-            <li
+            <template
               v-for="item in showedItems"
-              class="list-group-item flex-column"
-              :class="{ active: selectedId === item.id }"
-              :key="item.id">
-              <router-link
-                v-if="selectedId !== item.id"
-                :to="{
-                  name: 'inbox-item',
-                  params: { id: item.id },
-                }"
-                replace>
-                <inbox-list-item :process="item" />
-              </router-link>
-              <div style="cursor: pointer;" v-else>
-                <inbox-list-item :process="item" />
-              </div>
-            </li>
+            >
+              <li
+                v-if="!onlyTasks || (onlyTasks && doableByUser(item))"
+                class="list-group-item flex-column"
+                :class="{ active: selectedId === item.id }"
+                :key="item.id">
+                <router-link
+                  v-if="selectedId !== item.id"
+                  :to="{
+                    name: 'inbox-item',
+                    params: { id: item.id },
+                  }"
+                  replace>
+                  <inbox-list-item :process="item" />
+                </router-link>
+                <div style="cursor: pointer;" v-else>
+                  <inbox-list-item :process="item" />
+                </div>
+              </li>
+            </template>
           </ul>
         </div>
       </div>
@@ -220,9 +224,7 @@ export default {
         '&sort=pointer.started_at,DESCENDING'
       );
 
-      if (this.onlyTasks) {
-        itemsUrl += `&pointer.notified_users.identifier=${this.userId}`;
-      } else if (!this.admin) {
+      if (!this.admin) {
         itemsUrl += `&user_identifier=${this.userId}`;
       }
 
@@ -243,6 +245,14 @@ export default {
     },
     refreshItem() {
       this.loadItem(this.selectedId);
+    },
+    doableByUser(execution) {
+      if (!execution.pointer.notified_users) return false;
+
+      const users = execution.pointer.notified_users;
+      const ids = users.map(user => user.identifier);
+
+      return ids.includes(this.userId);
     },
     loadItem(id) {
       const self = this;
