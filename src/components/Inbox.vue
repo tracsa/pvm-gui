@@ -47,6 +47,14 @@
                   </div>
                 </div>
               </form>
+              <b-form-checkbox
+                class="float-right p-1"
+                v-model="onlyTasks"
+                id="checkbox-1"
+                name="checkbox-1"
+              >
+                {{ $t('inbox.onlyMyTasks') }}
+              </b-form-checkbox>
             </div>
             <span v-if="!selectedId">
               <span v-if="admin"><icon :icon="['fas', 'eye']"/></span>
@@ -152,6 +160,7 @@ export default {
       loadingList: true,
       items: [],
       errors: [],
+      onlyTasks: false,
 
       // for selected items
       shown: true,
@@ -207,11 +216,13 @@ export default {
       let itemsUrl = (
         '/inbox?' +
         '&status=ongoing' +
-        '&include=id,name,pointer,pointer' +
+        '&include=id,name,pointer' +
         '&sort=pointer.started_at,DESCENDING'
       );
 
-      if (!this.admin) {
+      if (this.onlyTasks) {
+        itemsUrl += `&pointer.notified_users.identifier=${this.userId}`;
+      } else if (!this.admin) {
         itemsUrl += `&user_identifier=${this.userId}`;
       }
 
