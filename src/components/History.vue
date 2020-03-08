@@ -192,6 +192,8 @@ export default {
       this.maxHeight = `${maxHeight}px`;
     },
     loadList: function loadList(cb = null) {
+      const vm = this;
+
       this.loadingList = true;
       this.errors = [];
 
@@ -199,20 +201,25 @@ export default {
         $in: ['finished', 'cancelled'],
       }));
 
-      let itemsUrl = (
+      const itemsUrl = (
         '/inbox?' +
         `&status=${statusValue}` +
-        '&include=id,name,pointer,pointer'
+        '&include=id,name,pointer,actors'
       );
-
-      if (!this.admin) {
-        itemsUrl += `&user_identifier=${this.userId}`;
-      }
 
       get(itemsUrl)
         .then((body) => {
-          this.loadingList = false;
-          this.items = body.data;
+          vm.loadingList = false;
+
+          if (this.admin) {
+            this.items = body.data;
+          } else {
+            const actualItems = body
+              .data.filter(item => Object.values(item.actors).includes(vm.userId));
+
+            this.items = actualItems;
+          }
+
           this.filterList();
 
           if (cb) {
