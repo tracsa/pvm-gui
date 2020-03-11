@@ -60,17 +60,16 @@
                         >
                           <div class="border-left border-info pl-1">
                             <small
-                              :class="{ 'text-muted': !input.value }"
+                              :class="{ 'text-muted': (input.value === null || input.value === '') }"
                             >{{ input.label|upper }}</small><br/>
 
-                            <span
-                              v-if="input.value != null || input.value !== ''">
-                              <p><value-render :input="input"/></p>
-                            </span>
-                            <span
+                            <p
+                              v-if="input.value === null || input.value === ''"
                               class="text-muted"
+                            >&hellip;</p>
+                            <p
                               v-else
-                            >&hellip;</span>
+                            ><value-render :input="input"/></p>
                           </div>
                         </b-col>
                       </template>
