@@ -61,7 +61,9 @@
                           cols="auto"
                           class="px-4 pb-1"
                         >
-                          <div class="border-left border-info pl-1">
+                          <div
+                            class="border-left pl-1"
+                            :class="[emptyValue(input) ? 'border-warning' : 'border-info']">
                             <small
                               :class="{ 'text-muted': emptyValue(input)}"
                             >{{ input.label|upper }}</small><br/>
