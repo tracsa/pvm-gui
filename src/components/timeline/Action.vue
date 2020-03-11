@@ -37,7 +37,9 @@
         <template
           v-for="(actor, identifier) in action.actors.items"
         >
-          <b-card no-body>
+          <b-card
+            no-body
+            :key="identifier">
             <b-card-body>
               <b-card-title>
                 {{ actor.user.fullname }}
@@ -52,19 +54,20 @@
                   <b-container fluid>
                     <b-row class="d-flex justify-content-between align-items-center">
                       <template
-                        v-for="input in listInputs(form.inputs)"
+                        v-for="(input, it) in listInputs(form.inputs)"
                       >
                         <b-col
+                          :key="it"
                           cols="auto"
                           class="px-4 pb-1"
                         >
                           <div class="border-left border-info pl-1">
                             <small
-                              :class="{ 'text-muted': (input.value === null || input.value === '') }"
+                              :class="{ 'text-muted': emptyValue(input)}"
                             >{{ input.label|upper }}</small><br/>
 
                             <p
-                              v-if="input.value === null || input.value === ''"
+                              v-if="emptyValue(input)"
                               class="text-muted"
                             >&hellip;</p>
                             <p
@@ -107,6 +110,9 @@ export default {
       return inputs.item_order
         .map(key => inputs.items[key])
         .filter(input => !input.hidden);
+    },
+    emptyValue(input) {
+      return (input.value === null || input.value === '');
     },
   },
   computed: {
