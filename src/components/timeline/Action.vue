@@ -64,7 +64,7 @@
                             >{{ input.label|upper }}</small><br/>
 
                             <span
-                              v-if="input.value">
+                              v-if="input.value != null || input.value !== ''">
                               <p><value-render :input="input"/></p>
                             </span>
                             <span
