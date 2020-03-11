@@ -2,8 +2,8 @@
   <div :id="action.id" class="timeline-action" :class="{'highlight': highlight}">
     <span class="timeline-dot" />
 
-    <div class="card">
-      <div class="card-header">
+    <b-card no-body>
+      <template v-slot:header>
         <div>
           <div class="actions">
             <a class="btn"
@@ -18,39 +18,77 @@
           <span v-if="action.node.name" v-html="name_render" />
           &bull;
           <small>{{ action.finished_at | relativeDate }}</small>
+          <br>
+
+          <small>
+            <span
+              v-for="(actor, identifier) in action.actors.items"
+              :key="identifier"
+            >
+              <icon :icon="['fa', 'user']"/>
+              <b>{{ actor.user.fullname }}</b><br/>
+            </span>
+          </small>
+
         </div>
-      </div>
-      <div class="card-body" v-if="!collapse">
-        <div
+      </template>
+
+      <b-card-body v-if="!collapse">
+        <template
           v-for="(actor, identifier) in action.actors.items"
-          :key="identifier">
-          <div v-if="actor">
-            <p>
-              <b>{{ actor.user.fullname }}</b>
-              llenó la siguiente información
-            </p>
-            <table class="table table-sm table-bordered">
-              <tbody
-                v-for="(form, key) in actor.forms"
-                :key="key">
-                <tr class="form-group">
-                  <td
-                    :title="`#${form.ref}`"
-                    :rowspan="form.inputs.item_order.length + 1">
-                  </td>
-                </tr>
-                <tr
-                  v-for="input in listInputs(form.inputs)"
-                  :key="input.name">
-                  <td scope="row">{{ input.label }}</td>
-                  <td><value-render :input="input" /></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+        >
+          <b-card
+            no-body
+            :key="identifier">
+            <b-card-body>
+              <b-card-title>
+                {{ actor.user.fullname }}
+              </b-card-title>
+              <b-card-sub-title>llenó la siguiente informacion</b-card-sub-title>
+
+              <b-list-group flush>
+                <b-list-group-item
+                  v-for="(form, key) in actor.forms"
+                  :key="key"
+                >
+                  <b-container fluid>
+                    <b-row class="d-flex justify-content-between align-items-center">
+                      <template
+                        v-for="(input, it) in listInputs(form.inputs)"
+                      >
+                        <b-col
+                          :key="it"
+                          cols="auto"
+                          class="px-4 pb-1"
+                        >
+                          <div
+                            class="border-left pl-1"
+                            :class="[emptyValue(input) ? 'border-warning' : 'border-info']">
+                            <small
+                              :class="{ 'text-muted': emptyValue(input)}"
+                            >{{ input.label|upper }}</small><br/>
+
+                            <p
+                              v-if="emptyValue(input)"
+                              class="text-muted"
+                            >&hellip;</p>
+                            <p
+                              v-else
+                            ><value-render :input="input"/></p>
+                          </div>
+                        </b-col>
+                      </template>
+                    </b-row>
+                  </b-container>
+
+                </b-list-group-item>
+              </b-list-group>
+            </b-card-body>
+          </b-card>
+        </template>
+      </b-card-body>
+    </b-card>
+
   </div>
 </template>
 
@@ -74,6 +112,9 @@ export default {
       return inputs.item_order
         .map(key => inputs.items[key])
         .filter(input => !input.hidden);
+    },
+    emptyValue(input) {
+      return (input.value === null || input.value === '');
     },
   },
   computed: {
