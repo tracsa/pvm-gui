@@ -43,8 +43,8 @@
             <b-card-body>
               <b-card-title>
                 {{ actor.user.fullname }}
+              <small class="text-muted">llenó la siguiente informacion</small>
               </b-card-title>
-              <b-card-sub-title>llenó la siguiente informacion</b-card-sub-title>
 
               <b-list-group flush>
                 <b-list-group-item
@@ -58,7 +58,7 @@
                       >
                         <b-col
                           :key="it"
-                          cols="auto"
+                          cols="12"
                           class="px-4 pb-1"
                         >
                           <div
@@ -69,12 +69,8 @@
                             >{{ input.label|upper }}</small><br/>
 
                             <p
-                              v-if="emptyValue(input)"
-                              class="text-muted"
-                            >&hellip;</p>
-                            <p
-                              v-else
-                            ><value-render :input="input"/></p>
+                              :class="{ 'text-muted': emptyValue(input) }"
+                            ><value-render :input="input"/><br/></p>
                           </div>
                         </b-col>
                       </template>
@@ -114,7 +110,7 @@ export default {
         .filter(input => !input.hidden);
     },
     emptyValue(input) {
-      return (input.value === null || input.value === '');
+      return (input.value === null || input.value_caption === '');
     },
   },
   computed: {
