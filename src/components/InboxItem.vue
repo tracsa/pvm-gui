@@ -39,8 +39,19 @@
     </div>
 
     <div class="timeline" v-if="display === 'timeline'">
+      <div v-if="execution.finished_at">
+        <div class="timeline-action">
+          <span class="timeline-dot"/>
+          <div class="alert custom-alert-info">
+            Flujo finalizado
+            &bull;
+            <small>{{ execution.finished_at | relativeDate }}</small>
+          </div>
+        </div>
+      </div>
+
       <timeline-task
-        v-if="task"
+        v-if="task && execution.status === 'ongoing'"
         :task="task"
         @complete="handleComplete"
         :highlight="task.id === highlightId"
@@ -51,7 +62,7 @@
         :key="pointer.id">
 
         <timeline-user-assignment
-          v-if="assignable && pointer.state === 'ongoing'"
+          v-if="assignable && pointer.state === 'ongoing' && execution.status === 'ongoing'"
           :node="pointer"
         />
 
@@ -61,7 +72,7 @@
         />
 
         <timeline-pending
-          v-else-if="pointer.state === 'ongoing'"
+          v-else-if="pointer.state === 'ongoing' && execution.status === 'ongoing'"
           :node="pointer"
           :highlight="pointer.id === highlightId"
         />
@@ -83,6 +94,7 @@
 </template>
 
 <script>
+import moment from 'moment';
 import { getAuthUser } from '../utils/auth';
 
 export default {
@@ -187,6 +199,11 @@ export default {
       // Scroll to element
       const el = document.getElementById(highlight);
       window.scrollBy(0, el.offsetTop + 110);
+    },
+  },
+  filters: {
+    relativeDate(val) {
+      return moment(val).format('LLLL');
     },
   },
 };

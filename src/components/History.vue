@@ -204,7 +204,7 @@ export default {
       const itemsUrl = (
         '/inbox?' +
         `&status=${statusValue}` +
-        '&include=id,name,pointer,actors'
+        '&include=id,name,pointer,actors,status'
       );
 
       get(itemsUrl)
@@ -275,6 +275,7 @@ export default {
         const listItem = {
           id: item.execution.id,
           name: item.execution.name,
+          status: item.execution.status,
           pointer,
         };
 

@@ -6,12 +6,25 @@
         <b>{{ pointer.node.name }}</b>
       </div>
       <div
+        v-if="process.status !== 'cancelled' && process.status !== 'finished'"
         :id="'assignees-' + process.id"
         class="rounded border border-light bg-secondary text-white p-1"
       >
         {{ assignees.length }}
         <icon :icon="['fa', 'users']"/>
       </div>
+      <div
+        v-else
+        class="rounded border border-light bg-info text-white p-1"
+      >
+        <div class="d-flex">
+          <span class="d-none d-md-block d-lg-block d-xl-none d-xl-block mr-1">
+            Proceso finalizado
+          </span>
+          <icon :icon="['fa', 'flag-checkered']"/>
+        </div>
+      </div>
+
       <b-popover
         v-if="assignees.length"
         :target="'assignees-' + process.id"

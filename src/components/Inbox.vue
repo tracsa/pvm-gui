@@ -220,7 +220,7 @@ export default {
       let itemsUrl = (
         '/inbox?' +
         '&status=ongoing' +
-        '&include=id,name,pointer' +
+        '&include=id,name,pointer,status' +
         '&sort=pointer.started_at,DESCENDING'
       );
 
@@ -295,6 +295,7 @@ export default {
         const listItem = {
           id: item.execution.id,
           name: item.execution.name,
+          status: item.execution.status,
           pointer,
         };
 
