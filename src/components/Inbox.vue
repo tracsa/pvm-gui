@@ -295,6 +295,7 @@ export default {
         const listItem = {
           id: item.execution.id,
           name: item.execution.name,
+          status: item.execution.status,
           pointer,
         };
 

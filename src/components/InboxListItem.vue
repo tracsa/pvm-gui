@@ -6,7 +6,7 @@
         <b>{{ pointer.node.name }}</b>
       </div>
       <div
-        v-if="process.status == 'ongoing'"
+        v-if="process.status !== 'cancelled' && process.status !== 'finished'"
         :id="'assignees-' + process.id"
         class="rounded border border-light bg-secondary text-white p-1"
       >
