@@ -54,7 +54,10 @@
 
             </div>
             <span v-if="!selectedId">
-              <span>{{ $t('inbox.page_title') }}</span>
+              <span>
+                {{ $t('inbox.page_title') }}<span
+                  v-if="showedItems">: {{ showedItems.length }} elementos</span>
+              </span>
             </span>
           </div>
 
