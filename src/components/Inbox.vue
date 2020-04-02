@@ -21,7 +21,10 @@
                 <a href="javascript:void()" @click="toggleMenu">{{ $t('commons.hide') }}</a>
               </div>
 
-              <span>{{ $t('inbox.page_title') }}<span v-if="showedItems">: {{ showedItems.length }} elementos</span></span>
+              <span>
+                {{ $t('inbox.page_title') }}<span
+                  v-if="showedItems">: {{ showedItems.length }} elementos</span>
+              </span>
 
             </div>
             <div :style="{ 'float': selectedId ? 'none' : 'right' }">
