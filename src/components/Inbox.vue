@@ -13,15 +13,19 @@
         }">
         <div
           class="card"
-          :class="{ 'fixed': fixedControl, 'border-secondary': admin }"
+          :class="{ 'fixed': fixedControl }"
           :style="{ 'height': maxHeight, 'max-height': maxHeight }">
           <div class="card-header">
             <div v-if="selectedId" class="mb-3">
               <div style="float: right;">
                 <a href="javascript:void()" @click="toggleMenu">{{ $t('commons.hide') }}</a>
               </div>
-              <span v-if="admin"><icon :icon="['fas', 'eye']"/></span>
-              <span>{{ $t('inbox.page_title') }}</span>
+
+              <span>
+                {{ $t('inbox.page_title') }}<span
+                  v-if="showedItems">: {{ showedItems.length }} elementos</span>
+              </span>
+
             </div>
             <div :style="{ 'float': selectedId ? 'none' : 'right' }">
               <form
@@ -47,20 +51,34 @@
                   </div>
                 </div>
               </form>
-              <b-form-checkbox
-                class="float-right p-1"
-                v-model="onlyTasks"
-                id="checkbox-1"
-                name="checkbox-1"
-              >
-                {{ $t('inbox.onlyMyTasks') }}
-              </b-form-checkbox>
+
             </div>
             <span v-if="!selectedId">
-              <span v-if="admin"><icon :icon="['fas', 'eye']"/></span>
               <span>{{ $t('inbox.page_title') }}</span>
             </span>
           </div>
+
+          <b-navbar
+            toggleable="true"
+          >
+            <b-navbar-brand href="#">{{ searchTitle }}</b-navbar-brand>
+
+            <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+            <b-collapse id="nav-collapse" is-nav>
+              <template
+                v-for="item in availableSearchList"
+              >
+                <b-navbar-nav
+                  v-if="item.value !== selectedSearch"
+                  :key="item.value"
+                >
+                  <b-nav-item
+                    @click="selectedSearch = item.value; loadList();">{{ item.text }}</b-nav-item>
+                </b-navbar-nav>
+              </template>
+            </b-collapse>
+          </b-navbar>
 
           <div
             v-if="errors.length">
@@ -94,7 +112,6 @@
               v-for="item in showedItems"
             >
               <li
-                v-if="!onlyTasks || (onlyTasks && doableByUser(item))"
                 class="list-group-item flex-column"
                 :class="{ active: selectedId === item.id }"
                 :key="item.id">
@@ -155,7 +172,6 @@ export default {
 
     return {
       // fixed over lifetime
-      admin: user.role === 'admin',
       userId: user.username,
       fixedControl: undefined,
       maxHeight: '400px',
@@ -164,7 +180,31 @@ export default {
       loadingList: true,
       items: [],
       errors: [],
-      onlyTasks: false,
+
+      // nav
+      selectedSearch: 'my_all',
+      availableSearchList: [
+        {
+          value: 'my_current_tasks',
+          text: 'Mis tareas pendientes',
+        },
+        {
+          value: 'my_tasks',
+          text: 'Mis tareas realizadas',
+        },
+        {
+          value: 'my_tags',
+          text: 'Mis etiquetas',
+        },
+        {
+          value: 'my_all',
+          text: 'Lista general',
+        },
+        {
+          value: 'ongoing',
+          text: 'Todos los procesos en curso',
+        },
+      ],
 
       // for selected items
       shown: true,
@@ -217,16 +257,52 @@ export default {
       this.loadingList = true;
       this.errors = [];
 
-      let itemsUrl = (
-        '/inbox?' +
-        '&status=ongoing' +
-        '&include=id,name,pointer,status' +
-        '&sort=pointer.started_at,DESCENDING'
-      );
+      const srch = this.selectedSearch;
 
-      if (!this.admin) {
-        itemsUrl += `&user_identifier=${this.userId}`;
+      let itemsUrl = '';
+
+      if (srch === 'my_current_tasks') {
+        itemsUrl = (
+          '/inbox?' +
+          '&status=ongoing' +
+          '&pointer.state=ongoing' +
+          `&pointer.notified_users.identifier=${this.userId}` +
+          '&include=id,name,pointer,status' +
+          '&sort=pointer.started_at,DESCENDING'
+        );
+      } else if (srch === 'my_tasks') {
+        itemsUrl = (
+          '/inbox?' +
+          '&status=ongoing' +
+          `&actor_list.identifier=${this.userId}` +
+          '&include=id,name,pointer,status' +
+          '&sort=pointer.started_at,DESCENDING'
+        );
+      } else if (srch === 'my_tags') {
+        itemsUrl = (
+          '/inbox?' +
+          '&status=ongoing' +
+          `&pointer.notified_users.identifier=${this.userId}` +
+          '&include=id,name,pointer,status' +
+          '&sort=pointer.started_at,DESCENDING'
+        );
+      } else if (srch === 'my_all') {
+        itemsUrl = (
+          '/inbox?' +
+          '&status=ongoing' +
+          `&user_identifier=${this.userId}` +
+          '&include=id,name,pointer,status' +
+          '&sort=pointer.started_at,DESCENDING'
+        );
+      } else if (srch === 'ongoing') {
+        itemsUrl = (
+          '/inbox?' +
+          '&status=ongoing' +
+          '&include=id,name,pointer,status' +
+          '&sort=pointer.started_at,DESCENDING'
+        );
       }
+
 
       get(itemsUrl)
         .then((body) => {
@@ -388,6 +464,17 @@ export default {
     },
   },
   computed: {
+    searchTitle: function searchTitle() {
+      const vm = this;
+
+      const title = vm.availableSearchList
+        .find(item => item.value === vm.selectedSearch);
+
+      if (title) return title.text;
+
+      return vm.availableSearchList[0].text;
+    },
+
     selectedId: function selectedId() {
       const { id } = this.$route.params;
       if (!id) {

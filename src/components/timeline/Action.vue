@@ -4,8 +4,50 @@
 
     <b-card no-body>
       <template v-slot:header>
-        <div>
-          <div class="actions">
+        <div class="d-flex justify-content-between align-items-center">
+
+          <div class="float-left">
+            <span v-if="action.node.name" v-html="name_render" />
+            &bull;
+            <small>{{ action.finished_at | relativeDate }}</small>
+            <br>
+
+            <small>
+              <span
+                v-for="(actor, identifier) in action.actors.items"
+                :key="identifier"
+              >
+                <icon :icon="['fa', 'user']"/>
+                <b>{{ actor.user.fullname }}</b><br/>
+              </span>
+            </small>
+          </div>
+
+          <div class="d-flex align-items-center">
+            <div
+              class="w-auto"
+              :id="action.id + '-assigness'"
+            >
+              {{ action.notified_users.length }}
+              <icon :icon="['fa', 'users']"/>
+            </div>
+
+            <b-popover
+              v-if="action.notified_users.length"
+              :target="action.id + '-assigness'"
+              triggers="hover focus"
+              placement="leftbottom">
+              <template v-slot:title>{{ $t('inbox.assigned_to') }}</template>
+              <div>
+                <div
+                  v-for="assignee in action.notified_users"
+                  :key="assignee.id">
+                  <strong>{{ assignee.fullname }}</strong><br/>
+                  <a :href="'mailto:' + assignee.email">{{ assignee.email }}</a>
+                </div>
+              </div>
+            </b-popover>
+
             <a class="btn"
               @click="toggleCollapse"
             >
@@ -15,21 +57,6 @@
               />
             </a>
           </div>
-          <span v-if="action.node.name" v-html="name_render" />
-          &bull;
-          <small>{{ action.finished_at | relativeDate }}</small>
-          <br>
-
-          <small>
-            <span
-              v-for="(actor, identifier) in action.actors.items"
-              :key="identifier"
-            >
-              <icon :icon="['fa', 'user']"/>
-              <b>{{ actor.user.fullname }}</b><br/>
-            </span>
-          </small>
-
         </div>
       </template>
 
