@@ -201,7 +201,7 @@ export default {
         },
         {
           value: 'my_all',
-          text: 'Lista general',
+          text: 'Mi lista general',
         },
         {
           value: 'ongoing',
