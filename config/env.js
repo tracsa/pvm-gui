@@ -27,6 +27,9 @@ const envVars = [{
 }, {
   name: 'PAGE_SIZE',
   default: 100000,
+}, {
+  name: 'TEST_USERS',
+  default: [],
 }];
 
 const base = {};
