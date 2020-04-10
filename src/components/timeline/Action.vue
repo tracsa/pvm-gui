@@ -2,7 +2,9 @@
   <div :id="action.id" class="timeline-action" :class="{'highlight': highlight}">
     <span class="timeline-dot" />
 
-    <b-card no-body>
+    <b-card
+      :header-bg-variant="headerBackgroundVariant"
+      no-body>
       <template v-slot:header>
         <div class="d-flex justify-content-between align-items-center">
 
@@ -17,8 +19,34 @@
                 v-for="(actor, identifier) in action.actors.items"
                 :key="identifier"
               >
-                <icon :icon="['fa', 'user']"/>
-                <b>{{ actor.user.fullname }}</b><br/>
+                <span
+                  v-if="isTestUser(identifier)"
+                  :id="action.id + '-user-' + identifier"
+                >
+                  <icon :icon="['fas', 'exclamation-triangle']"/>
+                  <b>{{ actor.user.fullname }}</b><br/>
+
+                  <b-popover
+                    :target="action.id + '-user-' + identifier"
+                    triggers="hover focus"
+                    placement="leftbottom">
+                    <template v-slot:title>
+                      <icon :icon="['fas', 'exclamation-triangle']"/>
+                      Usuario de pruebas
+                    </template>
+                    Este es un usuario designado
+                    para hacer pruebas en el sistema.<br/>
+                    Si esta fue una tarea realizada en un proceso real,
+                    por favor, contacte al administrador.
+                  </b-popover>
+
+                </span>
+                <span
+                  v-else
+                >
+                  <icon :icon="['fa', 'user']"/>
+                  <b>{{ actor.user.fullname }}</b><br/>
+                </span>
               </span>
             </small>
           </div>
@@ -125,6 +153,7 @@ export default {
   data() {
     return {
       collapse: true,
+      testUsers: process.env.TEST_USERS,
     };
   },
   methods: {
@@ -139,8 +168,30 @@ export default {
     emptyValue(input) {
       return (input.value === null || input.value_caption === '');
     },
+    isTestUser(actor) {
+      return (this.testUsers).includes(actor);
+    },
   },
   computed: {
+    hasTestUser() {
+      const vm = this;
+
+      let testUser = false;
+      Object.values(this.action.actors.items).forEach((actor) => {
+        testUser = testUser || vm.testUsers.includes(actor.user.identifier);
+      });
+
+      return testUser;
+    },
+
+    headerBackgroundVariant() {
+      if (this.hasTestUser) {
+        return 'warning-light';
+      }
+
+      return '';
+    },
+
     collapseClassName() {
       const response = ['fas'];
       if (this.collapse) {
