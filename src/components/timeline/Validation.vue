@@ -6,7 +6,7 @@
 
     <b-card
       :border-variant="state ? 'success' : 'danger'"
-      :header-bg-variant="state ? 'success-light' : 'danger-light'"
+      :header-bg-variant="headerBackgroundVariant"
       no-body>
       <template v-slot:header>
         <div class="d-flex justify-content-between align-items-center">
@@ -22,8 +22,34 @@
                 v-for="(actor, identifier) in validation.actors.items"
                 :key="identifier"
               >
-                <icon :icon="['fa', 'user']"/>
-                <b>{{ actor.user.fullname }}</b><br/>
+                <span
+                  v-if="isTestUser(identifier)"
+                  :id="validation.id + '-user-' + identifier"
+                >
+                  <icon :icon="['fas', 'exclamation-triangle']"/>
+                  <b>{{ actor.user.fullname }}</b><br/>
+
+                  <b-popover
+                    :target="validation.id + '-user-' + identifier"
+                    triggers="hover focus"
+                    placement="leftbottom">
+                    <template v-slot:title>
+                      <icon :icon="['fas', 'exclamation-triangle']"/>
+                      Usuario de pruebas
+                    </template>
+                    Este es un usuario designado
+                    para hacer pruebas en el sistema.<br/>
+                    Si esta fue una validación en un proceso real,
+                    por favor, contacte al administrador.
+                  </b-popover>
+
+                </span>
+                <span
+                  v-else
+                >
+                  <icon :icon="['fa', 'user']"/>
+                  <b>{{ actor.user.fullname }}</b><br/>
+                </span>
               </span>
             </small>
             <div>
@@ -114,6 +140,7 @@ export default {
   data() {
     return {
       collapse: true,
+      testUsers: process.env.TEST_USERS,
     };
   },
   methods: {
@@ -128,8 +155,31 @@ export default {
 
       return comment;
     },
+
+    isTestUser(actor) {
+      return (this.testUsers).includes(actor);
+    },
   },
   computed: {
+    hasTestUser() {
+      const vm = this;
+
+      let testUser = false;
+      Object.values(this.validation.actors.items).forEach((actor) => {
+        testUser = testUser || vm.testUsers.includes(actor.user.identifier);
+      });
+
+      return testUser;
+    },
+
+    headerBackgroundVariant() {
+      if (this.hasTestUser) {
+        return 'warning-light';
+      }
+
+      return (this.state ? 'success-light' : 'danger-light');
+    },
+
     state() {
       let state = true;
       Object.values(this.validation.actors.items).forEach((actor) => {
