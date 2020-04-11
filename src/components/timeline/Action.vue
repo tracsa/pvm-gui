@@ -12,7 +12,7 @@
             <span v-if="action.node.name" v-html="name_render" />
             &bull;
             <small>{{ action.finished_at | relativeDate }}</small>
-            <br>
+            <br/>
 
             <small>
               <span
@@ -121,7 +121,7 @@
                             :class="[emptyValue(input) ? 'border-warning' : 'border-info']">
                             <small
                               :class="{ 'text-muted': emptyValue(input)}"
-                            >{{ input.label|upper }}</small><br/>
+                            >{{ input.label }}</small><br/>
 
                             <p
                               :class="{ 'text-muted': emptyValue(input) }"
@@ -166,6 +166,8 @@ export default {
         .filter(input => !input.hidden);
     },
     emptyValue(input) {
+      if (!input.value) return true;
+
       return (input.value === null || input.value_caption === '');
     },
     isTestUser(actor) {
