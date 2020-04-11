@@ -171,9 +171,7 @@ export default {
           .items[input.actorId];
 
         if (!res.includes(actor)) {
-          res.push({
-            user: actor.user,
-          });
+          res.push(actor);
         }
       });
 
