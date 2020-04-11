@@ -68,7 +68,8 @@
 
         <timeline-patch
           v-if="pointer.state === 'cancelled' && pointer.patch"
-          :patch="pointer.patch"
+          :node="pointer"
+          :state="item.execution.state"
         />
 
         <timeline-pending
