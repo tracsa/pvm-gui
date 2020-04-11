@@ -11,8 +11,6 @@
 
           <div class="float-left">
             <span>Invalidación de información</span>
-            &bull;
-            <small>{{ node.node.finished_at | relativeDate }}</small>
             <br>
 
             <small>
