@@ -69,6 +69,7 @@ $secondary:     $gray-600 !default;
 $success:       $green !default;
 $success-light: lighten($green, 55%);
 $info:          $cyan !default;
+$info-light:    lighten($cyan, 50%);
 $warning:       $yellow !default;
 $warning-light: lighten($yellow, 33%);
 $danger:        $red !default;
@@ -83,6 +84,7 @@ $theme-colors: map-merge((
   "success":        $success,
   "success-light":  $success-light,
   "info":           $info,
+  "info-light":     $info-light,
   "warning":        $warning,
   "warning-light":  $warning-light,
   "danger":         $danger,
