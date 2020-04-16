@@ -35,12 +35,17 @@
                     placement="leftbottom">
                     <template v-slot:title>
                       <icon :icon="['fas', 'exclamation-triangle']"/>
-                      Usuario de pruebas
+                      {{ $t('commons.testUsers.title') }}
                     </template>
-                    Este es un usuario designado
-                    para hacer pruebas en el sistema.<br/>
-                    Si esta fue una validación en un proceso real,
-                    por favor, contacte al administrador.
+                    {{ $t('commons.testUsers.description') }}<br/>
+                    {{ $t('commons.testUsers.contact') }}<br/>
+                    <span
+                      v-for="(user, index) in keyUsers"
+                      v-bind:key="index"
+                    >
+                      <strong>{{ user.name }}</strong><br/>
+                      <a :href="'mailto:' + user.email">{{ user.email }}</a><br/>
+                    </span>
                   </b-popover>
 
                 </span>
@@ -56,7 +61,10 @@
               <span
                 class="badge badge-primary"
                 :class="{ 'badge-success': state, 'badge-danger': !state }">
-                {{ state ? 'Aprobado' : 'Rechazado' }}
+                <span
+                  v-if="state">{{ $t('timeline.validation.valid') }}</span>
+                <span
+                  v-else>{{ $t('timeline.validation.invalid') }}</span>
               </span>
             </div>
           </div>
@@ -140,7 +148,8 @@ export default {
   data() {
     return {
       collapse: true,
-      testUsers: process.env.TEST_USERS,
+      testIds: process.env.TEST_IDS,
+      keyUsers: process.env.KEY_USERS,
     };
   },
   methods: {
@@ -157,7 +166,7 @@ export default {
     },
 
     isTestUser(actor) {
-      return (this.testUsers).includes(actor);
+      return (this.testIds).includes(actor);
     },
   },
   computed: {
@@ -166,7 +175,7 @@ export default {
 
       let testUser = false;
       Object.values(this.validation.actors.items).forEach((actor) => {
-        testUser = testUser || vm.testUsers.includes(actor.user.identifier);
+        testUser = testUser || vm.testIds.includes(actor.user.identifier);
       });
 
       return testUser;
