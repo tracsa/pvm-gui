@@ -197,14 +197,6 @@ export default {
           text: 'Mis tareas realizadas',
         },
         {
-          value: 'my_tags',
-          text: 'Mis etiquetas',
-        },
-        {
-          value: 'my_all',
-          text: 'Mi lista general',
-        },
-        {
           value: 'ongoing',
           text: 'Todos los procesos en curso',
         },
