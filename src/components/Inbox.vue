@@ -62,6 +62,7 @@
           </div>
 
           <b-navbar
+            v-if="!loadingList"
             toggleable="true"
           >
             <b-navbar-brand href="#">{{ searchTitle }}</b-navbar-brand>
