@@ -81,6 +81,11 @@ const messages = {
       reject: 'Rechazar',
       hide: 'Ocultar',
       optional: 'Opcional',
+      testUsers: {
+        title: 'Usuario de pruebas',
+        description: 'Este es un usuario designado a realizar pruebas del sistema.',
+        contact: 'Para mayor información contacte a:',
+      },
     },
     validation: {
       required: 'Este campo es requerido',
@@ -202,6 +207,11 @@ const messages = {
       approve: 'Approve',
       reject: 'Reject',
       optional: 'Optional',
+      testUsers: {
+        title: 'Test User',
+        description: 'This a user for testing purposes.',
+        contact: 'For more info please email us to:',
+      },
     },
     errors: {
       request: {
