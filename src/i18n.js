@@ -40,6 +40,7 @@ const messages = {
       'validation.invalid': 'Las credenciales son inválidas.',
       'validation.required': 'Este campo es requerido.',
       advanced_options: 'Opciones avanzadas',
+      offline: 'No es posible validar las credenciales.',
     },
     processes: {
       start_process: 'Iniciar proceso',
@@ -77,6 +78,8 @@ const messages = {
       reject: 'Rechazar',
       hide: 'Ocultar',
       optional: 'Opcional',
+      offline: 'Sin conexión',
+      online: 'En linea',
     },
     validation: {
       required: 'Este campo es requerido',
@@ -151,6 +154,7 @@ const messages = {
       password_placeholder: 'Password',
       button: 'Sign In',
       error_signin: 'We are sorry but it seems the username or password is wrong.',
+      offline: 'We are sorry but it seems that we can\'t validate your credentials.',
     },
     processes: {
       start_process: 'Start process',
@@ -194,6 +198,8 @@ const messages = {
       approve: 'Approve',
       reject: 'Reject',
       optional: 'Optional',
+      offline: 'Offline',
+      online: 'Online',
     },
     errors: {
       request: {
