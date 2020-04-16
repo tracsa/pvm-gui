@@ -56,7 +56,10 @@
               <span
                 class="badge badge-primary"
                 :class="{ 'badge-success': state, 'badge-danger': !state }">
-                {{ state ? 'Aprobado' : 'Rechazado' }}
+                <span
+                  v-if="state">{{ $t('timeline.validation.valid') }}</span>
+                <span
+                  v-else>{{ $t('timeline.validation.invalid') }}</span>
               </span>
             </div>
           </div>
