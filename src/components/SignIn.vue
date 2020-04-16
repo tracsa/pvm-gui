@@ -1,10 +1,22 @@
 <template>
   <div class="login-box pt-5">
-    <h1>{{ $t('signin.title') }}</h1>
+    <h1 class="mb-5">{{ $t('signin.title') }}</h1>
+
     <div class="container container-micro">
-      <div class="card mt-5">
-        <div class="card-body">
+
+      <b-alert
+        variant="danger"
+        class="mx-auto text-center"
+        v-model="showAlert"
+      >
+        <icon :icon="['fas', 'plug']"/>
+        {{ $t('commons.offline') }}
+      </b-alert>
+
+      <div class="card">
+        <div class="card-body text-center">
           <p>{{ $t('signin.description') }}</p>
+
           <form
             method="post"
             action="/"
@@ -66,6 +78,7 @@
 </template>
 
 <script>
+import { get } from '../utils/api';
 import { login } from '../utils/auth';
 
 export default {
@@ -78,15 +91,22 @@ export default {
       hasError: false,
       signingIn: false,
       showAdvancedOptions: false,
-      errorMessage: true,
+      errorMessage: 'offline',
+
+      timer: null,
+      backendUrl: process.env.CACAHUATE_URL,
+      online: true,
+      showAlert: false,
     };
   },
+
   methods: {
     toggleAdvancedOptions: function toggleAdvancedOptions(event) {
       event.preventDefault();
 
       this.showAdvancedOptions = !this.showAdvancedOptions;
     },
+
     signIn: function signIn(event) {
       event.preventDefault();
 
@@ -100,9 +120,24 @@ export default {
 
         if (err) {
           this.hasError = true;
-          const a = err.response.json();
+          const errRes = err.response;
+          if (!errRes) {
+            this.errorMessage = 'offline';
+          }
+
+          const a = errRes.json();
           a.then((res) => {
-            this.errorMessage = res.errors[0].code;
+            const code = res.errors[0].code;
+
+            if ([
+              'error_signin',
+              'validation.invalid',
+              'validation.required',
+            ].includes(code)) {
+              this.errorMessage = code;
+            } else {
+              this.errorMessage = 'error_signin';
+            }
           });
         }
 
@@ -116,6 +151,29 @@ export default {
         $router.push(redirect);
       });
     },
+
+    checkOnline() {
+      const vm = this;
+
+      get('/execution?limit=1')
+        .then(() => {
+          vm.online = true;
+          vm.showAlert = false;
+        })
+        .catch(() => {
+          vm.online = false;
+          vm.showAlert = true;
+        });
+    },
+  },
+
+  created() {
+    this.checkOnline();
+    this.timer = setInterval(this.checkOnline, 1000);
+  },
+
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
 };
 </script>
