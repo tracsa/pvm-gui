@@ -55,6 +55,10 @@ const messages = {
       reason: 'Motivo:',
       date: 'Fecha:',
       asignTasks: 'Esta tarea también puede ser realizada por',
+      validation: {
+        valid: 'Validado',
+        invalid: 'Invalidado',
+      },
     },
     tasks: {
       my_tasks: 'Mis tareas',
@@ -80,6 +84,11 @@ const messages = {
       optional: 'Opcional',
       offline: 'Sin conexión',
       online: 'En linea',
+      testUsers: {
+        title: 'Usuario de pruebas',
+        description: 'Este es un usuario designado a realizar pruebas del sistema.',
+        contact: 'Para mayor información contacte a:',
+      },
     },
     validation: {
       required: 'Este campo es requerido',
@@ -168,6 +177,10 @@ const messages = {
       by: 'By:',
       reason: 'Motivo:',
       date: 'Fecha:',
+      validation: {
+        valid: 'Valid',
+        invalid: 'Invalid',
+      },
     },
     tasks: {
       my_tasks: 'My tasks',
@@ -200,6 +213,11 @@ const messages = {
       optional: 'Optional',
       offline: 'Offline',
       online: 'Online',
+      testUsers: {
+        title: 'Test User',
+        description: 'This a user for testing purposes.',
+        contact: 'For more info please email us to:',
+      },
     },
     errors: {
       request: {

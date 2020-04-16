@@ -62,6 +62,7 @@
           </div>
 
           <b-navbar
+            v-if="!loadingList"
             toggleable="true"
           >
             <b-navbar-brand href="#">{{ searchTitle }}</b-navbar-brand>
@@ -185,7 +186,7 @@ export default {
       errors: [],
 
       // nav
-      selectedSearch: 'my_all',
+      selectedSearch: 'my_current_tasks',
       availableSearchList: [
         {
           value: 'my_current_tasks',
@@ -194,14 +195,6 @@ export default {
         {
           value: 'my_tasks',
           text: 'Mis tareas realizadas',
-        },
-        {
-          value: 'my_tags',
-          text: 'Mis etiquetas',
-        },
-        {
-          value: 'my_all',
-          text: 'Mi lista general',
         },
         {
           value: 'ongoing',
