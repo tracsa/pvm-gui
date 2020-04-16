@@ -12,10 +12,6 @@ Vue.config.productionTip = false;
 
 moment.locale(process.env.LOCALE);
 
-// show env vars
-/* eslint-disable no-console */
-console.info('process.env', process.env);
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
