@@ -186,7 +186,7 @@ export default {
       errors: [],
 
       // nav
-      selectedSearch: 'my_all',
+      selectedSearch: 'my_current_tasks',
       availableSearchList: [
         {
           value: 'my_current_tasks',
