@@ -54,6 +54,10 @@ const messages = {
       reason: 'Motivo:',
       date: 'Fecha:',
       asignTasks: 'Esta tarea también puede ser realizada por',
+      validation: {
+        valid: 'Validado',
+        invalid: 'Invalidado',
+      },
     },
     tasks: {
       my_tasks: 'Mis tareas',
@@ -164,6 +168,10 @@ const messages = {
       by: 'By:',
       reason: 'Motivo:',
       date: 'Fecha:',
+      validation: {
+        valid: 'Valid',
+        invalid: 'Invalid',
+      },
     },
     tasks: {
       my_tasks: 'My tasks',
