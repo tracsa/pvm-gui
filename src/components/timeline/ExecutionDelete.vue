@@ -67,7 +67,7 @@ export default {
   data() {
     return {
       assigned: false,
-      collapse: false,
+      collapse: true,
       sending: false,
       errors: false,
       success: false,
