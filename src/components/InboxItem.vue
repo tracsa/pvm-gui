@@ -50,6 +50,11 @@
         </div>
       </div>
 
+      <timeline-execution-delete
+        v-if="cancellable && execution.status === 'ongoing'"
+        :execution="execution"
+      />
+
       <timeline-task
         v-if="task && execution.status === 'ongoing'"
         :task="task"
@@ -117,6 +122,9 @@ export default {
     clearTimeout(this.timeoutId);
   },
   computed: {
+    cancellable() {
+      return this.user.role === 'admin';
+    },
     assignable() {
       return this.user.role === 'admin';
     },
