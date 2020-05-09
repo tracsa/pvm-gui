@@ -127,6 +127,12 @@ const messages = {
     },
     management: {
       page_title: 'Administración',
+      executionDelete: {
+        cancelExecution: 'Cancelar proceso',
+        confirm: 'Deseo cancelar este proceso',
+        success: 'Proceso cancelado satisfactoriamente',
+        retry: 'Ups! Hubo un error. Vuelve a intentarlo en unos minutos',
+      },
       userAssignment: {
         userAssignationSuccesful: 'Asignación de usuario exitosa',
         newUser: 'Nuevo usuario',
@@ -187,6 +193,12 @@ const messages = {
     },
     management: {
       page_title: 'Management',
+      executionDelete: {
+        cancelExecution: 'Cancel process',
+        confirm: 'I wish to cancell this process',
+        success: 'Process cancelled successfuly',
+        retry: 'Ups! There was a problem. Retry in a few minutes',
+      },
       userAssignment: {
         userAssignationSuccesful: 'User Assignation Succesful',
         newUser: 'New user',
