@@ -3,7 +3,9 @@
     <div class="d-flex justify-content-between align-items-center">
       <div class="text-truncate w-75">
         <small>{{ process.name }}</small><br />
-        <b>{{ pointer.node.name }}</b>
+
+        <b>{{ pointerName }}</b>
+
       </div>
       <div
         v-if="process.status !== 'cancelled' && process.status !== 'finished'"
@@ -89,6 +91,24 @@ export default {
         title: user.fullname,
         email: user.email,
       }));
+    },
+
+    pointerName: function pointerName() {
+      const vm = this;
+      if (vm.process && vm.process.status && vm.process.status !== 'ongoing') {
+        return 'Flujo finalizado'; // TODO: i18n-ize this
+      }
+
+      if (
+        !vm.pointer ||
+        !vm.pointer.node ||
+        !vm.pointer.node.name ||
+        !['action', 'validation'].includes(vm.pointer.node.type)
+      ) {
+        return 'Procesando...'; // TODO: i18n-ize this
+      }
+
+      return vm.pointer.node.name;
     },
   },
 };
