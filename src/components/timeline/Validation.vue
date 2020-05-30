@@ -1,138 +1,179 @@
 <template>
-  <div :id="validation.id" class="timeline-action" :class="{'highlight': highlight}">
-    <span
-      class="timeline-dot"
-      :class="{ 'dot-green': state, 'dot-red': !state }" />
+  <div :id="pointer.id" class="timeline-action" :class="{'highlight': highlight}">
+    <span class="timeline-dot"
+      :class="{ 'dot-green': state, 'dot-red': !state }"/>
 
     <b-card
-      :border-variant="state ? 'success' : 'danger'"
-      :header-bg-variant="headerBackgroundVariant"
-      no-body>
-      <template v-slot:header>
-        <div class="d-flex justify-content-between align-items-center">
+      no-body
+      :border-variant="borderVariant"
+      class="custom-card-border py-3"
+    >
+      <b-container fluid>
+        <b-row no-gutters>
+          <b-col><b v-html="name_render"/>
+          </b-col>
+        </b-row>
 
-          <div class="float-left">
-            <span v-if="validation.node.name" v-html="name_render" />
-            &bull;
-            <small>{{ validation.finished_at | relativeDate }}</small>
-            <br>
+        <b-row no-gutters>
+          <b-col>
+            <small
+              class="text-muted"
+              :title="pointer.started_at|fmtDate('LLLL')"
+            >Tarea creada el {{ pointer.started_at|fmtDate('lll') }}</small>
+          </b-col>
+        </b-row>
 
-            <small>
-              <span
-                v-for="(actor, identifier) in validation.actors.items"
-                :key="identifier"
-              >
-                <span
-                  v-if="isTestUser(identifier)"
-                  :id="validation.id + '-user-' + identifier"
-                >
-                  <icon :icon="['fas', 'exclamation-triangle']"/>
-                  <b>{{ actor.user.fullname }}</b><br/>
-
-                  <b-popover
-                    :target="validation.id + '-user-' + identifier"
-                    triggers="hover focus"
-                    placement="leftbottom">
-                    <template v-slot:title>
-                      <icon :icon="['fas', 'exclamation-triangle']"/>
-                      {{ $t('commons.testUsers.title') }}
-                    </template>
-                    {{ $t('commons.testUsers.description') }}<br/>
-                    {{ $t('commons.testUsers.contact') }}<br/>
-                    <span
-                      v-for="(user, index) in keyUsers"
-                      v-bind:key="index"
-                    >
-                      <strong>{{ user.name }}</strong><br/>
-                      <a :href="'mailto:' + user.email">{{ user.email }}</a><br/>
-                    </span>
-                  </b-popover>
-
-                </span>
-                <span
-                  v-else
-                >
-                  <icon :icon="['fa', 'user']"/>
-                  <b>{{ actor.user.fullname }}</b><br/>
-                </span>
-              </span>
-            </small>
-            <div>
-              <span
-                class="badge badge-primary"
-                :class="{ 'badge-success': state, 'badge-danger': !state }">
-                <span
-                  v-if="state">{{ $t('timeline.validation.valid') }}</span>
-                <span
-                  v-else>{{ $t('timeline.validation.invalid') }}</span>
-              </span>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center">
-            <div
-              class="w-auto"
-              :id="validation.id + '-assigness'"
-            >
-              {{ validation.notified_users.length }}
-              <icon :icon="['fa', 'users']"/>
-            </div>
-
+        <b-row no-gutters>
+          <b-col>
             <b-popover
-              v-if="validation.notified_users.length"
-              :target="validation.id + '-assigness'"
-              triggers="hover focus"
-              placement="leftbottom">
-              <template v-slot:title>{{ $t('inbox.assigned_to') }}</template>
+              v-if="assignees.length"
+              :target="assigneesPopoverId"
+              triggers="click blur"
+              placement="bottomleft"
+              title="Usuarios asignados"
+            >
               <div>
                 <div
-                  v-for="assignee in validation.notified_users"
-                  :key="assignee.id">
-                  <strong>{{ assignee.fullname }}</strong><br/>
+                  v-for="assignee in assignees"
+                  class="mt-2"
+                  :key="assignee.id"
+                >
+                  <b>{{ assignee.fullname }}</b><br/>
                   <a :href="'mailto:' + assignee.email">{{ assignee.email }}</a>
                 </div>
               </div>
             </b-popover>
 
-            <a class="btn"
-              @click="toggleCollapse"
+            <a
+              v-if="assignees.length"
+              href="javascript:void(0)"
+              :id="assigneesPopoverId"
             >
-              <icon
-                class="toggle"
-                :icon="collapseClassName"
-              />
+              <small>Asignada a <b>{{ assignees[0].fullname }}</b>
+                <span
+                  v-if="assignees.length > 1"
+                >y <b>{{ assignees.length - 1 }}</b> más</span>
+              </small>
             </a>
-          </div>
-        </div>
-      </template>
 
-      <b-card-body v-if="!collapse && commentArray.length > 0 ">
-        <template
-          v-for="item in commentArray"
-        >
-          <b-card
-            no-body
-            :key="item.identifier"
-          >
-            <b-card-body>
-              <blockquote class="blockquote mb-0">
-                <p>{{ item.comment }}</p>
+            <span v-else>
+              <small>Sin usuarios asignados</small>
+            </span>
+          </b-col>
+        </b-row>
+      </b-container>
 
-                <footer class="blockquote-footer">
-                  {{ item.fullname }}
-                </footer>
-              </blockquote>
-            </b-card-body>
-          </b-card>
+      <b-container fluid>
+        <hr/>
+        <b-row no-gutters>
+          <b-col>
+            Realizada por <b>{{ actors[0].fullname }}</b>
+            <span
+              v-if="actors.length > 1"
+            >y <b>{{ actors.length - 1 }}</b> más</span>
+          </b-col>
+        </b-row>
 
-        </template>
-      </b-card-body>
+        <b-row no-gutters v-if="hasTestUser">
+          <b-col>
+            <b-popover
+              :target="testInfoPopoverId"
+              triggers="click blur"
+              placement="bottomleft"
+            >
+              <template v-slot:title>
+                <icon :icon="['fas', 'exclamation-triangle']"/>
+                {{ $t('commons.testUsers.title') }}
+              </template>
 
-      <b-card-body v-else-if="!collapse">
-        <b-card-text class="text-center">
-          No hay información que mostrar.
-        </b-card-text>
-      </b-card-body>
+              {{ $t('commons.testUsers.description') }}<br/>
+              {{ $t('commons.testUsers.contact') }}<br/>
+              <span
+                v-for="(user, index) in keyUsers"
+                v-bind:key="index"
+              >
+                <strong>{{ user.name }}</strong><br/>
+                <a :href="'mailto:' + user.email">{{ user.email }}</a><br/>
+              </span>
+            </b-popover>
+
+            <icon :icon="['fas', 'exclamation-triangle']"/>
+            {{ $t('commons.testUsers.title') }}.
+            <a
+              href="javascript:void(0)"
+              :id="testInfoPopoverId"
+            >Más información.</a>
+          </b-col>
+        </b-row>
+
+        <b-row no-gutters>
+          <b-col>
+            <small
+              class="text-muted"
+              :title="pointer.finished_at|fmtDate('LLLL')"
+            >Tarea terminada el {{ pointer.finished_at|fmtDate('lll') }}</small>
+          </b-col>
+        </b-row>
+
+        <b-row no-gutters>
+          <b-col>
+            <span
+              class="badge badge-primary"
+              :class="{ 'badge-success': state, 'badge-danger': !state }">
+              <span
+                v-if="state">{{ $t('timeline.validation.valid') }}</span>
+              <span
+                v-else>{{ $t('timeline.validation.invalid') }}</span>
+            </span>
+          </b-col>
+        </b-row>
+
+        <b-row no-gutters class="mt-3">
+          <b-col cols="12">
+            <a
+              v-b-toggle="collapseId"
+              href="javascript:void(0)"
+            >
+              <span v-if="!visible">Mostrar más</span>
+              <span v-else>Mostrar menos</span>
+            </a>
+
+            <b-collapse :id="collapseId" v-model="visible">
+              <template
+                v-if="commentArray.length > 0"
+              >
+                <b-card
+                  no-body
+                  v-for="item in commentArray"
+                  :key="item.identifier"
+                  class="mt-2"
+                >
+                  <b-card-body>
+                    <blockquote class="blockquote mb-0">
+                      <p>{{ item.comment }}</p>
+
+                      <footer class="blockquote-footer">
+                        {{ item.fullname }}
+                      </footer>
+                    </blockquote>
+                  </b-card-body>
+                </b-card>
+              </template>
+
+              <template
+                v-else
+              >
+                <b-card-text
+                  class="mt-2 text-center"
+                >
+                  No hay información que mostrar.
+                </b-card-text>
+              </template>
+            </b-collapse>
+          </b-col>
+        </b-row>
+
+      </b-container>
     </b-card>
 
   </div>
@@ -144,18 +185,127 @@ import moment from 'moment';
 const md = require('markdown-it')();
 
 export default {
-  props: ['validation', 'highlight'],
+  props: ['pointer', 'highlight'],
+
   data() {
     return {
       collapse: true,
+
       testIds: process.env.TEST_IDS,
       keyUsers: process.env.KEY_USERS,
+
+      visible: false,
     };
   },
-  methods: {
-    toggleCollapse() {
-      this.collapse = !this.collapse;
+
+  filters: {
+    fmtDate(val, fmt = 'llll') {
+      return moment(val).format(fmt);
     },
+  },
+
+  computed: {
+    name_render() {
+      if (!this.pointer.node) {
+        return '';
+      }
+
+      return md.renderInline(this.pointer.node.name);
+    },
+
+    assignees() {
+      return this.pointer.notified_users.map(user => ({
+        id: user.id,
+        fullname: user.fullname,
+        email: user.email,
+      }));
+    },
+
+    assigneesPopoverId() {
+      const vm = this;
+      const modalId = `assignees-popover-${vm.pointer.id}`;
+
+      return modalId;
+    },
+
+    borderVariant() {
+      const vm = this;
+      return vm.state ? 'success' : 'danger';
+    },
+
+    collapseId() {
+      const vm = this;
+      const modalId = `collapse-${vm.pointer.id}`;
+
+      return modalId;
+    },
+
+    actors() {
+      const vm = this;
+
+      if (vm.pointer.actors.items) {
+        const actorsList = [];
+
+        Object.values(vm.pointer.actors.items).forEach((item) => {
+          actorsList.push({
+            identifier: item.user.identifier,
+            fullname: item.user.fullname,
+          });
+        });
+        return actorsList;
+      }
+
+      return [];
+    },
+
+    hasTestUser() {
+      const vm = this;
+
+      let testUser = false;
+      Object.values(this.pointer.actors.items).forEach((actor) => {
+        testUser = testUser || vm.testIds.includes(actor.user.identifier);
+      });
+
+      return testUser;
+    },
+
+    testInfoPopoverId() {
+      const vm = this;
+      const modalId = `test-info-popover-${vm.pointer.id}`;
+
+      return modalId;
+    },
+
+    state() {
+      let state = true;
+      Object.values(this.pointer.actors.items).forEach((actor) => {
+        for (let i = 0; i < actor.forms.length; i += 1) {
+          const inputs = actor.forms[i].inputs.items;
+          state = state && inputs.response.value === 'accept';
+        }
+      });
+
+      return state;
+    },
+
+    commentArray() {
+      const comArr = [];
+      const vm = this;
+      Object.values(vm.pointer.actors.items).forEach((actor) => {
+        const com = vm.getComment(actor);
+        const name = actor.user.fullname;
+        const id = actor.user.identifier;
+
+        if (com) {
+          comArr.push({ comment: com, fullname: name, identifier: id });
+        }
+      });
+
+      return comArr;
+    },
+  },
+
+  methods: {
     getComment(actor) {
       const comment = actor.forms[0].inputs.items.comment.value;
       if (!comment || comment.length === 0 || !comment.trim()) {
@@ -169,75 +319,12 @@ export default {
       return (this.testIds).includes(actor);
     },
   },
-  computed: {
-    hasTestUser() {
-      const vm = this;
-
-      let testUser = false;
-      Object.values(this.validation.actors.items).forEach((actor) => {
-        testUser = testUser || vm.testIds.includes(actor.user.identifier);
-      });
-
-      return testUser;
-    },
-
-    headerBackgroundVariant() {
-      if (this.hasTestUser) {
-        return 'warning-light';
-      }
-
-      return (this.state ? 'success-light' : 'danger-light');
-    },
-
-    state() {
-      let state = true;
-      Object.values(this.validation.actors.items).forEach((actor) => {
-        for (let i = 0; i < actor.forms.length; i += 1) {
-          const inputs = actor.forms[i].inputs.items;
-          state = state && inputs.response.value === 'accept';
-        }
-      });
-
-      return state;
-    },
-
-    collapseClassName() {
-      const response = ['fas'];
-      if (this.collapse) {
-        response.push('chevron-left');
-      } else {
-        response.push('chevron-down');
-      }
-
-      return response;
-    },
-    name_render() {
-      if (!this.validation.node) {
-        return '';
-      }
-
-      return md.renderInline(this.validation.node.name);
-    },
-    commentArray() {
-      const comArr = [];
-      const vm = this;
-      Object.values(vm.validation.actors.items).forEach((actor) => {
-        const com = vm.getComment(actor);
-        const name = actor.user.fullname;
-        const id = actor.user.identifier;
-
-        if (com) {
-          comArr.push({ comment: com, fullname: name, identifier: id });
-        }
-      });
-
-      return comArr;
-    },
-  },
-  filters: {
-    relativeDate(val) {
-      return moment(val).format('LLLL');
-    },
-  },
 };
 </script>
+
+<style scoped>
+.custom-card-border {
+  border-left-style:solid;
+  border-left-width: 4px;
+};
+</style>

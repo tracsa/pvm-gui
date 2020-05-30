@@ -63,7 +63,7 @@
       />
 
       <div
-        v-for="pointer in pointers"
+        v-for="pointer in renderablePointers"
         :key="pointer.id">
 
         <timeline-user-assignment
@@ -71,27 +71,27 @@
           :node="pointer"
         />
 
-        <timeline-patch
-          v-if="pointer.state === 'cancelled' && pointer.patch"
-          :node="pointer"
-          :state="item.execution.state"
+        <timeline-pending
+          v-else-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
+          :pointer="pointer"
+          :highlight="pointer.id === highlightId"
         />
 
-        <timeline-pending
-          v-else-if="pointer.state === 'ongoing' && execution.status === 'ongoing'"
-          :node="pointer"
-          :highlight="pointer.id === highlightId"
+        <timeline-patch
+          v-if="pointer.state === 'cancelled' && pointer.patch"
+          :pointer="pointer"
+          :state="item.execution.state"
         />
 
         <timeline-validation
           v-else-if="pointer.state === 'finished' && pointer.node.type === 'validation'"
-          :validation="pointer"
+          :pointer="pointer"
           :highlight="pointer.id === highlightId"
         />
 
         <timeline-action
           v-else-if="pointer.state === 'finished' && pointer.node.type === 'action'"
-          :action="pointer"
+          :pointer="pointer"
           :highlight="pointer.id === highlightId"
         />
       </div>
@@ -149,6 +149,14 @@ export default {
       }
 
       return this.item.pointers;
+    },
+    renderablePointers() {
+      const vm = this;
+      if (!vm.pointers) {
+        return null;
+      }
+
+      return vm.pointers.filter(vm.isRenderablePointer);
     },
     task() {
       if (!this.item) {
@@ -208,6 +216,33 @@ export default {
       // Scroll to element
       const el = document.getElementById(highlight);
       window.scrollBy(0, el.offsetTop + 110);
+    },
+
+    isRenderablePointer(pointer) {
+      if (!['action', 'validation'].includes(pointer.node.type)) {
+        return false;
+      }
+
+      return true;
+    },
+
+    isDoablePointer(pointer) {
+      const vm = this;
+
+      if (pointer.state !== 'ongoing') {
+        return false;
+      }
+
+      if (pointer.notified_users
+        .map(user => user.identifier).indexOf(vm.user.username) === -1) {
+        return false;
+      }
+
+      return true;
+    },
+
+    isOngoingPointer(pointer) {
+      return pointer.state === 'ongoing' && this.execution.status === 'ongoing';
     },
   },
   filters: {

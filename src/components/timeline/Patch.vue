@@ -1,121 +1,132 @@
 <template>
-  <div class="timeline-action">
-    <span class="timeline-dot dot-red" />
+  <div :id="pointer.id" class="timeline-action">
+    <span class="timeline-dot"/>
 
     <b-card
-      border-variant="danger"
-      :header-bg-variant="headerBackgroundVariant"
-      no-body>
-      <template v-slot:header>
-        <div class="d-flex justify-content-between align-items-center">
+      no-body
+      :border-variant="borderVariant"
+      class="custom-card-border py-3"
+    >
+      <b-container fluid>
+        <b-row no-gutters>
+          <b-col><b v-html="name_render"/>
+          </b-col>
+        </b-row>
 
-          <div class="float-left">
-            <span>Invalidación de información</span>
-            <br>
+        <b-row no-gutters>
+          <b-col>
+            <small
+              class="text-muted"
+              :title="pointer.started_at|fmtDate('LLLL')"
+            >Tarea creada el {{ pointer.started_at|fmtDate('lll') }}</small>
+          </b-col>
+        </b-row>
 
-            <small>
-              <span
-                v-for="actor in actors"
-                :key="actor.user.identifier"
-              >
-                <span
-                  v-if="isTestUser(actor.user.identifier)"
-                  :id="node.id + '-user-' + actor.user.identifier"
-                >
-                  <icon :icon="['fas', 'exclamation-triangle']"/>
-                  <b>{{ actor.user.fullname }}</b><br/>
-
-                  <b-popover
-                    :target="node.id + '-user-' + actor.user.identifier"
-                    triggers="hover focus"
-                    placement="leftbottom">
-                    <template v-slot:title>
-                      <icon :icon="['fas', 'exclamation-triangle']"/>
-                      {{ $t('commons.testUsers.title') }}
-                    </template>
-                    {{ $t('commons.testUsers.description') }}<br/>
-                    {{ $t('commons.testUsers.contact') }}<br/>
-                    <span
-                      v-for="(user, index) in keyUsers"
-                      v-bind:key="index"
-                    >
-                      <strong>{{ user.name }}</strong><br/>
-                      <a :href="'mailto:' + user.email">{{ user.email }}</a><br/>
-                    </span>
-                  </b-popover>
-
-                </span>
-                <span
-                  v-else
-                >
-                  <icon :icon="['fa', 'user']"/>
-                  <b>{{ actor.user.fullname }}</b><br/>
-                </span>
-              </span>
-            </small>
-            <div>
-              <span
-                class="badge badge-primary badge-info"
-              >Invalidación
-              </span>
-            </div>
-          </div>
-
-          <div class="d-flex align-items-center">
-            <a class="btn"
-              @click="toggleCollapse"
+        <b-row no-gutters>
+          <b-col>
+            <b-popover
+              v-if="assignees.length"
+              :target="assigneesPopoverId"
+              triggers="click blur"
+              placement="bottomleft"
+              title="Usuarios asignados"
             >
-              <icon
-                class="toggle"
-                :icon="collapseClassName"
-              />
+              <div>
+                <div
+                  v-for="assignee in assignees"
+                  class="mt-2"
+                  :key="assignee.id"
+                >
+                  <b>{{ assignee.fullname }}</b><br/>
+                  <a :href="'mailto:' + assignee.email">{{ assignee.email }}</a>
+                </div>
+              </div>
+            </b-popover>
+
+            <a
+              v-if="assignees.length"
+              href="javascript:void(0)"
+              :id="assigneesPopoverId"
+            >
+              <small>Asignada a <b>{{ assignees[0].fullname }}</b>
+                <span
+                  v-if="assignees.length > 1"
+                >y <b>{{ assignees.length - 1 }}</b> más</span>
+              </small>
             </a>
-          </div>
-        </div>
-      </template>
 
-      <b-card-body v-if="!collapse">
-        <b-card
-          no-body>
+            <span v-else>
+              <small>Sin usuarios asignados</small>
+            </span>
+          </b-col>
+        </b-row>
+      </b-container>
 
-          <b-card-body>
-            <b-card-title>
-              <p v-html="comment_render"></p>
-            </b-card-title>
-            <b-list-group flush>
-              <b-list-group-item>
-                <b-container fluid>
-                  <b-row class="d-flex justify-content-between align-items-center">
-                    <template
-                      v-for="(input, it) in inputs"
-                    >
-                      <b-col
-                        :key="it"
-                        cols="12"
-                        class="px-4 pb-1"
-                      >
-                        <div
-                          class="border-left pl-1"
-                          :class="[emptyValue(input) ? 'border-warning' : 'border-info']">
-                          <small
-                            :class="{ 'text-muted': emptyValue(input)}"
-                          >{{ input.label }}</small><br/>
+      <b-container fluid>
+        <hr/>
 
-                          <p
-                            :class="{ 'text-muted': emptyValue(input) }"
-                          ><value-render :input="input"/><br/></p>
-                        </div>
-                      </b-col>
-                    </template>
-                  </b-row>
-                </b-container>
-              </b-list-group-item>
-            </b-list-group>
-          </b-card-body>
-        </b-card>
+        <b-row no-gutters>
+          <b-col>
+            Tarea cancelada por invalidación de información en proceso
+          </b-col>
+        </b-row>
 
-      </b-card-body>
+        <b-row no-gutters class="mt-3">
+          <b-col cols="12">
+            <a
+              v-b-toggle="collapseId"
+              href="javascript:void(0)"
+            >
+              <span v-if="!visible">Mostrar más</span>
+              <span v-else>Mostrar menos</span>
+            </a>
+
+            <b-collapse :id="collapseId" v-model="visible">
+              <b-card
+                no-body>
+
+                <b-card-body>
+                  <b-card-title>
+                    <p v-html="comment_render"></p>
+                  </b-card-title>
+                  <b-list-group flush>
+                    <b-list-group-item>
+                      <b-container fluid>
+                        <b-row class="d-flex justify-content-between align-items-center">
+                          <template
+                            v-for="(input, it) in inputs"
+                          >
+                            <b-col
+                              :key="it"
+                              cols="12"
+                              class="px-4 pb-1"
+                            >
+                              <div
+                                class="border-left pl-1"
+                                :class="[emptyValue(input) ? 'border-warning' : 'border-info']">
+                                <small
+                                  :class="{ 'text-muted': emptyValue(input)}"
+                                >{{ input.label }}</small><br/>
+
+                                <p
+                                  :class="{ 'text-muted': emptyValue(input) }"
+                                ><value-render :input="input"/><br/></p>
+                              </div>
+                            </b-col>
+                          </template>
+                        </b-row>
+                      </b-container>
+                    </b-list-group-item>
+                  </b-list-group>
+                </b-card-body>
+              </b-card>
+            </b-collapse>
+          </b-col>
+        </b-row>
+
+      </b-container>
     </b-card>
+
   </div>
 </template>
 
@@ -125,23 +136,56 @@ import moment from 'moment';
 const md = require('markdown-it')();
 
 export default {
-  props: ['node', 'state'],
+  props: ['pointer', 'state'],
 
   data() {
     return {
-      collapse: true,
       testIds: process.env.TEST_IDS,
       keyUsers: process.env.KEY_USERS,
+
+      visible: true,
     };
   },
 
+  filters: {
+    fmtDate(val, fmt = 'llll') {
+      return moment(val).format(fmt);
+    },
+  },
+
   computed: {
-    comment_render() {
-      if (!this.node.patch) {
+    name_render() {
+      if (!this.pointer.node) {
         return '';
       }
 
-      return md.renderInline(this.node.patch.comment);
+      return md.renderInline(this.pointer.node.name);
+    },
+
+    assignees() {
+      return this.pointer.notified_users.map(user => ({
+        id: user.id,
+        fullname: user.fullname,
+        email: user.email,
+      }));
+    },
+
+    assigneesPopoverId() {
+      const vm = this;
+      const modalId = `assignees-popover-${vm.pointer.id}`;
+
+      return modalId;
+    },
+
+    borderVariant() {
+      return 'danger';
+    },
+
+    collapseId() {
+      const vm = this;
+      const modalId = `collapse-${vm.pointer.id}`;
+
+      return modalId;
     },
 
     formatedPatch() {
@@ -149,7 +193,7 @@ export default {
       const obj = {};
 
       obj.inputs = [];
-      vm.node.patch.inputs.forEach((input) => {
+      vm.pointer.patch.inputs.forEach((input) => {
         const keys = input.ref.split('.');
         const formData = keys[2].split(':');
 
@@ -167,21 +211,12 @@ export default {
       return obj;
     },
 
-    actors() {
-      const vm = this;
+    comment_render() {
+      if (!this.pointer.patch) {
+        return '';
+      }
 
-      const res = [];
-      vm.formatedPatch.inputs.forEach((input) => {
-        const actor = vm.state
-          .items[input.nodeRef].actors
-          .items[input.actorId];
-
-        if (!res.includes(actor)) {
-          res.push(actor);
-        }
-      });
-
-      return res;
+      return md.renderInline(this.pointer.patch.comment);
     },
 
     inputs() {
@@ -211,57 +246,21 @@ export default {
       return res;
     },
 
-    hasTestUser() {
-      const vm = this;
-
-      let testUser = false;
-      vm.actors.forEach((actor) => {
-        testUser = testUser || vm.testIds.includes(actor.user.identifier);
-      });
-
-      return testUser;
-    },
-
-    headerBackgroundVariant() {
-      if (this.hasTestUser) {
-        return 'warning-light';
-      }
-
-      return 'danger-light';
-    },
-
-    collapseClassName() {
-      const response = ['fas'];
-      if (this.collapse) {
-        response.push('chevron-left');
-      } else {
-        response.push('chevron-down');
-      }
-
-      return response;
-    },
   },
 
   methods: {
-    toggleCollapse() {
-      this.collapse = !this.collapse;
-    },
-
     emptyValue(input) {
       if (!input.value) return true;
 
       return (input.value === null || input.value_caption === '');
     },
-
-    isTestUser(actor) {
-      return (this.testIds).includes(actor);
-    },
-  },
-
-  filters: {
-    relativeDate(val) {
-      return moment(val).format('LLLL');
-    },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.custom-card-border {
+  border-left-style:solid;
+  border-left-width: 4px;
+};
+</style>
