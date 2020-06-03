@@ -54,7 +54,7 @@ export default new Router({
         {
           name: 'default',
           path: '',
-          component: Vue.component('inbox'),
+          redirect: 'inbox',
         },
         {
           name: 'history',
