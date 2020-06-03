@@ -71,6 +71,17 @@
           </b-col>
         </b-row>
 
+        <b-row no-gutters
+          v-if="pointer.finished_at"
+        >
+          <b-col>
+            <small
+              class="text-muted"
+              :title="pointer.finished_at|fmtDate('LLLL')"
+            >Tarea terminada el {{ pointer.finished_at|fmtDate('lll') }}</small>
+          </b-col>
+        </b-row>
+
         <b-row no-gutters class="mt-3">
           <b-col cols="12">
             <a
