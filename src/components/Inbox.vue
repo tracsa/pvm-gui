@@ -208,6 +208,7 @@ export default {
       selectedItem: null,
     };
   },
+
   created() {
     window.addEventListener('scroll', this.handleScreenChange);
     window.addEventListener('resize', this.handleScreenChange);
@@ -216,6 +217,7 @@ export default {
     window.removeEventListener('scroll', this.handleScreenChange);
     window.removeEventListener('resize', this.handleScreenChange);
   },
+
   mounted() {
     this.loadList(() => {
       this.handleScreenChange();
@@ -225,6 +227,7 @@ export default {
       this.loadItem(this.selectedId);
     }
   },
+
   methods: {
     handleScreenChange: function handleScreenChange() {
       const inboxContainer = this.$refs['inbox-container'];
@@ -326,6 +329,7 @@ export default {
 
       return ids.includes(this.userId);
     },
+
     loadItem(id) {
       const self = this;
       const item = {
