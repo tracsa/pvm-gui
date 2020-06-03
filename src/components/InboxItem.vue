@@ -14,31 +14,27 @@
         </div>
       </div>
       <linear-steps :nodes="steps" @click="handleStepClick"/>
-      <ul class="nav nav-pills mb-3">
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            :class="{ 'active': display === 'timeline' }"
-            @click="display = 'timeline'"
-            href="javascript:void(0);"
-          >{{ $t('header.timeline') }}</a>
-        </li>
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            :class="{ 'active': display === 'summary' }"
-            @click="display = 'summary'"
-            href="javascript:void(0);"
-          >{{ $t('header.summary') }}</a>
-        </li>
-      </ul>
     </div>
 
-    <div class="card mt-3" v-if="display === 'summary'">
-      <div class="card-body" v-html="summary"></div>
+    <div class="timeline">
+      <b-card no-body>
+        <div class="p-3 font-weight-bold">
+          <a
+            v-b-toggle="collapseId"
+            href="javascript:void(0)"
+          >
+            <span v-if="!summaryVisible">Mostrar resumen</span>
+            <span v-else>Ocultar resumen</span>
+          </a>
+        </div>
+
+        <b-collapse :id="collapseId" v-model="summaryVisible">
+          <div v-html="summary"></div>
+        </b-collapse>
+      </b-card>
     </div>
 
-    <div class="timeline" v-if="display === 'timeline'">
+    <div class="timeline">
       <div v-if="execution.finished_at">
         <div class="timeline-action">
           <span class="timeline-dot"/>
@@ -72,7 +68,7 @@
         />
 
         <timeline-pending
-          v-else-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
+          v-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
           :pointer="pointer"
           :highlight="pointer.id === highlightId"
         />
@@ -111,7 +107,8 @@ export default {
       user: getAuthUser(),
       sleep: 0,
       timeoutId: 0,
-      display: 'timeline',
+
+      summaryVisible: false,
     };
   },
 
@@ -121,6 +118,7 @@ export default {
   destroyed() {
     clearTimeout(this.timeoutId);
   },
+
   computed: {
     cancellable() {
       return this.user.role === 'admin';
@@ -182,7 +180,15 @@ export default {
       }
       return '/inbox';
     },
+
+    collapseId() {
+      const vm = this;
+      const modalId = `collapse-${vm.execution.id}`;
+
+      return modalId;
+    },
   },
+
   methods: {
     reloadJob() {
       // In case of dead component
