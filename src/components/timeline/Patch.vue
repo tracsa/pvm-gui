@@ -143,7 +143,7 @@ export default {
       testIds: process.env.TEST_IDS,
       keyUsers: process.env.KEY_USERS,
 
-      visible: true,
+      visible: false,
     };
   },
 
