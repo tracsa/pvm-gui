@@ -106,7 +106,9 @@
           </b-col>
         </b-row>
 
-        <b-row no-gutters>
+        <b-row no-gutters
+          v-if="pointer.finished_at"
+        >
           <b-col>
             <small
               class="text-muted"
