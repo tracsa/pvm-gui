@@ -10,6 +10,84 @@ class UserService {
     return axios.get(`${userInfoUrl}`);
   };
 
+  getExecutions = (
+    searchText,
+    maxDate,
+    minDate,
+    actorArray,
+    statusArray,
+  ) => {
+    const includesList = [
+      'id',
+      'started_at',
+      'finished_at',
+      'name',
+      'status',
+    ].toString();
+
+    const baseQuery = [];
+    if (statusArray) {
+      baseQuery.push({
+        status: {
+          $in: statusArray,
+        },
+      });
+    }
+
+    if (searchText) {
+      baseQuery.push({
+        name: {
+          $regex: searchText,
+          $options: '$i',
+        },
+      });
+    }
+
+    if (actorArray) {
+      baseQuery.push({
+        'actor_list.identifier': {
+          $in: actorArray,
+        },
+      });
+    }
+
+    const exprQuery = {};
+    if (maxDate) {
+      exprQuery.$lt = [
+        '$started_at',
+        {
+          $dateFromString: {
+            dateString: maxDate,
+          },
+        },
+      ];
+    }
+
+    if (minDate) {
+      exprQuery.$gt = [
+        '$started_at',
+        {
+          $dateFromString: {
+            dateString: minDate,
+          },
+        },
+      ];
+    }
+
+    const getData = {
+      params: {
+        $and: JSON.stringify(baseQuery),
+        $expr: JSON.stringify(exprQuery),
+        include: includesList,
+        limit: 10,
+        sort: 'started_at,DESCENDING',
+      },
+    };
+
+    const executionsUrl = `${API_PVM_URL}/v1/execution`;
+    return axios.get(`${executionsUrl}`, getData);
+  };
+
   getPointers = (
     maxDate,
     minDate,
