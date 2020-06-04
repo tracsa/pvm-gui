@@ -59,12 +59,7 @@ export default new Router({
         {
           name: 'history',
           path: 'history',
-          component: Vue.component('history'),
-        },
-        {
-          name: 'history-item',
-          path: 'history/:id',
-          component: Vue.component('history'),
+          component: Vue.component('ca-history'),
         },
       ],
     },

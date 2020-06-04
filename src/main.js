@@ -3,6 +3,7 @@ import moment from 'moment';
 import 'whatwg-fetch';
 import App from './App';
 import './components';
+import './views';
 import router from './router';
 import './fontawesome';
 import './bootstrapvue';

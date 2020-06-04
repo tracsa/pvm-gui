@@ -32,7 +32,7 @@ export default {
     checkOnline() {
       const vm = this;
 
-      get('/execution?limit=1')
+      get('/execution?limit=1&include=_')
         .then(() => {
           vm.online = true;
           vm.showAlert = false;
