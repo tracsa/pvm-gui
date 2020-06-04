@@ -26,6 +26,17 @@ import InboxListItem from './InboxListItem';
 import InboxItem from './InboxItem';
 import Management from './Management';
 
+import BaseLayout from './BaseLayout';
+
+import UserProfileUserInfo from './userProfile/UserProfileUserInfo';
+
+import UserProfileItem from './userProfile/UserProfileItem';
+import UserProfileItemSummary from './userProfile/userProfileItem/UserProfileItemSummary';
+import UserProfileItemFinishedDetail from './userProfile/userProfileItem/UserProfileItemFinishedDetail';
+import UserProfileItemCancelledDetail from './userProfile/userProfileItem/UserProfileItemCancelledDetail';
+
+import HistoryItem from './history/HistoryItem';
+
 // Inbox
 Vue.component('inbox', Inbox);
 Vue.component('inbox-list-item', InboxListItem);
@@ -42,6 +53,16 @@ Vue.component('hero', Hero);
 Vue.component('processes', Processes);
 Vue.component('sign-in', SignIn);
 Vue.component('history', History);
+
+Vue.component('base-layout', BaseLayout);
+Vue.component('ca-user-profile-user-info', UserProfileUserInfo);
+
+Vue.component('user-profile-item', UserProfileItem);
+Vue.component('ca-user-profile-item-summary', UserProfileItemSummary);
+Vue.component('ca-user-profile-item-finished-detail', UserProfileItemFinishedDetail);
+Vue.component('ca-user-profile-item-cancelled-detail', UserProfileItemCancelledDetail);
+
+Vue.component('ca-history-item', HistoryItem);
 
 // Admin
 Vue.component('management', Management);
