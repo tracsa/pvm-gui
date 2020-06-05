@@ -112,7 +112,6 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { getAuthUser } from '../utils/auth';
-import UserService from '../services/user.service';
 
 export default {
   data() {
@@ -258,7 +257,7 @@ export default {
     ) {
       const vm = this;
 
-      UserService.getExecutions(
+      vm.$api.getExecutions(
         searchText,
         maxDate,
         minDate,

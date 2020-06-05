@@ -9,6 +9,10 @@ import './fontawesome';
 import './bootstrapvue';
 import i18n from './i18n';
 
+import UserServicePlugin from './services/user.service';
+
+Vue.use(UserServicePlugin);
+
 Vue.config.productionTip = false;
 
 moment.locale(process.env.LOCALE);

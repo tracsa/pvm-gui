@@ -65,7 +65,6 @@
 
 <script>
 import _ from 'lodash';
-import UserService from '../../services/user.service';
 
 export default {
   props: [
@@ -107,7 +106,7 @@ export default {
     fetchUserInfo: _.debounce(function fetchUserInfo() {
       const vm = this;
 
-      UserService.getUserInfo(vm.identifier)
+      vm.$api.getUserInfo(vm.identifier)
         .then((response) => {
           vm.user = response.data;
           vm.loading = false;
