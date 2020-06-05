@@ -217,4 +217,8 @@ class UserService {
   };
 }
 
-export default new UserService();
+export default {
+  install(Vue, name = '$api') {
+    Object.defineProperty(Vue.prototype, name, { value: new UserService() });
+  },
+};

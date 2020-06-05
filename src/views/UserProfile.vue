@@ -75,7 +75,6 @@
 import _ from 'lodash';
 import moment from 'moment';
 import { get } from '../utils/api';
-import UserService from '../services/user.service';
 
 export default {
   props: ['identifier'],
@@ -149,7 +148,7 @@ export default {
         idList = idList.concat(vm.testIds);
       }
 
-      UserService.getUsersActivity(idList, vm.lastDate)
+      vm.$api.getUsersActivity(idList, vm.lastDate)
         .then((response) => {
           const pointers = response.data.pointers;
           pointers.forEach((item) => {
@@ -205,7 +204,7 @@ export default {
         idList = idList.concat(vm.testIds);
       }
 
-      UserService.getUsersPending(idList, vm.lastDate)
+      vm.$api.getUsersPending(idList, vm.lastDate)
         .then((response) => {
           const pointers = response.data.pointers;
           pointers.forEach((item) => {
