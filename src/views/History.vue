@@ -90,7 +90,7 @@
                     </b-form-row>
 
                     <b-form-group
-                      label="Estado:"
+                      label="Estado del flujo:"
                     >
                       <b-form-checkbox-group
                         v-model="form.selectedStatus"
@@ -102,9 +102,8 @@
 
                   <b-form-group>
                     <a
-                      v-b-toggle.advanced-search-block
                       href="javascript:void(0);"
-                      @click="resetForm();"
+                      @click="advancedSearch = !advancedSearch; resetForm();"
                     >
                       <span v-if="!advancedSearch">Busqueda avanzada</span>
                       <span v-else>Busqueda básica</span>
