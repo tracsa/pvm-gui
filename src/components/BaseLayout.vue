@@ -12,7 +12,7 @@
       </b-col>
 
       <b-col cols="12" md="9">
-        <div class="d-block d-sm-none d-none d-sm-block d-md-block d-md-none">
+        <div class="d-block d-sm-none d-none d-sm-block d-md-none">
           <slot name="section-dropdown"></slot>
         </div>
         <slot name="right"></slot>

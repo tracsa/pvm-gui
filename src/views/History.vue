@@ -2,25 +2,6 @@
   <div>
     <base-layout style="max-width: 940px;">
       <template v-slot:left>
-        <b-input-group
-          class="mb-2"
-        >
-          <b-form-input
-            v-model="searchText"
-            placeholder="Buscar"
-          ></b-form-input>
-          <b-input-group-append>
-            <b-button variant="primary"
-              @click="resetData(); loadLastExecutions();"
-            >
-              <icon
-                :icon="['fas', 'search']"
-                aria-hidden="true"
-              />
-            </b-button>
-          </b-input-group-append>
-        </b-input-group>
-
         <b-nav
           class="mb-2"
           vertical
@@ -29,25 +10,121 @@
           <b-nav-item
             v-for="item in listOptions"
             :key="item.value"
-            :active="item.value == selectedList"
+            :active="item.value === selectedList"
             :disabled="loading"
             @click="selectedList = item.value;"
           >{{ item.text }}</b-nav-item>
         </b-nav>
+      </template>
 
-        <b-form-checkbox-group
-          class="mb-2"
-          v-model="selectedStatus"
-          :options="statusOptions"
-          switches
-          stacked
-        ></b-form-checkbox-group>
+      <template v-slot:section-dropdown>
+        <b-container
+          class="p-0 justify-content-center w-100"
+        >
+          <b-row
+            no-gutters
+          >
+            <b-col>
+              <b-form-select
+                class="mb-3"
+                v-model="selectedList"
+                :options="listOptions"
+              ></b-form-select>
+            </b-col>
+          </b-row>
+        </b-container>
       </template>
 
       <template v-slot:right>
         <b-container
-          class="p-0 justify-content-center"
+          class="p-0 justify-content-center w-100"
         >
+          <b-row
+            no-gutters
+            class="mb-3"
+          >
+            <b-col>
+              <b-card class="py-3">
+                <b-form
+                  class="w-100"
+                  @submit.stop.prevent="submitForm();"
+                >
+                  <b-form-group>
+                    <b-form-input
+                      v-model="form.searchText"
+                      placeholder="Título o Id"
+                      type="search"
+                    ></b-form-input>
+                  </b-form-group>
+
+                  <b-form-group
+                    label="Ordenar por:"
+                  >
+                    <b-form-radio-group
+                      v-model="form.selectedOrder"
+                      :options="orderOptions"
+                    />
+                  </b-form-group>
+
+                  <b-collapse id="advanced-search-block" v-model="advancedSearch">
+                    <b-form-row>
+                      <b-form-group
+                        class="col-6"
+                        label="Desde:"
+                      >
+                        <b-form-input
+                          v-model="form.minDate"
+                          type="date"
+                        ></b-form-input>
+                      </b-form-group>
+
+                      <b-form-group
+                        class="col-6"
+                        label="Hasta:"
+                      >
+                        <b-form-input
+                          v-model="form.maxDate"
+                          type="date"
+                        ></b-form-input>
+                      </b-form-group>
+                    </b-form-row>
+
+                    <b-form-group
+                      label="Estado:"
+                    >
+                      <b-form-checkbox-group
+                        v-model="form.selectedStatus"
+                        :options="statusOptions"
+                        switches
+                      ></b-form-checkbox-group>
+                    </b-form-group>
+                  </b-collapse>
+
+                  <b-form-group>
+                    <a
+                      v-b-toggle.advanced-search-block
+                      href="javascript:void(0);"
+                      @click="resetForm();"
+                    >
+                      <span v-if="!advancedSearch">Busqueda avanzada</span>
+                      <span v-else>Busqueda básica</span>
+                    </a>
+                  </b-form-group>
+
+                    <b-button
+                      type="submit"
+                      variant="secondary"
+                    >
+                      <span>
+                        <icon :icon="['fa', 'search']"/>
+                        Buscar
+                      </span>
+                    </b-button>
+                </b-form>
+              </b-card>
+            </b-col>
+          </b-row>
+
           <template
             v-if="executions.length"
           >
@@ -84,10 +161,15 @@
             >
               <b-button
                 v-if="!loading"
-                variant="primary"
+                variant="secondary"
                 class="w-100"
                 @click="loadLastExecutions()"
-              >Cargar más elementos</b-button>
+              >
+                <span>
+                  <icon :icon="['fa', 'plus']"/>
+                  Cargar más elementos
+                </span>
+              </b-button>
 
               <div
                 v-else
@@ -118,8 +200,18 @@ export default {
     const user = getAuthUser();
 
     return {
+      form: {
+        searchText: '',
+        selectedOrder: 'started_at',
+        minDate: '',
+        maxDate: '',
+        selectedStatus: ['cancelled', 'finished'],
+      },
+
       loading: true,
       executions: [],
+
+      advancedSearch: false,
 
       userId: user.username,
 
@@ -128,10 +220,17 @@ export default {
       firstDate: null,
       lastDate: null,
 
-      minDate: null,
-      maxDate: null,
+      orderOptions: [
+        {
+          value: 'started_at',
+          text: 'Fecha de inicio',
+        },
+        {
+          value: 'finished_at',
+          text: 'Fecha de termino',
+        },
+      ],
 
-      selectedStatus: ['cancelled', 'finished'],
       statusOptions: [
         {
           value: 'cancelled',
@@ -141,17 +240,21 @@ export default {
           value: 'finished',
           text: 'Finalizado',
         },
+        {
+          value: 'ongoing',
+          text: 'En curso',
+        },
       ],
 
-      selectedList: 'userActivity',
+      selectedList: 'myActivity',
       listOptions: [
         {
-          value: 'userActivity',
-          text: 'Ver solo mi actividad',
+          value: 'myActivity',
+          text: 'Mi actividad',
         },
         {
-          value: 'allHistory',
-          text: 'Ver todo',
+          value: 'allExecutions',
+          text: 'Todos los procesos',
         },
       ],
     };
@@ -164,20 +267,6 @@ export default {
   },
 
   watch: {
-    searchText() {
-      const vm = this;
-
-      vm.resetData();
-      vm.loadLastExecutions();
-    },
-
-    selectedStatus() {
-      const vm = this;
-
-      vm.resetData();
-      vm.loadLastExecutions();
-    },
-
     selectedList: {
       immediate: true,
       handler() {
@@ -186,6 +275,26 @@ export default {
         vm.resetData();
         vm.loadLastExecutions();
       },
+    },
+  },
+
+  computed: {
+    minDateISO() {
+      const vm = this;
+      if (vm.form.minDate) {
+        return moment(vm.form.minDate).toISOString();
+      }
+
+      return '';
+    },
+
+    maxDateISO() {
+      const vm = this;
+      if (vm.form.maxDate) {
+        return moment(vm.form.maxDate).add(1, 'days').toISOString();
+      }
+
+      return '';
     },
   },
 
@@ -200,69 +309,61 @@ export default {
       vm.lastDate = now.toISOString();
     },
 
-    loadRecentExecutions() {
+    resetForm() {
       const vm = this;
 
-      if (vm.selectedList === 'userActivity') {
-        vm.loading = true;
-        vm.fetchExecutions(
-          vm.searchText,
-          null,
-          vm.firstDate,
-          [vm.userId],
-          vm.selectedStatus,
-        );
-      } else if (vm.selectedList === 'allHistory') {
-        vm.loading = true;
-        vm.fetchExecutions(
-          vm.searchText,
-          null,
-          vm.firstDate,
-          null,
-          vm.selectedStatus,
-        );
-      }
+      vm.form.minDate = '';
+      vm.form.maxDate = '';
+      vm.form.selectedStatus = ['cancelled', 'finished'];
+    },
+
+    submitForm() {
+      const vm = this;
+
+      vm.resetData();
+      vm.loadLastExecutions();
     },
 
     loadLastExecutions() {
       const vm = this;
 
-      if (vm.selectedList === 'userActivity') {
+      let vDate = vm.lastDate;
+      if (vm.maxDateISO && vm.maxDateISO.localeCompare(vDate) === -1) {
+        vDate = vm.maxDateISO;
+      }
+
+      if (vm.selectedList === 'myActivity') {
         vm.loading = true;
         vm.fetchExecutions(
-          vm.searchText,
-          vm.lastDate,
-          null,
+          vDate,
+          vm.minDateISO,
           [vm.userId],
-          vm.selectedStatus,
         );
-      } else if (vm.selectedList === 'allHistory') {
+      } else if (vm.selectedList === 'allExecutions') {
         vm.loading = true;
         vm.fetchExecutions(
-          vm.searchText,
-          vm.lastDate,
+          vDate,
+          vm.minDateISO,
           null,
-          null,
-          vm.selectedStatus,
         );
       }
     },
 
     fetchExecutions: _.debounce(function fetchExecutions(
-      searchText,
       maxDate,
       minDate,
       actorList,
-      statusList,
     ) {
       const vm = this;
 
-      vm.$api.getExecutions(
-        searchText,
+      vm.$api.getExecutionsByDate(
+        vm.form.searchText,
+        vm.form.selectedOrder,
         maxDate,
         minDate,
         actorList,
-        statusList,
+        vm.form.selectedStatus,
+        'DESCENDING',
       ).then((response) => {
         const executions = response.data.data;
 
@@ -272,11 +373,19 @@ export default {
           return vm.executions.map(item => item.id).indexOf(id) === index;
         });
 
-        vm.executions.sort((a, b) => (a.started_at < b.started_at ? 1 : -1));
+        const dateKey = vm.form.selectedOrder;
+        vm.executions.sort((a, b) => (a[dateKey] < b[dateKey] ? 1 : -1));
 
         if (vm.executions.length) {
-          vm.firstDate = vm.executions[0].started_at;
-          vm.lastDate = vm.executions[vm.executions.length - 1].started_at;
+          const fDate = vm.executions[0][dateKey];
+          if (fDate) {
+            vm.firstDate = fDate;
+          }
+
+          const lDate = vm.executions[vm.executions.length - 1][dateKey];
+          if (lDate) {
+            vm.lastDate = lDate;
+          }
         }
 
         vm.loading = false;

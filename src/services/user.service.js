@@ -10,12 +10,14 @@ class UserService {
     return axios.get(`${userInfoUrl}`);
   };
 
-  getExecutions = (
+  getExecutionsByDate = (
     searchText,
+    dateKey,
     maxDate,
     minDate,
     actorArray,
     statusArray,
+    orderFlag,
   ) => {
     const includesList = [
       'id',
@@ -35,9 +37,11 @@ class UserService {
     }
 
     if (searchText) {
+      const escapedText = searchText.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&');
+
       baseQuery.push({
         name: {
-          $regex: searchText,
+          $regex: escapedText,
           $options: '$i',
         },
       });
@@ -53,25 +57,47 @@ class UserService {
 
     const exprQuery = {};
     if (maxDate) {
-      exprQuery.$lt = [
-        '$started_at',
-        {
-          $dateFromString: {
-            dateString: maxDate,
+      if (typeof exprQuery.$and === 'undefined') {
+        exprQuery.$and = [];
+      }
+
+      exprQuery.$and.push({
+        $lt: [
+          `$${dateKey}`,
+          {
+            $dateFromString: {
+              dateString: maxDate,
+            },
           },
-        },
-      ];
+        ],
+      });
     }
 
     if (minDate) {
-      exprQuery.$gt = [
-        '$started_at',
-        {
-          $dateFromString: {
-            dateString: minDate,
+      if (typeof exprQuery.$and === 'undefined') {
+        exprQuery.$and = [];
+      }
+
+      exprQuery.$and.push({
+        $gt: [
+          `$${dateKey}`,
+          {
+            $dateFromString: {
+              dateString: minDate,
+            },
           },
-        },
-      ];
+        ],
+      });
+    }
+
+    let sortKey = 'started_at';
+    if (['started_at', 'finished_at'].includes(dateKey)) {
+      sortKey = dateKey;
+    }
+
+    let sortFlag = 'DESCENDING';
+    if (['ASCENDING', 'DESCENDING'].includes(orderFlag)) {
+      sortFlag = orderFlag;
     }
 
     const getData = {
@@ -80,7 +106,7 @@ class UserService {
         $expr: JSON.stringify(exprQuery),
         include: includesList,
         limit: 10,
-        sort: 'started_at,DESCENDING',
+        sort: `${sortKey},${sortFlag}`,
       },
     };
 
