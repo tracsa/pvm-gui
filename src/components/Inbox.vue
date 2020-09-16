@@ -203,7 +203,7 @@ export default {
       ],
 
       // for selected items
-      shown: this.selectedId === null,
+      shown: !this.selectedId,
       loadingItem: this.selectedId !== null,
       selectedItem: null,
     };
