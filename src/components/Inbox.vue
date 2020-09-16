@@ -203,7 +203,7 @@ export default {
       ],
 
       // for selected items
-      shown: true,
+      shown: this.selectedId === null,
       loadingItem: this.selectedId !== null,
       selectedItem: null,
     };
@@ -403,6 +403,9 @@ export default {
           loaded.execution = true;
 
           next();
+        })
+        .catch(() => {
+          self.$router.push('/');
         });
 
       get(`/log/${id}`)
