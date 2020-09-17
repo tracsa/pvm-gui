@@ -4,7 +4,7 @@
     class="container-linear d-none d-md-block">
     <div class="row line">
       <div
-        v-for="(node, index) in nodes"
+        v-for="(node, index) in actualNodes"
         v-if="node.state === 'ongoing' || node.milestone"
         class="col"
         :key="index"
@@ -44,7 +44,23 @@ export default {
   props: ['nodes'],
   computed: {
     nodeCount() {
-      return this.nodes.filter(node => node.state === 'ongoing' || node.milestone).length;
+      return this.actualNodes.length;
+    },
+
+    actualNodes() {
+      const index = this.nodes
+        .slice().reverse()
+        .findIndex(node => node.state === 'valid');
+      const count = this.nodes.length - 1;
+      const lastValid = index >= 0 ? count - index : index;
+
+      return this.nodes.filter((node, i) => {
+        const ongoing = node.state === 'ongoing';
+        const valid = node.milestone && node.state === 'valid';
+        const unfilled = node.milestone && node.state === 'unfilled' && lastValid < i;
+
+        return ongoing || valid || unfilled;
+      });
     },
   },
   methods: {
