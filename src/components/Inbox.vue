@@ -203,7 +203,7 @@ export default {
       ],
 
       // for selected items
-      shown: !this.selectedId,
+      shown: true,
       loadingItem: this.selectedId !== null,
       selectedItem: null,
     };
@@ -224,6 +224,7 @@ export default {
     });
 
     if (this.selectedId) {
+      this.shown = false;
       this.loadItem(this.selectedId);
     }
   },
@@ -509,6 +510,7 @@ export default {
 
       if (selectedId) {
         this.loadingItem = true;
+        this.shown = false;
         this.loadItem(selectedId);
       } else {
         this.shown = true;
