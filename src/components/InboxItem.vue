@@ -39,7 +39,11 @@
         <div class="timeline-action">
           <span class="timeline-dot"/>
           <div class="alert custom-alert-info">
-            Flujo finalizado
+            <span v-if="execution.status === 'finished'"
+            >Flujo finalizado</span>
+            <span v-else-if="execution.status === 'cancelled'"
+            >Flujo cancelado</span>
+            <br/>
             &bull;
             <small>{{ execution.finished_at | relativeDate }}</small>
           </div>
@@ -86,7 +90,7 @@
         />
 
         <timeline-action
-          v-else-if="pointer.state === 'finished' && pointer.node.type === 'action'"
+          v-else-if="pointer.state !== 'ongoing' && pointer.node.type === 'action'"
           :pointer="pointer"
           :highlight="pointer.id === highlightId"
         />
