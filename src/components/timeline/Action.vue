@@ -1,6 +1,7 @@
 <template>
   <div :id="pointer.id" class="timeline-action" :class="{'highlight': highlight}">
-    <span class="timeline-dot"/>
+    <span class="timeline-dot"
+      :class="{ 'dot-red': !state }"/>
 
     <b-card
       no-body
@@ -62,7 +63,9 @@
         </b-row>
       </b-container>
 
-      <b-container fluid>
+      <b-container fluid
+        v-if="actors.length"
+      >
         <hr/>
 
         <b-row no-gutters>
@@ -185,6 +188,30 @@
         </b-row>
 
       </b-container>
+
+      <b-container fluid
+        v-if="pointer.state === 'cancelled'"
+      >
+        <hr/>
+
+        <b-row no-gutters>
+          <b-col>
+            Tarea cancelada
+          </b-col>
+        </b-row>
+
+        <b-row no-gutters
+          v-if="pointer.finished_at"
+        >
+          <b-col>
+            <small
+              class="text-muted"
+              :title="pointer.finished_at|fmtDate('LLLL')"
+            >Tarea cancelada el {{ pointer.finished_at|fmtDate('lll') }}</small>
+          </b-col>
+        </b-row>
+
+      </b-container>
     </b-card>
 
   </div>
@@ -238,7 +265,8 @@ export default {
     },
 
     borderVariant() {
-      return 'primary';
+      const vm = this;
+      return vm.state ? 'primary' : 'danger';
     },
 
     collapseId() {
@@ -282,6 +310,10 @@ export default {
       const modalId = `test-info-popover-${vm.pointer.id}`;
 
       return modalId;
+    },
+
+    state() {
+      return this.pointer.state !== 'cancelled';
     },
   },
 
