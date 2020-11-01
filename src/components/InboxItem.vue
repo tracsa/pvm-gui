@@ -55,12 +55,22 @@
         :execution="execution"
       />
 
-      <timeline-task
-        v-if="task && execution.status === 'ongoing'"
-        :task="task"
-        @complete="handleComplete"
-        :highlight="task.id === highlightId"
-      />
+      <div v-if="task">
+        <div
+          class="timeline-action mb-4"
+          :id="task.id"
+        >
+          <span class="timeline-dot"/>
+
+          <timeline-task
+            v-if="execution.status === 'ongoing'"
+            :task="task"
+            :pointer="taskPointer"
+            @complete="handleComplete"
+            :highlight="task.id === highlightId"
+          />
+        </div>
+      </div>
 
       <div
         v-for="pointer in renderablePointers"
@@ -160,6 +170,7 @@ export default {
 
       return vm.pointers.filter(vm.isRenderablePointer);
     },
+
     task() {
       if (!this.item) {
         return null;
@@ -167,6 +178,14 @@ export default {
 
       return this.item.task;
     },
+    taskPointer() {
+      if (!this.pointers || !this.task) {
+        return null;
+      }
+
+      return this.pointers.find(x => x.id === this.task.id);
+    },
+
     summary() {
       return this.item.summary;
     },
