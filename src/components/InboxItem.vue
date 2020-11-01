@@ -96,34 +96,46 @@
         v-for="pointer in renderablePointers"
         :key="pointer.id">
 
-        <timeline-user-assignment
+        <div
+          class="timeline-action mb-4"
           v-if="assignable && pointer.state === 'ongoing' && execution.status === 'ongoing'"
-          :node="pointer"
-        />
+        >
+          <timeline-user-assignment
+            :node="pointer"
+          />
+        </div>
 
-        <timeline-pending
-          v-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
-          :pointer="pointer"
+        <div
+          :id="pointer.id"
+          class="timeline-action mb-4"
+        >
+          <span class="timeline-dot"/>
+
+          <timeline-pending
+            :pointer="pointer"
+            :highlight="pointer.id === highlightId"
+            v-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
+          />
+
+          <timeline-patch
+            :pointer="pointer"
+            :highlight="pointer.id === highlightId"
+            :state="item.execution.state"
+            v-if="pointer.state === 'cancelled' && pointer.patch"
+          />
+
+          <timeline-validation
+            :pointer="pointer"
+            :highlight="pointer.id === highlightId"
+            v-else-if="pointer.state === 'finished' && pointer.node.type === 'validation'"
+          />
+
+          <timeline-action
+            :pointer="pointer"
           :highlight="pointer.id === highlightId"
-        />
-
-        <timeline-patch
-          v-if="pointer.state === 'cancelled' && pointer.patch"
-          :pointer="pointer"
-          :state="item.execution.state"
-        />
-
-        <timeline-validation
-          v-else-if="pointer.state === 'finished' && pointer.node.type === 'validation'"
-          :pointer="pointer"
-          :highlight="pointer.id === highlightId"
-        />
-
-        <timeline-action
-          v-else-if="pointer.state !== 'ongoing' && pointer.node.type === 'action'"
-          :pointer="pointer"
-          :highlight="pointer.id === highlightId"
-        />
+            v-else-if="pointer.state !== 'ongoing' && pointer.node.type === 'action'"
+          />
+        </div>
       </div>
     </div>
   </div>
