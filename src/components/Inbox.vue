@@ -238,14 +238,9 @@ export default {
 
       let offsetTop = 0;
       let DOMIterator = inboxContainer;
-      while (DOMIterator.tagName !== 'BODY') {
+      while (DOMIterator && DOMIterator.tagName !== 'BODY') {
         offsetTop += DOMIterator.offsetTop;
         DOMIterator = DOMIterator.offsetParent;
-
-        // This means that sidebar is hidden
-        if (DOMIterator === null) {
-          return;
-        }
       }
 
       const maxHeight = screenHeight - offsetTop - paddingTB;
