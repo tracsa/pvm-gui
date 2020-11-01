@@ -64,7 +64,7 @@
 
       <b-row no-gutters>
         <b-col>
-          Tarea cancelada por invalidación de información en proceso
+          Tarea cancelada
         </b-col>
       </b-row>
 
