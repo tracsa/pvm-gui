@@ -1,68 +1,64 @@
 <template>
-  <div :id="pointer.id" class="timeline-action">
-    <span class="timeline-dot dot-orange"/>
+  <b-card
+    no-body
+    :border-variant="borderVariant"
+    class="custom-card-border py-3"
+  >
+    <b-container fluid>
+      <b-row no-gutters>
+        <b-col><b v-html="name_render"/>
+        </b-col>
+      </b-row>
 
-    <b-card
-      no-body
-      :border-variant="borderVariant"
-      class="custom-card-border py-3"
-    >
-      <b-container fluid>
-        <b-row no-gutters>
-          <b-col><b v-html="name_render"/>
-          </b-col>
-        </b-row>
+      <b-row no-gutters>
+        <b-col>
+          <small
+            class="text-muted"
+            :title="pointer.started_at|fmtDate('LLLL')"
+          >Tarea creada el {{ pointer.started_at|fmtDate('lll') }}</small>
+        </b-col>
+      </b-row>
 
-        <b-row no-gutters>
-          <b-col>
-            <small
-              class="text-muted"
-              :title="pointer.started_at|fmtDate('LLLL')"
-            >Tarea creada el {{ pointer.started_at|fmtDate('lll') }}</small>
-          </b-col>
-        </b-row>
-
-        <b-row no-gutters>
-          <b-col>
-            <b-popover
-              v-if="assignees.length"
-              :target="assigneesPopoverId"
-              triggers="click blur"
-              placement="bottomleft"
-              title="Usuarios asignados"
-            >
-              <div>
-                <div
-                  v-for="assignee in assignees"
-                  class="mt-2"
-                  :key="assignee.id"
-                >
-                  <b>{{ assignee.fullname }}</b><br/>
-                  <a :href="'mailto:' + assignee.email">{{ assignee.email }}</a>
-                </div>
+      <b-row no-gutters>
+        <b-col>
+          <b-popover
+            v-if="assignees.length"
+            :target="assigneesPopoverId"
+            triggers="click blur"
+            placement="bottomleft"
+            title="Usuarios asignados"
+          >
+            <div>
+              <div
+                v-for="assignee in assignees"
+                class="mt-2"
+                :key="assignee.id"
+              >
+                <b>{{ assignee.fullname }}</b><br/>
+                <a :href="'mailto:' + assignee.email">{{ assignee.email }}</a>
               </div>
-            </b-popover>
+            </div>
+          </b-popover>
 
-            <a
-              v-if="assignees.length"
-              href="javascript:void(0)"
-              :id="assigneesPopoverId"
-            >
-              <small>Asignada a <b>{{ assignees[0].fullname }}</b>
-                <span
-                  v-if="assignees.length > 1"
-                >y <b>{{ assignees.length - 1 }}</b> más</span>
-              </small>
-            </a>
+          <a
+            v-if="assignees.length"
+            href="javascript:void(0)"
+            :id="assigneesPopoverId"
+          >
+            <small>Asignada a <b>{{ assignees[0].fullname }}</b>
+              <span
+                v-if="assignees.length > 1"
+              >y <b>{{ assignees.length - 1 }}</b> más</span>
+            </small>
+          </a>
 
-            <span v-else>
-              <small>Sin usuarios asignados</small>
-            </span>
-          </b-col>
-        </b-row>
-      </b-container>
-    </b-card>
-  </div>
+          <span v-else>
+            <small>Sin usuarios asignados</small>
+          </span>
+        </b-col>
+      </b-row>
+    </b-container>
+  </b-card>
 </template>
 
 <script>

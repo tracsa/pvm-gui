@@ -12,8 +12,37 @@
             </router-link>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-12">
+            <small
+              class="text-muted"
+              :title="execution.started_at|fmtDate('LLLL')"
+            >Flujo iniciado el {{ execution.started_at|fmtDate('lll') }}</small>
+          </div>
+        </div>
+
+        <div v-if="execution.status === 'ongoing'" class="row">
+          <div class="col-12">
+          <linear-steps :nodes="steps" @click="handleStepClick"/>
+          </div>
+        </div>
+
+        <div v-else class="row">
+          <div class="col-12">
+            <small
+              class="text-muted"
+              v-if="execution.status === 'finished'"
+              :title="execution.finished_at|fmtDate('LLLL')"
+            >Flujo finalizado el {{ execution.finished_at|fmtDate('lll') }}</small>
+            <small
+              class="text-muted"
+              v-else-if="execution.status === 'cancelled'"
+              :title="execution.finished_at|fmtDate('LLLL')"
+            >Flujo cancelado el {{ execution.finished_at|fmtDate('lll') }}</small>
+          </div>
+        </div>
       </div>
-      <linear-steps :nodes="steps" @click="handleStepClick"/>
     </div>
 
     <div class="timeline">
@@ -45,7 +74,7 @@
             >Flujo cancelado</span>
             <br/>
             &bull;
-            <small>{{ execution.finished_at | relativeDate }}</small>
+            <small>{{ execution.finished_at|fmtDate }}</small>
           </div>
         </div>
       </div>
@@ -55,45 +84,67 @@
         :execution="execution"
       />
 
-      <timeline-task
-        v-if="task && execution.status === 'ongoing'"
-        :task="task"
-        @complete="handleComplete"
-        :highlight="task.id === highlightId"
-      />
+      <div v-if="task">
+        <div
+          class="timeline-action mb-4"
+          :id="task.id"
+        >
+          <span class="timeline-dot"/>
+
+          <timeline-task
+            v-if="execution.status === 'ongoing'"
+            :task="task"
+            :pointer="taskPointer"
+            @complete="handleComplete"
+            :highlight="task.id === highlightId"
+          />
+        </div>
+      </div>
 
       <div
         v-for="pointer in renderablePointers"
         :key="pointer.id">
 
-        <timeline-user-assignment
+        <div
+          class="timeline-action mb-4"
           v-if="assignable && pointer.state === 'ongoing' && execution.status === 'ongoing'"
-          :node="pointer"
-        />
+        >
+          <timeline-user-assignment
+            :node="pointer"
+          />
+        </div>
 
-        <timeline-pending
-          v-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
-          :pointer="pointer"
+        <div
+          :id="pointer.id"
+          class="timeline-action mb-4"
+        >
+          <span class="timeline-dot"/>
+
+          <timeline-pending
+            :pointer="pointer"
+            :highlight="pointer.id === highlightId"
+            v-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
+          />
+
+          <timeline-patch
+            :pointer="pointer"
+            :highlight="pointer.id === highlightId"
+            :state="item.execution.state"
+            v-if="pointer.state === 'cancelled' && pointer.patch"
+          />
+
+          <timeline-validation
+            :pointer="pointer"
+            :highlight="pointer.id === highlightId"
+            v-else-if="pointer.state === 'finished' && pointer.node.type === 'validation'"
+          />
+
+          <timeline-action
+            :pointer="pointer"
           :highlight="pointer.id === highlightId"
-        />
-
-        <timeline-patch
-          v-if="pointer.state === 'cancelled' && pointer.patch"
-          :pointer="pointer"
-          :state="item.execution.state"
-        />
-
-        <timeline-validation
-          v-else-if="pointer.state === 'finished' && pointer.node.type === 'validation'"
-          :pointer="pointer"
-          :highlight="pointer.id === highlightId"
-        />
-
-        <timeline-action
-          v-else-if="pointer.state !== 'ongoing' && pointer.node.type === 'action'"
-          :pointer="pointer"
-          :highlight="pointer.id === highlightId"
-        />
+            v-else-if="pointer.state !== 'ongoing' && pointer.node.type === 'action'"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -160,6 +211,7 @@ export default {
 
       return vm.pointers.filter(vm.isRenderablePointer);
     },
+
     task() {
       if (!this.item) {
         return null;
@@ -167,6 +219,14 @@ export default {
 
       return this.item.task;
     },
+    taskPointer() {
+      if (!this.pointers || !this.task) {
+        return null;
+      }
+
+      return this.pointers.find(x => x.id === this.task.id);
+    },
+
     summary() {
       return this.item.summary;
     },
@@ -256,8 +316,8 @@ export default {
     },
   },
   filters: {
-    relativeDate(val) {
-      return moment(val).format('LLLL');
+    fmtDate(val, fmt = 'llll') {
+      return moment(val).format(fmt);
     },
   },
 };
