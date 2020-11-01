@@ -12,8 +12,28 @@
             </router-link>
           </div>
         </div>
+
+        <div v-if="execution.status === 'ongoing'" class="row">
+          <div class="col-12">
+          <linear-steps :nodes="steps" @click="handleStepClick"/>
+          </div>
+        </div>
+
+        <div v-else class="row">
+          <div class="col-12">
+            <small
+              class="text-muted"
+              v-if="execution.status === 'finished'"
+              :title="execution.finished_at|fmtDate('LLLL')"
+            >Flujo finalizado el {{ execution.finished_at|fmtDate('lll') }}</small>
+            <small
+              class="text-muted"
+              v-else-if="execution.status === 'cancelled'"
+              :title="execution.finished_at|fmtDate('LLLL')"
+            >Flujo cancelado el {{ execution.finished_at|fmtDate('lll') }}</small>
+          </div>
+        </div>
       </div>
-      <linear-steps :nodes="steps" @click="handleStepClick"/>
     </div>
 
     <div class="timeline">
