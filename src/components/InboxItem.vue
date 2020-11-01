@@ -13,6 +13,15 @@
           </div>
         </div>
 
+        <div class="row">
+          <div class="col-12">
+            <small
+              class="text-muted"
+              :title="execution.started_at|fmtDate('LLLL')"
+            >Flujo iniciado el {{ execution.started_at|fmtDate('lll') }}</small>
+          </div>
+        </div>
+
         <div v-if="execution.status === 'ongoing'" class="row">
           <div class="col-12">
           <linear-steps :nodes="steps" @click="handleStepClick"/>
@@ -65,7 +74,7 @@
             >Flujo cancelado</span>
             <br/>
             &bull;
-            <small>{{ execution.finished_at | relativeDate }}</small>
+            <small>{{ execution.finished_at|fmtDate }}</small>
           </div>
         </div>
       </div>
@@ -307,8 +316,8 @@ export default {
     },
   },
   filters: {
-    relativeDate(val) {
-      return moment(val).format('LLLL');
+    fmtDate(val, fmt = 'llll') {
+      return moment(val).format(fmt);
     },
   },
 };
