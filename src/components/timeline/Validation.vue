@@ -1,8 +1,7 @@
 <template>
   <b-card
     no-body
-    :border-variant="borderVariant"
-    class="custom-card-border py-3 shadow"
+    class="py-3 shadow"
     text-variant="dark"
     bg-variant="light"
   >

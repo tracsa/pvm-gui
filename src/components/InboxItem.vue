@@ -24,7 +24,11 @@
 
         <div v-if="execution.status === 'ongoing'" class="row">
           <div class="col-12">
-          <linear-steps :nodes="steps" @click="handleStepClick"/>
+            <linear-steps
+              :nodes="steps"
+              :selected="highlightNId"
+              @click="handleStepClick"
+            />
           </div>
         </div>
 
@@ -95,8 +99,10 @@
             v-if="execution.status === 'ongoing'"
             :task="task"
             :pointer="taskPointer"
+            :class="{
+              'custom-card-border border-primary': task.id === highlightPId,
+            }"
             @complete="handleComplete"
-            :highlight="task.id === highlightId"
           />
         </div>
       </div>
@@ -122,26 +128,34 @@
 
           <timeline-pending
             :pointer="pointer"
-            :highlight="pointer.id === highlightId"
+            :class="{
+              'custom-card-border border-primary': pointer.id === highlightPId,
+            }"
             v-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
           />
 
           <timeline-patch
             :pointer="pointer"
-            :highlight="pointer.id === highlightId"
             :state="item.execution.state"
+            :class="{
+              'custom-card-border border-primary': pointer.id === highlightPId,
+            }"
             v-if="pointer.state === 'cancelled' && pointer.patch"
           />
 
           <timeline-validation
             :pointer="pointer"
-            :highlight="pointer.id === highlightId"
+            :class="{
+              'custom-card-border border-primary': pointer.id === highlightPId,
+            }"
             v-else-if="pointer.state === 'finished' && pointer.node.type === 'validation'"
           />
 
           <timeline-action
             :pointer="pointer"
-          :highlight="pointer.id === highlightId"
+            :class="{
+              'custom-card-border border-primary': pointer.id === highlightPId,
+            }"
             v-else-if="pointer.state !== 'ongoing' && pointer.node.type === 'action'"
           />
         </div>
@@ -181,14 +195,19 @@ export default {
     assignable() {
       return this.user.role === 'admin';
     },
-    highlightId: function selectedId() {
-      const { pid } = this.$route.params;
-      if (!pid) {
-        return null;
-      }
 
+    highlightPId: function selectedId() {
+      const { pid } = this.$route.params;
+      if (!pid) { return null; }
       return pid;
     },
+
+    highlightNId() {
+      const pointer = this.pointers.find(p => p.id === this.highlightPId);
+      if (!pointer) { return null; }
+      return pointer.node.id;
+    },
+
     execution() {
       if (!this.item) {
         return null;
@@ -274,12 +293,17 @@ export default {
       this.sleep = 0;
       this.reloadJob();
     },
+
     handleStepClick(nodeId) {
       let highlight;
       for (let i = this.pointers.length - 1; i >= 0; i -= 1) {
         const pointer = this.pointers[i];
         if (nodeId === pointer.node.id) {
           highlight = pointer.id;
+          this.$router.push({
+            name: 'inbox-item-pid',
+            params: { id: this.execution.id, pid: pointer.id },
+          });
         }
       }
 
