@@ -39,6 +39,7 @@
                     'btn-outline-danger': node.state === 'invalid',
                     'btn-outline-warning': node.state === 'ongoing',
                     'btn-outline-light': node.state === 'unfilled',
+                    'active': node.id === selected,
                   }"
                   :disabled="!['valid', 'invalid', 'ongoing'].includes(node.state)"
                   @click.prevent="emitClick(node.id)"
@@ -71,6 +72,7 @@ export default {
     nodes: {
       required: true,
     },
+    selected: String,
   },
 
   computed: {
