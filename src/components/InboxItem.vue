@@ -309,7 +309,11 @@ export default {
 
       // Scroll to element
       const el = document.getElementById(highlight);
-      window.scrollBy(0, el.offsetTop + 110);
+      if (el) {
+        el.scrollIntoView({
+          behavior:'smooth',
+        });
+      }
     },
 
     isRenderablePointer(pointer) {
