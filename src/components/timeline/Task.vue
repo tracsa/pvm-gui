@@ -1,7 +1,7 @@
 <template>
   <b-card
     no-body
-    class="py-3 shadow"
+    class="py-3 shadow overflow-auto"
     text-variant="dark"
     bg-variant="light"
   >
