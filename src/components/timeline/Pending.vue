@@ -1,8 +1,9 @@
 <template>
   <b-card
     no-body
-    :border-variant="borderVariant"
-    class="custom-card-border py-3"
+    class="py-3"
+    text-variant="dark"
+    bg-variant="light"
   >
     <b-container fluid>
       <b-row no-gutters>

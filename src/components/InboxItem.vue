@@ -99,8 +99,10 @@
             v-if="execution.status === 'ongoing'"
             :task="task"
             :pointer="taskPointer"
+            :class="{
+              'custom-card-border border-primary': task.id === highlightPId,
+            }"
             @complete="handleComplete"
-            :highlight="task.id === highlightPId"
           />
         </div>
       </div>
@@ -126,26 +128,34 @@
 
           <timeline-pending
             :pointer="pointer"
-            :highlight="pointer.id === highlightPId"
+            :class="{
+              'custom-card-border border-primary': pointer.id === highlightPId,
+            }"
             v-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
           />
 
           <timeline-patch
             :pointer="pointer"
-            :highlight="pointer.id === highlightPId"
             :state="item.execution.state"
+            :class="{
+              'custom-card-border border-primary': pointer.id === highlightPId,
+            }"
             v-if="pointer.state === 'cancelled' && pointer.patch"
           />
 
           <timeline-validation
             :pointer="pointer"
-            :highlight="pointer.id === highlightPId"
+            :class="{
+              'custom-card-border border-primary': pointer.id === highlightPId,
+            }"
             v-else-if="pointer.state === 'finished' && pointer.node.type === 'validation'"
           />
 
           <timeline-action
             :pointer="pointer"
-          :highlight="pointer.id === highlightPId"
+            :class="{
+              'custom-card-border border-primary': pointer.id === highlightPId,
+            }"
             v-else-if="pointer.state !== 'ongoing' && pointer.node.type === 'action'"
           />
         </div>
