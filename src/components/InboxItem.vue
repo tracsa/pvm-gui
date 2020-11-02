@@ -311,7 +311,7 @@ export default {
       const el = document.getElementById(highlight);
       if (el) {
         el.scrollIntoView({
-          behavior:'smooth',
+          behavior: 'smooth',
         });
       }
     },
