@@ -11,7 +11,7 @@
         <div
           class="progress-bar progress-bar-striped progress-bar-animated"
           role="progressbar"
-          :aria-valuenow="currentNodeIndex + 1"
+          :aria-valuenow="validNodesCount"
           :aria-valuemin="0"
           :aria-valuemax="actualNodes.length"
           :style="{
@@ -85,7 +85,7 @@ export default {
 
       return this.nodes.filter((node, i) => {
         const valid = node.milestone && node.state === 'valid';
-        const invalid = node.milestone && node.state === 'invalid';
+        const invalid = node.milestone && node.state === 'invalid' && lastValid < i;
         const ongoing = node.state === 'ongoing';
         const unfilled = node.milestone && node.state === 'unfilled' && lastValid < i;
 
@@ -93,18 +93,9 @@ export default {
       });
     },
 
-    currentNodeIndex() {
-      const index = this.actualNodes
-        .slice()
-        .reverse()
-        .findIndex(node => ['valid'].includes(node.state));
-      const count = this.actualNodes.length - 1;
-      return index >= 0 ? count - index : index;
-    },
-
     progressAsString() {
       const value = Math.trunc(
-        ((this.currentNodeIndex + 1) / this.actualNodes.length) * 100,
+        (this.validNodesCount / this.actualNodes.length) * 100,
       );
       return `${value}%`;
     },
