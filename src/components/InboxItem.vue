@@ -3,7 +3,9 @@
     <div class="head-container">
       <div v-if="item !== null" class="text-primary">
         <div class="row">
-          <div class="col-11">
+          <div class="col-11"
+            style="white-space: pre-wrap;"
+          >
             <b>{{ execution.name }}</b>
           </div>
           <div class="col-1 text-right">
