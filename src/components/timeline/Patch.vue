@@ -6,6 +6,11 @@
     bg-variant="light"
   >
     <b-container fluid>
+      <div class="d-flex justify-content-between">
+        <small class="text-muted">Tarea</small>
+        <small class="text-muted">{{ pointer.id }}</small>
+      </div>
+
       <b-row no-gutters>
         <b-col><b v-html="name_render"/>
         </b-col>
@@ -16,7 +21,7 @@
           <small
             class="text-muted"
             :title="pointer.started_at|fmtDate('LLLL')"
-          >Tarea creada el {{ pointer.started_at|fmtDate('lll') }}</small>
+          >Creada el {{ pointer.started_at|fmtDate('lll') }}</small>
         </b-col>
       </b-row>
 
@@ -65,7 +70,7 @@
 
       <b-row no-gutters>
         <b-col>
-          Tarea cancelada
+          Cancelada
         </b-col>
       </b-row>
 
@@ -76,7 +81,7 @@
           <small
             class="text-muted"
             :title="pointer.finished_at|fmtDate('LLLL')"
-          >Tarea terminada el {{ pointer.finished_at|fmtDate('lll') }}</small>
+          >Terminada el {{ pointer.finished_at|fmtDate('lll') }}</small>
         </b-col>
       </b-row>
 
@@ -147,7 +152,6 @@ export default {
 
   data() {
     return {
-      testIds: process.env.TEST_IDS,
       keyUsers: process.env.KEY_USERS,
 
       visible: false,

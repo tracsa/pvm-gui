@@ -6,6 +6,11 @@
     bg-variant="light"
   >
     <b-container fluid>
+      <div class="d-flex justify-content-between">
+        <small class="text-muted">Tarea</small>
+        <small class="text-muted">{{ pointer.id }}</small>
+      </div>
+
       <b-row no-gutters>
         <b-col
           :class="{ 'text-truncate': extended }"
@@ -25,17 +30,24 @@
         </b-col>
       </b-row>
 
-      <b-row no-gutters>
-        <b-col>
+      <div class="row no-gutters">
+        <div class="col">
           <small
             class="text-muted"
             :title="pointer.started_at|fmtDate('LLLL')"
-          >Tarea creada el {{ pointer.started_at|fmtDate('lll') }}</small>
-        </b-col>
-      </b-row>
+          >
+            <span
+              v-if="verbose"
+            >Creada el {{ pointer.started_at|fmtDate('LLLL') }}</span>
+            <span
+              v-else
+            >{{ pointer.started_at|fmtDate('lll') }}</span>
+          </small>
+        </div>
+      </div>
 
-      <b-row no-gutters>
-        <b-col>
+      <div class="row no-gutters">
+        <div class="col">
           <b-popover
             v-if="assignees.length"
             :target="assigneesPopoverId"
@@ -60,18 +72,34 @@
             href="javascript:void(0)"
             :id="assigneesPopoverId"
           >
-            <small>Asignada a <b>{{ assignees[0].fullname }}</b>
-              <span
-                v-if="assignees.length > 1"
-              >y <b>{{ assignees.length - 1 }}</b> más</span>
-            </small>
+            <icon :icon="['fas', 'user-tag']" class="mr-1"/>
+
+            <span
+              v-if="verbose"
+            >
+              <small>
+                <span>Asignada a </span>
+                <b>{{ assignees[0].fullname }}</b>
+                <span
+                  v-if="assignees.length > 1"
+                > y <b>{{ assignees.length - 1 }}</b> más</span>
+              </small>
+            </span>
+
+            <span
+              v-else
+            >
+              <small>
+                <span><b>Asignada a {{ assignees.length }}</b></span>
+              </small>
+            </span>
           </a>
 
           <span v-else>
             <small>Sin usuarios asignados</small>
           </span>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
     </b-container>
 
     <b-container fluid
@@ -88,38 +116,6 @@
         </b-col>
       </b-row>
 
-      <b-row no-gutters v-if="hasTestUser">
-        <b-col>
-          <b-popover
-            :target="testInfoPopoverId"
-            triggers="click blur"
-            placement="bottomleft"
-          >
-            <template v-slot:title>
-              <icon :icon="['fas', 'exclamation-triangle']"/>
-              {{ $t('commons.testUsers.title') }}
-            </template>
-
-            {{ $t('commons.testUsers.description') }}<br/>
-            {{ $t('commons.testUsers.contact') }}<br/>
-            <span
-              v-for="(user, index) in keyUsers"
-              v-bind:key="index"
-            >
-              <strong>{{ user.name }}</strong><br/>
-              <a :href="'mailto:' + user.email">{{ user.email }}</a><br/>
-            </span>
-          </b-popover>
-
-          <icon :icon="['fas', 'exclamation-triangle']"/>
-          {{ $t('commons.testUsers.title') }}.
-          <a
-            href="javascript:void(0)"
-            :id="testInfoPopoverId"
-          >Más información.</a>
-        </b-col>
-      </b-row>
-
       <b-row no-gutters
         v-if="pointer.finished_at"
       >
@@ -127,7 +123,7 @@
           <small
             class="text-muted"
             :title="pointer.finished_at|fmtDate('LLLL')"
-          >Tarea terminada el {{ pointer.finished_at|fmtDate('lll') }}</small>
+          >Terminada el {{ pointer.finished_at|fmtDate('lll') }}</small>
         </b-col>
       </b-row>
 
@@ -207,7 +203,7 @@
 
       <b-row no-gutters>
         <b-col>
-          Tarea cancelada
+          Cancelada
         </b-col>
       </b-row>
 
@@ -218,7 +214,7 @@
           <small
             class="text-muted"
             :title="pointer.finished_at|fmtDate('LLLL')"
-          >Tarea cancelada el {{ pointer.finished_at|fmtDate('lll') }}</small>
+          >Cancelada el {{ pointer.finished_at|fmtDate('lll') }}</small>
         </b-col>
       </b-row>
 
@@ -238,11 +234,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    verbose: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
     return {
-      testIds: process.env.TEST_IDS,
       keyUsers: process.env.KEY_USERS,
 
       visible: false,
@@ -315,28 +314,6 @@ export default {
       }
 
       return [];
-    },
-
-    hasTestUser() {
-      const vm = this;
-
-      let testUser = false;
-      Object.values(this.pointer.actors.items).forEach((actor) => {
-        testUser = testUser || vm.testIds.includes(actor.user.identifier);
-      });
-
-      return testUser;
-    },
-
-    testInfoPopoverId() {
-      const vm = this;
-      const modalId = `test-info-popover-${vm.pointer.id}`;
-
-      return modalId;
-    },
-
-    state() {
-      return this.pointer.state !== 'cancelled';
     },
   },
 

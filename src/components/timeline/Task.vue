@@ -6,6 +6,11 @@
     bg-variant="light"
   >
     <b-container fluid>
+      <div class="d-flex justify-content-between">
+        <small class="text-muted">Tarea</small>
+        <small class="text-muted">{{ pointer.id }}</small>
+      </div>
+
       <b-row no-gutters>
         <b-col
           :class="{ 'text-truncate': extended }"
@@ -30,7 +35,7 @@
           <small
             class="text-muted"
             :title="pointer.started_at|fmtDate('LLLL')"
-          >Tarea creada el {{ pointer.started_at|fmtDate('lll') }}</small>
+          >Creada el {{ pointer.started_at|fmtDate('lll') }}</small>
         </b-col>
       </b-row>
 
@@ -200,7 +205,7 @@ export default {
         return '';
       }
 
-      return md.renderInline(this.task.description);
+      return md.render(this.task.description);
     },
 
     pointerNameRender() {
