@@ -73,8 +73,11 @@
             v-on:click.prevent
             :id="assigneesPopoverId"
           >
-            <icon :icon="['fas', 'user-tag']"/>
-            <small>Asignada a {{ assignees.length }}</small>
+            <icon :icon="['fas', 'user-tag']" class="mr-1"/>
+
+            <small>
+              <span><b>Asignada a {{ assignees.length }}</b></span>
+            </small>
           </a>
 
           <span v-else>

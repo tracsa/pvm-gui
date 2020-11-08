@@ -69,30 +69,15 @@
 
           <a
             v-if="assignees.length"
-            href="javascript:void(0)"
+            href="#"
+            v-on:click.prevent
             :id="assigneesPopoverId"
           >
             <icon :icon="['fas', 'user-tag']" class="mr-1"/>
 
-            <span
-              v-if="verbose"
-            >
-              <small>
-                <span>Asignada a </span>
-                <b>{{ assignees[0].fullname }}</b>
-                <span
-                  v-if="assignees.length > 1"
-                > y <b>{{ assignees.length - 1 }}</b> más</span>
-              </small>
-            </span>
-
-            <span
-              v-else
-            >
-              <small>
-                <span><b>Asignada a {{ assignees.length }}</b></span>
-              </small>
-            </span>
+            <small>
+              <span><b>Asignada a {{ assignees.length }}</b></span>
+            </small>
           </a>
 
           <span v-else>
@@ -131,7 +116,8 @@
         <b-col cols="12">
           <a
             v-b-toggle="collapseId"
-            href="javascript:void(0)"
+            href="#"
+            v-on:click.prevent
           >
             <span v-if="!visible">Mostrar más</span>
             <span v-else>Mostrar menos</span>
@@ -242,8 +228,7 @@ export default {
 
   data() {
     return {
-      keyUsers: process.env.KEY_USERS,
-
+      uuid: Math.random(),
       visible: false,
     };
   },
@@ -281,7 +266,7 @@ export default {
 
     assigneesPopoverId() {
       const vm = this;
-      const modalId = `assignees-popover-${vm.pointer.id}`;
+      const modalId = `assignees-popover-${vm.uuid}`;
 
       return modalId;
     },
@@ -293,7 +278,7 @@ export default {
 
     collapseId() {
       const vm = this;
-      const modalId = `collapse-${vm.pointer.id}`;
+      const modalId = `collapse-${vm.uuid}`;
 
       return modalId;
     },
