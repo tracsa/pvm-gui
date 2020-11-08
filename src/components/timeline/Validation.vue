@@ -216,7 +216,7 @@ export default {
         id: user.id,
         fullname: user.fullname,
         email: user.email,
-      }));
+      })).sort((a, b) => (a.fullname > b.fullname ? 1 : -1));
     },
 
     assigneesPopoverId() {
