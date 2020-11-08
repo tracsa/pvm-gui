@@ -6,6 +6,11 @@
     bg-variant="light"
   >
     <b-container fluid>
+      <div class="d-flex justify-content-between">
+        <small class="text-muted">Tarea</small>
+        <small class="text-muted">{{ pointer.id }}</small>
+      </div>
+
       <b-row no-gutters>
         <b-col
           :class="{ 'text-truncate': extended }"
@@ -25,17 +30,24 @@
         </b-col>
       </b-row>
 
-      <b-row no-gutters>
-        <b-col>
+      <div class="row no-gutters">
+        <div class="col">
           <small
             class="text-muted"
             :title="pointer.started_at|fmtDate('LLLL')"
-          >Tarea creada el {{ pointer.started_at|fmtDate('lll') }}</small>
-        </b-col>
-      </b-row>
+          >
+            <span
+              v-if="verbose"
+            >Creada el {{ pointer.started_at|fmtDate('LLLL') }}</span>
+            <span
+              v-else
+            >{{ pointer.started_at|fmtDate('lll') }}</span>
+          </small>
+        </div>
+      </div>
 
-      <b-row no-gutters>
-        <b-col>
+      <div class="row no-gutters">
+        <div class="col">
           <b-popover
             v-if="assignees.length"
             :target="assigneesPopoverId"
@@ -57,21 +69,22 @@
 
           <a
             v-if="assignees.length"
-            href="javascript:void(0)"
+            href="#"
+            v-on:click.prevent
             :id="assigneesPopoverId"
           >
-            <small>Asignada a <b>{{ assignees[0].fullname }}</b>
-              <span
-                v-if="assignees.length > 1"
-              >y <b>{{ assignees.length - 1 }}</b> más</span>
+            <icon :icon="['fas', 'user-tag']" class="mr-1"/>
+
+            <small>
+              <span><b>Asignada a {{ assignees.length }}</b></span>
             </small>
           </a>
 
           <span v-else>
             <small>Sin usuarios asignados</small>
           </span>
-        </b-col>
-      </b-row>
+        </div>
+      </div>
     </b-container>
 
     <b-container>
@@ -81,7 +94,8 @@
         <b-col cols="12">
           <a
             v-b-toggle="collapseId"
-            href="javascript:void(0)"
+            href="#"
+            v-on:click.prevent
           >
             <span v-if="!visible">Mostrar más</span>
             <span v-else>Mostrar menos</span>
@@ -137,10 +151,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    verbose: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
     return {
+      uuid: Math.random(),
       errors: {
         global: [],
       },
@@ -200,7 +219,7 @@ export default {
         return '';
       }
 
-      return md.renderInline(this.task.description);
+      return md.render(this.task.description);
     },
 
     pointerNameRender() {
@@ -224,12 +243,12 @@ export default {
         id: user.id,
         fullname: user.fullname,
         email: user.email,
-      }));
+      })).sort((a, b) => (a.fullname > b.fullname ? 1 : -1));
     },
 
     assigneesPopoverId() {
       const vm = this;
-      const modalId = `assignees-popover-${vm.pointer.id}`;
+      const modalId = `assignees-popover-${vm.uuid}`;
 
       return modalId;
     },
@@ -240,7 +259,7 @@ export default {
 
     collapseId() {
       const vm = this;
-      const modalId = `collapse-${vm.pointer.id}`;
+      const modalId = `collapse-${vm.uuid}`;
 
       return modalId;
     },
