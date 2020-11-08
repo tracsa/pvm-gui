@@ -1,16 +1,17 @@
 <template>
   <div>
-    <div class="head-container">
+    <div class="head-container ">
       <div v-if="item !== null" class="text-primary">
         <div class="row">
-          <div class="col-11"
+          <div class="col-12 col-md-10"
             style="white-space: pre-wrap;"
           >
             <b>{{ execution.name }}</b>
           </div>
-          <div class="col-1 text-right">
+          <div class="col-12 col-md-2 text-right">
             <router-link :to="{ path: path}" replace>
-              <icon :icon="['fas', 'times']" />
+              <icon :icon="['fas', 'arrow-left']" class="mr-1"/>
+              <span>Volver</span>
             </router-link>
           </div>
         </div>
@@ -198,7 +199,7 @@ export default {
       return this.user.role === 'admin';
     },
 
-    highlightPId: function selectedId() {
+    highlightPId() {
       const { pid } = this.$route.params;
       if (!pid) { return null; }
       return pid;
