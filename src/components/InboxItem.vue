@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="head-container ">
+    <div class="head-container">
       <div v-if="item !== null" class="text-primary">
         <div class="row">
           <div class="col-12 col-md-10"
