@@ -30,14 +30,21 @@
         </b-col>
       </b-row>
 
-      <b-row no-gutters>
-        <b-col>
+      <div class="row no-gutters">
+        <div class="col">
           <small
             class="text-muted"
             :title="pointer.started_at|fmtDate('LLLL')"
-          >Creada el {{ pointer.started_at|fmtDate('lll') }}</small>
-        </b-col>
-      </b-row>
+          >
+            <span
+              v-if="verbose"
+            >Creada el {{ pointer.started_at|fmtDate('LLLL') }}</span>
+            <span
+              v-else
+            >{{ pointer.started_at|fmtDate('lll') }}</span>
+          </small>
+        </div>
+      </div>
 
       <div class="row no-gutters">
         <div class="col">
@@ -141,6 +148,10 @@ export default {
     task: Object,
     pointer: Object,
     extended: {
+      type: Boolean,
+      default: false,
+    },
+    verbose: {
       type: Boolean,
       default: false,
     },

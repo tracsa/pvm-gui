@@ -12,18 +12,39 @@
       </div>
 
       <b-row no-gutters>
-        <b-col><b v-html="name_render"/>
+        <b-col
+          :class="{ 'text-truncate': extended }"
+        >
+          <b v-html="pointerNameRender"/><br/>
+          <router-link
+            v-if="extended"
+            :to="{
+              name: 'dashboard',
+              query: {
+                executionId: pointer.execution.id,
+              },
+            }"
+          >
+            <small>En <b v-html="executionNameRender"/></small>
+          </router-link>
         </b-col>
       </b-row>
 
-      <b-row no-gutters>
-        <b-col>
+      <div class="row no-gutters">
+        <div class="col">
           <small
             class="text-muted"
             :title="pointer.started_at|fmtDate('LLLL')"
-          >Creada el {{ pointer.started_at|fmtDate('lll') }}</small>
-        </b-col>
-      </b-row>
+          >
+            <span
+              v-if="verbose"
+            >Creada el {{ pointer.started_at|fmtDate('LLLL') }}</span>
+            <span
+              v-else
+            >{{ pointer.started_at|fmtDate('lll') }}</span>
+          </small>
+        </div>
+      </div>
 
       <div class="row no-gutters">
         <div class="col">
@@ -150,7 +171,18 @@ import moment from 'moment';
 const md = require('markdown-it')();
 
 export default {
-  props: ['pointer', 'state'],
+  props: {
+    pointer: Object,
+    extended: {
+      type: Boolean,
+      default: false,
+    },
+    verbose: {
+      type: Boolean,
+      default: false,
+    },
+    state: Object,
+  },
 
   data() {
     return {
@@ -166,12 +198,20 @@ export default {
   },
 
   computed: {
-    name_render() {
+    pointerNameRender() {
       if (!this.pointer.node) {
         return '';
       }
 
       return md.renderInline(this.pointer.node.name);
+    },
+
+    executionNameRender() {
+      if (!this.pointer.execution) {
+        return '';
+      }
+
+      return md.renderInline(this.pointer.execution.name);
     },
 
     assignees() {
