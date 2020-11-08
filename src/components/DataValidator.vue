@@ -1,6 +1,7 @@
 <template>
   <form @submit="submit($event)">
     <label for="">Aprobación</label>
+
     <table class="table table-sm table-bordered">
       <thead>
         <tr>
@@ -17,7 +18,7 @@
       </thead>
       <tbody>
         <tr
-          v-for="field in fields"
+          v-for="field in sortedFields"
           :key="field.ref"
           @click="toogle(field.ref)">
           <td>
@@ -66,12 +67,14 @@
 <script>
 export default {
   props: ['fields', 'sending', 'errors'],
+
   data() {
     return {
       validity: {},
       comment: '',
     };
   },
+
   mounted() {
     this.validity = this.fields.reduce((sum, field) => {
       // jslint
@@ -82,6 +85,7 @@ export default {
       return ref;
     }, {});
   },
+
   computed: {
     response() {
       const varr = this.fields.map(field => this.validity[field.ref]);
@@ -89,16 +93,35 @@ export default {
 
       return response;
     },
+
+    sortedFields() {
+      return Object.values(this.fields
+        .map(x => ({ k: [x.ref.split('.')[2]], val: x }))
+        .reduce(
+          (result, item) => ({
+            ...result,
+            [item.k]: [
+              ...(result[item.k] || []),
+              item.val,
+            ],
+          }),
+          {},
+        ),
+      ).reduce((e1, e2) => e1.concat(e2));
+    },
   },
+
   methods: {
     checkField(event) {
       this.fields.forEach((f) => {
         this.validity[f.ref] = event.target.checked;
       });
     },
+
     toogle(ref) {
       this.validity[ref] = !this.validity[ref];
     },
+
     submit(event) {
       event.preventDefault();
 
