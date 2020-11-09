@@ -32,6 +32,7 @@
                 class="p-0"
               >
                 <button
+                  :title="node.name"
                   type="button"
                   class="btn btn-light btn-sm"
                   :class="{
