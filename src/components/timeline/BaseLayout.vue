@@ -34,12 +34,7 @@
             class="text-muted"
             :title="pointer.started_at|fmtDate('LLLL')"
           >
-            <span
-              v-if="verbose"
-            >Creada el {{ pointer.started_at|fmtDate('LLLL') }}</span>
-            <span
-              v-else
-            >{{ pointer.started_at|fmtDate('lll') }}</span>
+            <span>Creada el {{ pointer.started_at|fmtDate('LLLL') }}</span>
           </small>
         </div>
       </div>
@@ -101,10 +96,6 @@ export default {
       required: true,
     },
     extended: {
-      type: Boolean,
-      default: false,
-    },
-    verbose: {
       type: Boolean,
       default: false,
     },

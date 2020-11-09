@@ -2,14 +2,13 @@
   <timeline-item-base
     :pointer="pointer"
     :extended="extended"
-    :verbose="verbose"
   >
     <template v-slot:content>
-      <b-container>
+      <div class="container-fluid">
         <hr/>
 
-        <b-row no-gutters class="mt-3">
-          <b-col cols="12">
+        <div class="row no-gutters mt-3">
+          <div class="col-12">
             <a
               v-b-toggle="collapseId"
               href="#"
@@ -20,7 +19,7 @@
             </a>
 
             <b-collapse :id="collapseId" v-model="visible">
-              <div class="card-body">
+              <div class="py-2 px-1 px-md-3">
                 <div
                   v-for="(error, index) in errors.global"
                   :key="index"
@@ -48,9 +47,9 @@
                 />
               </div>
             </b-collapse>
-          </b-col>
-        </b-row>
-      </b-container>
+          </div>
+        </div>
+      </div>
     </template>
   </timeline-item-base>
 </template>
@@ -67,10 +66,6 @@ export default {
     task: Object,
     pointer: Object,
     extended: {
-      type: Boolean,
-      default: false,
-    },
-    verbose: {
       type: Boolean,
       default: false,
     },
