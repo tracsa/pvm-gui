@@ -32,7 +32,7 @@
                 class="p-0"
               >
                 <button
-                  :title="node.name"
+                  :title="mdRender(node.name)"
                   type="button"
                   class="btn btn-light btn-sm"
                   :class="{
@@ -68,6 +68,8 @@
 </template>
 
 <script>
+const md = require('markdown-it')();
+
 export default {
   props: {
     nodes: {
@@ -109,6 +111,14 @@ export default {
   methods: {
     emitClick(nodeId) {
       this.$emit('click', nodeId);
+    },
+
+    mdRender(str) {
+      if (!str) return '';
+
+      const d = document.createElement('div');
+      d.innerHTML = md.renderInline(str);
+      return d.innerText || d.textContent;
     },
   },
 };
