@@ -1,6 +1,6 @@
 <template>
   <div
-    class="card no-body text-dark bg-light py-3 shadow"
+    class="card no-body text-dark bg-light py-3 shadow overflow-auto"
   >
     <div class="container-fluid">
       <div class="d-flex justify-content-between">
