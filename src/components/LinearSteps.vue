@@ -27,9 +27,9 @@
         v-for="(node, index) in actualNodes"
       >
         <button
-        :id="node.id + '-' + uuid"
+          :id="node.id + '-' + uuid"
           type="button"
-          class="btn btn-sm"
+          class="btn btn-sm mb-1"
           :class="{
             'btn-light btn-outline-primary': node.state === 'valid',
             'btn-light btn-outline-danger': node.state === 'invalid',
