@@ -21,48 +21,48 @@
       </div>
     </span>
 
-    <div class="d-flex">
-      <div class="table-responsive w-auto">
-        <table class="table table-secondary table-sm table-bordered m-0">
-          <tbody>
-            <tr>
-              <td
-                v-for="(node, index) in actualNodes"
-                v-bind:key="index"
-                class="p-0"
-              >
-                <button
-                  :title="mdRender(node.name)"
-                  type="button"
-                  class="btn btn-light btn-sm"
-                  :class="{
-                    'btn-outline-primary': node.state === 'valid',
-                    'btn-outline-danger': node.state === 'invalid',
-                    'btn-outline-warning': node.state === 'ongoing',
-                    'btn-outline-light': node.state === 'unfilled',
-                    'active': node.id === selected,
-                  }"
-                  :disabled="!['valid', 'invalid', 'ongoing'].includes(node.state)"
-                  @click.prevent="emitClick(node.id)"
-                >
-                  <icon :icon="['fas', 'check']"
-                    v-if="node.state === 'valid'"
-                  />
-                  <icon :icon="['fas', 'times']"
-                    v-else-if="node.state === 'invalid'"
-                  />
-                  <icon :icon="['fas', 'play']"
-                    v-else-if="node.state === 'ongoing'"
-                  />
-                  <icon :icon="['fas', 'circle']"
-                    v-else-if="node.state === 'unfilled'"
-                  />
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    <div class="d-flex flex-wrap">
+      <span
+        v-bind:key="index"
+        v-for="(node, index) in actualNodes"
+      >
+        <button
+        :id="node.id + '-' + uuid"
+          type="button"
+          class="btn btn-sm"
+          :class="{
+            'btn-light btn-outline-primary': node.state === 'valid',
+            'btn-light btn-outline-danger': node.state === 'invalid',
+            'btn-light btn-outline-warning': node.state === 'ongoing',
+            'btn-secondary': node.state === 'unfilled',
+            'active': node.id === selected,
+          }"
+          href="#"
+          tabindex="0"
+          @click.prevent="emitClick(node.id)"
+        >
+          <icon :icon="['fas', 'check']"
+            v-if="node.state === 'valid'"
+          />
+          <icon :icon="['fas', 'times']"
+            v-else-if="node.state === 'invalid'"
+          />
+          <icon :icon="['fas', 'play']"
+            v-else-if="node.state === 'ongoing'"
+          />
+          <icon :icon="['fas', 'circle']"
+            v-else-if="node.state === 'unfilled'"
+          />
+        </button>
+
+        <b-popover
+          :target="node.id + '-' + uuid"
+          triggers="hover"
+          placement="top"
+        >
+          <span v-html="mdRender(node.name)"></span>
+        </b-popover>
+      </span>
     </div>
   </div>
 </template>
@@ -76,6 +76,12 @@ export default {
       required: true,
     },
     selected: String,
+  },
+
+  data() {
+    return {
+      uuid: Math.random(),
+    };
   },
 
   computed: {
@@ -113,12 +119,10 @@ export default {
       this.$emit('click', nodeId);
     },
 
-    mdRender(str) {
-      if (!str) return '';
+    mdRender(strVal) {
+      if (!strVal) return '';
 
-      const d = document.createElement('div');
-      d.innerHTML = md.renderInline(str);
-      return d.innerText || d.textContent;
+      return md.renderInline(strVal);
     },
   },
 };
