@@ -86,6 +86,12 @@ export default {
     selected: String,
   },
 
+  data() {
+    return {
+      uuid: Math.random(),
+    };
+  },
+
   computed: {
     actualNodes() {
       const index = this.nodes
