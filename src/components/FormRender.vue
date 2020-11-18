@@ -6,14 +6,14 @@
       v-for="(form, index) in forms"
       :key="form.ref"
     >
+      <hr v-if="index !== 0"/>
+
       <!-- Simple forms -->
       <div
         v-if="!form.multiple"
-        class="border-top border-left border-info"
       >
         <form-instance
           v-for="(instance, key) in instances[form.ref]"
-          class="p-3"
           :key="key"
           :errors="errors[index]"
           :schema="form"
@@ -24,14 +24,13 @@
       <!-- Multiple forms -->
       <b-tabs
         v-else
-        class="border-top border-left border-info"
         pills
       >
         <b-tab
           v-for="(instance, key) in instances[form.ref]"
-          class="p-3"
+          class="pt-3"
           :key="key"
-          :title="'' + (key + 1)">
+          :title="(key + 1).toString()">
           <form-instance
             :errors="errors[index]"
             :schema="form"
@@ -44,19 +43,15 @@
             @click="removeForm(form, key)">
             <icon :icon="['fa', 'trash']" /> Eliminar
           </b-button>
-
         </b-tab>
 
         <template v-slot:tabs-end>
           <b-nav-item @click.prevent="appendForm(form)"><b>+</b></b-nav-item>
         </template>
       </b-tabs>
-
-
     </div>
 
-
-    <div>
+    <div class="pt-3">
       <button
         v-if="!sending"
         class="btn btn-primary"

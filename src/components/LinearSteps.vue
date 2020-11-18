@@ -32,16 +32,16 @@
                 class="p-0"
               >
                 <button
+                  :id="node.id + '-' + uuid"
                   type="button"
                   class="btn btn-light btn-sm"
                   :class="{
                     'btn-outline-primary': node.state === 'valid',
                     'btn-outline-danger': node.state === 'invalid',
                     'btn-outline-warning': node.state === 'ongoing',
-                    'btn-outline-light': node.state === 'unfilled',
+                    'btn-outline-secondary': node.state === 'unfilled',
                     'active': node.id === selected,
                   }"
-                  :disabled="!['valid', 'invalid', 'ongoing'].includes(node.state)"
                   @click.prevent="emitClick(node.id)"
                 >
                   <icon :icon="['fas', 'check']"
@@ -57,6 +57,15 @@
                     v-else-if="node.state === 'unfilled'"
                   />
                 </button>
+
+                <b-popover
+                  :target="node.id + '-' + uuid"
+                  triggers="hover"
+                  placement="top"
+                  boundary="viewport"
+                >
+                  <span v-html="mdRender(node.name)"></span>
+                </b-popover>
               </td>
             </tr>
           </tbody>
@@ -67,6 +76,8 @@
 </template>
 
 <script>
+const md = require('markdown-it')();
+
 export default {
   props: {
     nodes: {
@@ -108,6 +119,12 @@ export default {
   methods: {
     emitClick(nodeId) {
       this.$emit('click', nodeId);
+    },
+
+    mdRender(str) {
+      if (!str) return '';
+
+      return md.renderInline(str);
     },
   },
 };

@@ -34,24 +34,34 @@
             class="text-muted"
             :title="pointer.started_at|fmtDate('LLLL')"
           >
-            <span
-              v-if="verbose"
-            >Creada el {{ pointer.started_at|fmtDate('LLLL') }}</span>
-            <span
-              v-else
-            >{{ pointer.started_at|fmtDate('lll') }}</span>
+            <span>Creada el {{ pointer.started_at|fmtDate('LLLL') }}</span>
           </small>
         </div>
       </div>
 
       <div class="row no-gutters">
         <div class="col">
+          <a
+            v-if="assignees.length"
+            href="#"
+            v-on:click.prevent
+            :id="assigneesPopoverId"
+            tabindex="0"
+          >
+            <icon :icon="['fas', 'user-tag']" class="mr-1"/>
+
+            <small>
+              <span><b>Asignada a {{ assignees.length }}</b></span>
+            </small>
+          </a>
+
           <b-popover
             v-if="assignees.length"
             :target="assigneesPopoverId"
             triggers="click blur"
             placement="bottomleft"
             title="Usuarios asignados"
+            boundary="viewport"
           >
             <div>
               <div
@@ -64,19 +74,6 @@
               </div>
             </div>
           </b-popover>
-
-          <a
-            v-if="assignees.length"
-            href="#"
-            v-on:click.prevent
-            :id="assigneesPopoverId"
-          >
-            <icon :icon="['fas', 'user-tag']" class="mr-1"/>
-
-            <small>
-              <span><b>Asignada a {{ assignees.length }}</b></span>
-            </small>
-          </a>
 
           <span v-else>
             <small>Sin usuarios asignados</small>
@@ -101,10 +98,6 @@ export default {
       required: true,
     },
     extended: {
-      type: Boolean,
-      default: false,
-    },
-    verbose: {
       type: Boolean,
       default: false,
     },
