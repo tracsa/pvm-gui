@@ -64,7 +64,7 @@
                   placement="top"
                   boundary="viewport"
                 >
-                  <span v-html="mdRender(node.name)"></span>
+                  <span v-html="nodeName(node)"></span>
                 </b-popover>
               </td>
             </tr>
@@ -125,6 +125,14 @@ export default {
   methods: {
     emitClick(nodeId) {
       this.$emit('click', nodeId);
+    },
+
+    nodeName(node) {
+      if (!['action', 'validation'].includes(node.type)) {
+        return '[Tarea de sistema]';
+      }
+
+      return this.mdRender(node.name);
     },
 
     mdRender(str) {
