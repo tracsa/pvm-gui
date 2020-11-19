@@ -169,7 +169,7 @@ export default {
 
   created() {
     this.checkOnline();
-    this.timer = setInterval(this.checkOnline, 1000);
+    this.timer = setInterval(this.checkOnline, 60000);
   },
 
   beforeDestroy() {
