@@ -289,7 +289,7 @@ export default {
       this.$emit('refresh');
 
       // Set new timeout with +1s delay
-      this.sleep = this.sleep + 1000;
+      this.sleep = this.sleep + 60000;
       this.timeoutId = setTimeout(this.reloadJob, this.sleep);
     },
     handleComplete() {
