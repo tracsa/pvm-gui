@@ -121,6 +121,10 @@ export default {
         return '';
       }
 
+      if (!['action', 'validation'].includes(this.pointer.node.type)) {
+        return '[Tarea de sistema]';
+      }
+
       return md.renderInline(this.pointer.node.name);
     },
 

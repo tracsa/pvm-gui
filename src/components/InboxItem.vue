@@ -111,7 +111,7 @@
       </div>
 
       <div
-        v-for="pointer in renderablePointers"
+        v-for="pointer in pointers"
         :key="pointer.id">
 
         <div
@@ -218,20 +218,13 @@ export default {
 
       return this.item.execution;
     },
+
     pointers() {
       if (!this.item) {
         return null;
       }
 
       return this.item.pointers;
-    },
-    renderablePointers() {
-      const vm = this;
-      if (!vm.pointers) {
-        return null;
-      }
-
-      return vm.pointers.filter(vm.isRenderablePointer);
     },
 
     task() {
@@ -317,14 +310,6 @@ export default {
           behavior: 'smooth',
         });
       }
-    },
-
-    isRenderablePointer(pointer) {
-      if (!['action', 'validation'].includes(pointer.node.type)) {
-        return false;
-      }
-
-      return true;
     },
 
     isDoablePointer(pointer) {
