@@ -269,7 +269,7 @@ export default {
         itemsUrl = (
           '/inbox?' +
           '&status=ongoing' +
-          `&actor_list.identifier=${this.userId}` +
+          `&actor_list.actor.identifier=${this.userId}` +
           '&include=id,name,pointer,status' +
           '&sort=pointer.started_at,DESCENDING'
         );

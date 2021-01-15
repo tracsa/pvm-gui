@@ -49,7 +49,7 @@ class UserService {
 
     if (actorArray) {
       baseQuery.push({
-        'actor_list.identifier': {
+        'actor_list.actor.identifier': {
           $in: actorArray,
         },
       });
