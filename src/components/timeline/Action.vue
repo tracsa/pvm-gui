@@ -53,8 +53,8 @@
                     :key="identifier">
                     <b-card-body>
                       <b-card-title>
-                        {{ actor.user.fullname }}
-                      <small class="text-muted">llenó la siguiente informacion</small>
+                        <span>{{ actor.user.fullname }}</span>
+                        <small class="text-muted">llenó la siguiente informacion</small>
                       </b-card-title>
 
                       <b-list-group flush>

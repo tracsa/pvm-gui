@@ -10,7 +10,7 @@
 
         <b-row no-gutters>
           <b-col>
-            Cancelada
+            <span>Cancelada por <b>{{ pointer.patch.actor.fullname }}</b></span>
           </b-col>
         </b-row>
 
@@ -42,8 +42,12 @@
 
                 <b-card-body>
                   <b-card-title>
-                    <p v-html="comment_render"></p>
+                    <span>{{ pointer.patch.actor.fullname }}</span>
+                    <small class="text-muted">llenó la siguente información</small>
                   </b-card-title>
+
+                  <p v-html="comment_render"></p>
+
                   <b-list-group flush>
                     <b-list-group-item>
                       <b-container fluid>
