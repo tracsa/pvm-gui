@@ -26,8 +26,6 @@ import InboxListItem from './InboxListItem';
 import InboxItem from './InboxItem';
 import Management from './Management';
 
-import MdRender from './misc/MdRender';
-
 import BaseLayout from './BaseLayout';
 
 import UserProfileUserInfo from './userProfile/UserProfileUserInfo';
@@ -38,6 +36,12 @@ import UserProfileItemFinishedDetail from './userProfile/userProfileItem/UserPro
 import UserProfileItemCancelledDetail from './userProfile/userProfileItem/UserProfileItemCancelledDetail';
 
 import HistoryItem from './history/HistoryItem';
+
+import UsersPopover from './misc/UsersPopover';
+import MdRender from './misc/MdRender';
+
+Vue.component('app-users-popover', UsersPopover);
+Vue.component('app-md-render', MdRender);
 
 // Inbox
 Vue.component('inbox', Inbox);
@@ -55,8 +59,6 @@ Vue.component('hero', Hero);
 Vue.component('processes', Processes);
 Vue.component('sign-in', SignIn);
 Vue.component('history', History);
-
-Vue.component('app-md-render', MdRender);
 
 Vue.component('base-layout', BaseLayout);
 Vue.component('ca-user-profile-user-info', UserProfileUserInfo);
