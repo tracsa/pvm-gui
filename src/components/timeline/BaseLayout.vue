@@ -13,7 +13,7 @@
           class="col"
           :class="{ 'text-truncate': extended }"
         >
-          <b v-html="pointerNameRender"/><br/>
+          <b><app-md-render :raw-string="pointerName"/></b><br/>
           <router-link
             v-if="extended"
             :to="{
@@ -23,13 +23,13 @@
               },
             }"
           >
-            <small>En <b v-html="executionNameRender"/></small>
+            <small>En <b><app-md-render :raw-string="executionName"/></b></small>
           </router-link>
         </div>
       </div>
 
       <div class="row no-gutters">
-        <div class="col">
+        <div class="col text-right">
           <small
             class="text-muted"
             :title="pointer.started_at|fmtDate('LLLL')"
@@ -40,7 +40,28 @@
       </div>
 
       <div class="row no-gutters">
-        <div class="col">
+        <div class="col text-right">
+          <small
+            class="text-muted"
+            :title="pointer.finished_at|fmtDate('LLLL')"
+            v-if="pointer.finished_at"
+          >
+            <span v-if="pointer.state === 'finished'"
+            >Finalizada el {{ pointer.finished_at|fmtDate('LLLL') }}</span>
+            <span v-else-if="pointer.state === 'cancelled'"
+            >Cancelada el {{ pointer.finished_at|fmtDate('LLLL') }}</span>
+          </small>
+
+          <span
+            v-else
+          >
+            <span class="badge badge-warning">En curso</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="row no-gutters">
+        <div class="col my-2">
           <a
             v-if="assignees.length"
             href="#"
@@ -48,48 +69,78 @@
             :id="assigneesPopoverId"
             tabindex="0"
           >
-            <icon :icon="['fas', 'user-tag']" class="mr-1"/>
-
+            <icon :icon="['fas', 'user-tag']"/>
             <small>
               <span><b>Asignada a {{ assignees.length }}</b></span>
             </small>
           </a>
 
-          <b-popover
+          <app-users-popover
             v-if="assignees.length"
             :target="assigneesPopoverId"
-            triggers="click blur"
-            placement="bottomleft"
-            title="Usuarios asignados"
-            boundary="viewport"
-          >
-            <div>
-              <div
-                v-for="assignee in assignees"
-                class="mt-2"
-                :key="assignee.id"
-              >
-                <b>{{ assignee.fullname }}</b><br/>
-                <a :href="'mailto:' + assignee.email">{{ assignee.email }}</a>
-              </div>
-            </div>
-          </b-popover>
+            :title="'Usuarios asignados'"
+            :users="assignees"
+          />
 
           <span v-else>
             <small>Sin usuarios asignados</small>
           </span>
         </div>
       </div>
-    </div>
 
-    <slot name="content"></slot>
+      <div class="row no-gutters">
+        <div class="col">
+          <app-users-popover
+            v-if="actors.length"
+            :target="actorsPopoverId"
+            :title="'Usuarios que realizaron tareas'"
+            :users="actors"
+          />
+
+          <a
+            v-if="actors.length"
+            href="#"
+            @click.prevent
+            :id="actorsPopoverId"
+          >
+            <icon :icon="['fas', 'user-tie']" class="mr-1"/>
+
+            <small>
+              <b>Realizada por {{ actors.length }}</b>
+            </small>
+          </a>
+        </div>
+      </div>
+
+      <hr/>
+      <div class="row no-gutters">
+        <div class="col">
+          <b-collapse :id="collapseId" v-model="visible">
+            <slot name="content"></slot>
+          </b-collapse>
+
+          <div class="w-100 text-center">
+            <a
+              v-b-toggle="collapseId"
+              href="#"
+              v-on:click.prevent
+            >
+              <span v-if="!visible">
+                <icon :icon="['fas', 'caret-down']"/>
+                Mostrar detalle</span>
+              <span v-else>
+                <icon :icon="['fas', 'caret-up']"/>
+                Ocultar detalle</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import moment from 'moment';
-
-const md = require('markdown-it')();
 
 export default {
   props: {
@@ -112,11 +163,19 @@ export default {
   data() {
     return {
       uuid: Math.random(),
+      visible: false,
     };
   },
 
   computed: {
-    pointerNameRender() {
+    collapseId() {
+      const vm = this;
+      const modalId = `collapse-${vm.uuid}`;
+
+      return modalId;
+    },
+
+    pointerName() {
       if (!this.pointer.node) {
         return '';
       }
@@ -125,15 +184,15 @@ export default {
         return '[Tarea de sistema]';
       }
 
-      return md.renderInline(this.pointer.node.name);
+      return this.pointer.node.name;
     },
 
-    executionNameRender() {
+    executionName() {
       if (!this.pointer.execution) {
         return '';
       }
 
-      return md.renderInline(this.pointer.execution.name);
+      return this.pointer.execution.name;
     },
 
     assignees() {
@@ -146,31 +205,29 @@ export default {
 
     assigneesPopoverId() {
       const vm = this;
-      const modalId = `assignees-popover-${vm.uuid}`;
+      return `assignees-popover-${vm.uuid}`;
+    },
 
-      return modalId;
+    actors() {
+      if (!this.pointer.actor_list) {
+        return null;
+      }
+
+      const rawList = this.pointer.actor_list.map(item => item.actor);
+      return rawList
+        .filter((obj, index) => {
+          const id = obj.identifier;
+          return rawList.map(item => item.identifier).indexOf(id) === index;
+        });
+    },
+
+    actorsPopoverId() {
+      const vm = this;
+      return `actors-popover-${vm.uuid}`;
     },
 
     borderVariant() {
       return 'warning';
-    },
-
-    actors() {
-      const vm = this;
-
-      if (vm.pointer.actors.items) {
-        const actorsList = [];
-
-        Object.values(vm.pointer.actors.items).forEach((item) => {
-          actorsList.push({
-            identifier: item.user.identifier,
-            fullname: item.user.fullname,
-          });
-        });
-        return actorsList;
-      }
-
-      return [];
     },
   },
 };
