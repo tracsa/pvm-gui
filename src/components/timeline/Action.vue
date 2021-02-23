@@ -83,30 +83,6 @@
           </b-col>
         </b-row>
       </b-container>
-
-      <b-container fluid
-        v-if="pointer.state === 'cancelled'"
-      >
-        <hr/>
-
-        <b-row no-gutters>
-          <b-col>
-            Cancelada
-          </b-col>
-        </b-row>
-
-        <b-row no-gutters
-          v-if="pointer.finished_at"
-        >
-          <b-col>
-            <small
-              class="text-muted"
-              :title="pointer.finished_at|fmtDate('LLLL')"
-            >Cancelada el {{ pointer.finished_at|fmtDate('lll') }}</small>
-          </b-col>
-        </b-row>
-
-      </b-container>
     </template>
   </timeline-item-base>
 </template>
