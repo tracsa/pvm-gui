@@ -26,6 +26,8 @@ import InboxListItem from './InboxListItem';
 import InboxItem from './InboxItem';
 import Management from './Management';
 
+import MdRender from './misc/MdRender';
+
 import BaseLayout from './BaseLayout';
 
 import UserProfileUserInfo from './userProfile/UserProfileUserInfo';
@@ -53,6 +55,8 @@ Vue.component('hero', Hero);
 Vue.component('processes', Processes);
 Vue.component('sign-in', SignIn);
 Vue.component('history', History);
+
+Vue.component('app-md-render', MdRender);
 
 Vue.component('base-layout', BaseLayout);
 Vue.component('ca-user-profile-user-info', UserProfileUserInfo);
