@@ -37,6 +37,12 @@ import UserProfileItemCancelledDetail from './userProfile/userProfileItem/UserPr
 
 import HistoryItem from './history/HistoryItem';
 
+import UsersPopover from './misc/UsersPopover';
+import MdRender from './misc/MdRender';
+
+Vue.component('app-users-popover', UsersPopover);
+Vue.component('app-md-render', MdRender);
+
 // Inbox
 Vue.component('inbox', Inbox);
 Vue.component('inbox-list-item', InboxListItem);

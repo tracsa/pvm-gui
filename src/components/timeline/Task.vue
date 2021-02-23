@@ -9,15 +9,6 @@
 
         <div class="row no-gutters mt-3">
           <div class="col-12">
-            <a
-              v-b-toggle="collapseId"
-              href="#"
-              v-on:click.prevent
-            >
-              <span v-if="!visible">Mostrar más</span>
-              <span v-else>Mostrar menos</span>
-            </a>
-
             <b-collapse :id="collapseId" v-model="visible">
               <div class="py-2 px-1 px-md-3">
                 <div
@@ -47,6 +38,21 @@
                 />
               </div>
             </b-collapse>
+
+            <div class="w-100 text-center">
+              <a
+                v-b-toggle="collapseId"
+                href="#"
+                v-on:click.prevent
+              >
+                <span v-if="!visible">
+                  <icon :icon="['fas', 'caret-down']"/>
+                  Mostrar detalle</span>
+                <span v-else>
+                  <icon :icon="['fas', 'caret-up']"/>
+                  Ocultar detalle</span>
+              </a>
+            </div>
           </div>
         </div>
       </div>
