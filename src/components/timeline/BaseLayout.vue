@@ -112,27 +112,9 @@
         </div>
       </div>
 
-      <hr/>
       <div class="row no-gutters">
         <div class="col">
-          <b-collapse :id="collapseId" v-model="visible">
-            <slot name="content"></slot>
-          </b-collapse>
-
-          <div class="w-100 text-center">
-            <a
-              v-b-toggle="collapseId"
-              href="#"
-              v-on:click.prevent
-            >
-              <span v-if="!visible">
-                <icon :icon="['fas', 'caret-down']"/>
-                Mostrar detalle</span>
-              <span v-else>
-                <icon :icon="['fas', 'caret-up']"/>
-                Ocultar detalle</span>
-            </a>
-          </div>
+          <slot name="content"></slot>
         </div>
       </div>
     </div>
@@ -163,18 +145,10 @@ export default {
   data() {
     return {
       uuid: Math.random(),
-      visible: false,
     };
   },
 
   computed: {
-    collapseId() {
-      const vm = this;
-      const modalId = `collapse-${vm.uuid}`;
-
-      return modalId;
-    },
-
     pointerName() {
       if (!this.pointer.node) {
         return '';
