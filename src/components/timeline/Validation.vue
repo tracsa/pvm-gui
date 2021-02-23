@@ -11,26 +11,6 @@
         <hr/>
         <b-row no-gutters>
           <b-col>
-            Realizada por <b>{{ actors[0].fullname }}</b>
-            <span
-              v-if="actors.length > 1"
-            >y <b>{{ actors.length - 1 }}</b> más</span>
-          </b-col>
-        </b-row>
-
-        <b-row no-gutters
-          v-if="pointer.finished_at"
-        >
-          <b-col>
-            <small
-              class="text-muted"
-              :title="pointer.finished_at|fmtDate('LLLL')"
-            >Terminada el {{ pointer.finished_at|fmtDate('lll') }}</small>
-          </b-col>
-        </b-row>
-
-        <b-row no-gutters>
-          <b-col>
             <span
               class="badge badge-primary"
               :class="{ 'badge-success': state, 'badge-danger': !state }">
@@ -44,15 +24,6 @@
 
         <b-row no-gutters class="mt-3">
           <b-col cols="12">
-            <a
-              v-b-toggle="collapseId"
-              href="#"
-              v-on:click.prevent
-            >
-              <span v-if="!visible">Mostrar más</span>
-              <span v-else>Mostrar menos</span>
-            </a>
-
             <b-collapse :id="collapseId" v-model="visible">
               <template
                 v-if="commentArray.length > 0"
@@ -85,6 +56,21 @@
                 </b-card-text>
               </template>
             </b-collapse>
+
+            <div class="w-100 text-center">
+              <a
+                v-b-toggle="collapseId"
+                href="#"
+                v-on:click.prevent
+              >
+                <span v-if="!visible">
+                  <icon :icon="['fas', 'caret-down']"/>
+                  Mostrar detalle</span>
+                <span v-else>
+                  <icon :icon="['fas', 'caret-up']"/>
+                  Ocultar detalle</span>
+              </a>
+            </div>
           </b-col>
         </b-row>
       </b-container>
