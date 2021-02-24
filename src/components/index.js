@@ -34,8 +34,6 @@ import UserProfileItemSummary from './userProfile/userProfileItem/UserProfileIte
 import UserProfileItemFinishedDetail from './userProfile/userProfileItem/UserProfileItemFinishedDetail';
 import UserProfileItemCancelledDetail from './userProfile/userProfileItem/UserProfileItemCancelledDetail';
 
-import HistoryItem from './history/HistoryItem';
-
 import ExecutionCard from './ExecutionCard';
 
 import UsersPopover from './misc/UsersPopover';
@@ -69,8 +67,6 @@ Vue.component('user-profile-item', UserProfileItem);
 Vue.component('ca-user-profile-item-summary', UserProfileItemSummary);
 Vue.component('ca-user-profile-item-finished-detail', UserProfileItemFinishedDetail);
 Vue.component('ca-user-profile-item-cancelled-detail', UserProfileItemCancelledDetail);
-
-Vue.component('ca-history-item', HistoryItem);
 
 // Admin
 Vue.component('management', Management);
