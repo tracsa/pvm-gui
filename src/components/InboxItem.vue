@@ -1,74 +1,19 @@
 <template>
   <div>
-    <div class="head-container">
-      <div v-if="item !== null" class="text-primary">
-        <div class="row">
-          <div class="col-12 col-md-10"
-            style="white-space: pre-wrap;"
-          >
-            <b>{{ execution.name }}</b>
-          </div>
-          <div class="col-12 col-md-2 text-right">
-            <router-link :to="{ path: path}" replace>
-              <icon :icon="['fas', 'arrow-left']" class="mr-1"/>
-              <span>Volver</span>
-            </router-link>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-12">
-            <small
-              class="text-muted"
-              :title="execution.started_at|fmtDate('LLLL')"
-            >Flujo iniciado el {{ execution.started_at|fmtDate('lll') }}</small>
-          </div>
-        </div>
-
-        <div v-if="execution.status === 'ongoing'" class="row">
-          <div class="col-12">
-            <linear-steps
-              :nodes="steps"
-              :selected="highlightNId"
-              @click="handleStepClick"
-            />
-          </div>
-        </div>
-
-        <div v-else class="row">
-          <div class="col-12">
-            <small
-              class="text-muted"
-              v-if="execution.status === 'finished'"
-              :title="execution.finished_at|fmtDate('LLLL')"
-            >Flujo finalizado el {{ execution.finished_at|fmtDate('lll') }}</small>
-            <small
-              class="text-muted"
-              v-else-if="execution.status === 'cancelled'"
-              :title="execution.finished_at|fmtDate('LLLL')"
-            >Flujo cancelado el {{ execution.finished_at|fmtDate('lll') }}</small>
-          </div>
-        </div>
-      </div>
+    <div class="text-right">
+      <router-link :to="{ path: path}" replace
+      >
+        <icon :icon="['fas', 'arrow-left']" class="mr-1"/>
+        <span>Volver a bandeja</span>
+      </router-link>
     </div>
 
-    <div class="timeline">
-      <b-card no-body>
-        <div class="p-3 font-weight-bold">
-          <a
-            v-b-toggle="collapseId"
-            href="javascript:void(0)"
-          >
-            <span v-if="!summaryVisible">Mostrar resumen</span>
-            <span v-else>Ocultar resumen</span>
-          </a>
-        </div>
-
-        <b-collapse :id="collapseId" v-model="summaryVisible">
-          <div v-html="summary"></div>
-        </b-collapse>
-      </b-card>
-    </div>
+    <app-execution-card
+      class="mb-3"
+      :execution="execution"
+      :verbose="true"
+      @click="handleStepClick"
+    />
 
     <div class="timeline">
       <div v-if="execution.finished_at">
@@ -242,9 +187,6 @@ export default {
       return this.pointers.find(x => x.id === this.task.id);
     },
 
-    summary() {
-      return this.item.summary;
-    },
     steps() {
       if (!this.execution) {
         return [];
