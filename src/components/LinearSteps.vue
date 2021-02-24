@@ -42,7 +42,7 @@
                     'btn-outline-secondary': node.state === 'unfilled',
                     'active': node.id === selected,
                   }"
-                  @click.prevent="emitClick(node.id)"
+                  @click.prevent="$emit('click', node.id)"
                 >
                   <icon :icon="['fas', 'check']"
                     v-if="node.state === 'valid'"
@@ -123,10 +123,6 @@ export default {
   },
 
   methods: {
-    emitClick(nodeId) {
-      this.$emit('click', nodeId);
-    },
-
     nodeName(node) {
       if (!['action', 'validation'].includes(node.type)) {
         return '[Tarea de sistema]';

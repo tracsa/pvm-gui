@@ -19,7 +19,6 @@ import Hero from './Hero';
 import Processes from './Processes';
 import SignIn from './SignIn';
 import LinkInput from './LinkInput';
-import History from './History';
 import TaskRedirect from './TaskRedirect';
 import Inbox from './Inbox';
 import InboxListItem from './InboxListItem';
@@ -35,13 +34,15 @@ import UserProfileItemSummary from './userProfile/userProfileItem/UserProfileIte
 import UserProfileItemFinishedDetail from './userProfile/userProfileItem/UserProfileItemFinishedDetail';
 import UserProfileItemCancelledDetail from './userProfile/userProfileItem/UserProfileItemCancelledDetail';
 
-import HistoryItem from './history/HistoryItem';
+import ExecutionCard from './ExecutionCard';
 
 import UsersPopover from './misc/UsersPopover';
 import MdRender from './misc/MdRender';
 
 Vue.component('app-users-popover', UsersPopover);
 Vue.component('app-md-render', MdRender);
+
+Vue.component('app-execution-card', ExecutionCard);
 
 // Inbox
 Vue.component('inbox', Inbox);
@@ -58,7 +59,6 @@ Vue.component('value-render', ValueRender);
 Vue.component('hero', Hero);
 Vue.component('processes', Processes);
 Vue.component('sign-in', SignIn);
-Vue.component('history', History);
 
 Vue.component('base-layout', BaseLayout);
 Vue.component('ca-user-profile-user-info', UserProfileUserInfo);
@@ -67,8 +67,6 @@ Vue.component('user-profile-item', UserProfileItem);
 Vue.component('ca-user-profile-item-summary', UserProfileItemSummary);
 Vue.component('ca-user-profile-item-finished-detail', UserProfileItemFinishedDetail);
 Vue.component('ca-user-profile-item-cancelled-detail', UserProfileItemCancelledDetail);
-
-Vue.component('ca-history-item', HistoryItem);
 
 // Admin
 Vue.component('management', Management);
