@@ -25,6 +25,8 @@ class UserService {
       'finished_at',
       'name',
       'status',
+      'actor_list',
+      'state',
     ].toString();
 
     const baseQuery = [];
