@@ -133,9 +133,10 @@
               :key="execution.id"
             >
               <b-col>
-                <ca-history-item
+                <app-execution-card
                   class="mb-3"
                   :execution="execution"
+                  :verbose="true"
                 />
               </b-col>
             </b-row>
