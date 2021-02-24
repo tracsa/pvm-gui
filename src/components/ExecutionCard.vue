@@ -33,7 +33,12 @@
             class="text-muted"
             :title="execution.started_at|fmtDate('LLLL')"
           >
-            <span>{{ execution.started_at|fmtDate('lll') }}</span>
+            <span
+              v-if="verbose"
+            >Iniciado el {{ execution.started_at|fmtDate('LLLL') }}</span>
+            <span
+              v-else
+            >{{ execution.started_at|fmtDate('lll') }}</span>
           </small>
         </div>
       </div>
@@ -104,7 +109,7 @@
         </div>
       </span>
 
-      <div class="row no-gutters">
+      <div class="row no-gutters mt-3">
         <div class="col">
           <b-collapse :id="collapseId" v-model="visible">
             <hero v-if="summary.loading"
@@ -120,7 +125,6 @@
             </div>
             <div v-else
               v-html="summary.html"
-              class="mt-3 mb-1"
             />
           </b-collapse>
 
