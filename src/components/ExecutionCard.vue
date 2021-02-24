@@ -98,6 +98,7 @@
           <div class="col">
             <linear-steps
               :nodes="steps"
+              @click="$emit('click', $event)"
             />
           </div>
         </div>
@@ -105,7 +106,38 @@
 
       <div class="row no-gutters">
         <div class="col">
-          <slot name="content"></slot>
+          <b-collapse :id="collapseId" v-model="visible">
+            <hero v-if="summary.loading"
+              icon="spinner"
+              title="commons.loading"
+              spin
+            />
+            <div v-else-if="summary.error"
+              class="text-center"
+            >
+              <icon :icon="['fas', 'times']"/>
+              <span class="ml-1">Error al cargar resumen</span>
+            </div>
+            <div v-else
+              v-html="summary.html"
+              class="mt-3 mb-1"
+            />
+          </b-collapse>
+
+          <div class="w-100 text-center">
+            <a
+              v-b-toggle="collapseId"
+              href="#"
+              v-on:click.prevent="showSummary()"
+            >
+              <span v-if="!visible">
+                <icon :icon="['fas', 'caret-down']"/>
+                Mostrar resumen</span>
+              <span v-else>
+                <icon :icon="['fas', 'caret-up']"/>
+                Ocultar resumen</span>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -114,8 +146,11 @@
 
 <script>
 import moment from 'moment';
+import axios from 'axios';
 
 const md = require('markdown-it')();
+
+const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
 
 export default {
   props: {
@@ -145,6 +180,12 @@ export default {
     return {
       uuid: Math.random(),
       visible: false,
+
+      summary: {
+        html: null,
+        loading: false,
+        error: false,
+      },
     };
   },
 
@@ -191,6 +232,31 @@ export default {
       const modalId = `actors-popover-${vm.uuid}`;
 
       return modalId;
+    },
+  },
+
+  methods: {
+    showSummary() {
+      const vm = this;
+
+      if (vm.summary.loading || vm.visible) { return; }
+      vm.summary.loading = true;
+      vm.summary.error = false;
+
+      vm.fetchSummary(vm.execution.id)
+        .then((response) => {
+          vm.summary.loading = false;
+          vm.summary.html = response.data;
+        }).catch(() => {
+          vm.summary.loading = false;
+          vm.summary.error = true;
+        });
+    },
+
+    fetchSummary(executionId) {
+      return axios.get(
+        `${API_PVM_URL}/v1/execution/${executionId}/summary`,
+      );
     },
   },
 };
