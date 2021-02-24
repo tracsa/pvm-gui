@@ -36,11 +36,15 @@ import UserProfileItemCancelledDetail from './userProfile/userProfileItem/UserPr
 
 import HistoryItem from './history/HistoryItem';
 
+import ExecutionCard from './ExecutionCard';
+
 import UsersPopover from './misc/UsersPopover';
 import MdRender from './misc/MdRender';
 
 Vue.component('app-users-popover', UsersPopover);
 Vue.component('app-md-render', MdRender);
+
+Vue.component('app-execution-card', ExecutionCard);
 
 // Inbox
 Vue.component('inbox', Inbox);
