@@ -33,7 +33,12 @@
             class="text-muted"
             :title="execution.started_at|fmtDate('LLLL')"
           >
-            <span>{{ execution.started_at|fmtDate('lll') }}</span>
+            <span
+              v-if="verbose"
+            >Iniciado el {{ execution.started_at|fmtDate('LLLL') }}</span>
+            <span
+              v-else
+            >{{ execution.started_at|fmtDate('lll') }}</span>
           </small>
         </div>
       </div>
