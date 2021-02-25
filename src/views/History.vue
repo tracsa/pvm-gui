@@ -240,10 +240,6 @@ export default {
           value: 'finished',
           text: 'Finalizado',
         },
-        {
-          value: 'ongoing',
-          text: 'En curso',
-        },
       ],
 
       selectedList: 'myActivity',
