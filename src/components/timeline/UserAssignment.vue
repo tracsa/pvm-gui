@@ -13,7 +13,7 @@
           </a>
         </div>
         {{ $t('management.userAssignment.assignTask') }}
-        <b><span v-html="name_render"/></b>
+        <b><app-md-render :raw-string="pointerName"/></b><br/>
       </div>
     </div>
 
@@ -131,6 +131,10 @@ export default {
   },
 
   computed: {
+    pointer() {
+      return this.node;
+    },
+
     isValid() {
       const vm = this;
 
@@ -161,12 +165,16 @@ export default {
       return response;
     },
 
-    name_render() {
-      if (!this.node.node) {
+    pointerName() {
+      if (!this.pointer.node) {
         return '';
       }
 
-      return md.renderInline(this.node.node.name);
+      if (!['action', 'validation'].includes(this.pointer.node.type)) {
+        return '[Tarea de sistema]';
+      }
+
+      return this.pointer.node.name;
     },
 
     description_render() {

@@ -5,7 +5,9 @@
     :verbose="verbose"
   >
     <template v-slot:content>
-      <div class="container p-1">
+      <div class="container-fluid">
+        <hr/>
+
         <div class="row no-gutters mt-3">
           <div class="col">
             <b-collapse :id="collapseId" v-model="visible">
