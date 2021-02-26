@@ -5,65 +5,66 @@
     :verbose="verbose"
   >
     <template v-slot:content>
-      <b-container fluid
-        v-if="actors.length"
-      >
+      <div class="container-fluid">
         <hr/>
-        <b-row no-gutters class="mt-3">
-          <b-col cols="12">
+
+        <div class="row no-gutters mt-3">
+          <div class="col">
             <b-collapse :id="collapseId" v-model="visible">
-              <b-row no-gutters class="mt-2">
-                <b-col
-                  cols="12"
-                  v-for="(actor, identifier) in pointer.actors.items"
-                  :key="identifier"
-                >
-                  <b-card
-                    no-body
-                    :key="identifier">
-                    <b-card-body>
-                      <b-card-title>
-                        <span>{{ actor.user.fullname }}</span>
-                        <small class="text-muted">llenó la siguiente informacion</small>
-                      </b-card-title>
+              <div class="container p-0">
+                <div class="row no-gutters">
+                  <div class="col">
+                    <b-form-checkbox
+                      class="text-right mb-3"
+                      v-model="showEmptyFields"
+                      name="check-button"
+                      switch
+                    >
+                      <span>Mostrar campos vacios</span>
+                    </b-form-checkbox>
 
-                      <b-list-group flush>
-                        <b-list-group-item
-                          v-for="(form, key) in actor.forms"
-                          :key="key"
+                    <div
+                      class="border-left border-primary pl-2 mb-3"
+                      v-for="(form,fIndex) in listForms"
+                      v-bind:key="fIndex"
+                    >
+                      <div>
+                        <router-link
+                          :to="{
+                            name: 'dashboard',
+                            params: { identifier: form.actor.identifier },
+                          }"
                         >
-                          <b-container fluid>
-                            <b-row class="d-flex justify-content-between align-items-center">
-                              <template
-                                v-for="(input, it) in listInputs(form.inputs)"
-                              >
-                                <b-col
-                                  :key="it"
-                                  cols="12"
-                                  class="px-4 pb-1"
-                                >
-                                  <div
-                                    class="border-left pl-1"
-                                    :class="[emptyValue(input) ? 'border-warning' : 'border-info']">
-                                    <small
-                                      :class="{ 'text-muted': emptyValue(input)}"
-                                    >{{ input.label }}</small><br/>
+                          <icon :icon="['fa', 'user']" class="mr-1"/>
+                          <b>{{ form.actor.fullname }}</b>
+                        </router-link>
+                        <span> llenó la siguiente información:</span>
+                      </div>
 
-                                    <p
-                                      :class="{ 'text-muted': emptyValue(input) }"
-                                    ><value-render :input="input"/><br/></p>
-                                  </div>
-                                </b-col>
-                              </template>
-                            </b-row>
-                          </b-container>
+                      <div
+                        class="border-left border-secondary pl-2 mb-3"
+                        v-for="(input,iIndex) in listInputs(form.inputs)"
+                        v-bind:key="iIndex"
+                      >
+                        <small
+                          :class="{ 'text-muted': isEmptyField(input)}"
+                        >{{ input.label }}</small><br/>
 
-                        </b-list-group-item>
-                      </b-list-group>
-                    </b-card-body>
-                  </b-card>
-                </b-col>
-              </b-row>
+                        <p
+                          :class="{ 'text-muted': isEmptyField(input) }"
+                        ><value-render :input="input"/><br/></p>
+                      </div>
+                    </div>
+
+                    <div
+                      class="text-center mb-3"
+                      v-if="!listForms.length"
+                    >
+                      <span>No hay información para mostrar</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </b-collapse>
 
             <div class="w-100 text-center">
@@ -80,9 +81,9 @@
                   Ocultar detalle</span>
               </a>
             </div>
-          </b-col>
-        </b-row>
-      </b-container>
+          </div>
+        </div>
+      </div>
     </template>
   </timeline-item-base>
 </template>
@@ -107,6 +108,7 @@ export default {
     return {
       uuid: Math.random(),
       visible: false,
+      showEmptyFields: true,
     };
   },
 
@@ -141,18 +143,23 @@ export default {
 
       return [];
     },
+
+    listForms() {
+      const vm = this;
+      return vm.pointer.forms.filter(form => vm.listInputs(form.inputs).length);
+    },
   },
 
   methods: {
     listInputs(inputs) {
-      return inputs.item_order
-        .map(key => inputs.items[key])
-        .filter(input => !input.hidden);
+      const vm = this;
+
+      return inputs
+        .filter(input => !input.hidden)
+        .filter(input => vm.showEmptyFields || !vm.isEmptyField(input));
     },
 
-    emptyValue(input) {
-      if (!input.value) return true;
-
+    isEmptyField(input) {
       return (input.value === null || input.value_caption === '');
     },
   },

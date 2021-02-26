@@ -61,7 +61,7 @@
 
         <div
           class="timeline-action mb-4"
-          v-if="assignable && pointer.state === 'ongoing' && execution.status === 'ongoing'"
+          v-if="canAssign && isAssignable(pointer)"
         >
           <timeline-user-assignment
             :node="pointer"
@@ -140,7 +140,7 @@ export default {
     cancellable() {
       return this.user.role === 'admin';
     },
-    assignable() {
+    canAssign() {
       return this.user.role === 'admin';
     },
 
@@ -272,7 +272,15 @@ export default {
     isOngoingPointer(pointer) {
       return pointer.state === 'ongoing' && this.execution.status === 'ongoing';
     },
+
+    isAssignable(pointer) {
+      const vm = this;
+      return ['action', 'validation'].includes(pointer.node.type) &&
+        pointer.state === 'ongoing' &&
+        vm.execution.status === 'ongoing';
+    },
   },
+
   filters: {
     fmtDate(val, fmt = 'llll') {
       return moment(val).format(fmt);
