@@ -12,13 +12,22 @@
               <div class="container p-0">
                 <div class="row no-gutters">
                   <div class="col">
-                    <div
-                      class="border-left border-primary pl-2 mb-3"
-                      v-for="(form,fIndex) in pointer.forms"
-                      v-bind:key="fIndex"
+                    <b-form-checkbox
+                      class="text-right mb-3"
+                      v-model="showEmptyFields"
+                      name="check-button"
+                      switch
                     >
-                      <span
-                        v-if="listInputs(form.inputs).length"
+                      <span>Mostrar campos vacios</span>
+                    </b-form-checkbox>
+
+                    <span
+                      v-if="listForms.length"
+                    >
+                      <div
+                        class="border-left border-primary pl-2 mb-3"
+                        v-for="(form,fIndex) in listForms"
+                        v-bind:key="fIndex"
                       >
                         <div>
                           <router-link
@@ -39,15 +48,22 @@
                           v-bind:key="iIndex"
                         >
                           <small
-                            :class="{ 'text-muted': emptyValue(input)}"
+                            :class="{ 'text-muted': isEmptyField(input)}"
                           >{{ input.label }}</small><br/>
 
                           <p
-                            :class="{ 'text-muted': emptyValue(input) }"
+                            :class="{ 'text-muted': isEmptyField(input) }"
                           ><value-render :input="input"/><br/></p>
                         </div>
-                      </span>
-                    </div>
+                      </div>
+                    </span>
+
+
+                    <span v-else>
+                      <div class="text-center mb-3">
+                        <span>No hay información para mostrar</span>
+                      </div>
+                    </span>
                   </div>
                 </div>
               </div>
@@ -94,6 +110,7 @@ export default {
     return {
       uuid: Math.random(),
       visible: false,
+      showEmptyFields: true,
     };
   },
 
@@ -128,15 +145,23 @@ export default {
 
       return [];
     },
+
+    listForms() {
+      const vm = this;
+      return vm.pointer.forms.filter(form => vm.listInputs(form.inputs).length);
+    },
   },
 
   methods: {
     listInputs(inputs) {
+      const vm = this;
+
       return inputs
-        .filter(input => !input.hidden);
+        .filter(input => !input.hidden)
+        .filter(input => vm.showEmptyFields || !vm.isEmptyField(input));
     },
 
-    emptyValue(input) {
+    isEmptyField(input) {
       return (input.value === null || input.value_caption === '');
     },
   },
