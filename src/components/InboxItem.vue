@@ -96,7 +96,7 @@
             :class="{
               'custom-card-border border-primary': pointer.id === highlightPId,
             }"
-            v-else-if="pointer.state !== 'ongoing' && ['action', 'validation'].includes(pointer.node.type)"
+            v-else-if="pointer.state !== 'ongoing' && hasForms(pointer)"
           />
         </div>
       </div>
@@ -270,6 +270,10 @@ export default {
       return ['action', 'validation'].includes(pointer.node.type) &&
         pointer.state === 'ongoing' &&
         vm.execution.status === 'ongoing';
+    },
+
+    hasForms(pointer) {
+      return ['action', 'validation'].includes(pointer.node.type);
     },
   },
 
