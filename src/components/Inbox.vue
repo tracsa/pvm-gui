@@ -406,12 +406,7 @@ export default {
       get(`/log/${id}`)
         .then((body) => {
           const pointers = body.data;
-          item.pointers = pointers.map((rawPointer) => {
-            if (rawPointer.node.type === 'action') {
-              return PointerTranslate(rawPointer);
-            }
-            return rawPointer;
-          });
+          item.pointers = pointers.map((rawPointer) => PointerTranslate(rawPointer));
 
           const doable = pointers.filter((pointer) => {
             if (pointer.state !== 'ongoing') {
