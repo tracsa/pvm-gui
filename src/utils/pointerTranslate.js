@@ -1,9 +1,15 @@
-function getRefLabel(refStr, execution) {
+function getRefInput(refStr, execution) {
+  if (!refStr || !execution) { return { }; }
+
   const [nodeId, actorId, formInfo, inputRef] = refStr.split('.');
   const [, formRef] = formInfo.split(':');
 
   return execution.state.items[nodeId].actors.items[actorId].forms
-    .find(form => form.ref === formRef).inputs.items[inputRef].label;
+    .find(form => form.ref === formRef).inputs.items[inputRef];
+}
+
+function getRefLabel(refStr, execution) {
+  return getRefInput(refStr, execution).label;
 }
 
 function formatValidationInput(inp, execution) {
@@ -61,6 +67,61 @@ const PointerTranslate = (rawPointer, execution) => {
     ...rawPointer,
   };
 
+  if (pointer.patch) {
+    pointer.forms = [{
+      _type: 'form',
+      inputs: [
+        {
+          hidden: false,
+          label: 'Estado de la información',
+          name: 'response',
+          state: 'valid',
+          type: 'text',
+          value: 'reject',
+          value_caption: 'Información invalida',
+        },
+        {
+          hidden: false,
+          label: 'Comentario',
+          name: 'comment',
+          state: 'valid',
+          type: 'text',
+          value: pointer.patch.comment,
+          value_caption: pointer.patch.comment,
+        },
+        {
+          hidden: false,
+          label: 'Información invalida',
+          name: 'inputs',
+          state: 'valid', // ??
+          type: 'text',
+          value: pointer.patch.inputs,
+          value_caption: [
+            ...new Set(pointer.patch.inputs.map(x => `"${getRefLabel(x.ref, execution)}"`)),
+          ].join(', '),
+        },
+      ],
+      ref: `${pointer.id}-patch`,
+      state: 'valid',
+      user: pointer.patch.actor,
+    }];
+
+    pointer.patch.inputs
+      .filter(x => !!x.value)
+      .forEach((x) => {
+        const baseInput = getRefInput(x.ref, execution);
+
+        pointer.forms[0].inputs.push({
+          ...baseInput,
+          value: x.value,
+          value_caption: x.value_caption,
+          label: `Nuevo "${baseInput.label}"`,
+        });
+      });
+
+    return pointer;
+  }
+
   if (pointer.node.type === 'action') {
     pointer.forms = Object.entries(rawPointer.actors.items)
       .reduce((accForms, [, v]) => accForms.concat(
@@ -74,7 +135,8 @@ const PointerTranslate = (rawPointer, execution) => {
         }), []),
       ), []);
 
-    delete pointer.actors;
+    pointer.actors.items = {};
+    return pointer;
   }
 
   if (pointer.node.type === 'validation') {
@@ -90,7 +152,8 @@ const PointerTranslate = (rawPointer, execution) => {
         }), []),
       ), []);
 
-    delete pointer.actors;
+    pointer.actors.items = {};
+    return pointer;
   }
 
   return pointer;

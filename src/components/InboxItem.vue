@@ -82,15 +82,6 @@
             v-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
           />
 
-          <timeline-patch
-            :pointer="pointer"
-            :state="item.execution.state"
-            :class="{
-              'custom-card-border border-primary': pointer.id === highlightPId,
-            }"
-            v-if="pointer.state === 'cancelled' && pointer.patch"
-          />
-
           <timeline-action
             :pointer="pointer"
             :class="{
@@ -273,6 +264,8 @@ export default {
     },
 
     hasForms(pointer) {
+      if (pointer.patch) { return true; }
+
       return ['action', 'validation'].includes(pointer.node.type);
     },
   },
