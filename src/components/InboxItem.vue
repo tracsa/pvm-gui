@@ -91,20 +91,12 @@
             v-if="pointer.state === 'cancelled' && pointer.patch"
           />
 
-          <timeline-validation
-            :pointer="pointer"
-            :class="{
-              'custom-card-border border-primary': pointer.id === highlightPId,
-            }"
-            v-else-if="pointer.state === 'finished' && pointer.node.type === 'validation'"
-          />
-
           <timeline-action
             :pointer="pointer"
             :class="{
               'custom-card-border border-primary': pointer.id === highlightPId,
             }"
-            v-else-if="pointer.state !== 'ongoing' && pointer.node.type === 'action'"
+            v-else-if="pointer.state !== 'ongoing' && ['action', 'validation'].includes(pointer.node.type)"
           />
         </div>
       </div>
