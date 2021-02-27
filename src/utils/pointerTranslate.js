@@ -37,7 +37,9 @@ function formatValidationInput(inp, execution) {
     // TODO: i18n
     let valCap = '';
     if (inp.value) {
-      valCap = inp.value.map(x => `"${getRefLabel(x.ref, execution)}"`).join(', ');
+      valCap = [
+        ...new Set(inp.value.map(x => `"${getRefLabel(x.ref, execution)}"`)),
+      ].join(', ');
     }
 
     return {
