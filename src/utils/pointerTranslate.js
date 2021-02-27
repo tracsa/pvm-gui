@@ -1,4 +1,12 @@
-function formatValidationInput(inp) {
+function getRefLabel(refStr, execution) {
+  const [nodeId, actorId, formInfo, inputRef] = refStr.split('.');
+  const [, formRef] = formInfo.split(':');
+
+  return execution.state.items[nodeId].actors.items[actorId].forms
+    .find(form => form.ref === formRef).inputs.items[inputRef].label;
+}
+
+function formatValidationInput(inp, execution) {
   if (inp.name === 'response') {
     // TODO: i18n
     return {
@@ -27,21 +35,26 @@ function formatValidationInput(inp) {
 
   if (inp.name === 'inputs') {
     // TODO: i18n
+    let valCap = '';
+    if (inp.value) {
+      valCap = inp.value.map(x => `"${getRefLabel(x.ref, execution)}"`).join(', ');
+    }
+
     return {
-      hidden: true,
+      hidden: !inp.value,
       label: 'Información invalida',
       name: inp.name,
       state: 'valid', // ??
       type: 'text',
       value: inp.value,
-      value_caption: inp.value_caption,
+      value_caption: valCap,
     };
   }
 
   return inp;
 }
 
-const PointerTranslate = (rawPointer) => {
+const PointerTranslate = (rawPointer, execution) => {
   const pointer = {
     ...rawPointer,
   };
@@ -70,7 +83,7 @@ const PointerTranslate = (rawPointer) => {
           user: v.user,
           inputs: form.inputs.item_order
             .reduce((acc2, inputId) => acc2.concat({
-              ...formatValidationInput(form.inputs.items[inputId]),
+              ...formatValidationInput(form.inputs.items[inputId], execution),
             }), []),
         }), []),
       ), []);
