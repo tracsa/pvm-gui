@@ -118,11 +118,12 @@
               spin
             />
             <div v-else-if="summary.error"
-              class="text-center"
+              class="text-center my-2"
             >
               <icon :icon="['fas', 'times']"/>
               <span class="ml-1">Error al cargar resumen</span>
             </div>
+
             <div v-else
               v-html="summary.html"
             />

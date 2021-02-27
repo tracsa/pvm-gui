@@ -166,7 +166,6 @@ import Promise from 'promise-polyfill';
 import { get } from '../utils/api';
 import itemFilterMixin from '../mixins/ItemFilterMixin';
 import { getAuthUser } from '../utils/auth';
-import PointerTranslate from '../utils/pointerTranslate';
 
 export default {
   props: ['model'],
@@ -406,8 +405,7 @@ export default {
       get(`/log/${id}`)
         .then((body) => {
           const pointers = body.data;
-          item.pointers = pointers
-            .map(rawPointer => PointerTranslate(rawPointer, item.execution));
+          item.pointers = pointers;
 
           const doable = pointers.filter((pointer) => {
             if (pointer.state !== 'ongoing') {

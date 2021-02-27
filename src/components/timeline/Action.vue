@@ -11,16 +11,30 @@
         <div class="row no-gutters mt-3">
           <div class="col">
             <b-collapse :id="collapseId" v-model="visible">
-              <div class="container p-0">
+              <hero v-if="forms.loading"
+                icon="spinner"
+                title="commons.loading"
+                spin
+              />
+              <div v-else-if="forms.error"
+                class="text-center my-2"
+              >
+                <icon :icon="['fas', 'times']"/>
+                <span class="ml-1">Error al cargar detalle</span>
+              </div>
+
+              <div class="container p-0"
+                v-else
+              >
                 <div class="row no-gutters">
                   <div class="col">
                     <b-form-checkbox
                       class="text-right mb-3"
-                      v-model="showEmptyFields"
+                      v-model="hideEmptyInputs"
                       name="check-button"
                       switch
                     >
-                      <span>Mostrar campos vacios</span>
+                      <span>Ocultar campos vacios</span>
                     </b-form-checkbox>
 
                     <div
@@ -71,7 +85,7 @@
               <a
                 v-b-toggle="collapseId"
                 href="#"
-                v-on:click.prevent
+                v-on:click.prevent="showForms()"
               >
                 <span v-if="!visible">
                   <icon :icon="['fas', 'caret-down']"/>
@@ -90,6 +104,10 @@
 
 <script>
 import moment from 'moment';
+import axios from 'axios';
+import PointerTranslate from '../../utils/pointerTranslate';
+
+const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
 
 export default {
   props: {
@@ -108,7 +126,13 @@ export default {
     return {
       uuid: Math.random(),
       visible: false,
-      showEmptyFields: true,
+      hideEmptyInputs: false,
+
+      forms: {
+        data: [],
+        loading: false,
+        error: false,
+      },
     };
   },
 
@@ -146,7 +170,7 @@ export default {
 
     listForms() {
       const vm = this;
-      return vm.pointer.forms.filter(form => vm.listInputs(form.inputs).length);
+      return vm.forms.data.filter(form => vm.listInputs(form.inputs).length);
     },
   },
 
@@ -156,11 +180,50 @@ export default {
 
       return inputs
         .filter(input => !input.hidden)
-        .filter(input => vm.showEmptyFields || !vm.isEmptyField(input));
+        .filter(input => !vm.hideEmptyInputs || !vm.isEmptyField(input));
     },
 
     isEmptyField(input) {
       return (input.value === null || input.value_caption === '');
+    },
+
+    showForms() {
+      const vm = this;
+
+      if (vm.forms.loading || vm.visible) { return; }
+      vm.forms.loading = true;
+      vm.forms.error = false;
+
+      vm.fetchExecution(vm.pointer.execution.id)
+        .then((exeRes) => {
+          const tempExe = exeRes.data.data;
+
+          vm.fetchPointer(vm.pointer.id)
+            .then((ptrRes) => {
+              const tempPtr = ptrRes.data.data;
+
+              vm.forms.loading = false;
+              vm.forms.data = PointerTranslate(tempPtr, tempExe).forms;
+            }).catch(() => {
+              vm.forms.loading = false;
+              vm.forms.error = true;
+            });
+        }).catch(() => {
+          vm.forms.loading = false;
+          vm.forms.error = true;
+        });
+    },
+
+    fetchExecution(executionId) {
+      return axios.get(
+        `${API_PVM_URL}/v1/execution/${executionId}`,
+      );
+    },
+
+    fetchPointer(pointerId) {
+      return axios.get(
+        `${API_PVM_URL}/v1/pointer/${pointerId}`,
+      );
     },
   },
 };
