@@ -32,11 +32,11 @@
                         <router-link
                           :to="{
                             name: 'dashboard',
-                            params: { identifier: form.actor.identifier },
+                            params: { identifier: form.user.identifier },
                           }"
                         >
                           <icon :icon="['fa', 'user']" class="mr-1"/>
-                          <b>{{ form.actor.fullname }}</b>
+                          <b>{{ form.user.fullname }}</b>
                         </router-link>
                         <span> llenó la siguiente información:</span>
                       </div>
