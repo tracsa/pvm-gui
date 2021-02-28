@@ -5,7 +5,9 @@
     :verbose="verbose"
   >
     <template v-slot:content>
-      <div class="container-fluid">
+      <div class="container-fluid"
+        v-if="['finished', 'cancelled'].includes(pointer.state)"
+      >
         <hr/>
 
         <div class="row no-gutters mt-3">

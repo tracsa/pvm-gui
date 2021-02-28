@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="executionData">
     <div class="text-right">
       <router-link :to="{ path: path}" replace
       >
@@ -10,63 +10,30 @@
 
     <app-execution-card
       class="mb-3"
-      :execution="execution"
+      :execution="executionData"
       :verbose="true"
       @click="handleStepClick"
     />
 
     <div class="timeline">
-      <div v-if="execution.finished_at">
+      <div v-if="executionData.finished_at">
         <div class="timeline-action">
           <span class="timeline-dot"/>
           <div class="alert custom-alert-info">
-            <span v-if="execution.status === 'finished'"
+            <span v-if="executionData.status === 'finished'"
             >Flujo finalizado</span>
-            <span v-else-if="execution.status === 'cancelled'"
+            <span v-else-if="executionData.status === 'cancelled'"
             >Flujo cancelado</span>
             <br/>
             &bull;
-            <small>{{ execution.finished_at|fmtDate }}</small>
+            <small>{{ executionData.finished_at|fmtDate }}</small>
           </div>
         </div>
       </div>
 
-      <timeline-execution-delete
-        v-if="cancellable && execution.status === 'ongoing'"
-        :execution="execution"
-      />
-
-      <div v-if="task">
-        <div
-          class="timeline-action mb-4"
-          :id="task.id"
-        >
-          <span class="timeline-dot"/>
-
-          <timeline-task
-            v-if="execution.status === 'ongoing'"
-            :task="task"
-            :pointer="taskPointer"
-            :class="{
-              'custom-card-border border-primary': task.id === highlightPId,
-            }"
-            @complete="handleComplete"
-          />
-        </div>
-      </div>
-
       <div
-        v-for="pointer in pointers"
+        v-for="pointer in listPointers"
         :key="pointer.id">
-
-        <div
-          class="timeline-action mb-4"
-          v-if="canAssign && isAssignable(pointer)"
-        >
-          <timeline-user-assignment
-            :node="pointer"
-          />
-        </div>
 
         <div
           :id="pointer.id"
@@ -74,20 +41,13 @@
         >
           <span class="timeline-dot"/>
 
-          <timeline-pending
+          <component
+            :is="pointer.state === 'ongoing' ? 'timeline-pending' : 'timeline-action'"
             :pointer="pointer"
             :class="{
               'custom-card-border border-primary': pointer.id === highlightPId,
             }"
-            v-if="isOngoingPointer(pointer)  && !isDoablePointer(pointer)"
-          />
-
-          <timeline-action
-            :pointer="pointer"
-            :class="{
-              'custom-card-border border-primary': pointer.id === highlightPId,
-            }"
-            v-else-if="pointer.state !== 'ongoing' && hasForms(pointer)"
+            @complete="handleComplete"
           />
         </div>
       </div>
@@ -97,7 +57,10 @@
 
 <script>
 import moment from 'moment';
+import axios from 'axios';
 import { getAuthUser } from '../utils/auth';
+
+const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
 
 export default {
   props: ['item'],
@@ -108,15 +71,32 @@ export default {
       sleep: 0,
       timeoutId: 0,
 
-      summaryVisible: false,
+      execution: {
+        data: null,
+        loading: false,
+        error: false,
+      },
+
+      pointers: {
+        data: [],
+        loading: false,
+        error: false,
+      },
     };
   },
 
   created() {
     this.reloadJob();
   },
+
   destroyed() {
     clearTimeout(this.timeoutId);
+  },
+
+  filters: {
+    fmtDate(val, fmt = 'llll') {
+      return moment(val).format(fmt);
+    },
   },
 
   computed: {
@@ -134,25 +114,13 @@ export default {
     },
 
     highlightNId() {
-      const pointer = this.pointers.find(p => p.id === this.highlightPId);
+      const pointer = this.listPointers.find(p => p.id === this.highlightPId);
       if (!pointer) { return null; }
       return pointer.node.id;
     },
 
-    execution() {
-      if (!this.item) {
-        return null;
-      }
-
-      return this.item.execution;
-    },
-
-    pointers() {
-      if (!this.item) {
-        return null;
-      }
-
-      return this.item.pointers;
+    executionData() {
+      return this.execution.data;
     },
 
     task() {
@@ -163,19 +131,19 @@ export default {
       return this.item.task;
     },
     taskPointer() {
-      if (!this.pointers || !this.task) {
+      if (!this.listPointers || !this.task) {
         return null;
       }
 
-      return this.pointers.find(x => x.id === this.task.id);
+      return this.listPointers.find(x => x.id === this.task.id);
     },
 
     steps() {
-      if (!this.execution) {
+      if (!this.executionData) {
         return [];
       }
 
-      const state = this.execution.state;
+      const state = this.executionData.state;
       return state.item_order.map(key => state.items[key]);
     },
     path() {
@@ -187,18 +155,63 @@ export default {
 
     collapseId() {
       const vm = this;
-      const modalId = `collapse-${vm.execution.id}`;
+      const modalId = `collapse-${vm.executionData.id}`;
 
       return modalId;
+    },
+
+    listPointers() {
+      return this.pointers.data;
     },
   },
 
   methods: {
+    loadExecution() {
+      const vm = this;
+
+      vm.fetchExecution(vm.item.execution.id)
+        .then((response) => {
+          vm.execution.loading = false;
+          vm.execution.data = response.data.data;
+
+          vm.loadPointers();
+        }).catch(() => {
+          vm.execution.loading = false;
+          vm.execution.error = true;
+        });
+    },
+
+    loadPointers() {
+      const vm = this;
+      vm.fetchExecutionPointers(vm.executionData.id)
+        .then((response) => {
+          vm.pointers.loading = false;
+          vm.pointers.data = response.data.pointers;
+        }).catch(() => {
+          vm.pointers.loading = false;
+          vm.pointers.error = true;
+        });
+    },
+
+    fetchExecution(executionId) {
+      return axios.get(
+        `${API_PVM_URL}/v1/execution/${executionId}`,
+      );
+    },
+
+    fetchExecutionPointers(executionId) {
+      return axios.get(
+        `${API_PVM_URL}/v1/pointer?execution.id=${executionId}`,
+      );
+    },
+
     reloadJob() {
       // In case of dead component
       if (!this || !this.item) {
         return;
       }
+
+      this.loadExecution();
 
       // Clear prev timeout
       clearTimeout(this.timeoutId);
@@ -217,13 +230,13 @@ export default {
 
     handleStepClick(nodeId) {
       let highlight;
-      for (let i = this.pointers.length - 1; i >= 0; i -= 1) {
-        const pointer = this.pointers[i];
+      for (let i = this.listPointers.length - 1; i >= 0; i -= 1) {
+        const pointer = this.listPointers[i];
         if (nodeId === pointer.node.id) {
           highlight = pointer.id;
           this.$router.push({
             name: 'inbox-item-pid',
-            params: { id: this.execution.id, pid: pointer.id },
+            params: { id: this.executionData.id, pid: pointer.id },
           });
         }
       }
@@ -253,26 +266,20 @@ export default {
     },
 
     isOngoingPointer(pointer) {
-      return pointer.state === 'ongoing' && this.execution.status === 'ongoing';
+      return pointer.state === 'ongoing' && this.executionData.status === 'ongoing';
     },
 
     isAssignable(pointer) {
       const vm = this;
       return ['action', 'validation'].includes(pointer.node.type) &&
         pointer.state === 'ongoing' &&
-        vm.execution.status === 'ongoing';
+        vm.executionData.status === 'ongoing';
     },
 
     hasForms(pointer) {
       if (pointer.patch) { return true; }
 
       return ['action', 'validation'].includes(pointer.node.type);
-    },
-  },
-
-  filters: {
-    fmtDate(val, fmt = 'llll') {
-      return moment(val).format(fmt);
     },
   },
 };
