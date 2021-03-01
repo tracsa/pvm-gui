@@ -63,10 +63,7 @@ function formatValidationInput(inp, execution) {
 }
 
 const PointerTranslate = (rawPointer, execution) => {
-  const pointer = {
-    ...rawPointer,
-    forms: [],
-  };
+  const pointer = Object.assign({}, rawPointer, { forms: [] });
 
   if (pointer.patch) {
     pointer.forms = [{
