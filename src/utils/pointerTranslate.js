@@ -109,12 +109,15 @@ const PointerTranslate = (rawPointer, execution) => {
       .forEach((x) => {
         const baseInput = getRefInput(x.ref, execution);
 
-        pointer.forms[0].inputs.push({
-          ...baseInput,
-          value: x.value,
-          value_caption: x.value_caption,
-          label: `Nuevo "${baseInput.label}"`,
-        });
+        pointer.forms[0].inputs.push(Object.assign(
+          {},
+          baseInput,
+          {
+            value: x.value,
+            value_caption: x.value_caption,
+            label: `Nuevo "${baseInput.label}"`,
+          },
+        ));
       });
 
     return pointer;
@@ -123,14 +126,18 @@ const PointerTranslate = (rawPointer, execution) => {
   if (pointer.node.type === 'action') {
     pointer.forms = Object.entries(rawPointer.actors.items)
       .reduce((accForms, [, v]) => accForms.concat(
-        v.forms.reduce((acc, form) => acc.concat({
-          ...form,
-          user: v.user,
-          inputs: form.inputs.item_order
-            .reduce((acc2, inputId) => acc2.concat({
-              ...form.inputs.items[inputId],
-            }), []),
-        }), []),
+        v.forms.reduce((acc, form) => acc.concat(Object.assign(
+          {},
+          form,
+          {
+            user: v.user,
+            inputs: form.inputs.item_order
+              .reduce((acc2, inputId) => acc2.concat(Object.assign(
+                {},
+                form.inputs.items[inputId],
+              )), []),
+          },
+        )), []),
       ), []);
 
     pointer.actors.items = {};
@@ -140,14 +147,18 @@ const PointerTranslate = (rawPointer, execution) => {
   if (pointer.node.type === 'validation') {
     pointer.forms = Object.entries(rawPointer.actors.items)
       .reduce((accForms, [, v]) => accForms.concat(
-        v.forms.reduce((acc, form) => acc.concat({
-          ...form,
-          user: v.user,
-          inputs: form.inputs.item_order
-            .reduce((acc2, inputId) => acc2.concat({
-              ...formatValidationInput(form.inputs.items[inputId], execution),
-            }), []),
-        }), []),
+        v.forms.reduce((acc, form) => acc.concat(Object.assign(
+          {},
+          form,
+          {
+            user: v.user,
+            inputs: form.inputs.item_order
+              .reduce((acc2, inputId) => acc2.concat(Object.assign(
+                {},
+                formatValidationInput(form.inputs.items[inputId], execution),
+              )), []),
+          },
+        )), []),
       ), []);
 
     pointer.actors.items = {};
