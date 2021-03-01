@@ -10,8 +10,12 @@ import './bootstrapvue';
 import i18n from './i18n';
 
 import UserServicePlugin from './services/user.service';
+import PointerServicePlugin from './services/pointer.service';
+import ExecutionServicePlugin from './services/execution.service';
 
 Vue.use(UserServicePlugin);
+Vue.use(PointerServicePlugin);
+Vue.use(ExecutionServicePlugin);
 
 Vue.config.productionTip = false;
 

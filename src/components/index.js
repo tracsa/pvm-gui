@@ -23,7 +23,6 @@ import TaskRedirect from './TaskRedirect';
 import Inbox from './Inbox';
 import InboxListItem from './InboxListItem';
 import InboxItem from './InboxItem';
-import Management from './Management';
 
 import BaseLayout from './BaseLayout';
 
@@ -67,9 +66,6 @@ Vue.component('user-profile-item', UserProfileItem);
 Vue.component('ca-user-profile-item-summary', UserProfileItemSummary);
 Vue.component('ca-user-profile-item-finished-detail', UserProfileItemFinishedDetail);
 Vue.component('ca-user-profile-item-cancelled-detail', UserProfileItemCancelledDetail);
-
-// Admin
-Vue.component('management', Management);
 
 // From inputs
 Vue.component('form-instance', FormInstance);

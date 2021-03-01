@@ -352,15 +352,15 @@ export default {
     ) {
       const vm = this;
 
-      vm.$api.getExecutionsByDate(
-        vm.form.searchText,
-        vm.form.selectedOrder,
+      vm.$executionService.getExecutions({
+        searchText: vm.form.searchText,
+        dateKey: vm.form.selectedOrder,
         maxDate,
         minDate,
-        actorList,
-        vm.form.selectedStatus,
-        'DESCENDING',
-      ).then((response) => {
+        actoredUsers: actorList,
+        executionStatus: vm.form.selectedStatus,
+        dateOrder: 'DESCENDING',
+      }).then((response) => {
         const executions = response.data.data;
 
         vm.executions.push(...executions);

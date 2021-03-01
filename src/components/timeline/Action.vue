@@ -5,7 +5,9 @@
     :verbose="verbose"
   >
     <template v-slot:content>
-      <div class="container-fluid">
+      <div class="container-fluid"
+        v-if="['finished', 'cancelled'].includes(pointer.state)"
+      >
         <hr/>
 
         <div class="row no-gutters mt-3">
@@ -104,10 +106,7 @@
 
 <script>
 import moment from 'moment';
-import axios from 'axios';
 import PointerTranslate from '../../utils/pointerTranslate';
-
-const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
 
 export default {
   props: {
@@ -150,24 +149,6 @@ export default {
       return modalId;
     },
 
-    actors() {
-      const vm = this;
-
-      if (vm.pointer.actors.items) {
-        const actorsList = [];
-
-        Object.values(vm.pointer.actors.items).forEach((item) => {
-          actorsList.push({
-            identifier: item.user.identifier,
-            fullname: item.user.fullname,
-          });
-        });
-        return actorsList;
-      }
-
-      return [];
-    },
-
     listForms() {
       const vm = this;
       return vm.forms.data.filter(form => vm.listInputs(form.inputs).length);
@@ -194,11 +175,11 @@ export default {
       vm.forms.loading = true;
       vm.forms.error = false;
 
-      vm.fetchExecution(vm.pointer.execution.id)
+      vm.$executionService.getExecution(vm.pointer.execution.id)
         .then((exeRes) => {
           const tempExe = exeRes.data.data;
 
-          vm.fetchPointer(vm.pointer.id)
+          vm.$pointerService.getPointer(vm.pointer.id)
             .then((ptrRes) => {
               const tempPtr = ptrRes.data.data;
 
@@ -212,18 +193,6 @@ export default {
           vm.forms.loading = false;
           vm.forms.error = true;
         });
-    },
-
-    fetchExecution(executionId) {
-      return axios.get(
-        `${API_PVM_URL}/v1/execution/${executionId}`,
-      );
-    },
-
-    fetchPointer(pointerId) {
-      return axios.get(
-        `${API_PVM_URL}/v1/pointer/${pointerId}`,
-      );
     },
   },
 };
