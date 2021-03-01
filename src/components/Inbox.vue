@@ -283,7 +283,7 @@ export default {
               ...x.execution,
               pointer: x,
             };
-            delete res.execution;
+            delete res.pointer.execution;
             return res;
           });
 
