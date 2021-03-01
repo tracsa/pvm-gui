@@ -252,56 +252,47 @@ export default {
       this.errors = [];
 
       const srch = this.selectedSearch;
-
-      let itemsUrl = '';
+      let searchArgs = { };
 
       if (srch === 'my_current_tasks') {
-        itemsUrl = (
-          '/inbox?' +
-          '&status=ongoing' +
-          '&pointer.state=ongoing' +
-          `&pointer.notified_users.identifier=${this.userId}` +
-          '&include=id,name,pointer,status' +
-          '&sort=pointer.started_at,DESCENDING'
-        );
+        searchArgs = {
+          pointerStatus: ['ongoing'],
+          executionStatus: ['ongoing'],
+          notifiedUsers: [this.userId],
+          limit: 100000,
+        };
       } else if (srch === 'my_tasks') {
-        itemsUrl = (
-          '/inbox?' +
-          '&status=ongoing' +
-          `&actor_list.actor.identifier=${this.userId}` +
-          '&include=id,name,pointer,status' +
-          '&sort=pointer.started_at,DESCENDING'
-        );
-      } else if (srch === 'my_tags') {
-        itemsUrl = (
-          '/inbox?' +
-          '&status=ongoing' +
-          `&pointer.notified_users.identifier=${this.userId}` +
-          '&include=id,name,pointer,status' +
-          '&sort=pointer.started_at,DESCENDING'
-        );
-      } else if (srch === 'my_all') {
-        itemsUrl = (
-          '/inbox?' +
-          '&status=ongoing' +
-          `&user_identifier=${this.userId}` +
-          '&include=id,name,pointer,status' +
-          '&sort=pointer.started_at,DESCENDING'
-        );
+        searchArgs = {
+          executionStatus: ['ongoing'],
+          actoredUsers: [this.userId],
+          limit: 100000,
+        };
       } else if (srch === 'ongoing') {
-        itemsUrl = (
-          '/inbox?' +
-          '&status=ongoing' +
-          '&include=id,name,pointer,status' +
-          '&sort=pointer.started_at,DESCENDING'
-        );
+        searchArgs = {
+          pointerStatus: ['ongoing'],
+          executionStatus: ['ongoing'],
+          limit: 100000,
+        };
       }
 
-
-      get(itemsUrl)
+      this.$pointerService.getPointers(searchArgs)
         .then((body) => {
+          const rawPointers = body.data.pointers;
+          const built = rawPointers.map((x) => {
+            const res = {
+              ...x.execution,
+              pointer: x,
+            };
+            delete res.execution;
+            return res;
+          });
+
           this.loadingList = false;
-          this.items = body.data;
+          this.items = built.filter((obj, index) => {
+            const id = obj.id;
+            return built.map(item => item.id).indexOf(id) === index;
+          });
+
           this.filterList();
 
           if (cb) {
