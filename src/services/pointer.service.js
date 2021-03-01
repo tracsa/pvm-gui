@@ -109,18 +109,16 @@ class PointerService {
 
     const userQueries = [];
     if (actoredUsers && actoredUsers.length) {
-      const actorsQuery = {
-        $or: actoredUsers.map(x => (
-          {
-            [`actors.items.${x}`]: { $exists: true },
-          }
-        )),
-      };
-
-      if (actorsQuery.$or.length === 1) {
-        userQueries.push(actorsQuery.$or[0]);
+      if (actoredUsers.length === 1) {
+        userQueries.push({
+          'actor_list.actor.identifier': actoredUsers[0],
+        });
       } else {
-        userQueries.push(actorsQuery);
+        userQueries.push({
+          'actor_list.actor.identifier': {
+            $in: actoredUsers,
+          },
+        });
       }
     }
 
