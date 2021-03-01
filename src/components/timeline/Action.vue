@@ -106,7 +106,6 @@
 
 <script>
 import moment from 'moment';
-import axios from 'axios';
 import PointerTranslate from '../../utils/pointerTranslate';
 
 const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
@@ -196,11 +195,11 @@ export default {
       vm.forms.loading = true;
       vm.forms.error = false;
 
-      vm.fetchExecution(vm.pointer.execution.id)
+      vm.$executionService.getExecution(vm.pointer.execution.id)
         .then((exeRes) => {
           const tempExe = exeRes.data.data;
 
-          vm.fetchPointer(vm.pointer.id)
+          vm.$pointerService.getPointer(vm.pointer.id)
             .then((ptrRes) => {
               const tempPtr = ptrRes.data.data;
 
@@ -214,18 +213,6 @@ export default {
           vm.forms.loading = false;
           vm.forms.error = true;
         });
-    },
-
-    fetchExecution(executionId) {
-      return axios.get(
-        `${API_PVM_URL}/v1/execution/${executionId}`,
-      );
-    },
-
-    fetchPointer(pointerId) {
-      return axios.get(
-        `${API_PVM_URL}/v1/pointer/${pointerId}`,
-      );
     },
   },
 };

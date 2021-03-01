@@ -57,7 +57,6 @@
 
 <script>
 import moment from 'moment';
-import axios from 'axios';
 import { getAuthUser } from '../utils/auth';
 
 const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
@@ -169,7 +168,7 @@ export default {
     loadExecution() {
       const vm = this;
 
-      vm.fetchExecution(vm.item.execution.id)
+      vm.$executionService.getExecution(vm.item.execution.id)
         .then((response) => {
           vm.execution.loading = false;
           vm.execution.data = response.data.data;
@@ -183,7 +182,9 @@ export default {
 
     loadPointers() {
       const vm = this;
-      vm.fetchExecutionPointers(vm.executionData.id)
+      vm.$pointerService.getPointers({
+        executionIds: [vm.executionData.id],
+      })
         .then((response) => {
           vm.pointers.loading = false;
           vm.pointers.data = response.data.pointers;
@@ -191,18 +192,6 @@ export default {
           vm.pointers.loading = false;
           vm.pointers.error = true;
         });
-    },
-
-    fetchExecution(executionId) {
-      return axios.get(
-        `${API_PVM_URL}/v1/execution/${executionId}`,
-      );
-    },
-
-    fetchExecutionPointers(executionId) {
-      return axios.get(
-        `${API_PVM_URL}/v1/pointer?execution.id=${executionId}`,
-      );
     },
 
     reloadJob() {
