@@ -169,6 +169,7 @@ class PointerService {
 
     const includesList = [
       'id',
+      'actor_list',
       'notified_users',
       'started_at',
       'finished_at',
@@ -178,7 +179,6 @@ class PointerService {
       'execution.id',
       'state',
       'patch',
-      'actors',
     ].toString();
 
     const payload = {
@@ -200,6 +200,14 @@ class PointerService {
     return ApiService().get(
       '/v1/pointer',
       payload,
+    );
+  };
+
+  getPointer = (pointerId) => {
+    const urlId = encodeURIComponent(pointerId);
+
+    return ApiService().get(
+      `/v1/pointer/${urlId}`,
     );
   };
 }

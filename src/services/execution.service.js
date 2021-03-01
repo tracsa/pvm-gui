@@ -159,9 +159,13 @@ class ExecutionService {
     );
   };
 
-  getExecution = id => ApiService().get(
-    `/v1/execution/${id}`,
-  );
+  getExecution = (executionId) => {
+    const urlId = encodeURIComponent(executionId);
+
+    return ApiService().get(
+      `/v1/execution/${urlId}`,
+    );
+  };
 }
 
 export default {
