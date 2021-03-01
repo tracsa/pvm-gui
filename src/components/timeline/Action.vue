@@ -108,8 +108,6 @@
 import moment from 'moment';
 import PointerTranslate from '../../utils/pointerTranslate';
 
-const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
-
 export default {
   props: {
     pointer: Object,
@@ -149,24 +147,6 @@ export default {
       const modalId = `collapse-${vm.uuid}`;
 
       return modalId;
-    },
-
-    actors() {
-      const vm = this;
-
-      if (vm.pointer.actors.items) {
-        const actorsList = [];
-
-        Object.values(vm.pointer.actors.items).forEach((item) => {
-          actorsList.push({
-            identifier: item.user.identifier,
-            fullname: item.user.fullname,
-          });
-        });
-        return actorsList;
-      }
-
-      return [];
     },
 
     listForms() {

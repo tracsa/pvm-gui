@@ -57,16 +57,12 @@
 
 <script>
 import moment from 'moment';
-import { getAuthUser } from '../utils/auth';
-
-const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
 
 export default {
   props: ['item'],
 
   data() {
     return {
-      user: getAuthUser(),
       sleep: 0,
       timeoutId: 0,
 
@@ -99,13 +95,6 @@ export default {
   },
 
   computed: {
-    cancellable() {
-      return this.user.role === 'admin';
-    },
-    canAssign() {
-      return this.user.role === 'admin';
-    },
-
     highlightPId() {
       const { pid } = this.$route.params;
       if (!pid) { return null; }
@@ -212,6 +201,7 @@ export default {
       this.sleep = this.sleep + 1000;
       this.timeoutId = setTimeout(this.reloadJob, this.sleep);
     },
+
     handleComplete() {
       this.sleep = 0;
       this.reloadJob();
@@ -237,38 +227,6 @@ export default {
           behavior: 'smooth',
         });
       }
-    },
-
-    isDoablePointer(pointer) {
-      const vm = this;
-
-      if (pointer.state !== 'ongoing') {
-        return false;
-      }
-
-      if (pointer.notified_users
-        .map(user => user.identifier).indexOf(vm.user.username) === -1) {
-        return false;
-      }
-
-      return true;
-    },
-
-    isOngoingPointer(pointer) {
-      return pointer.state === 'ongoing' && this.executionData.status === 'ongoing';
-    },
-
-    isAssignable(pointer) {
-      const vm = this;
-      return ['action', 'validation'].includes(pointer.node.type) &&
-        pointer.state === 'ongoing' &&
-        vm.executionData.status === 'ongoing';
-    },
-
-    hasForms(pointer) {
-      if (pointer.patch) { return true; }
-
-      return ['action', 'validation'].includes(pointer.node.type);
     },
   },
 };
