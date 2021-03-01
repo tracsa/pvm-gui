@@ -127,6 +127,11 @@ export default {
     },
   },
 
+  created() {
+    this.showTask();
+    this.visible = this.isDoableByUser;
+  },
+
   computed: {
     collapseId() {
       const vm = this;
