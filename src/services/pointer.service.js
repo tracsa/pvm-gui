@@ -191,7 +191,7 @@ class PointerService {
     if (baseQuery.length) {
       if (baseQuery.length === 1) {
         const key = Object.keys(baseQuery[0])[0];
-        payload.params[key] = JSON.stringify(baseQuery[key]);
+        payload.params[key] = JSON.stringify(baseQuery[0][key]);
       } else {
         payload.params.$and = JSON.stringify(baseQuery);
       }
