@@ -158,28 +158,24 @@ export default {
       const vm = this;
 
       vm.$executionService.getExecution(vm.item.execution.id)
-        .then((response) => {
+        .then((exeResponse) => {
           vm.execution.loading = false;
-          vm.execution.data = response.data.data;
+          vm.execution.data = exeResponse.data.data;
 
-          vm.loadPointers();
+          vm.$pointerService.getPointers({
+            executionIds: [vm.execution.data.id],
+            limit: 100,
+          })
+            .then((ptrResponse) => {
+              vm.pointers.loading = false;
+              vm.pointers.data = ptrResponse.data.pointers;
+            }).catch(() => {
+              vm.pointers.loading = false;
+              vm.pointers.error = true;
+            });
         }).catch(() => {
           vm.execution.loading = false;
           vm.execution.error = true;
-        });
-    },
-
-    loadPointers() {
-      const vm = this;
-      vm.$pointerService.getPointers({
-        executionIds: [vm.executionData.id],
-      })
-        .then((response) => {
-          vm.pointers.loading = false;
-          vm.pointers.data = response.data.pointers;
-        }).catch(() => {
-          vm.pointers.loading = false;
-          vm.pointers.error = true;
         });
     },
 
