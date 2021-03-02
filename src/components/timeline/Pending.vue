@@ -128,8 +128,10 @@ export default {
   },
 
   created() {
-    this.showTask();
-    this.visible = this.isDoableByUser;
+    if (this.isDoableByUser) {
+      this.visible = this.isDoableByUser;
+      this.showTask();
+    }
   },
 
   computed: {
