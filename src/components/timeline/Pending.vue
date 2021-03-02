@@ -129,8 +129,8 @@ export default {
 
   created() {
     if (this.isDoableByUser) {
-      this.visible = this.isDoableByUser;
       this.showTask();
+      this.visible = true;
     }
   },
 
