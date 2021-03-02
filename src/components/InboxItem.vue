@@ -164,6 +164,7 @@ export default {
 
           vm.$pointerService.getPointers({
             executionIds: [vm.execution.data.id],
+            onlyUserAndPatch: true,
             limit: 100,
           })
             .then((ptrResponse) => {
