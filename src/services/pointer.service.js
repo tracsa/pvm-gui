@@ -11,6 +11,7 @@ class PointerService {
     pointerStatus = null,
     pointerTypes = null,
     searchText = null,
+    onlyUserAndPatch = null,
   } = {}) => {
     const baseQuery = [];
 
@@ -43,6 +44,16 @@ class PointerService {
           'execution.status': { $in: executionStatus },
         });
       }
+    }
+
+    if (onlyUserAndPatch) {
+      baseQuery.push({
+        $or: [
+          { state: 'ongoing' },
+          { 'node.type': { $in: ['action', 'validation'] } },
+          { patch: { $ne: null } },
+        ],
+      });
     }
 
     if (
@@ -171,12 +182,12 @@ class PointerService {
       'notified_users',
       'started_at',
       'finished_at',
+      'node.id',
       'node.name',
       'node.type',
       'execution.name',
       'execution.id',
       'state',
-      'patch',
     ].toString();
 
     const payload = {
