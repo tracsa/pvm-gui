@@ -17,7 +17,7 @@ class PointerService {
 
     if (
       executionIds &&
-      executionIds.length
+      Array.isArray(executionIds)
     ) {
       if (executionIds.length === 1) {
         baseQuery.push({
@@ -32,7 +32,7 @@ class PointerService {
 
     if (
       executionStatus &&
-      executionStatus.length &&
+      Array.isArray(executionStatus) &&
       executionStatus.every(x => ['ongoing', 'finished', 'cancelled'].indexOf(x) >= 0)
     ) {
       if (executionStatus.length === 1) {
@@ -58,7 +58,7 @@ class PointerService {
 
     if (
       pointerStatus &&
-      pointerStatus.length &&
+      Array.isArray(pointerStatus) &&
       pointerStatus.every(x => ['ongoing', 'finished', 'cancelled'].indexOf(x) >= 0)
     ) {
       if (pointerStatus.length === 1) {
@@ -74,7 +74,7 @@ class PointerService {
 
     if (
       pointerTypes &&
-      pointerTypes.length &&
+      Array.isArray(pointerTypes) &&
       pointerTypes.every(x => ['action', 'validation'].indexOf(x) >= 0)
     ) {
       if (pointerTypes.length === 1) {
@@ -119,7 +119,7 @@ class PointerService {
     }
 
     const userQueries = [];
-    if (actoredUsers && actoredUsers.length) {
+    if (actoredUsers && Array.isArray(actoredUsers)) {
       if (actoredUsers.length === 1) {
         userQueries.push({
           'actor_list.actor.identifier': actoredUsers[0],
@@ -133,7 +133,7 @@ class PointerService {
       }
     }
 
-    if (notifiedUsers && notifiedUsers.length) {
+    if (notifiedUsers && Array.isArray(notifiedUsers)) {
       if (notifiedUsers.length === 1) {
         userQueries.push({
           'notified_users.identifier': notifiedUsers[0],
