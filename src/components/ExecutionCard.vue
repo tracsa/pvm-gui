@@ -96,7 +96,7 @@
       </div>
 
       <span
-        v-if="verbose && execution.status === 'ongoing'"
+        v-if="verbose"
       >
         <div class="row no-gutters">
           <div class="col">
