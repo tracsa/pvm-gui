@@ -98,9 +98,33 @@
       <span
         v-if="verbose && execution.status === 'ongoing'"
       >
-        <div class="row no-gutters">
+        <div class="row no-gutters mt-3">
           <div class="col">
+            <hero v-if="state.loading"
+              icon="spinner"
+              title="commons.loading"
+              spin
+            />
+            <div v-else-if="state.error"
+              class="text-center my-2"
+            >
+              <icon :icon="['fas', 'times']"/>
+              <span class="ml-1">Error al cargar linea de tiempo</span>
+            </div>
+
+            <div class="w-100 text-center"
+              v-else-if="!stateData"
+            >
+              <a href="#"
+                v-on:click.prevent="loadState()"
+              >
+                <icon :icon="['fa', 'ellipsis-h']"/>
+                <span class="ml-1">Cargar linea de tiempo</span>
+              </a>
+            </div>
+
             <linear-steps
+              v-else
               :nodes="steps"
               @click="$emit('click', $event)"
             />
@@ -200,6 +224,12 @@ export default {
         loading: false,
         error: false,
       },
+
+      state: {
+        data: null,
+        loading: false,
+        error: false,
+      },
     };
   },
 
@@ -219,12 +249,17 @@ export default {
       return md.renderInline(this.execution.name);
     },
 
+    stateData() {
+      if (this.execution.state) { return this.execution.state; }
+      return this.state.data;
+    },
+
     steps() {
-      if (!this.execution.state) {
+      if (!this.stateData) {
         return [];
       }
 
-      const state = this.execution.state;
+      const state = this.stateData;
       return state.item_order.map(key => state.items[key]);
     },
 
@@ -265,6 +300,27 @@ export default {
           vm.summary.loading = false;
           vm.summary.error = true;
         });
+    },
+
+    loadState() {
+      const vm = this;
+
+      if (vm.state.loading) { return; }
+      vm.state.loading = true;
+      vm.state.error = false;
+
+      vm.fetchExecution(this.execution.id)
+        .then((response) => {
+          vm.state.loading = false;
+          vm.state.data = response.data.data.state;
+        }).catch(() => {
+          vm.state.loading = false;
+          vm.state.error = true;
+        });
+    },
+
+    fetchExecution(executionId) {
+      return this.$executionService.getExecution(executionId);
     },
 
     fetchSummary(executionId) {
