@@ -177,6 +177,7 @@ class PointerService {
     }
 
     const includesList = [
+      '_type',
       'id',
       'actor_list',
       'notified_users',
