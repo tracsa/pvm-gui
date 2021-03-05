@@ -127,6 +127,7 @@ class ExecutionService {
     }
 
     const includeList = [
+      '_type',
       'id',
       'notified_users',
       'actor_list',
