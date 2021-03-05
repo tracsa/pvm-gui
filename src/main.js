@@ -1,6 +1,8 @@
 import Vue from 'vue';
 import moment from 'moment';
 import 'whatwg-fetch';
+import VueMq from 'vue-mq';
+
 import App from './App';
 import './components';
 import './views';
@@ -16,6 +18,15 @@ import ExecutionServicePlugin from './services/execution.service';
 Vue.use(UserServicePlugin);
 Vue.use(PointerServicePlugin);
 Vue.use(ExecutionServicePlugin);
+
+Vue.use(VueMq, {
+  breakpoints: {
+    sm: 768,
+    md: 992,
+    lg: Infinity,
+  },
+  defaultBreakPoint: 'sm',
+});
 
 Vue.config.productionTip = false;
 
