@@ -83,14 +83,10 @@
 </template>
 
 <script>
-import _ from 'lodash';
 import moment from 'moment';
-import axios from 'axios';
-import { getAuthToken, getAuthUser } from '../../utils/auth';
+import { getAuthUser } from '../../utils/auth';
 import { post } from '../../utils/api';
 import formatErrors from '../../utils/formatErrors';
-
-const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
 
 export default {
   props: {
@@ -153,6 +149,11 @@ export default {
   },
 
   methods: {
+    fetchTask(pointerId) {
+      const vm = this;
+      return vm.$pointerService.getTask(pointerId);
+    },
+
     validate(validation) {
       const postData = Object.assign({
         execution_id: this.task.data.execution.id,
@@ -207,29 +208,6 @@ export default {
           vm.task.error = true;
         });
     },
-
-    fetchTask: _.debounce(function fetchTask(pointerId) {
-      let auth = getAuthToken();
-
-      if (typeof window !== 'undefined') {
-        auth = btoa(auth);
-      } else {
-        auth = new Buffer(auth).toString('base64');
-      }
-
-      const requestData = {
-        headers: {
-          Authorization: `Basic ${auth}`,
-          'Content-Type': 'application/json',
-          charset: 'UTF-8',
-        },
-      };
-
-      return axios.get(
-        `${API_PVM_URL}/v1/task/${pointerId}`,
-        requestData,
-      );
-    }, 250),
   },
 };
 </script>

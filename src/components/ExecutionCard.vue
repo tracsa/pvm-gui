@@ -184,11 +184,8 @@
 
 <script>
 import moment from 'moment';
-import axios from 'axios';
 
 const md = require('markdown-it')();
-
-const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
 
 export default {
   props: {
@@ -324,9 +321,7 @@ export default {
     },
 
     fetchSummary(executionId) {
-      return axios.get(
-        `${API_PVM_URL}/v1/execution/${executionId}/summary`,
-      );
+      return this.$executionService.getExecutionSummary(executionId);
     },
   },
 };
