@@ -51,7 +51,7 @@
             </div>
 
             <div class="row no-gutters mb-3"
-              v-for="(item, index) in itemList.data"
+              v-for="item in itemList.data"
               :key="item.id"
             >
               <div class="col">
@@ -126,6 +126,8 @@ export default {
 
   methods: {
     handleSelectSearch(searchData) {
+      this.searchData = searchData;
+
       if (searchData.objType === 'pointer') {
         this.fetchPointers(searchData.payload);
       } else if (searchData.objType === 'execution') {
