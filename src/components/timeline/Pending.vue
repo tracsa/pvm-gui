@@ -83,6 +83,7 @@
 </template>
 
 <script>
+import _ from 'lodash';
 import moment from 'moment';
 import axios from 'axios';
 import { getAuthToken, getAuthUser } from '../../utils/auth';
@@ -207,7 +208,7 @@ export default {
         });
     },
 
-    fetchTask(pointerId) {
+    fetchTask: _.debounce(function fetchTask(pointerId) {
       let auth = getAuthToken();
 
       if (typeof window !== 'undefined') {
@@ -228,7 +229,7 @@ export default {
         `${API_PVM_URL}/v1/task/${pointerId}`,
         requestData,
       );
-    },
+    }, 250),
   },
 };
 </script>
