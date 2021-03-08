@@ -169,5 +169,10 @@ export default {
       return obj.state === 'ongoing' ? 'timeline-pending' : 'timeline-action';
     },
   },
+
+  beforeRouteUpdate(to, from, next) {
+    this.selectedExecution = to.query.executionId;
+    next();
+  },
 };
 </script>
