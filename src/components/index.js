@@ -37,9 +37,11 @@ import ExecutionCard from './ExecutionCard';
 
 import UsersPopover from './misc/UsersPopover';
 import MdRender from './misc/MdRender';
+import InboxSidebar from './inbox/Sidebar';
 
 Vue.component('app-users-popover', UsersPopover);
 Vue.component('app-md-render', MdRender);
+Vue.component('app-inbox-sidebar', InboxSidebar);
 
 Vue.component('app-execution-card', ExecutionCard);
 
