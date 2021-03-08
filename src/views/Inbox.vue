@@ -51,7 +51,7 @@
             </div>
 
             <div class="row no-gutters mb-3"
-              v-for="item in itemList.data"
+              v-for="item in listItems.data"
               :key="item.id"
             >
               <div class="col">
@@ -92,7 +92,7 @@ import _ from 'lodash';
 export default {
   data() {
     return {
-      itemList: {
+      listItems: {
         data: [],
         loading: false,
         error: false,
@@ -138,24 +138,24 @@ export default {
     fetchExecutions: _.debounce(function fetchExecutions(payload) {
       const vm = this;
 
-      vm.itemList.loading = true;
+      vm.listItems.loading = true;
 
       vm.$executionService.getExecutions(payload)
         .then((response) => {
-          vm.itemList.data = response.data.data;
-          vm.itemList.totalCount = response.data.total_count;
+          vm.listItems.data = response.data.data;
+          vm.listItems.totalCount = response.data.total_count;
         });
     }, 250),
 
     fetchPointers: _.debounce(function fetchPointers(payload) {
       const vm = this;
 
-      vm.itemList.loading = true;
+      vm.listItems.loading = true;
 
       vm.$pointerService.getPointers(payload)
         .then((response) => {
-          vm.itemList.data = response.data.pointers;
-          vm.itemList.totalCount = response.data.total_count;
+          vm.listItems.data = response.data.pointers;
+          vm.listItems.totalCount = response.data.total_count;
         });
     }, 250),
 
