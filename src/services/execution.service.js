@@ -167,6 +167,14 @@ class ExecutionService {
       `/v1/execution/${urlId}`,
     );
   };
+
+  getExecutionSummary = (executionId) => {
+    const urlId = encodeURIComponent(executionId);
+
+    return ApiService().get(
+      `/v1/execution/${urlId}/summary`,
+    );
+  };
 }
 
 export default {

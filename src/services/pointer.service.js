@@ -1,4 +1,5 @@
 import ApiService from './api.service';
+import { getAuthToken } from '../utils/auth';
 
 class PointerService {
   getPointers = ({
@@ -218,6 +219,32 @@ class PointerService {
 
     return ApiService().get(
       `/v1/pointer/${urlId}`,
+    );
+  };
+
+  getTask = (pointerId) => {
+    const urlId = encodeURIComponent(pointerId);
+
+    const cAuth = getAuthToken();
+    let auth = null;
+
+    if (typeof window !== 'undefined') {
+      auth = btoa(cAuth);
+    } else {
+      auth = new Buffer(cAuth).toString('base64');
+    }
+
+    const requestData = {
+      headers: {
+        Authorization: `Basic ${auth}`,
+        'Content-Type': 'application/json',
+        charset: 'UTF-8',
+      },
+    };
+
+    return ApiService().get(
+      `/v1/task/${urlId}`,
+      requestData,
     );
   };
 }
