@@ -110,6 +110,8 @@ export default {
         totalCount: 0,
       },
 
+      selectedExecution: null,
+
       selectedList: 'myPendingTasks',
       listOptions: [
         {
@@ -161,7 +163,7 @@ export default {
     },
 
     showRight() {
-      return true;
+      return !!this.selectedExecution;
     },
   },
 
