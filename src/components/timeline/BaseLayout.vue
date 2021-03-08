@@ -17,7 +17,7 @@
           <router-link
             v-if="extended"
             :to="{
-              name: 'dashboard',
+              name: 'inbox',
               query: {
                 executionId: pointer.execution.id,
               },
