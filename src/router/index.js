@@ -14,7 +14,7 @@ export default new Router({
         {
           name: 'inbox',
           path: 'inbox',
-          component: Vue.component('inbox'),
+          component: Vue.component('app-inbox'),
         },
         {
           name: 'inbox-item',
@@ -45,11 +45,6 @@ export default new Router({
           name: 'default',
           path: '',
           redirect: 'inbox',
-        },
-        {
-          name: 'history',
-          path: 'history',
-          component: Vue.component('ca-history'),
         },
       ],
     },
