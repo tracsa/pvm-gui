@@ -195,19 +195,26 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    if (!to.query.feed) {
-      to.query.feed = from.query.feed;
-    }
+    if (
+      typeof to.query.feed === 'undefined' ||
+      typeof to.query.u === 'undefined' ||
+      typeof to.query.e === 'undefined'
+    ) {
+      const feed = !(typeof to.query.feed === 'undefined') ? to.query.feed : from.query.feed;
+      const u = !(typeof to.query.u === 'undefined') ? to.query.u : from.query.u;
+      const e = !(typeof to.query.e === 'undefined') ? to.query.e : from.query.e;
 
-    if (!to.query.u) {
-      to.query.u = from.query.u;
+      next({
+        name: 'dashboard',
+        query: {
+          feed: feed || '',
+          u: u || '',
+          e: e || '',
+        },
+      });
+    } else {
+      next();
     }
-
-    if (typeof to.query.e === 'undefined') {
-      to.query.e = from.query.e;
-    }
-
-    next();
   },
 
   watch: {
