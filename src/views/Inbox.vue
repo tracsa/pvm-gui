@@ -23,11 +23,12 @@
         :class="{
           'col-2': showRight,
           'col-3': !showRight,
+          'pr-2': showCenter,
         }"
       >
         <slot name="left">
           <app-inbox-sidebar
-            v-on:select-search="handleSelectSearch($event)"
+            :selected-search="searchData.feed"
           />
         </slot>
       </div>
@@ -37,6 +38,8 @@
           'col-4': (showLeft && showRight) || (!showLeft && showRight),
           'col-9': showLeft && !showRight,
           'col-12': !showLeft && !showRight,
+          'pl-2': showLeft,
+          'pr-2': showRight,
         }"
       >
         <slot name="center">
@@ -73,12 +76,31 @@
           'col-6': showLeft && showCenter,
           'col-8': !showLeft && showCenter,
           'col-12': !showLeft && !showCenter,
+          'pl-2': showCenter,
         }"
       >
         <slot name="right">
-          <div class="text-center">
-            <h3>Flujo de autorizacion</h3>
-            "{{ $mq }}"
+          <div
+            class="text-right my-2"
+          >
+            <router-link
+              :to="{
+                name: 'dashboard',
+                query: {
+                  e: '',
+                }
+              }"
+            >Volver a "{{ searchData.label }}"</router-link>
+          </div>
+
+          <div>
+            <h3
+              class="text-center"
+            >Flujo de autorizacion</h3>
+
+            <app-inbox-execution-timeline
+              :execution-id="selectedExecution"
+            />
           </div>
         </slot>
       </div>
@@ -90,6 +112,11 @@
 import _ from 'lodash';
 
 export default {
+  props: {
+    selectedExecution: String,
+    searchData: Object,
+  },
+
   data() {
     return {
       listItems: {
@@ -98,9 +125,6 @@ export default {
         error: false,
         totalCount: 0,
       },
-
-      selectedExecution: null,
-      searchData: {},
     };
   },
 
@@ -171,8 +195,28 @@ export default {
   },
 
   beforeRouteUpdate(to, from, next) {
-    this.selectedExecution = to.query.executionId;
+    if (!to.query.feed) {
+      to.query.feed = from.query.feed;
+    }
+
+    if (!to.query.u) {
+      to.query.u = from.query.u;
+    }
+
+    if (typeof to.query.e === 'undefined') {
+      to.query.e = from.query.e;
+    }
+
     next();
+  },
+
+  watch: {
+    searchData: {
+      immediate: true,
+      handler(newVal) {
+        this.handleSelectSearch(newVal);
+      },
+    },
   },
 };
 </script>
