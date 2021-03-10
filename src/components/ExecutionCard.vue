@@ -16,9 +16,9 @@
           <router-link
             class="font-weight-bold"
             :to="{
-              name: 'inbox-item',
-              params: {
-                id: execution.id,
+              name: 'dashboard',
+              query: {
+                e: execution.id,
               },
             }"
             v-html="executionNameRender"
