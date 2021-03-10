@@ -215,12 +215,12 @@ export default new Router({
         {
           name: 'processes',
           path: 'process',
-          component: Vue.component('processes'),
+          component: Vue.component('app-processes'),
         },
         {
           name: 'process',
           path: 'process/:id',
-          component: Vue.component('processes'),
+          component: Vue.component('app-processes'),
         },
         {
           name: 'task-redirect',

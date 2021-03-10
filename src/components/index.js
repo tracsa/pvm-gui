@@ -16,7 +16,6 @@ import LinearSteps from './LinearSteps';
 import TimeInput from './TimeInput';
 import ValueRender from './ValueRender';
 import Hero from './Hero';
-import Processes from './Processes';
 import SignIn from './SignIn';
 import LinkInput from './LinkInput';
 
@@ -44,7 +43,6 @@ Vue.component('form-render', FormRender);
 Vue.component('linear-steps', LinearSteps);
 Vue.component('value-render', ValueRender);
 Vue.component('hero', Hero);
-Vue.component('processes', Processes);
 Vue.component('sign-in', SignIn);
 
 Vue.component('base-layout', BaseLayout);
