@@ -38,10 +38,12 @@ import ExecutionCard from './ExecutionCard';
 import UsersPopover from './misc/UsersPopover';
 import MdRender from './misc/MdRender';
 import InboxSidebar from './inbox/Sidebar';
+import InboxExecutionTimeline from './inbox/ExecutionTimeline';
 
 Vue.component('app-users-popover', UsersPopover);
 Vue.component('app-md-render', MdRender);
 Vue.component('app-inbox-sidebar', InboxSidebar);
+Vue.component('app-inbox-execution-timeline', InboxExecutionTimeline);
 
 Vue.component('app-execution-card', ExecutionCard);
 
