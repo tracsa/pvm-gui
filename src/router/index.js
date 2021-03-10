@@ -149,7 +149,7 @@ export default new Router({
                   description: 'Todas las tareas de un usuario',
                   objType: 'pointer',
                   payload: {
-                    pointerStatus: ['ongoing'],
+                    actoredUsers: [userId],
                     notifiedUsers: [userId],
                   },
                 },
