@@ -84,12 +84,9 @@
 
 <script>
 import moment from 'moment';
-import axios from 'axios';
-import { getAuthToken, getAuthUser } from '../../utils/auth';
+import { getAuthUser } from '../../utils/auth';
 import { post } from '../../utils/api';
 import formatErrors from '../../utils/formatErrors';
-
-const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
 
 export default {
   props: {
@@ -99,6 +96,11 @@ export default {
       default: false,
     },
     verbose: {
+      type: Boolean,
+      default: false,
+    },
+
+    autoload: {
       type: Boolean,
       default: false,
     },
@@ -128,7 +130,7 @@ export default {
   },
 
   created() {
-    if (this.isDoableByUser) {
+    if (this.isDoableByUser && this.autoload) {
       this.showTask();
       this.visible = true;
     }
@@ -152,6 +154,11 @@ export default {
   },
 
   methods: {
+    fetchTask(pointerId) {
+      const vm = this;
+      return vm.$pointerService.getTask(pointerId);
+    },
+
     validate(validation) {
       const postData = Object.assign({
         execution_id: this.task.data.execution.id,
@@ -205,29 +212,6 @@ export default {
           vm.task.loading = false;
           vm.task.error = true;
         });
-    },
-
-    fetchTask(pointerId) {
-      let auth = getAuthToken();
-
-      if (typeof window !== 'undefined') {
-        auth = btoa(auth);
-      } else {
-        auth = new Buffer(auth).toString('base64');
-      }
-
-      const requestData = {
-        headers: {
-          Authorization: `Basic ${auth}`,
-          'Content-Type': 'application/json',
-          charset: 'UTF-8',
-        },
-      };
-
-      return axios.get(
-        `${API_PVM_URL}/v1/task/${pointerId}`,
-        requestData,
-      );
     },
   },
 };

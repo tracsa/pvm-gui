@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
-import History from './History';
-import UserProfile from './UserProfile';
+import Inbox from './Inbox';
+import Processes from './Processes';
 
-Vue.component('ca-history', History);
-Vue.component('ca-user-profile', UserProfile);
+Vue.component('app-inbox', Inbox);
+Vue.component('app-processes', Processes);

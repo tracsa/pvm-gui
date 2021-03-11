@@ -41,6 +41,7 @@
     "sass-loader": "^6.0.7",
     "vue": "^2.6.10",
     "vue-i18n": "^7.8.1",
+    "vue-mq": "^1.0.1",
     "vue-router": "^3.0.6",
     "vuejs-datepicker": "^0.9.29",
     "whatwg-fetch": "^2.0.4"

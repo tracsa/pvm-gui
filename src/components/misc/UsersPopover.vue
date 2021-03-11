@@ -12,15 +12,16 @@
         class="mt-2"
         :key="user.identifier"
       >
-        <router-link
+        <component
+          :is="user.identifier ? 'router-link' : 'span'"
           :to="{
             name: 'dashboard',
-            params: { identifier: user.identifier },
+            query: { feed: 'userTasks', u: user.identifier },
           }"
         >
           <icon :icon="['fa', 'user']" class="mr-1"/>
           <b>{{ user.fullname }}</b>
-        </router-link>
+        </component>
 
         <br/>
         <a :href="'mailto:' + user.email"

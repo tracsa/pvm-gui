@@ -19,7 +19,7 @@
             :to="{
               name: 'dashboard',
               query: {
-                executionId: pointer.execution.id,
+                e: pointer.execution.id,
               },
             }"
           >

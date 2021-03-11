@@ -16,9 +16,9 @@
           <router-link
             class="font-weight-bold"
             :to="{
-              name: 'inbox-item',
-              params: {
-                id: execution.id,
+              name: 'dashboard',
+              query: {
+                e: execution.id,
               },
             }"
             v-html="executionNameRender"
@@ -98,9 +98,33 @@
       <span
         v-if="verbose"
       >
-        <div class="row no-gutters">
+        <div class="row no-gutters mt-3">
           <div class="col">
+            <hero v-if="state.loading"
+              icon="spinner"
+              title="commons.loading"
+              spin
+            />
+            <div v-else-if="state.error"
+              class="text-center my-2"
+            >
+              <icon :icon="['fas', 'times']"/>
+              <span class="ml-1">Error al cargar linea de tiempo</span>
+            </div>
+
+            <div class="w-100 text-center"
+              v-else-if="!stateData"
+            >
+              <a href="#"
+                v-on:click.prevent="loadState()"
+              >
+                <icon :icon="['fa', 'ellipsis-h']"/>
+                <span class="ml-1">Cargar linea de tiempo</span>
+              </a>
+            </div>
+
             <linear-steps
+              v-else
               :nodes="steps"
               @click="$emit('click', $event)"
             />
@@ -160,11 +184,8 @@
 
 <script>
 import moment from 'moment';
-import axios from 'axios';
 
 const md = require('markdown-it')();
-
-const API_PVM_URL = `${process.env.CACAHUATE_URL}`;
 
 export default {
   props: {
@@ -200,6 +221,12 @@ export default {
         loading: false,
         error: false,
       },
+
+      state: {
+        data: null,
+        loading: false,
+        error: false,
+      },
     };
   },
 
@@ -219,12 +246,17 @@ export default {
       return md.renderInline(this.execution.name);
     },
 
+    stateData() {
+      if (this.execution.state) { return this.execution.state; }
+      return this.state.data;
+    },
+
     steps() {
-      if (!this.execution.state) {
+      if (!this.stateData) {
         return [];
       }
 
-      const state = this.execution.state;
+      const state = this.stateData;
       return state.item_order.map(key => state.items[key]);
     },
 
@@ -267,10 +299,29 @@ export default {
         });
     },
 
+    loadState() {
+      const vm = this;
+
+      if (vm.state.loading) { return; }
+      vm.state.loading = true;
+      vm.state.error = false;
+
+      vm.fetchExecution(this.execution.id)
+        .then((response) => {
+          vm.state.loading = false;
+          vm.state.data = response.data.data.state;
+        }).catch(() => {
+          vm.state.loading = false;
+          vm.state.error = true;
+        });
+    },
+
+    fetchExecution(executionId) {
+      return this.$executionService.getExecution(executionId);
+    },
+
     fetchSummary(executionId) {
-      return axios.get(
-        `${API_PVM_URL}/v1/execution/${executionId}/summary`,
-      );
+      return this.$executionService.getExecutionSummary(executionId);
     },
   },
 };
