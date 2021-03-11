@@ -46,10 +46,34 @@
           <div class="container-fluid p-0">
             <div class="row no-gutters mb-3">
               <div class="col">
-                <div class="p-1">
-                  <label>Buscar en "{{ searchData.label }}"</label>
-                  <input class="w-100"/>
-                </div>
+                <b-card>
+                  <div>Buscar en "{{ searchData.label }}"</div>
+
+                  <hr/>
+
+                  <b-form
+                    class="w-100"
+                    @submit.stop.prevent="handleSelectSearch();"
+                  >
+                    <b-form-group>
+                      <b-form-input
+                        v-model="searchForm.searchText"
+                        placeholder="Título o Id"
+                        type="search"
+                      ></b-form-input>
+                    </b-form-group>
+
+                      <b-button
+                        type="submit"
+                        variant="secondary"
+                      >
+                        <span>
+                          <icon :icon="['fa', 'search']"/>
+                          Buscar
+                        </span>
+                      </b-button>
+                  </b-form>
+                </b-card>
               </div>
             </div>
 
@@ -68,6 +92,14 @@
             <div
               v-else
             >
+              <div class="row no-gutters mb-3"
+                v-if="!listItems.data.length"
+              >
+                <div class="col">
+                  <h4 class="text-center">No hay elementos para mostrar</h4>
+                </div>
+              </div>
+
               <div class="row no-gutters mb-3"
                 v-for="item in listItems.data"
                 :key="item.id"
@@ -96,23 +128,24 @@
         }"
       >
         <slot name="right">
-          <div
-            class="text-right my-2"
-          >
-            <router-link
-              :to="{
-                name: 'dashboard',
-                query: {
-                  e: '',
-                }
-              }"
-            >Volver a "{{ searchData.label }}"</router-link>
-          </div>
 
           <div>
             <h3
               class="text-center"
             >Flujo de autorizacion</h3>
+
+            <div
+              class="text-right my-2"
+            >
+              <router-link
+                :to="{
+                  name: 'dashboard',
+                  query: {
+                    e: '',
+                  }
+                }"
+              >Volver a "{{ searchData.label }}"</router-link>
+            </div>
 
             <app-inbox-execution-timeline
               :execution-id="selectedExecution"
@@ -135,6 +168,10 @@ export default {
 
   data() {
     return {
+      searchForm: {
+        searchText: '',
+      },
+
       listItems: {
         data: [],
         loading: false,
@@ -165,13 +202,16 @@ export default {
   },
 
   methods: {
-    handleSelectSearch(searchData) {
-      this.searchData = searchData;
+    handleSelectSearch() {
+      const payload = {
+        ...this.searchData.payload,
+        ...this.searchForm,
+      };
 
-      if (searchData.objType === 'pointer') {
-        this.fetchPointers(searchData.payload);
-      } else if (searchData.objType === 'execution') {
-        this.fetchExecutions(searchData.payload);
+      if (this.searchData.objType === 'pointer') {
+        this.fetchPointers(payload);
+      } else if (this.searchData.objType === 'execution') {
+        this.fetchExecutions(payload);
       }
     },
 
@@ -249,7 +289,7 @@ export default {
       handler(newVal, oldVal) {
         // TODO: Do not use json stringify
         if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-          this.handleSelectSearch(newVal);
+          this.handleSelectSearch();
         }
       },
     },
