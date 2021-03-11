@@ -64,27 +64,30 @@
       </div>
 
       <div
-        v-for="item in pointers.data" :key="item.id"
         v-else
       >
-        <component
-          :is="item.state === 'ongoing' ? 'timeline-pending' : 'timeline-action'"
-          :pointer='item'
-          :verbose='true'
-        />
-
         <div
-          class="text-center py-2"
+          v-for="item in pointers.data" :key="item.id"
         >
-          <icon :icon="['fas', 'arrow-alt-circle-up']"/>
-        </div>
-      </div>
+          <component
+            :is="item.state === 'ongoing' ? 'timeline-pending' : 'timeline-action'"
+            :pointer='item'
+            :verbose='true'
+          />
 
-      <div class="card text-white bg-info shadow">
-        <div class="card-body text-center py-2">
-          <b>Flujo iniciado</b>
-          <br/>
-          <span>{{ execution.data.started_at|fmtDate('LLLL') }}</span>
+          <div
+            class="text-center py-2"
+          >
+            <icon :icon="['fas', 'arrow-alt-circle-up']"/>
+          </div>
+        </div>
+
+        <div class="card text-white bg-info shadow">
+          <div class="card-body text-center py-2">
+            <b>Flujo iniciado</b>
+            <br/>
+            <span>{{ execution.data.started_at|fmtDate('LLLL') }}</span>
+          </div>
         </div>
       </div>
     </div>
