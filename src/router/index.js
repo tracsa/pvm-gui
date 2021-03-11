@@ -24,6 +24,7 @@ export default new Router({
               'executionHistory',
               'taskHistory',
               'userTasks',
+              'allTasks',
             ].includes(to.query.feed)) {
               next({
                 name: 'dashboard',
@@ -44,6 +45,7 @@ export default new Router({
 
               return {
                 selectedExecution: to.query.e,
+                searchText: to.query.q,
                 searchData: {
                   feed,
                   label: 'Mis tareas pendientes',
@@ -63,6 +65,7 @@ export default new Router({
 
               return {
                 selectedExecution: to.query.e,
+                searchText: to.query.q,
                 searchData: {
                   feed,
                   label: 'Tareas relacionadas conmigo',
@@ -79,6 +82,7 @@ export default new Router({
             if (feed === 'allOngoingTasks') {
               return {
                 selectedExecution: to.query.e,
+                searchText: to.query.q,
                 searchData: {
                   feed,
                   label: 'Todas las tareas pendientes',
@@ -95,6 +99,7 @@ export default new Router({
             if (feed === 'allOngoingExecutions') {
               return {
                 selectedExecution: to.query.e,
+                searchText: to.query.q,
                 searchData: {
                   feed,
                   label: 'Todos los flujos de autorización en curso',
@@ -110,6 +115,7 @@ export default new Router({
             if (feed === 'executionHistory') {
               return {
                 selectedExecution: to.query.e,
+                searchText: to.query.q,
                 searchData: {
                   feed,
                   label: 'Historal de flujos de autorización',
@@ -125,6 +131,7 @@ export default new Router({
             if (feed === 'taskHistory') {
               return {
                 selectedExecution: to.query.e,
+                searchText: to.query.q,
                 searchData: {
                   feed,
                   label: 'Historal de tareas',
@@ -143,6 +150,7 @@ export default new Router({
 
               return {
                 selectedExecution: to.query.e,
+                searchText: to.query.q,
                 searchData: {
                   feed,
                   label: `Tareas de ${userId}`,
@@ -152,6 +160,20 @@ export default new Router({
                     actoredUsers: [userId],
                     notifiedUsers: [userId],
                   },
+                },
+              };
+            }
+
+            if (feed === 'allTasks') {
+              return {
+                selectedExecution: to.query.e,
+                searchText: to.query.q,
+                searchData: {
+                  feed,
+                  label: 'Tablero de tareas',
+                  description: 'Estas viendo todas las tareas, sin filtros',
+                  objType: 'pointer',
+                  payload: { },
                 },
               };
             }
@@ -177,7 +199,7 @@ export default new Router({
           path: 'inbox/:id',
           redirect: to => (
             {
-              name: 'inbox',
+              name: 'dashboard',
               query: {
                 e: to.params.id,
                 feed: 'myPendingTasks',
@@ -190,11 +212,11 @@ export default new Router({
           path: 'inbox/:id/:pid',
           redirect: to => (
             {
-              name: 'inbox',
+              name: 'dashboard',
               query: {
                 e: to.params.id,
-                feed: 'myPendingTasks',
-                highligh: to.params.pid,
+                feed: 'allTasks',
+                highlight: to.params.pid,
                 q: to.params.pid,
               },
             }
@@ -229,7 +251,7 @@ export default new Router({
             {
               name: 'dashboard',
               query: {
-                feed: 'allOngoingTasks',
+                feed: 'allTasks',
                 highlight: to.params.id,
                 q: to.params.id,
               },
