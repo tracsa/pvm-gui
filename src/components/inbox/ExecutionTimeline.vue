@@ -68,7 +68,7 @@
         v-else
       >
         <component
-          :is="itemComponent(item)"
+          :is="item.state === 'ongoing' ? 'timeline-pending' : 'timeline-action'"
           :pointer='item'
           :verbose='true'
         />
@@ -162,11 +162,6 @@ export default {
           vm.pointers.loading = false;
           vm.pointers.error = false;
         });
-    },
-
-    itemComponent(obj) {
-      // case execution
-      return obj.state === 'ongoing' ? 'timeline-pending' : 'timeline-action';
     },
   },
 
