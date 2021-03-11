@@ -53,18 +53,34 @@
               </div>
             </div>
 
-            <div class="row no-gutters mb-3"
-              v-for="item in listItems.data"
-              :key="item.id"
+            <hero v-if="listItems.loading"
+              icon="spinner"
+              title="commons.loading"
+              spin
+            />
+            <div v-else-if="listItems.error"
+              class="text-center my-2"
             >
-              <div class="col">
-                <component
-                  :is="itemComponent(item)"
-                  :execution='item'
-                  :pointer='item'
-                  :extended='true'
-                  :verbose='true'
-                />
+              <icon :icon="['fas', 'times']"/>
+              <span class="ml-1">Error al cargar elementos</span>
+            </div>
+
+            <div
+              v-else
+            >
+              <div class="row no-gutters mb-3"
+                v-for="item in listItems.data"
+                :key="item.id"
+              >
+                <div class="col">
+                  <component
+                    :is="itemComponent(item)"
+                    :execution='item'
+                    :pointer='item'
+                    :extended='true'
+                    :verbose='true'
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -163,11 +179,16 @@ export default {
       const vm = this;
 
       vm.listItems.loading = true;
+      vm.listItems.error = false;
 
       vm.$executionService.getExecutions(payload)
         .then((response) => {
           vm.listItems.data = response.data.data;
           vm.listItems.totalCount = response.data.total_count;
+          vm.listItems.loading = false;
+        }).catch(() => {
+          vm.listItems.loading = false;
+          vm.listItems.error = true;
         });
     }, 250),
 
@@ -175,11 +196,16 @@ export default {
       const vm = this;
 
       vm.listItems.loading = true;
+      vm.listItems.error = false;
 
       vm.$pointerService.getPointers(payload)
         .then((response) => {
           vm.listItems.data = response.data.pointers;
           vm.listItems.totalCount = response.data.total_count;
+          vm.listItems.loading = false;
+        }).catch(() => {
+          vm.listItems.loading = false;
+          vm.listItems.error = true;
         });
     }, 250),
 
@@ -220,8 +246,11 @@ export default {
   watch: {
     searchData: {
       immediate: true,
-      handler(newVal) {
-        this.handleSelectSearch(newVal);
+      handler(newVal, oldVal) {
+        // TODO: Do not use json stringify
+        if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+          this.handleSelectSearch(newVal);
+        }
       },
     },
   },
