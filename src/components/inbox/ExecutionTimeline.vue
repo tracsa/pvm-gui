@@ -1,7 +1,19 @@
 <template>
   <div>
+    <hero v-if="execution.loading"
+      icon="spinner"
+      title="commons.loading"
+      spin
+    />
+    <div v-else-if="execution.error"
+      class="text-center my-2"
+    >
+      <icon :icon="['fas', 'times']"/>
+      <span class="ml-1">Error al cargar flujo de autorización</span>
+    </div>
+
     <div
-      v-if="execution.data"
+      v-else
     >
       <app-execution-card
         :execution="execution.data"
@@ -39,7 +51,22 @@
         </div>
       </div>
 
-      <div v-for="item in pointers.data" :key="item.id">
+      <hero v-if="pointers.loading"
+        icon="spinner"
+        title="commons.loading"
+        spin
+      />
+      <div v-else-if="pointers.error"
+        class="text-center my-2"
+      >
+        <icon :icon="['fas', 'times']"/>
+        <span class="ml-1">Error al cargar linea de tiempo</span>
+      </div>
+
+      <div
+        v-for="item in pointers.data" :key="item.id"
+        v-else
+      >
         <component
           :is="itemComponent(item)"
           :pointer='item'
