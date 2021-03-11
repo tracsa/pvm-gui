@@ -73,6 +73,7 @@
             :is="item.state === 'ongoing' ? 'timeline-pending' : 'timeline-action'"
             :pointer='item'
             :verbose='true'
+            :autoload='true'
           />
 
           <div

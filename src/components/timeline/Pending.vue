@@ -99,6 +99,11 @@ export default {
       type: Boolean,
       default: false,
     },
+
+    autoload: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -125,7 +130,7 @@ export default {
   },
 
   created() {
-    if (this.isDoableByUser) {
+    if (this.isDoableByUser && this.autoload) {
       this.showTask();
       this.visible = true;
     }
