@@ -164,12 +164,13 @@ export default {
   props: {
     selectedExecution: String,
     searchData: Object,
+    searchText: String,
   },
 
   data() {
     return {
       searchForm: {
-        searchText: '',
+        searchText: this.searchText || '',
       },
 
       listItems: {
@@ -264,11 +265,13 @@ export default {
     if (
       typeof to.query.feed === 'undefined' ||
       typeof to.query.u === 'undefined' ||
-      typeof to.query.e === 'undefined'
+      typeof to.query.e === 'undefined' ||
+      typeof to.query.q === 'undefined'
     ) {
       const feed = !(typeof to.query.feed === 'undefined') ? to.query.feed : from.query.feed;
       const u = !(typeof to.query.u === 'undefined') ? to.query.u : from.query.u;
       const e = !(typeof to.query.e === 'undefined') ? to.query.e : from.query.e;
+      const q = !(typeof to.query.q === 'undefined') ? to.query.q : from.query.q;
 
       next({
         name: 'dashboard',
@@ -276,6 +279,7 @@ export default {
           feed: feed || '',
           u: u || '',
           e: e || '',
+          q: q || '',
         },
       });
     } else {
