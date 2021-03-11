@@ -1,27 +1,82 @@
 <template>
   <div>
-    <app-execution-card
-      :execution="execution.data"
+    <div
       v-if="execution.data"
-      :extended='true'
-      :verbose='true'
-    />
-
-    <div v-for="item in pointers.data" :key="item.id">
-      <component
-        :is="itemComponent(item)"
-        :pointer='item'
+    >
+      <app-execution-card
+        :execution="execution.data"
+        :extended='true'
         :verbose='true'
       />
+
+      <hr class="my-4"/>
+
+      <div
+        v-if="execution.data.status !== 'ongoing'"
+      >
+        <div class="card text-white shadow"
+          :class="{
+            'bg-success': execution.data.status === 'finished',
+            'bg-danger': execution.data.status === 'cancelled',
+          }"
+        >
+          <div class="card-body text-center py-2">
+            <b>
+              <span v-if="execution.data.status === 'cancelled'"
+              >Flujo cancelado</span>
+              <span v-else-if="execution.data.status === 'finished'"
+              >Flujo finalizado</span>
+            </b>
+            <br/>
+            <span>{{ execution.started_at|fmtDate('LLLL') }}</span>
+          </div>
+        </div>
+
+        <div
+          class="text-center py-2"
+        >
+          <icon :icon="['fas', 'arrow-alt-circle-up']"/>
+        </div>
+      </div>
+
+      <div v-for="item in pointers.data" :key="item.id">
+        <component
+          :is="itemComponent(item)"
+          :pointer='item'
+          :verbose='true'
+        />
+
+        <div
+          class="text-center py-2"
+        >
+          <icon :icon="['fas', 'arrow-alt-circle-up']"/>
+        </div>
+      </div>
+
+      <div class="card text-white bg-info shadow">
+        <div class="card-body text-center py-2">
+          <b>Flujo iniciado</b>
+          <br/>
+          <span>{{ execution.data.started_at|fmtDate('LLLL') }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
   props: {
     executionId: {
       required: true,
+    },
+  },
+
+  filters: {
+    fmtDate(val, fmt = 'llll') {
+      return moment(val).format(fmt);
     },
   },
 
