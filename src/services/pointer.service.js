@@ -8,6 +8,7 @@ class PointerService {
     executionIds = null,
     limit = null,
     maxDate = null,
+    minDate = null,
     notifiedUsers = null,
     pointerStatus = null,
     pointerTypes = null,
@@ -164,6 +165,21 @@ class PointerService {
                 dateString: maxDate,
               },
             },
+          ],
+        },
+      });
+    }
+
+    if (minDate) {
+      baseQuery.push({
+        $expr: {
+          $lt: [
+            {
+              $dateFromString: {
+                dateString: minDate,
+              },
+            },
+            '$started_at',
           ],
         },
       });
