@@ -13,16 +13,12 @@
           class="col text-justify"
           :class="{ 'text-truncate': extended }"
         >
-          <router-link
-            :to="{
-              name: 'dashboard',
-              query: {
-                e: execution.id,
-              },
-            }"
+          <a
+            href="#"
+            v-on:click.prevent="$emit('click-execution', execution.id)"
           >
             <b><app-md-render :raw-string="executionName"/></b>
-          </router-link>
+          </a>
         </div>
       </div>
 
