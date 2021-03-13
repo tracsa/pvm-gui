@@ -111,6 +111,7 @@
                     :pointer='item'
                     :extended='true'
                     :verbose='true'
+                    v-on:click-execution="selectedExecution = $event;"
                   />
                 </div>
               </div>
@@ -137,14 +138,10 @@
             <div
               class="text-right my-2"
             >
-              <router-link
-                :to="{
-                  name: 'dashboard',
-                  query: {
-                    e: '',
-                  }
-                }"
-              >Volver a "{{ searchData.label }}"</router-link>
+              <a
+                href="#"
+                v-on:click.prevent="selectedExecution = ''"
+              >Volver a "{{ searchData.label }}"</a>
             </div>
 
             <app-inbox-execution-timeline
@@ -162,13 +159,13 @@ import _ from 'lodash';
 
 export default {
   props: {
-    selectedExecution: String,
     searchData: Object,
     searchText: String,
   },
 
   data() {
     return {
+      selectedExecution: '',
       searchForm: {
         searchText: this.searchText || '',
       },

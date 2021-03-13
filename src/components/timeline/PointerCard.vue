@@ -14,17 +14,13 @@
           :class="{ 'text-truncate': extended }"
         >
           <b><app-md-render :raw-string="pointerName"/></b><br/>
-          <router-link
+          <a
             v-if="extended"
-            :to="{
-              name: 'dashboard',
-              query: {
-                e: pointer.execution.id,
-              },
-            }"
+            href="#"
+            v-on:click.prevent="$emit('click-execution', pointer.execution.id)"
           >
             <small>En <b><app-md-render :raw-string="executionName"/></b></small>
-          </router-link>
+          </a>
         </div>
       </div>
 
