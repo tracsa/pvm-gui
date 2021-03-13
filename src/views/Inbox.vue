@@ -257,7 +257,7 @@ export default {
         return 'app-execution-card';
       }
       // case pointer
-      return obj.state === 'ongoing' ? 'timeline-pending' : 'timeline-action';
+      return 'timeline-item-base';
     },
   },
 

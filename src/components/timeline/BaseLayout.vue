@@ -114,6 +114,17 @@
 
       <div class="row no-gutters">
         <div class="col">
+          <timeline-action
+            v-if="['finished', 'cancelled'].includes(pointer.state)"
+            :pointer-id="pointer.id"
+            :execution-id="pointer.execution.id"
+          />
+
+          <timeline-pending
+            v-else-if="isDoableByUser"
+            :pointer-id="pointer.id"
+          />
+
           <slot name="content"></slot>
         </div>
       </div>
@@ -123,6 +134,7 @@
 
 <script>
 import moment from 'moment';
+import { getAuthUser } from '../../utils/auth';
 
 export default {
   props: {
@@ -200,8 +212,11 @@ export default {
       return `actors-popover-${vm.uuid}`;
     },
 
-    borderVariant() {
-      return 'warning';
+    isDoableByUser() {
+      const user = getAuthUser();
+      return this.pointer.state === 'ongoing' &&
+        this.pointer.notified_users
+          .map(x => x.identifier).includes(user.username);
     },
   },
 };
