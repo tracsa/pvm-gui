@@ -257,7 +257,7 @@ export default {
         return 'app-execution-card';
       }
       // case pointer
-      return 'timeline-item-base';
+      return 'app-pointer-card';
     },
   },
 

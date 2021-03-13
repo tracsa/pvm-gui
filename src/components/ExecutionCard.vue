@@ -134,48 +134,48 @@
 
       <div class="row no-gutters">
         <div class="col">
-          <slot name="content">
-            <div class="container-fluid">
-              <hr/>
+          <div class="container-fluid">
+            <hr/>
 
-              <div class="row no-gutters mt-3">
-                <div class="col">
-                  <b-collapse :id="collapseId" v-model="visible">
-                    <hero v-if="summary.loading"
-                      icon="spinner"
-                      title="commons.loading"
-                      spin
-                    />
-                    <div v-else-if="summary.error"
-                      class="text-center my-2"
-                    >
-                      <icon :icon="['fas', 'times']"/>
-                      <span class="ml-1">Error al cargar resumen</span>
-                    </div>
-
-                    <div v-else
-                      v-html="summary.html"
-                    />
-                  </b-collapse>
-
-                  <div class="w-100 text-center">
-                    <a
-                      v-b-toggle="collapseId"
-                      href="#"
-                      v-on:click.prevent="showSummary()"
-                    >
-                      <span v-if="!visible">
-                        <icon :icon="['fas', 'caret-down']"/>
-                        Mostrar resumen</span>
-                      <span v-else>
-                        <icon :icon="['fas', 'caret-up']"/>
-                        Ocultar resumen</span>
-                    </a>
+            <div class="row no-gutters mt-3">
+              <div class="col">
+                <b-collapse :id="collapseId" v-model="visible">
+                  <hero v-if="summary.loading"
+                    icon="spinner"
+                    title="commons.loading"
+                    spin
+                  />
+                  <div v-else-if="summary.error"
+                    class="text-center my-2"
+                  >
+                    <icon :icon="['fas', 'times']"/>
+                    <span class="ml-1">Error al cargar resumen</span>
                   </div>
+
+                  <div v-else
+                    v-html="summary.html"
+                  />
+                </b-collapse>
+
+                <div class="w-100 text-center">
+                  <a
+                    v-b-toggle="collapseId"
+                    href="#"
+                    v-on:click.prevent="showSummary()"
+                  >
+                    <span v-if="!visible">
+                      <icon :icon="['fas', 'caret-down']"/>
+                      Mostrar resumen</span>
+                    <span v-else>
+                      <icon :icon="['fas', 'caret-up']"/>
+                      Ocultar resumen</span>
+                  </a>
                 </div>
               </div>
             </div>
-          </slot>
+          </div>
+
+          <slot name="content"></slot>
         </div>
       </div>
     </div>
