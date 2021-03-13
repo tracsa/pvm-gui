@@ -170,11 +170,19 @@ export default {
         return '[Tarea de sistema]';
       }
 
+      if (!this.pointer.node.name) {
+        return '';
+      }
+
       return this.pointer.node.name;
     },
 
     executionName() {
       if (!this.pointer.execution) {
+        return '';
+      }
+
+      if (!this.pointer.execution.name) {
         return '';
       }
 
