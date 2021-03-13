@@ -19,10 +19,6 @@ import Hero from './Hero';
 import SignIn from './SignIn';
 import LinkInput from './LinkInput';
 
-import BaseLayout from './BaseLayout';
-
-import ExecutionCard from './ExecutionCard';
-
 import UsersPopover from './misc/UsersPopover';
 import MdRender from './misc/MdRender';
 import InboxSidebar from './inbox/Sidebar';
@@ -33,8 +29,6 @@ Vue.component('app-md-render', MdRender);
 Vue.component('app-inbox-sidebar', InboxSidebar);
 Vue.component('app-inbox-execution-timeline', InboxExecutionTimeline);
 
-Vue.component('app-execution-card', ExecutionCard);
-
 // Components
 Vue.component('app', App);
 Vue.component('app-header', Header);
@@ -44,8 +38,6 @@ Vue.component('linear-steps', LinearSteps);
 Vue.component('value-render', ValueRender);
 Vue.component('hero', Hero);
 Vue.component('sign-in', SignIn);
-
-Vue.component('base-layout', BaseLayout);
 
 // From inputs
 Vue.component('form-instance', FormInstance);
