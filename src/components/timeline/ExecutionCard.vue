@@ -121,7 +121,7 @@
             <linear-steps
               v-else
               :nodes="steps"
-              @click="$emit('click', $event)"
+              @click="$emit('click-node', $event)"
             />
           </div>
         </div>
