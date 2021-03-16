@@ -1,6 +1,7 @@
 import Datepicker from 'vuejs-datepicker';
 import Vue from 'vue';
 import './timeline';
+import './inbox';
 
 import App from './App';
 import Activity from './Activity';
@@ -21,13 +22,9 @@ import LinkInput from './LinkInput';
 
 import UsersPopover from './misc/UsersPopover';
 import MdRender from './misc/MdRender';
-import InboxSidebar from './inbox/Sidebar';
-import InboxExecutionTimeline from './inbox/ExecutionTimeline';
 
 Vue.component('app-users-popover', UsersPopover);
 Vue.component('app-md-render', MdRender);
-Vue.component('app-inbox-sidebar', InboxSidebar);
-Vue.component('app-inbox-execution-timeline', InboxExecutionTimeline);
 
 // Components
 Vue.component('app', App);
