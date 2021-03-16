@@ -48,7 +48,7 @@ export default new Router({
                 description: 'Aquí podrás ver las tareas que te faltan por realizar',
                 feed,
                 executionId: to.query.e,
-                searchText: to.query.q,
+                query: to.query.q,
                 fixedPayload: {
                   objType: 'pointer',
                   executionStatus: ['ongoing'],
@@ -66,7 +66,7 @@ export default new Router({
                 description: 'Estas son todas las tareas que te asignaron o realizaste',
                 feed,
                 executionId: to.query.e,
-                searchText: to.query.q,
+                query: to.query.q,
                 fixedPayload: {
                   objType: 'pointer',
                   actoredUsers: [userId],
@@ -83,7 +83,7 @@ export default new Router({
                 description: 'Estás viendo todas las tareas en curso, de todos los usuarios',
                 feed,
                 executionId: to.query.e,
-                searchText: to.query.q,
+                query: to.query.q,
                 fixedPayload: {
                   objType: 'pointer',
                   executionStatus: ['ongoing'],
@@ -98,7 +98,7 @@ export default new Router({
                 description: '¿Quieres ver todos los procesos en curso? Aquí estan',
                 feed,
                 executionId: to.query.e,
-                searchText: to.query.q,
+                query: to.query.q,
                 fixedPayload: {
                   objType: 'execution',
                   executionStatus: ['ongoing'],
@@ -112,7 +112,7 @@ export default new Router({
                 description: '¿Buscas un proceso finalizado o cancelado? Este es el lugar correcto',
                 feed,
                 executionId: to.query.e,
-                searchText: to.query.q,
+                query: to.query.q,
                 fixedPayload: {
                   objType: 'execution',
                   executionStatus: ['finished', 'cancelled'],
@@ -126,7 +126,7 @@ export default new Router({
                 description: '¿En busca de tareas finalizadas o canceladas? Llegaste al lugar indicado',
                 feed,
                 executionId: to.query.e,
-                searchText: to.query.q,
+                query: to.query.q,
                 fixedPayload: {
                   objType: 'pointer',
                   pointerStatus: ['finished', 'cancelled'],
@@ -143,7 +143,7 @@ export default new Router({
                 description: 'Todas las tareas de un usuario',
                 feed,
                 executionId: to.query.e,
-                searchText: to.query.q,
+                query: to.query.q,
                 fixedPayload: {
                   objType: 'pointer',
                   actoredUsers: [userId],
@@ -158,7 +158,7 @@ export default new Router({
                 description: 'Aquí tienes todos los filtros para buscar',
                 feed,
                 executionId: to.query.e,
-                searchText: to.query.q,
+                query: to.query.q,
                 fixedPayload: { },
               };
             }

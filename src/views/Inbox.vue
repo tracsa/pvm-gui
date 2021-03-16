@@ -160,7 +160,7 @@ export default {
       required: true,
     },
     executionId: String,
-    searchText: String,
+    query: String,
     fixedPayload: Object,
   },
 
@@ -168,6 +168,7 @@ export default {
     return {
       selectedFeed: this.feed,
       selectedExecution: this.executionId,
+      searchText: this.query || '',
       searchForm: null, // built based on prop
 
       listItems: {
@@ -325,7 +326,7 @@ export default {
             executionStatus: ['ongoing', 'finished', 'cancelled'],
             pointerStatus: ['ongoing', 'finished', 'cancelled'],
             objType: 'pointer',
-            searchText: this.searchText || '',
+            searchText: this.query || '',
             minDate: '',
             maxDate: '',
             ...newVal,
