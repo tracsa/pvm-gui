@@ -14,17 +14,13 @@
           :class="{ 'text-truncate': extended }"
         >
           <b><app-md-render :raw-string="pointerName"/></b><br/>
-          <router-link
+          <a
             v-if="extended"
-            :to="{
-              name: 'dashboard',
-              query: {
-                e: pointer.execution.id,
-              },
-            }"
+            href="#"
+            v-on:click.prevent="$emit('click-execution', pointer.execution.id)"
           >
             <small>En <b><app-md-render :raw-string="executionName"/></b></small>
-          </router-link>
+          </a>
         </div>
       </div>
 
@@ -114,6 +110,17 @@
 
       <div class="row no-gutters">
         <div class="col">
+          <timeline-action
+            v-if="['finished', 'cancelled'].includes(pointer.state)"
+            :pointer-id="pointer.id"
+            :execution-id="pointer.execution.id"
+          />
+
+          <timeline-pending
+            v-else-if="isDoableByUser"
+            :pointer-id="pointer.id"
+          />
+
           <slot name="content"></slot>
         </div>
       </div>
@@ -123,6 +130,7 @@
 
 <script>
 import moment from 'moment';
+import { getAuthUser } from '../../utils/auth';
 
 export default {
   props: {
@@ -158,11 +166,19 @@ export default {
         return '[Tarea de sistema]';
       }
 
+      if (!this.pointer.node.name) {
+        return '';
+      }
+
       return this.pointer.node.name;
     },
 
     executionName() {
       if (!this.pointer.execution) {
+        return '';
+      }
+
+      if (!this.pointer.execution.name) {
         return '';
       }
 
@@ -200,8 +216,11 @@ export default {
       return `actors-popover-${vm.uuid}`;
     },
 
-    borderVariant() {
-      return 'warning';
+    isDoableByUser() {
+      const user = getAuthUser();
+      return this.pointer.state === 'ongoing' &&
+        this.pointer.notified_users
+          .map(x => x.identifier).includes(user.username);
     },
   },
 };

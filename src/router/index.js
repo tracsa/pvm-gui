@@ -24,7 +24,7 @@ export default new Router({
               'executionHistory',
               'taskHistory',
               'userTasks',
-              'allTasks',
+              'general',
             ].includes(to.query.feed)) {
               next({
                 name: 'dashboard',
@@ -44,18 +44,16 @@ export default new Router({
               const userId = getAuthUser().username;
 
               return {
-                selectedExecution: to.query.e,
-                searchText: to.query.q,
-                searchData: {
-                  feed,
-                  label: 'Mis tareas pendientes',
-                  description: 'Aquí podrás ver las tareas que faltan por realizar',
+                title: 'Mis tareas pendientes',
+                description: 'Aquí podrás ver las tareas que te faltan por realizar',
+                feed,
+                executionId: to.query.e,
+                query: to.query.q,
+                fixedPayload: {
                   objType: 'pointer',
-                  payload: {
-                    executionStatus: ['ongoing'],
-                    pointerStatus: ['ongoing'],
-                    notifiedUsers: [userId],
-                  },
+                  executionStatus: ['ongoing'],
+                  pointerStatus: ['ongoing'],
+                  notifiedUsers: [userId],
                 },
               };
             }
@@ -64,83 +62,75 @@ export default new Router({
               const userId = getAuthUser().username;
 
               return {
-                selectedExecution: to.query.e,
-                searchText: to.query.q,
-                searchData: {
-                  feed,
-                  label: 'Tareas relacionadas conmigo',
-                  description: 'Estas son todas las tareas que te asignaron o realizaste',
+                title: 'Tareas relacionadas conmigo',
+                description: 'Estas son todas las tareas que te asignaron o realizaste',
+                feed,
+                executionId: to.query.e,
+                query: to.query.q,
+                fixedPayload: {
                   objType: 'pointer',
-                  payload: {
-                    actoredUsers: [userId],
-                    notifiedUsers: [userId],
-                  },
+                  actoredUsers: [userId],
+                  notifiedUsers: [userId],
+                  pointerStatus: null,
+                  executionStatus: null,
                 },
               };
             }
 
             if (feed === 'allOngoingTasks') {
               return {
-                selectedExecution: to.query.e,
-                searchText: to.query.q,
-                searchData: {
-                  feed,
-                  label: 'Todas las tareas pendientes',
-                  description: 'Estás viendo todas las tareas en curso, de todos los usuarios',
+                title: 'Todas las tareas pendientes',
+                description: 'Estás viendo todas las tareas en curso, de todos los usuarios',
+                feed,
+                executionId: to.query.e,
+                query: to.query.q,
+                fixedPayload: {
                   objType: 'pointer',
-                  payload: {
-                    executionStatus: ['ongoing'],
-                    pointerStatus: ['ongoing'],
-                  },
+                  executionStatus: ['ongoing'],
+                  pointerStatus: ['ongoing'],
                 },
               };
             }
 
             if (feed === 'allOngoingExecutions') {
               return {
-                selectedExecution: to.query.e,
-                searchText: to.query.q,
-                searchData: {
-                  feed,
-                  label: 'Todos los flujos de autorización en curso',
-                  description: '¿Quieres ver todos los procesos en curso? Aquí estan',
+                title: 'Todos los flujos de autorización en curso',
+                description: '¿Quieres ver todos los procesos en curso? Aquí estan',
+                feed,
+                executionId: to.query.e,
+                query: to.query.q,
+                fixedPayload: {
                   objType: 'execution',
-                  payload: {
-                    executionStatus: ['ongoing'],
-                  },
+                  executionStatus: ['ongoing'],
                 },
               };
             }
 
             if (feed === 'executionHistory') {
               return {
-                selectedExecution: to.query.e,
-                searchText: to.query.q,
-                searchData: {
-                  feed,
-                  label: 'Historal de flujos de autorización',
-                  description: '¿Buscas un proceso finalizado o cancelado? Este es el lugar correcto',
+                title: 'Historal de flujos de autorización',
+                description: '¿Buscas un proceso finalizado o cancelado? Este es el lugar correcto',
+                feed,
+                executionId: to.query.e,
+                query: to.query.q,
+                fixedPayload: {
                   objType: 'execution',
-                  payload: {
-                    executionStatus: ['finished', 'cancelled'],
-                  },
+                  executionStatus: ['finished', 'cancelled'],
                 },
               };
             }
 
             if (feed === 'taskHistory') {
               return {
-                selectedExecution: to.query.e,
-                searchText: to.query.q,
-                searchData: {
-                  feed,
-                  label: 'Historal de tareas',
-                  description: '¿En busca de tareas finalizadas o canceladas? Llegaste al lugar indicado',
+                title: 'Historal de tareas',
+                description: '¿En busca de tareas finalizadas o canceladas? Llegaste al lugar indicado',
+                feed,
+                executionId: to.query.e,
+                query: to.query.q,
+                fixedPayload: {
                   objType: 'pointer',
-                  payload: {
-                    pointerStatus: ['finished', 'cancelled'],
-                    onlyUserAndPatch: true,
-                  },
+                  pointerStatus: ['finished', 'cancelled'],
+                  onlyUserAndPatch: true,
                 },
               };
             }
@@ -149,32 +139,27 @@ export default new Router({
               const userId = to.query.u;
 
               return {
-                selectedExecution: to.query.e,
-                searchText: to.query.q,
-                searchData: {
-                  feed,
-                  label: `Tareas de ${userId}`,
-                  description: 'Todas las tareas de un usuario',
+                title: `Tareas de ${userId}`,
+                description: 'Todas las tareas de un usuario',
+                feed,
+                executionId: to.query.e,
+                query: to.query.q,
+                fixedPayload: {
                   objType: 'pointer',
-                  payload: {
-                    actoredUsers: [userId],
-                    notifiedUsers: [userId],
-                  },
+                  actoredUsers: [userId],
+                  notifiedUsers: [userId],
                 },
               };
             }
 
-            if (feed === 'allTasks') {
+            if (feed === 'general') {
               return {
-                selectedExecution: to.query.e,
-                searchText: to.query.q,
-                searchData: {
-                  feed,
-                  label: 'Tablero de tareas',
-                  description: 'Estas viendo todas las tareas, sin filtros',
-                  objType: 'pointer',
-                  payload: { },
-                },
+                title: 'Tablero general',
+                description: 'Aquí tienes todos los filtros para buscar',
+                feed,
+                executionId: to.query.e,
+                query: to.query.q,
+                fixedPayload: { },
               };
             }
 
@@ -251,7 +236,7 @@ export default new Router({
             {
               name: 'dashboard',
               query: {
-                feed: 'allTasks',
+                feed: 'myPendingTasks',
                 highlight: to.params.id,
                 q: to.params.id,
               },

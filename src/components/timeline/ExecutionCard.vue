@@ -13,17 +13,12 @@
           class="col text-justify"
           :class="{ 'text-truncate': extended }"
         >
-          <router-link
-            class="font-weight-bold"
-            :to="{
-              name: 'dashboard',
-              query: {
-                e: execution.id,
-              },
-            }"
-            v-html="executionNameRender"
+          <a
+            href="#"
+            v-on:click.prevent="$emit('click-execution', execution.id)"
           >
-          </router-link>
+            <b><app-md-render :raw-string="executionName"/></b>
+          </a>
         </div>
       </div>
 
@@ -126,56 +121,19 @@
             <linear-steps
               v-else
               :nodes="steps"
-              @click="$emit('click', $event)"
+              @click="$emit('click-node', $event)"
             />
           </div>
         </div>
       </span>
 
       <div class="row no-gutters">
+        <timeline-summary
+          :execution-id="execution.id"
+        />
+
         <div class="col">
-          <slot name="content">
-            <div class="container-fluid">
-              <hr/>
-
-              <div class="row no-gutters mt-3">
-                <div class="col">
-                  <b-collapse :id="collapseId" v-model="visible">
-                    <hero v-if="summary.loading"
-                      icon="spinner"
-                      title="commons.loading"
-                      spin
-                    />
-                    <div v-else-if="summary.error"
-                      class="text-center my-2"
-                    >
-                      <icon :icon="['fas', 'times']"/>
-                      <span class="ml-1">Error al cargar resumen</span>
-                    </div>
-
-                    <div v-else
-                      v-html="summary.html"
-                    />
-                  </b-collapse>
-
-                  <div class="w-100 text-center">
-                    <a
-                      v-b-toggle="collapseId"
-                      href="#"
-                      v-on:click.prevent="showSummary()"
-                    >
-                      <span v-if="!visible">
-                        <icon :icon="['fas', 'caret-down']"/>
-                        Mostrar resumen</span>
-                      <span v-else>
-                        <icon :icon="['fas', 'caret-up']"/>
-                        Ocultar resumen</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </slot>
+          <slot name="content"></slot>
         </div>
       </div>
     </div>
@@ -184,8 +142,6 @@
 
 <script>
 import moment from 'moment';
-
-const md = require('markdown-it')();
 
 export default {
   props: {
@@ -214,13 +170,6 @@ export default {
   data() {
     return {
       uuid: Math.random(),
-      visible: false,
-
-      summary: {
-        html: null,
-        loading: false,
-        error: false,
-      },
 
       state: {
         data: null,
@@ -231,19 +180,12 @@ export default {
   },
 
   computed: {
-    collapseId() {
-      const vm = this;
-      const modalId = `collapse-${vm.uuid}`;
-
-      return modalId;
-    },
-
-    executionNameRender() {
+    executionName() {
       if (!this.execution.name) {
         return '';
       }
 
-      return md.renderInline(this.execution.name);
+      return this.execution.name;
     },
 
     stateData() {
@@ -282,23 +224,6 @@ export default {
   },
 
   methods: {
-    showSummary() {
-      const vm = this;
-
-      if (vm.summary.loading || vm.visible) { return; }
-      vm.summary.loading = true;
-      vm.summary.error = false;
-
-      vm.fetchSummary(vm.execution.id)
-        .then((response) => {
-          vm.summary.loading = false;
-          vm.summary.html = response.data;
-        }).catch(() => {
-          vm.summary.loading = false;
-          vm.summary.error = true;
-        });
-    },
-
     loadState() {
       const vm = this;
 
@@ -318,10 +243,6 @@ export default {
 
     fetchExecution(executionId) {
       return this.$executionService.getExecution(executionId);
-    },
-
-    fetchSummary(executionId) {
-      return this.$executionService.getExecutionSummary(executionId);
     },
   },
 };

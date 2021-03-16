@@ -9,8 +9,8 @@
       <div class="col">
         <slot name="top">
           <div class="px-3 py-2 text-center">
-            <h3>{{ searchData.label }}</h3>
-            <p>{{ searchData.description }}</p>
+            <h3>{{ title }}</h3>
+            <p>{{ description }}</p>
           </div>
           <hr/>
 
@@ -28,7 +28,8 @@
       >
         <slot name="left">
           <app-inbox-sidebar
-            :selected-search="searchData.feed"
+            :selected-search="selectedFeed"
+            v-on:click-feed="selectFeed($event)"
           />
         </slot>
       </div>
@@ -47,32 +48,15 @@
             <div class="row no-gutters mb-3">
               <div class="col">
                 <b-card>
-                  <div>Buscar en "{{ searchData.label }}"</div>
+                  <div>Buscar en "{{ title }}"</div>
 
                   <hr/>
 
-                  <b-form
-                    class="w-100"
-                    @submit.stop.prevent="handleSelectSearch();"
-                  >
-                    <b-form-group>
-                      <b-form-input
-                        v-model="searchForm.searchText"
-                        placeholder="Título o Id"
-                        type="search"
-                      ></b-form-input>
-                    </b-form-group>
-
-                      <b-button
-                        type="submit"
-                        variant="secondary"
-                      >
-                        <span>
-                          <icon :icon="['fa', 'search']"/>
-                          Buscar
-                        </span>
-                      </b-button>
-                  </b-form>
+                  <app-inbox-search-card
+                    :fixed-args="fixedPayload"
+                    v-model="searchForm"
+                    v-on:submit="submitForm"
+                  />
                 </b-card>
               </div>
             </div>
@@ -111,6 +95,7 @@
                     :pointer='item'
                     :extended='true'
                     :verbose='true'
+                    v-on:click-execution="selectExecution($event);"
                   />
                 </div>
               </div>
@@ -137,14 +122,13 @@
             <div
               class="text-right my-2"
             >
-              <router-link
-                :to="{
-                  name: 'dashboard',
-                  query: {
-                    e: '',
-                  }
-                }"
-              >Volver a "{{ searchData.label }}"</router-link>
+              <a
+                href="#"
+                v-on:click.prevent="selectExecution()"
+              >
+                <icon :icon="['fas', 'arrow-circle-left']"/>
+                <span class="ml-1">Volver a "{{ title }}"</span>
+              </a>
             </div>
 
             <app-inbox-execution-timeline
@@ -158,20 +142,34 @@
 </template>
 
 <script>
+import moment from 'moment';
 import _ from 'lodash';
 
 export default {
   props: {
-    selectedExecution: String,
-    searchData: Object,
-    searchText: String,
+    title: {
+      type: String,
+      required: true,
+    },
+    description: {
+      type: String,
+      required: true,
+    },
+    feed: {
+      type: String,
+      required: true,
+    },
+    executionId: String,
+    query: String,
+    fixedPayload: Object,
   },
 
   data() {
     return {
-      searchForm: {
-        searchText: this.searchText || '',
-      },
+      selectedFeed: this.feed,
+      selectedExecution: this.executionId,
+      searchText: this.query || '',
+      searchForm: null, // built based on prop
 
       listItems: {
         data: [],
@@ -205,13 +203,20 @@ export default {
   methods: {
     handleSelectSearch() {
       const payload = {
-        ...this.searchData.payload,
         ...this.searchForm,
       };
 
-      if (this.searchData.objType === 'pointer') {
+      if (payload.minDate) {
+        payload.minDate = moment(payload.minDate).toISOString();
+      }
+
+      if (payload.maxDate) {
+        payload.maxDate = moment(payload.maxDate).add(1, 'days').toISOString();
+      }
+
+      if (payload.objType === 'pointer') {
         this.fetchPointers(payload);
-      } else if (this.searchData.objType === 'execution') {
+      } else if (payload.objType === 'execution') {
         this.fetchExecutions(payload);
       }
     },
@@ -257,46 +262,88 @@ export default {
         return 'app-execution-card';
       }
       // case pointer
-      return obj.state === 'ongoing' ? 'timeline-pending' : 'timeline-action';
+      return 'app-pointer-card';
+    },
+
+    selectFeed(newFeed) {
+      const newRoute = {
+        name: this.$route.name,
+        params: { ...this.$route.params },
+        query: { ...this.$route.query },
+      };
+
+      newRoute.query.feed = newFeed;
+
+      this.$router.push(newRoute);
+    },
+
+    selectExecution(newExecution) {
+      const newRoute = {
+        name: this.$route.name,
+        params: { ...this.$route.params },
+        query: { ...this.$route.query },
+      };
+
+      if (newExecution) {
+        newRoute.query.e = newExecution;
+      } else {
+        delete newRoute.query.e;
+      }
+
+      this.$router.push(newRoute);
+    },
+
+    submitForm() {
+      const newRoute = {
+        name: this.$route.name,
+        params: { ...this.$route.params },
+        query: { ...this.$route.query },
+      };
+
+      if (this.searchForm.searchText) {
+        newRoute.query.q = this.searchForm.searchText;
+      } else {
+        delete newRoute.query.q;
+      }
+
+      this.handleSelectSearch();
+
+      this.$router.push(newRoute);
     },
   },
 
-  beforeRouteUpdate(to, from, next) {
-    if (
-      typeof to.query.feed === 'undefined' ||
-      typeof to.query.u === 'undefined' ||
-      typeof to.query.e === 'undefined' ||
-      typeof to.query.q === 'undefined'
-    ) {
-      const feed = !(typeof to.query.feed === 'undefined') ? to.query.feed : from.query.feed;
-      const u = !(typeof to.query.u === 'undefined') ? to.query.u : from.query.u;
-      const e = !(typeof to.query.e === 'undefined') ? to.query.e : from.query.e;
-      const q = !(typeof to.query.q === 'undefined') ? to.query.q : from.query.q;
-
-      next({
-        name: 'dashboard',
-        query: {
-          feed: feed || '',
-          u: u || '',
-          e: e || '',
-          q: q || '',
-        },
-      });
-    } else {
-      next();
-    }
-  },
-
   watch: {
-    searchData: {
+    fixedPayload: {
       immediate: true,
       handler(newVal, oldVal) {
-        // TODO: Do not use json stringify
-        if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+        if (
+          !oldVal ||
+          (JSON.stringify(newVal) !== JSON.stringify(oldVal))
+        ) {
+          this.searchForm = {
+            actoredUsers: null,
+            notifiedUsers: null,
+            executionStatus: ['ongoing', 'finished', 'cancelled'],
+            pointerStatus: ['ongoing', 'finished', 'cancelled'],
+            objType: 'pointer',
+            searchText: this.query || '',
+            minDate: '',
+            maxDate: '',
+            ...newVal,
+          };
+
           this.handleSelectSearch();
         }
       },
     },
+  },
+
+  beforeRouteUpdate(to, from, next) {
+    this.selectedFeed = to.query.feed;
+    this.selectedExecution = to.query.e;
+    this.searchText = to.query.q;
+
+    next();
   },
 };
 </script>

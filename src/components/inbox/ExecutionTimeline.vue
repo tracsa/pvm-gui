@@ -69,11 +69,9 @@
         <div
           v-for="item in pointers.data" :key="item.id"
         >
-          <component
-            :is="item.state === 'ongoing' ? 'timeline-pending' : 'timeline-action'"
+          <app-pointer-card
             :pointer='item'
             :verbose='true'
-            :autoload='true'
             v-on:complete="fetchRecentPointers()"
           />
 
