@@ -6,12 +6,10 @@
       pills
     >
       <b-nav-item
+        href="#"
+        v-on:click.prevent="$emit('click-feed', item.value)"
         v-for="(item, index) in searchOptions"
         :key="index"
-        :to="{
-          name: 'dashboard',
-          query: { feed: item.value },
-        }"
         :active="item.value === selectedSearch"
       >{{ item.label }}</b-nav-item>
     </b-nav>
@@ -48,6 +46,10 @@ export default {
         {
           value: 'taskHistory',
           label: 'Historal de tareas',
+        },
+        {
+          value: 'general',
+          label: 'Tablero general',
         },
       ],
     };
