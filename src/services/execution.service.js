@@ -170,7 +170,9 @@ class ExecutionService {
 
     return ApiService().get(
       `/v1/execution/${urlId}`,
-    );
+    )
+      .then(({ data }) => ({ ...data.data }))
+      .catch(error => Promise.reject(error));
   };
 
   getExecutionSummary = (executionId) => {
