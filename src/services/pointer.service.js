@@ -226,7 +226,12 @@ class PointerService {
     return ApiService().get(
       '/v1/pointer',
       payload,
-    );
+    )
+      .then(({ data }) => ({
+        items: data.pointers,
+        totalCount: data.total_count,
+      }))
+      .catch(error => Promise.reject(error));
   };
 
   getPointer = (pointerId) => {
