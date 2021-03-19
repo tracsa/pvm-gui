@@ -239,7 +239,9 @@ class PointerService {
 
     return ApiService().get(
       `/v1/pointer/${urlId}`,
-    );
+    )
+      .then(({ data }) => ({ ...data.data }))
+      .catch(error => Promise.reject(error));
   };
 
   getTask = (pointerId) => {
