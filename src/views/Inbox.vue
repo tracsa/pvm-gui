@@ -223,7 +223,7 @@ export default {
   },
 
   methods: {
-    handleSelectSearch() {
+    handleSelectSearch: _.debounce(function handleSelectSearch() {
       const vm = this;
 
       vm.listItems.data = [];
@@ -263,9 +263,9 @@ export default {
           vm.listItems.loading = false;
           vm.listItems.error = true;
         });
-    },
+    }, 250),
 
-    loadMore() {
+    loadMore: _.debounce(function loadMore() {
       const vm = this;
 
       vm.olderItems.loading = true;
@@ -312,7 +312,7 @@ export default {
           vm.olderItems.loading = false;
           vm.olderItems.error = true;
         });
-    },
+    }, 250),
 
     itemComponent(obj) {
       // case execution
