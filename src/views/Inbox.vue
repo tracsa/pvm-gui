@@ -214,20 +214,23 @@ export default {
         payload.maxDate = moment(payload.maxDate).add(1, 'days').toISOString();
       }
 
+      let serviceCallback = null;
       if (payload.objType === 'pointer') {
-        this.fetchPointers(payload);
+        serviceCallback = this.$pointerService.getPointers;
       } else if (payload.objType === 'execution') {
-        this.fetchExecutions(payload);
+        serviceCallback = this.$executionService.getExecutions;
       }
+
+      this.fetchItems(serviceCallback, payload);
     },
 
-    fetchExecutions: _.debounce(function fetchExecutions(payload) {
+    fetchItems: _.debounce(function fetchItems(callback, payload) {
       const vm = this;
 
       vm.listItems.loading = true;
       vm.listItems.error = false;
 
-      vm.$executionService.getExecutions(payload)
+      callback(payload)
         .then(({ items, totalCount }) => {
           const currentItems = vm.listItems.data.map(x => x.id);
           items.forEach((x) => {
