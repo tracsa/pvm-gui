@@ -99,6 +99,23 @@
                   />
                 </div>
               </div>
+
+              <hero v-if="olderItems.loading"
+                icon="spinner"
+                title="commons.loading"
+                spin
+              />
+              <div class="row no-gutters mb-3"
+                v-else
+              >
+                <div class="col">
+                  <button
+                    type="button"
+                    class="btn btn-primary w-100"
+                    @click="loadMore"
+                  >Cargar más</button>
+                </div>
+              </div>
             </div>
           </div>
         </slot>
@@ -177,6 +194,11 @@ export default {
         error: false,
         totalCount: 0,
       },
+
+      olderItems: {
+        loading: false,
+        error: false,
+      },
     };
   },
 
@@ -202,8 +224,14 @@ export default {
 
   methods: {
     handleSelectSearch() {
+      const vm = this;
+
+      vm.listItems.data = [];
+      vm.listItems.loading = true;
+      vm.listItems.error = false;
+
       const payload = {
-        ...this.searchForm,
+        ...vm.searchForm,
       };
 
       if (payload.minDate) {
@@ -216,21 +244,12 @@ export default {
 
       let serviceCallback = null;
       if (payload.objType === 'pointer') {
-        serviceCallback = this.$pointerService.getPointers;
+        serviceCallback = vm.$pointerService.getPointers;
       } else if (payload.objType === 'execution') {
-        serviceCallback = this.$executionService.getExecutions;
+        serviceCallback = vm.$executionService.getExecutions;
       }
 
-      this.fetchItems(serviceCallback, payload);
-    },
-
-    fetchItems: _.debounce(function fetchItems(callback, payload) {
-      const vm = this;
-
-      vm.listItems.loading = true;
-      vm.listItems.error = false;
-
-      callback(payload)
+      serviceCallback(payload)
         .then(({ items, totalCount }) => {
           const currentItems = vm.listItems.data.map(x => x.id);
           items.forEach((x) => {
@@ -244,7 +263,56 @@ export default {
           vm.listItems.loading = false;
           vm.listItems.error = true;
         });
-    }, 250),
+    },
+
+    loadMore() {
+      const vm = this;
+
+      vm.olderItems.loading = true;
+      vm.olderItems.error = false;
+
+      const payload = {
+        ...vm.searchForm,
+      };
+
+      if (payload.minDate) {
+        payload.minDate = moment(payload.minDate).toISOString();
+      }
+
+      if (payload.maxDate && vm.listItems.data.length) {
+        const listLength = vm.listItems.data.length;
+
+        if (vm.listItems.data[listLength - 1] > payload.maxDate) {
+          payload.maxDate = moment(payload.maxDate).add(1, 'days').toISOString();
+        } else {
+          payload.maxDate = moment(vm.listItems.data[listLength - 1].started_at).toISOString();
+        }
+      } else if (vm.listItems.data.length) {
+        const listLength = vm.listItems.data.length;
+        payload.maxDate = moment(vm.listItems.data[listLength - 1].started_at).toISOString();
+      }
+
+      let serviceCallback = null;
+      if (payload.objType === 'pointer') {
+        serviceCallback = vm.$pointerService.getPointers;
+      } else if (payload.objType === 'execution') {
+        serviceCallback = vm.$executionService.getExecutions;
+      }
+
+      serviceCallback(payload)
+        .then(({ items }) => {
+          const currentItems = vm.listItems.data.map(x => x.id);
+          items.forEach((x) => {
+            if (!currentItems.includes(x.id)) {
+              vm.listItems.data.push(x);
+            }
+          });
+          vm.olderItems.loading = false;
+        }).catch(() => {
+          vm.olderItems.loading = false;
+          vm.olderItems.error = true;
+        });
+    },
 
     itemComponent(obj) {
       // case execution
