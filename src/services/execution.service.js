@@ -157,7 +157,12 @@ class ExecutionService {
     return ApiService().get(
       '/v1/execution',
       payload,
-    );
+    )
+      .then(({ data }) => ({
+        items: data.data,
+        totalCount: data.total_count,
+      }))
+      .catch(error => Promise.reject(error));
   };
 
   getExecution = (executionId) => {
