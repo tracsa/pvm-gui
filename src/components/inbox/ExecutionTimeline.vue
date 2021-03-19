@@ -194,10 +194,10 @@ export default {
         onlyUserAndPatch: true,
         limit: 100,
       })
-        .then((ptrRes) => {
+        .then(({ items, totalCount }) => {
           vm.pointers.loading = false;
-          vm.pointers.data = ptrRes.data.pointers;
-          vm.pointers.totalCount = ptrRes.data.total_count;
+          vm.pointers.data = items;
+          vm.pointers.totalCount = totalCount;
         })
         .catch(() => {
           vm.pointers.loading = false;
@@ -223,15 +223,15 @@ export default {
       vm.$pointerService.getPointers({
         executionIds: [executionId],
         minDate,
-      }).then((ptrRes) => {
+      }).then(({ items }) => {
         const current = {};
         vm.pointers.data.forEach(x => (
           Object.assign(current, { [x.id]: x.state })
         ));
 
         if (
-          ptrRes.data.pointers.length &&
-          !ptrRes.data.pointers
+          items.length &&
+          !items.pointers
             .filter(x => (
               ['validation', 'action'].includes(x.node.type) || x.patch || x.state === 'ongoing'
             ))
@@ -240,7 +240,7 @@ export default {
           vm.reloadExecution();
         }
 
-        ptrRes.data.pointers
+        items
           .filter(x => current[x.id] !== x.state)
           .forEach((ptr) => {
             vm.pointers.data.push(ptr);

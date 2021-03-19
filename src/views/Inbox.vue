@@ -228,9 +228,14 @@ export default {
       vm.listItems.error = false;
 
       vm.$executionService.getExecutions(payload)
-        .then((response) => {
-          vm.listItems.data = response.data.data;
-          vm.listItems.totalCount = response.data.total_count;
+        .then(({ items, totalCount }) => {
+          const currentItems = vm.listItems.data.map(x => x.id);
+          items.forEach((x) => {
+            if (!currentItems.includes(x.id)) {
+              vm.listItems.data.push(x);
+            }
+          });
+          vm.listItems.totalCount = totalCount;
           vm.listItems.loading = false;
         }).catch(() => {
           vm.listItems.loading = false;
