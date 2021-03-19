@@ -169,11 +169,9 @@ export default {
           const tempExe = exeRes.data.data;
 
           vm.$pointerService.getPointer(vm.pointerId)
-            .then((ptrRes) => {
-              const tempPtr = ptrRes.data.data;
-
+            .then((ptr) => {
               vm.forms.loading = false;
-              vm.forms.data = PointerTranslate(tempPtr, tempExe).forms;
+              vm.forms.data = PointerTranslate(ptr, tempExe).forms;
             }).catch(() => {
               vm.forms.loading = false;
               vm.forms.error = true;
