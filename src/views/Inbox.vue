@@ -246,28 +246,6 @@ export default {
         });
     }, 250),
 
-    fetchPointers: _.debounce(function fetchPointers(payload) {
-      const vm = this;
-
-      vm.listItems.loading = true;
-      vm.listItems.error = false;
-
-      vm.$pointerService.getPointers(payload)
-        .then(({ items, totalCount }) => {
-          const currentItems = vm.listItems.data.map(x => x.id);
-          items.forEach((x) => {
-            if (!currentItems.includes(x.id)) {
-              vm.listItems.data.push(x);
-            }
-          });
-          vm.listItems.totalCount = totalCount;
-          vm.listItems.loading = false;
-        }).catch(() => {
-          vm.listItems.loading = false;
-          vm.listItems.error = true;
-        });
-    }, 250),
-
     itemComponent(obj) {
       // case execution
       const k = '_type';
