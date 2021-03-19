@@ -156,8 +156,8 @@ export default {
       vm.recentExecution.error = false;
 
       vm.$executionService.getExecution(executionId)
-        .then((exeRes) => {
-          vm.execution.data = exeRes.data.data;
+        .then((exe) => {
+          vm.execution.data = exe;
           vm.recentExecution.loading = false;
         }).catch(() => {
           vm.recentExecution.loading = false;
@@ -172,8 +172,8 @@ export default {
       vm.execution.error = false;
 
       vm.$executionService.getExecution(executionId)
-        .then((exeRes) => {
-          vm.execution.data = exeRes.data.data;
+        .then((exe) => {
+          vm.execution.data = exe;
           vm.execution.loading = false;
 
           vm.fetchPointers(executionId);

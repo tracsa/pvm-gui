@@ -231,18 +231,14 @@ export default {
       vm.state.loading = true;
       vm.state.error = false;
 
-      vm.fetchExecution(this.execution.id)
-        .then((response) => {
+      this.$executionService.getExecution(this.execution.id)
+        .then((exe) => {
           vm.state.loading = false;
-          vm.state.data = response.data.data.state;
+          vm.state.data = exe.state;
         }).catch(() => {
           vm.state.loading = false;
           vm.state.error = true;
         });
-    },
-
-    fetchExecution(executionId) {
-      return this.$executionService.getExecution(executionId);
     },
   },
 };
