@@ -81,18 +81,14 @@ export default {
       vm.summary.loading = true;
       vm.summary.error = false;
 
-      vm.fetchSummary(vm.executionId)
-        .then((response) => {
+      vm.$executionService.getExecutionSummary(vm.executionId)
+        .then((smmry) => {
           vm.summary.loading = false;
-          vm.summary.html = response.data;
+          vm.summary.html = smmry;
         }).catch(() => {
           vm.summary.loading = false;
           vm.summary.error = true;
         });
-    },
-
-    fetchSummary(executionId) {
-      return this.$executionService.getExecutionSummary(executionId);
     },
   },
 };

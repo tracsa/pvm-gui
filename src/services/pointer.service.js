@@ -226,7 +226,12 @@ class PointerService {
     return ApiService().get(
       '/v1/pointer',
       payload,
-    );
+    )
+      .then(({ data }) => ({
+        items: data.pointers,
+        totalCount: data.total_count,
+      }))
+      .catch(error => Promise.reject(error));
   };
 
   getPointer = (pointerId) => {
@@ -234,7 +239,9 @@ class PointerService {
 
     return ApiService().get(
       `/v1/pointer/${urlId}`,
-    );
+    )
+      .then(({ data }) => ({ ...data.data }))
+      .catch(error => Promise.reject(error));
   };
 
   getTask = (pointerId) => {
@@ -260,7 +267,9 @@ class PointerService {
     return ApiService().get(
       `/v1/task/${urlId}`,
       requestData,
-    );
+    )
+      .then(({ data }) => ({ ...data.data }))
+      .catch(error => Promise.reject(error));
   };
 }
 

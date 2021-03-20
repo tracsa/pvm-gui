@@ -118,11 +118,6 @@ export default {
   },
 
   methods: {
-    fetchTask(pointerId) {
-      const vm = this;
-      return vm.$pointerService.getTask(pointerId);
-    },
-
     validate(validation) {
       const postData = Object.assign({
         execution_id: this.task.data.execution.id,
@@ -167,9 +162,9 @@ export default {
       vm.task.loading = true;
       vm.task.error = false;
 
-      vm.fetchTask(vm.pointerId)
-        .then((taskRes) => {
-          vm.task.data = taskRes.data.data;
+      vm.$pointerService.getTask(vm.pointerId)
+        .then((tsk) => {
+          vm.task.data = tsk;
           vm.task.loading = false;
           vm.task.error = false;
         }).catch(() => {

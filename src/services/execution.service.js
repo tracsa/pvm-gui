@@ -157,7 +157,12 @@ class ExecutionService {
     return ApiService().get(
       '/v1/execution',
       payload,
-    );
+    )
+      .then(({ data }) => ({
+        items: data.data,
+        totalCount: data.total_count,
+      }))
+      .catch(error => Promise.reject(error));
   };
 
   getExecution = (executionId) => {
@@ -165,7 +170,9 @@ class ExecutionService {
 
     return ApiService().get(
       `/v1/execution/${urlId}`,
-    );
+    )
+      .then(({ data }) => ({ ...data.data }))
+      .catch(error => Promise.reject(error));
   };
 
   getExecutionSummary = (executionId) => {
@@ -173,7 +180,9 @@ class ExecutionService {
 
     return ApiService().get(
       `/v1/execution/${urlId}/summary`,
-    );
+    )
+      .then(({ data }) => data)
+      .catch(error => Promise.reject(error));
   };
 }
 
