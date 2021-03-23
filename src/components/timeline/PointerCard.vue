@@ -106,7 +106,7 @@
             </small>
           </a>
 
-          <span v-else>
+          <span v-else-if="pointer.state !== 'ongoing'">
             <small>Sin información de actores</small>
           </span>
         </div>
