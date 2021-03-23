@@ -162,7 +162,7 @@ export default {
       vm.task.loading = true;
       vm.task.error = false;
 
-      vm.$pointerService.getTask(vm.pointerId)
+      vm.$pointerService.getPointerTask(vm.pointerId)
         .then((tsk) => {
           vm.task.data = tsk;
           vm.task.loading = false;
