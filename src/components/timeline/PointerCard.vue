@@ -105,6 +105,10 @@
               <b>Realizada por {{ actors.length }}</b>
             </small>
           </a>
+
+          <span v-else>
+            <small>Sin información de actores</small>
+          </span>
         </div>
       </div>
 
