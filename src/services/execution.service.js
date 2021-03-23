@@ -170,7 +170,7 @@ function getExecution(executionId) {
   return ApiService().get(
     `/v1/execution/${urlId}`,
   )
-    .then(({ data }) => ({ ...data.data }))
+    .then(({ data }) => Object.assign({}, data.data))
     .catch(error => Promise.reject(error));
 }
 
