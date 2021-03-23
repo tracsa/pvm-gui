@@ -14,7 +14,7 @@
             class="text-center my-2"
           >
             <icon :icon="['fas', 'times']"/>
-            <span class="ml-1">Error al cargar detalle</span>
+            <span class="ml-1">Error al cargar tarea</span>
           </div>
 
           <div
@@ -39,7 +39,7 @@
               :forms="task.data.form_array"
               :prevWork="task.data.prev_work"
               :errors="errors"
-              :sending="sending"
+              :sending="sending || sent"
               @submit= "submit"
             />
 
@@ -47,7 +47,7 @@
               v-if="task.data.node_type === 'validation'"
               :fields="task.data.fields"
               :errors="errors"
-              :sending="sending"
+              :sending="sending || sent"
               @submit= "validate"
             />
           </div>
@@ -61,10 +61,10 @@
           >
             <span v-if="!visible">
               <icon :icon="['fas', 'caret-down']"/>
-              Mostrar detalle</span>
+              Mostrar tarea</span>
             <span v-else>
               <icon :icon="['fas', 'caret-up']"/>
-              Ocultar detalle</span>
+              Ocultar tarea</span>
           </a>
         </div>
       </div>
@@ -93,6 +93,7 @@ export default {
         global: [],
       },
       sending: false,
+      sent: false,
 
       task: {
         data: null,
@@ -128,6 +129,7 @@ export default {
       post('/pointer', postData, 'application/json')
         .then(() => {
           this.sending = false;
+          this.sent = true;
           this.$emit('complete');
         })
         .catch((errors) => {
@@ -147,6 +149,7 @@ export default {
       post('/pointer', postData, 'application/json')
         .then(() => {
           this.sending = false;
+          this.sent = true;
           this.$emit('complete');
         })
         .catch((errors) => {
@@ -162,7 +165,7 @@ export default {
       vm.task.loading = true;
       vm.task.error = false;
 
-      vm.$pointerService.getTask(vm.pointerId)
+      vm.$pointerService.getPointerTask(vm.pointerId)
         .then((tsk) => {
           vm.task.data = tsk;
           vm.task.loading = false;

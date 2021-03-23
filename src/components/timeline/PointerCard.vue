@@ -105,6 +105,10 @@
               <b>Realizada por {{ actors.length }}</b>
             </small>
           </a>
+
+          <span v-else-if="pointer.state !== 'ongoing'">
+            <small>Sin información de actores</small>
+          </span>
         </div>
       </div>
 
@@ -119,6 +123,7 @@
           <timeline-pending
             v-else-if="isDoableByUser"
             :pointer-id="pointer.id"
+            @complete="$emit('complete')"
           />
 
           <slot name="content"></slot>

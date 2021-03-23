@@ -243,7 +243,7 @@ function getPointer(pointerId) {
     .catch(error => Promise.reject(error));
 }
 
-function getTask(pointerId) {
+function getPointerTask(pointerId) {
   const urlId = encodeURIComponent(pointerId);
 
   const cAuth = getAuthToken();
@@ -274,13 +274,11 @@ function getTask(pointerId) {
 export const pointerService = {
   getPointers,
   getPointer,
-  getTask,
+  getPointerTask,
 };
 
 export default {
   install(Vue, name = '$pointerService') {
-    Object.defineProperty(
-      Vue.prototype, name,
-      { value: pointerService });
+    Object.defineProperty(Vue.prototype, name, { value: pointerService });
   },
 };
