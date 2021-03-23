@@ -41,11 +41,11 @@ export default {
         },
         {
           value: 'executionHistory',
-          label: 'Historal de flujos de autorización',
+          label: 'Historial de flujos de autorización',
         },
         {
           value: 'taskHistory',
-          label: 'Historal de tareas',
+          label: 'Historial de tareas',
         },
         {
           value: 'general',

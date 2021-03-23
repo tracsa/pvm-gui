@@ -108,7 +108,7 @@ export default new Router({
 
             if (feed === 'executionHistory') {
               return {
-                title: 'Historal de flujos de autorización',
+                title: 'Historial de flujos de autorización',
                 description: '¿Buscas un proceso finalizado o cancelado? Este es el lugar correcto',
                 feed,
                 executionId: to.query.e,
@@ -122,7 +122,7 @@ export default new Router({
 
             if (feed === 'taskHistory') {
               return {
-                title: 'Historal de tareas',
+                title: 'Historial de tareas',
                 description: '¿En busca de tareas finalizadas o canceladas? Llegaste al lugar indicado',
                 feed,
                 executionId: to.query.e,
