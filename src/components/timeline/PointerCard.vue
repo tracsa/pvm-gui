@@ -123,6 +123,7 @@
           <timeline-pending
             v-else-if="isDoableByUser"
             :pointer-id="pointer.id"
+            @complete="$emit('complete')"
           />
 
           <slot name="content"></slot>

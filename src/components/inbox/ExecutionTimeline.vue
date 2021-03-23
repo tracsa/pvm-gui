@@ -212,50 +212,16 @@ export default {
       vm.recentPointers.loading = true;
       vm.recentPointers.error = false;
 
-      let minDate = null;
-      const found = vm.pointers.data.find(x => x.finished_at);
-      if (found) {
-        minDate = moment(found.started_at).toISOString();
-      } else {
-        minDate = moment(vm.execution.started_at).toISOString();
-      }
-
       vm.$pointerService.getPointers({
         executionIds: [executionId],
-        minDate,
-      }).then(({ items }) => {
-        const current = {};
-        vm.pointers.data.forEach(x => (
-          Object.assign(current, { [x.id]: x.state })
-        ));
+        onlyUserAndPatch: true,
+        limit: 100,
+      }).then(({ items, totalCount }) => {
+        vm.recentPointers.loading = false;
+        vm.pointers.data = items;
+        vm.pointer.totalCount = totalCount;
 
-        if (
-          items.length &&
-          !items.pointers
-            .filter(x => (
-              ['validation', 'action'].includes(x.node.type) || x.patch || x.state === 'ongoing'
-            ))
-            .every(x => current[x.id] === x.state)
-        ) {
-          vm.reloadExecution();
-        }
-
-        items
-          .filter(x => current[x.id] !== x.state)
-          .forEach((ptr) => {
-            vm.pointers.data.push(ptr);
-          });
-
-        vm.pointers.data.sort(
-          (a, b) => ((a.started_at > b.started_at || a.finished_at > b.finished_at) ? -1 : 1),
-        );
-        vm.pointers.data = vm.pointers.data
-          .filter((obj, index) => (
-            vm.pointers.data.map(p => p.id).indexOf(obj.id) === index
-          ))
-          .filter(x => (
-            ['validation', 'action'].includes(x.node.type) || x.patch || x.state === 'ongoing'
-          ));
+        vm.reloadExecution();
       }).catch(() => {
         vm.recentPointers.loading = false;
         vm.recentPointers.error = true;
