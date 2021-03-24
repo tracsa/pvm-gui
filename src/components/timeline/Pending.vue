@@ -24,7 +24,7 @@
               v-for="(error, index) in errors.global"
               :key="index"
               class="alert custom-alert-danger">
-              {{ error.code || error.detail }}
+              {{ $t(error.code) || error.detail }}
             </div>
 
             <div
