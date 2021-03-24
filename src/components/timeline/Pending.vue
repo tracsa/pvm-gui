@@ -100,6 +100,8 @@ export default {
         loading: false,
         error: false,
       },
+
+      observer: null,
     };
   },
 
@@ -175,6 +177,23 @@ export default {
           vm.task.error = true;
         });
     },
+  },
+
+  mounted() {
+    this.observer = new IntersectionObserver((entries) => {
+      const task = entries[0];
+      if (task.isIntersecting) {
+        this.showTask();
+        this.visible = true;
+        this.observer.disconnect();
+      }
+    });
+
+    this.observer.observe(this.$el);
+  },
+
+  destroyed() {
+    this.observer.disconnect();
   },
 };
 </script>
