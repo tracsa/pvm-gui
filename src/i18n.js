@@ -97,7 +97,7 @@ const messages = {
       uploading_document: 'Ocurrió un error al cargar el archivo.',
       invalid_file: 'El archivo es inválido.',
       required_int: 'Este campo debe ser un número entero.',
-      no_live_pointer: 'Esta tarea ya fue finalizada.',
+      no_live_pointer: 'Esta tarea ya fue finalizada/cancelada.',
     },
     errors: {
       request: {
@@ -247,7 +247,7 @@ const messages = {
       uploading_document: 'Ocurrió un error al cargar el archivo.',
       invalid_file: 'El archivo es inválido.',
       required_int: 'Este campo debe ser un número entero.',
-      no_live_pointer: 'Esta tarea ya fue finalizada.',
+      no_live_pointer: 'Esta tarea ya fue finalizada/cancelada.',
     },
     dataFilters: {
       buttons: {
