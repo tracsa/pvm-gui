@@ -86,7 +86,8 @@
               </div>
               <div v-else>
                 <div class="col text-right">
-                  <span>Mostrando <b>{{ listItems.data.length }}</b> de <b>{{ listItems.totalCount }}</b></span>
+                  <span>Mostrando <b>{{ listItems.data.length }}</b>
+                  de <b>{{ listItems.totalCount }}</b></span>
                 </div>
               </div>
 
