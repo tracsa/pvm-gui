@@ -17,8 +17,7 @@
     >
       <app-execution-card
         :execution="execution.data"
-        :extended='true'
-        :verbose='true'
+        :show-detail="true"
       />
 
       <hr class="my-4"/>
@@ -71,7 +70,7 @@
         >
           <app-pointer-card
             :pointer='item'
-            :verbose='true'
+            :show-detail="true"
             v-on:complete="fetchRecentPointers()"
           />
 
