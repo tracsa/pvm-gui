@@ -14,7 +14,7 @@
             class="text-center my-2"
           >
             <icon :icon="['fas', 'times']"/>
-            <span class="ml-1">Error al cargar resumen</span>
+            <span class="ml-1">Error al cargar resumen del flujo</span>
           </div>
 
           <div v-else
@@ -30,10 +30,10 @@
           >
             <span v-if="!visible">
               <icon :icon="['fas', 'caret-down']"/>
-              Mostrar resumen</span>
+              Mostrar resumen del flujo</span>
             <span v-else>
               <icon :icon="['fas', 'caret-up']"/>
-              Ocultar resumen</span>
+              Ocultar resumen del flujo</span>
           </a>
         </div>
       </div>

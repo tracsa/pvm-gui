@@ -10,8 +10,7 @@
 
       <div class="row no-gutters">
         <div
-          class="col text-justify"
-          :class="{ 'text-truncate': extended }"
+          class="col text-justify text-truncate"
         >
           <a
             href="#"
@@ -28,12 +27,7 @@
             class="text-muted"
             :title="execution.started_at|fmtDate('LLLL')"
           >
-            <span
-              v-if="verbose"
-            >Iniciado el {{ execution.started_at|fmtDate('LLLL') }}</span>
-            <span
-              v-else
-            >{{ execution.started_at|fmtDate('lll') }}</span>
+            <span>Iniciado el {{ execution.started_at|fmtDate('LLLL') }}</span>
           </small>
         </div>
       </div>
@@ -45,17 +39,12 @@
             :title="execution.finished_at|fmtDate('LLLL')"
             v-if="execution.finished_at"
           >
-            <span
-              v-if="verbose"
-            >
+            <span>
               <span v-if="execution.status === 'finished'"
               >Finalizado el {{ execution.finished_at|fmtDate('LLLL') }}</span>
               <span v-else-if="execution.status === 'cancelled'"
               >Cancelado el {{ execution.finished_at|fmtDate('LLLL') }}</span>
             </span>
-            <span
-              v-else
-            >{{ execution.finished_at|fmtDate('lll') }}</span>
           </small>
 
           <span
@@ -90,52 +79,56 @@
         </div>
       </div>
 
+      <div class="row no-gutters mt-3">
+        <div class="col">
+          <hero v-if="state.loading"
+            icon="spinner"
+            title="commons.loading"
+            spin
+          />
+          <div v-else-if="state.error"
+            class="text-center my-2"
+          >
+            <icon :icon="['fas', 'times']"/>
+            <span class="ml-1">Error al cargar linea de tiempo</span>
+          </div>
+
+          <div class="w-100 text-center"
+            v-else-if="!stateData"
+          >
+            <a href="#"
+              v-on:click.prevent="loadState()"
+            >
+              <icon :icon="['fa', 'ellipsis-h']"/>
+              <span class="ml-1">Cargar linea de tiempo</span>
+            </a>
+          </div>
+
+          <linear-steps
+            v-else
+            :nodes="steps"
+            @click="$emit('click-node', $event)"
+          />
+        </div>
+      </div>
+
       <span
-        v-if="verbose"
+        v-if="showDetail"
       >
-        <div class="row no-gutters mt-3">
+        <div class="row no-gutters">
           <div class="col">
-            <hero v-if="state.loading"
-              icon="spinner"
-              title="commons.loading"
-              spin
-            />
-            <div v-else-if="state.error"
-              class="text-center my-2"
-            >
-              <icon :icon="['fas', 'times']"/>
-              <span class="ml-1">Error al cargar linea de tiempo</span>
-            </div>
-
-            <div class="w-100 text-center"
-              v-else-if="!stateData"
-            >
-              <a href="#"
-                v-on:click.prevent="loadState()"
-              >
-                <icon :icon="['fa', 'ellipsis-h']"/>
-                <span class="ml-1">Cargar linea de tiempo</span>
-              </a>
-            </div>
-
-            <linear-steps
-              v-else
-              :nodes="steps"
-              @click="$emit('click-node', $event)"
+            <timeline-summary
+              :execution-id="execution.id"
             />
           </div>
         </div>
-      </span>
 
-      <div class="row no-gutters">
-        <timeline-summary
-          :execution-id="execution.id"
-        />
-
-        <div class="col">
-          <slot name="content"></slot>
+        <div class="row no-gutters">
+          <div class="col">
+            <slot name="content"></slot>
+          </div>
         </div>
-      </div>
+      </span>
     </div>
   </div>
 </template>
@@ -149,13 +142,7 @@ export default {
       type: Object,
       required: true,
     },
-
-    extended: {
-      type: Boolean,
-      default: false,
-    },
-
-    verbose: {
+    showDetail: {
       type: Boolean,
       default: false,
     },
