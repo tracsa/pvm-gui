@@ -36,7 +36,8 @@
 
       <div v-if="showCenter"
         :class="{
-          'col-4': (showLeft && showRight) || (!showLeft && showRight),
+          'col-3': showLeft && showRight,
+          'col-4': !showLeft && showRight,
           'col-9': showLeft && !showRight,
           'col-12': !showLeft && !showRight,
           'pl-2': showLeft,
@@ -48,7 +49,7 @@
             <div class="row no-gutters mb-3">
               <div class="col">
                 <b-card>
-                  <div>Buscar en "{{ title }}"</div>
+                  <div>Buscar en <b>"{{ title }}"</b></div>
 
                   <hr/>
 
@@ -93,8 +94,8 @@
                     :is="itemComponent(item)"
                     :execution='item'
                     :pointer='item'
-                    :extended='true'
-                    :verbose='true'
+                    :executionClick='true'
+                    :show-detail="!showRight"
                     v-on:click-execution="selectExecution($event);"
                   />
                 </div>
@@ -123,7 +124,7 @@
 
       <div v-if="showRight"
         :class="{
-          'col-6': showLeft && showCenter,
+          'col-7': showLeft && showCenter,
           'col-8': !showLeft && showCenter,
           'col-12': !showLeft && !showCenter,
           'pl-2': showCenter,
@@ -144,7 +145,7 @@
                 v-on:click.prevent="selectExecution()"
               >
                 <icon :icon="['fas', 'arrow-circle-left']"/>
-                <span class="ml-1">Volver a "{{ title }}"</span>
+                <span class="ml-1">Volver al buscador</span>
               </a>
             </div>
 
