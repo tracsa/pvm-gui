@@ -11,11 +11,11 @@
       <div class="row no-gutters">
         <div
           class="col"
-          :class="{ 'text-truncate': extended }"
+          :class="{ 'text-truncate': executionClick }"
         >
           <b><app-md-render :raw-string="pointerName"/></b><br/>
           <a
-            v-if="extended"
+            v-if="executionClick"
             href="#"
             v-on:click.prevent="$emit('click-execution', pointer.execution.id)"
           >
@@ -112,23 +112,31 @@
         </div>
       </div>
 
-      <div class="row no-gutters">
-        <div class="col">
-          <timeline-action
-            v-if="['finished', 'cancelled'].includes(pointer.state)"
-            :pointer-id="pointer.id"
-            :execution-id="pointer.execution.id"
-          />
+      <span
+        v-if="showDetail"
+      >
+        <div class="row no-gutters">
+          <div class="col">
+            <timeline-action
+              v-if="['finished', 'cancelled'].includes(pointer.state)"
+              :pointer-id="pointer.id"
+              :execution-id="pointer.execution.id"
+            />
 
-          <timeline-pending
-            v-else-if="isDoableByUser"
-            :pointer-id="pointer.id"
-            @complete="$emit('complete')"
-          />
-
-          <slot name="content"></slot>
+            <timeline-pending
+              v-else-if="isDoableByUser"
+              :pointer-id="pointer.id"
+              @complete="$emit('complete')"
+            />
+          </div>
         </div>
-      </div>
+
+        <div class="row no-gutters">
+          <div class="col">
+            <slot name="content"></slot>
+          </div>
+        </div>
+      </span>
     </div>
   </div>
 </template>
@@ -143,7 +151,11 @@ export default {
       type: Object,
       required: true,
     },
-    extended: {
+    executionClick: {
+      type: Boolean,
+      default: false,
+    },
+    showDetail: {
       type: Boolean,
       default: false,
     },

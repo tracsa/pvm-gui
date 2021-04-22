@@ -36,7 +36,8 @@
 
       <div v-if="showCenter"
         :class="{
-          'col-4': (showLeft && showRight) || (!showLeft && showRight),
+          'col-3': showLeft && showRight,
+          'col-4': !showLeft && showRight,
           'col-9': showLeft && !showRight,
           'col-12': !showLeft && !showRight,
           'pl-2': showLeft,
@@ -48,7 +49,7 @@
             <div class="row no-gutters mb-3">
               <div class="col">
                 <b-card>
-                  <div>Buscar en "{{ title }}"</div>
+                  <div>Buscar en <b>"{{ title }}"</b></div>
 
                   <hr/>
 
@@ -83,6 +84,12 @@
                   <h4 class="text-center">No hay elementos para mostrar</h4>
                 </div>
               </div>
+              <div v-else>
+                <div class="col text-right">
+                  <span>Mostrando <b>{{ listItems.data.length }}</b>
+                  de <b>{{ listItems.totalCount }}</b></span>
+                </div>
+              </div>
 
               <div class="row no-gutters mb-3"
                 v-for="item in listItems.data"
@@ -93,10 +100,19 @@
                     :is="itemComponent(item)"
                     :execution='item'
                     :pointer='item'
-                    :extended='true'
-                    :verbose='true'
+                    :executionClick='true'
+                    :show-detail="!showRight"
+                    v-on:complete="reloadPointer(item.id)"
                     v-on:click-execution="selectExecution($event);"
-                  />
+                  >
+                    <template v-slot:content
+                      v-if="item.execution && item.execution.id"
+                    >
+                      <timeline-summary
+                        :execution-id="item.execution.id"
+                      />
+                    </template>
+                  </component>
                 </div>
               </div>
 
@@ -106,7 +122,7 @@
                 spin
               />
               <div class="row no-gutters mb-3"
-                v-else
+                v-else-if="listItems.data.length < listItems.totalCount"
               >
                 <div class="col">
                   <button
@@ -123,7 +139,7 @@
 
       <div v-if="showRight"
         :class="{
-          'col-6': showLeft && showCenter,
+          'col-7': showLeft && showCenter,
           'col-8': !showLeft && showCenter,
           'col-12': !showLeft && !showCenter,
           'pl-2': showCenter,
@@ -144,12 +160,13 @@
                 v-on:click.prevent="selectExecution()"
               >
                 <icon :icon="['fas', 'arrow-circle-left']"/>
-                <span class="ml-1">Volver a "{{ title }}"</span>
+                <span class="ml-1">Volver al buscador</span>
               </a>
             </div>
 
             <app-inbox-execution-timeline
               :execution-id="selectedExecution"
+              v-on:complete="reloadPointer($event)"
             />
           </div>
         </slot>
@@ -262,6 +279,20 @@ export default {
         }).catch(() => {
           vm.listItems.loading = false;
           vm.listItems.error = true;
+        });
+    }, 250),
+
+    reloadPointer: _.debounce(function reloadPointer(ptrId) {
+      const vm = this;
+      vm.$pointerService.getPointer(ptrId)
+        .then((data) => {
+          const index = vm.listItems.data
+            .findIndex(x => x.id === ptrId);
+
+          if (index >= 0) {
+            vm.listItems.data.splice(index, 1, data);
+          }
+        }).catch(() => {
         });
     }, 250),
 

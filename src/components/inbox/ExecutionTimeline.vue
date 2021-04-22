@@ -17,8 +17,7 @@
     >
       <app-execution-card
         :execution="execution.data"
-        :extended='true'
-        :verbose='true'
+        :show-detail="true"
       />
 
       <hr class="my-4"/>
@@ -71,8 +70,8 @@
         >
           <app-pointer-card
             :pointer='item'
-            :verbose='true'
-            v-on:complete="fetchRecentPointers()"
+            :show-detail="true"
+            v-on:complete="$emit('complete', item.id), reloadExecution()"
           />
 
           <div
@@ -140,7 +139,7 @@ export default {
   },
 
   created() {
-    this.timeoutId = setInterval(this.fetchRecentPointers, 10000);
+    this.timeoutId = setInterval(this.reloadExecution, 10000);
   },
 
   destroyed() {
@@ -159,6 +158,7 @@ export default {
         .then((exe) => {
           vm.execution.data = exe;
           vm.recentExecution.loading = false;
+          vm.fetchRecentPointers();
         }).catch(() => {
           vm.recentExecution.loading = false;
           vm.recentExecution.error = true;
@@ -220,8 +220,6 @@ export default {
         vm.recentPointers.loading = false;
         vm.pointers.data = items;
         vm.pointer.totalCount = totalCount;
-
-        vm.reloadExecution();
       }).catch(() => {
         vm.recentPointers.loading = false;
         vm.recentPointers.error = true;
