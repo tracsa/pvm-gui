@@ -84,6 +84,11 @@
                   <h4 class="text-center">No hay elementos para mostrar</h4>
                 </div>
               </div>
+              <div v-else>
+                <div class="col text-right">
+                  <span>Mostrando <b>{{ listItems.data.length }}</b> de <b>{{ listItems.totalCount }}</b></span>
+                </div>
+              </div>
 
               <div class="row no-gutters mb-3"
                 v-for="item in listItems.data"
@@ -116,7 +121,7 @@
                 spin
               />
               <div class="row no-gutters mb-3"
-                v-else
+                v-else-if="listItems.data.length < listItems.totalCount"
               >
                 <div class="col">
                   <button
