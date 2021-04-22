@@ -96,6 +96,7 @@
                     :pointer='item'
                     :executionClick='true'
                     :show-detail="!showRight"
+                    v-on:complete="reloadPointer(item.id)"
                     v-on:click-execution="selectExecution($event);"
                   >
                     <template v-slot:content
@@ -159,6 +160,7 @@
 
             <app-inbox-execution-timeline
               :execution-id="selectedExecution"
+              v-on:complete="reloadPointer($event)"
             />
           </div>
         </slot>
@@ -271,6 +273,20 @@ export default {
         }).catch(() => {
           vm.listItems.loading = false;
           vm.listItems.error = true;
+        });
+    }, 250),
+
+    reloadPointer: _.debounce(function reloadPointer(ptrId) {
+      const vm = this;
+      vm.$pointerService.getPointer(ptrId)
+        .then((data) => {
+          const index = vm.listItems.data
+            .findIndex(x => x.id === ptrId);
+
+          if (index >= 0) {
+            vm.listItems.data.splice(index, 1, data);
+          }
+        }).catch(() => {
         });
     }, 250),
 
