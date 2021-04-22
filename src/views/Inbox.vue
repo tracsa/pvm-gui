@@ -97,7 +97,15 @@
                     :executionClick='true'
                     :show-detail="!showRight"
                     v-on:click-execution="selectExecution($event);"
-                  />
+                  >
+                    <template v-slot:content
+                      v-if="item.execution && item.execution.id"
+                    >
+                      <timeline-summary
+                        :execution-id="item.execution.id"
+                      />
+                    </template>
+                  </component>
                 </div>
               </div>
 

@@ -117,14 +117,6 @@
       >
         <div class="row no-gutters">
           <div class="col">
-            <timeline-summary
-              :execution-id="pointer.execution.id"
-            />
-          </div>
-        </div>
-
-        <div class="row no-gutters">
-          <div class="col">
             <timeline-action
               v-if="['finished', 'cancelled'].includes(pointer.state)"
               :pointer-id="pointer.id"
@@ -136,7 +128,11 @@
               :pointer-id="pointer.id"
               @complete="$emit('complete')"
             />
+          </div>
+        </div>
 
+        <div class="row no-gutters">
+          <div class="col">
             <slot name="content"></slot>
           </div>
         </div>
