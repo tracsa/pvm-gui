@@ -55,7 +55,21 @@
               :ok-title="'Cerrar'"
               size="xl"
             >
-              <div v-html="summary.html"/>
+              <hero v-if="summary.loading"
+                icon="spinner"
+                title="commons.loading"
+                spin
+              />
+              <div v-else-if="summary.error"
+                class="text-center my-2"
+              >
+                <icon :icon="['fas', 'times']"/>
+                <span class="ml-1">Error al cargar resumen del flujo</span>
+              </div>
+
+              <div v-else
+                v-html="summary.html"
+              />
             </b-modal>
           </div>
         </div>
