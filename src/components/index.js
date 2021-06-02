@@ -19,6 +19,7 @@ import ValueRender from './ValueRender';
 import Hero from './Hero';
 import SignIn from './SignIn';
 import LinkInput from './LinkInput';
+import UserInput from './UserInput';
 
 import UsersPopover from './misc/UsersPopover';
 import MdRender from './misc/MdRender';
@@ -42,6 +43,7 @@ Vue.component('time-input', TimeInput);
 Vue.component('date-input', Datepicker);
 Vue.component('datetime-input', DatetimeInput);
 Vue.component('link-input', LinkInput);
+Vue.component('user-input', UserInput);
 
 // Doqer components
 Vue.component('doqer-input', DoqerSelect);

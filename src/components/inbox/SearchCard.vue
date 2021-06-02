@@ -22,6 +22,7 @@
         button-variant="outline-primary"
         name="radio-btn-outline"
         buttons
+        @input="onObjTypeInput"
       ></b-form-radio-group>
     </b-form-group>
 
@@ -78,6 +79,46 @@
       </b-form-group>
     </b-form-row>
 
+    <b-form-group
+      label="¿Buscas algun usuario en particular?"
+      v-if="(
+        typeof fixedArgs.actoredUsers === 'undefined' &&
+        typeof fixedArgs.notifiedUsers === 'undefined'
+      )"
+    >
+      <b-form-checkbox
+        v-model="searchUsers"
+        switch
+        @input="onUserSearchInput"
+      >Sí, buscar usuario</b-form-checkbox>
+    </b-form-group>
+
+    <b-form-group
+      v-if="(
+        typeof fixedArgs.actoredUsers === 'undefined' &&
+        searchUsers
+      )"
+    >
+      <user-input
+        :label="'Usuarios que realizaron tareas'"
+        :placeholder="'Introduce un id de usuario'"
+        v-model="value.actoredUsers"
+      ></user-input>
+    </b-form-group>
+
+    <b-form-group
+      v-if="(
+        typeof fixedArgs.notifiedUsers === 'undefined' &&
+        searchUsers
+      )"
+    >
+      <user-input
+        :label="'Usuarios asignados'"
+        :placeholder="'Introduce un id de usuario'"
+        v-model="value.notifiedUsers"
+      ></user-input>
+    </b-form-group>
+
     <b-button
       type="submit"
       variant="secondary"
@@ -109,12 +150,27 @@ export default {
         { text: 'Finalizado', value: 'finished' },
         { text: 'Cancelado', value: 'cancelled' },
       ],
+
+      searchUsers: false,
     };
   },
 
   methods: {
     submit() {
       this.$emit('submit', this.value);
+    },
+
+    onObjTypeInput(v) {
+      if (v === 'execution') {
+        this.value.pointerStatus = this.itemStatusOptions.map(x => x.value);
+      }
+    },
+
+    onUserSearchInput(v) {
+      if (!v) {
+        this.value.actoredUsers = null;
+        this.value.notifiedUsers = null;
+      }
     },
   },
 };
