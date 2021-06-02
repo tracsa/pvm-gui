@@ -32,14 +32,16 @@ export default new Router({
           props: (to) => {
             const actualRoute = Routes.find(x => x.feed === to.query.feed);
 
-            const actualProp = { fixedPayload: {} };
+            const actualProp = {
+              executionId: to.query.e,
+              query: to.query.q,
+              fixedPayload: {},
+            };
 
             [
               'feed',
               'title',
               'description',
-              'executionId',
-              'query',
             ].forEach((k) => {
               if (typeof actualRoute[k] === 'function') {
                 actualProp[k] = actualRoute[k](to);
