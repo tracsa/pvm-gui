@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import { getAuthUser, requireAuth, requireAnon } from '../utils/auth';
+import { requireAuth, requireAnon } from '../utils/auth';
+import { Routes } from './routes.constants';
 
 Vue.use(Router);
 
@@ -16,21 +17,12 @@ export default new Router({
           path: 'dashboard',
           component: Vue.component('app-inbox'),
           beforeEnter: (to, from, next) => {
-            if (![
-              'myPendingTasks',
-              'myTasks',
-              'allOngoingTasks',
-              'allOngoingExecutions',
-              'executionHistory',
-              'taskHistory',
-              'userTasks',
-              'general',
-            ].includes(to.query.feed)) {
+            if (!Routes.map(x => x.feed).includes(to.query.feed)) {
               next({
                 name: 'dashboard',
                 query: {
                   ...to.query,
-                  feed: 'myPendingTasks',
+                  feed: Routes[0].feed,
                 },
               });
             } else {
@@ -38,133 +30,33 @@ export default new Router({
             }
           },
           props: (to) => {
-            const feed = to.query.feed;
+            const actualRoute = Routes.find(x => x.feed === to.query.feed);
 
-            if (feed === 'myPendingTasks') {
-              const userId = getAuthUser().username;
+            const actualProp = { fixedPayload: {} };
 
-              return {
-                title: 'Mis tareas pendientes',
-                description: 'Aquí podrás ver las tareas que te faltan por realizar',
-                feed,
-                executionId: to.query.e,
-                query: to.query.q,
-                fixedPayload: {
-                  objType: 'pointer',
-                  executionStatus: ['ongoing'],
-                  pointerStatus: ['ongoing'],
-                  notifiedUsers: [userId],
-                },
-              };
-            }
+            [
+              'feed',
+              'title',
+              'description',
+              'executionId',
+              'query',
+            ].forEach((k) => {
+              if (typeof actualRoute[k] === 'function') {
+                actualProp[k] = actualRoute[k](to);
+              } else {
+                actualProp[k] = actualRoute[k];
+              }
+            });
 
-            if (feed === 'myTasks') {
-              const userId = getAuthUser().username;
+            Object.keys(actualRoute.fixedPayload).forEach((k) => {
+              if (typeof actualRoute.fixedPayload[k] === 'function') {
+                actualProp.fixedPayload[k] = actualRoute.fixedPayload[k](to);
+              } else {
+                actualProp.fixedPayload[k] = actualRoute.fixedPayload[k];
+              }
+            });
 
-              return {
-                title: 'Tareas relacionadas conmigo',
-                description: 'Estas son todas las tareas que te asignaron o realizaste',
-                feed,
-                executionId: to.query.e,
-                query: to.query.q,
-                fixedPayload: {
-                  objType: 'pointer',
-                  actoredUsers: [userId],
-                  notifiedUsers: [userId],
-                  pointerStatus: null,
-                  executionStatus: null,
-                },
-              };
-            }
-
-            if (feed === 'allOngoingTasks') {
-              return {
-                title: 'Todas las tareas pendientes',
-                description: 'Estás viendo todas las tareas en curso, de todos los usuarios',
-                feed,
-                executionId: to.query.e,
-                query: to.query.q,
-                fixedPayload: {
-                  objType: 'pointer',
-                  executionStatus: ['ongoing'],
-                  pointerStatus: ['ongoing'],
-                },
-              };
-            }
-
-            if (feed === 'allOngoingExecutions') {
-              return {
-                title: 'Todos los flujos de autorización en curso',
-                description: '¿Quieres ver todos los procesos en curso? Aquí estan',
-                feed,
-                executionId: to.query.e,
-                query: to.query.q,
-                fixedPayload: {
-                  objType: 'execution',
-                  executionStatus: ['ongoing'],
-                },
-              };
-            }
-
-            if (feed === 'executionHistory') {
-              return {
-                title: 'Historial de flujos de autorización',
-                description: '¿Buscas un proceso finalizado o cancelado? Este es el lugar correcto',
-                feed,
-                executionId: to.query.e,
-                query: to.query.q,
-                fixedPayload: {
-                  objType: 'execution',
-                  executionStatus: ['finished', 'cancelled'],
-                },
-              };
-            }
-
-            if (feed === 'taskHistory') {
-              return {
-                title: 'Historial de tareas',
-                description: '¿En busca de tareas finalizadas o canceladas? Llegaste al lugar indicado',
-                feed,
-                executionId: to.query.e,
-                query: to.query.q,
-                fixedPayload: {
-                  objType: 'pointer',
-                  pointerStatus: ['finished', 'cancelled'],
-                  onlyUserAndPatch: true,
-                },
-              };
-            }
-
-            if (feed === 'userTasks') {
-              const userId = to.query.u;
-
-              return {
-                title: `Tareas de ${userId}`,
-                description: 'Todas las tareas de un usuario',
-                feed,
-                executionId: to.query.e,
-                query: to.query.q,
-                fixedPayload: {
-                  objType: 'pointer',
-                  actoredUsers: [userId],
-                  notifiedUsers: [userId],
-                },
-              };
-            }
-
-            if (feed === 'general') {
-              return {
-                title: 'Tablero general',
-                description: 'Aquí tienes todos los filtros para buscar',
-                feed,
-                executionId: to.query.e,
-                query: to.query.q,
-                fixedPayload: { },
-              };
-            }
-
-            // unreachable
-            return {};
+            return actualProp;
           },
         },
         {
