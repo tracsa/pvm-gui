@@ -116,8 +116,8 @@ export const Routes = Object.freeze([
     query: to => to.query.q,
     fixedPayload: {
       objType: 'pointer',
-      actoredUsers: (to) => [to.query.u],
-      notifiedUsers: (to) => [to.query.u],
+      actoredUsers: to => [to.query.u],
+      notifiedUsers: to => [to.query.u],
     },
   },
   {
