@@ -6,7 +6,7 @@
       class="form-group"
       :class="{ 'has-error': (errors && errors[input.name]) }">
 
-      <label :for="input.name">
+      <label :for="`${input.name}-${uuid}`">
         {{ input.label }}
         <small
           v-if="input.required"
@@ -34,7 +34,7 @@
       </div>
       <div v-else-if="input.type === 'select'">
         <select
-          :id="input.name"
+          :id="`${input.name}-${uuid}`"
           class="custom-select"
           v-model="data[input.name]"
           :placeholder="input.placeholder">
@@ -54,14 +54,14 @@
           :class="`custom-${input.type}`">
           <input
             class="custom-control-input"
-            :id="`${input.name}-${option.value}`"
+            :id="`${input.name}-${option.value}-${uuid}`"
             :type="input.type"
             :value="option.value"
             v-model="data[input.name]"
           />
           <label
             class="custom-control-label"
-            :for="`${input.name}-${option.value}`">
+            :for="`${input.name}-${option.value}-${uuid}`">
             {{ option.label }}
           </label>
         </div>
@@ -80,7 +80,7 @@
       </div>
       <div v-else>
         <input
-          :id="input.name"
+          :id="`${input.name}-${uuid}`"
           :type="input.type"
           :name="input.name"
           class="form-control"
@@ -109,5 +109,11 @@
 <script>
 export default {
   props: ['schema', 'data', 'errors'],
+
+  data() {
+    return {
+      uuid: Math.random(),
+    };
+  },
 };
 </script>
