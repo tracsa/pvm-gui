@@ -379,7 +379,7 @@ export default {
 
         const el = this.$refs.actualExecutionTimeline;
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth'});
+          el.scrollIntoView({ behavior: 'smooth' });
         }
       } else {
         delete newRoute.query.e;
