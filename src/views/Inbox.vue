@@ -147,7 +147,7 @@
       >
         <slot name="right">
 
-          <div>
+          <div ref="actualExecutionTimeline">
             <h3
               class="text-center"
             >Flujo de autorizacion</h3>
@@ -376,6 +376,11 @@ export default {
 
       if (newExecution) {
         newRoute.query.e = newExecution;
+
+        const el = this.$refs.actualExecutionTimeline;
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
       } else {
         delete newRoute.query.e;
       }
