@@ -12,6 +12,7 @@
         <div
           class="col"
           :class="{ 'text-truncate': executionClick }"
+          :id="'ptr-title-' + pointer.id + '-' + uuid"
         >
           <b><app-md-render :raw-string="pointerName"/></b><br/>
           <a
@@ -22,6 +23,21 @@
             <small>En <b><app-md-render :raw-string="executionName"/></b></small>
           </a>
         </div>
+
+        <b-popover
+          :target="'ptr-title-' + pointer.id + '-'  + uuid"
+          triggers="hover"
+          placement="top"
+          boundary="viewport"
+          delay="500"
+        >
+          <b><app-md-render :raw-string="pointerName"/></b><br/>
+          <span
+            v-if="executionClick"
+          >
+            <small>En <b><app-md-render :raw-string="executionName"/></b></small>
+          </span>
+        </b-popover>
       </div>
 
       <div class="row no-gutters">
