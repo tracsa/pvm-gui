@@ -2,6 +2,7 @@
   <div
     class="container-fluid p-0"
     style="max-width: 1270px;"
+    ref="inboxTop"
   >
     <div class="row no-gutters"
       v-if="!showRight"
@@ -147,7 +148,7 @@
       >
         <slot name="right">
 
-          <div ref="actualExecutionTimeline">
+          <div>
             <h3
               class="text-center"
             >Flujo de autorizacion</h3>
@@ -377,7 +378,7 @@ export default {
       if (newExecution) {
         newRoute.query.e = newExecution;
 
-        const el = this.$refs.actualExecutionTimeline;
+        const el = this.$refs.inboxTop;
         if (el) {
           el.scrollIntoView({ behavior: 'smooth' });
         }
