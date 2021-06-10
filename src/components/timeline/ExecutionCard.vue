@@ -11,6 +11,7 @@
       <div class="row no-gutters">
         <div
           class="col text-justify text-truncate"
+          :id="'exe-title-' + execution.id + '-' + uuid"
         >
           <a
             href="#"
@@ -19,6 +20,16 @@
             <b><app-md-render :raw-string="executionName"/></b>
           </a>
         </div>
+
+        <b-popover
+          :target="'exe-title-' + execution.id + '-'  + uuid"
+          triggers="hover"
+          placement="top"
+          boundary="viewport"
+          delay="500"
+        >
+          <b><app-md-render :raw-string="executionName"/></b>
+        </b-popover>
       </div>
 
       <div class="row no-gutters">
