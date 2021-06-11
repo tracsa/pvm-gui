@@ -201,6 +201,8 @@ export default {
 
   data() {
     return {
+      timeoutId: null,
+
       selectedFeed: this.feed,
       selectedExecution: this.executionId,
       searchText: this.query || '',
@@ -213,11 +215,24 @@ export default {
         totalCount: 0,
       },
 
+      recentItems: {
+        loading: false,
+        error: false,
+      },
+
       olderItems: {
         loading: false,
         error: false,
       },
     };
+  },
+
+  created() {
+    this.timeoutId = setInterval(this.loadRecent, 10000);
+  },
+
+  destroyed() {
+    clearTimeout(this.timeoutId);
   },
 
   computed: {
@@ -275,6 +290,16 @@ export default {
               vm.listItems.data.push(x);
             }
           });
+
+          vm.listItems.data.sort((a, b) => {
+            const dateA = moment(a.started_at);
+            const dateB = moment(b.started_at);
+
+            if (dateA < dateB) { return 1; }
+            if (dateA > dateB) { return -1; }
+            return 0;
+          });
+
           vm.listItems.totalCount = totalCount;
           vm.listItems.loading = false;
         }).catch(() => {
@@ -294,6 +319,65 @@ export default {
             vm.listItems.data.splice(index, 1, data);
           }
         }).catch(() => {
+        });
+
+      vm.loadRecent();
+    }, 250),
+
+    loadRecent: _.debounce(function loadRecent() {
+      const vm = this;
+
+      vm.recentItems.loading = true;
+      vm.recentItems.error = false;
+
+      const payload = {
+        ...vm.searchForm,
+      };
+
+      if (payload.minDate && vm.listItems.data.length) {
+        if (payload.minDate > vm.listItems.data[0]) {
+          payload.minDate = moment(payload.minDate).toISOString();
+        } else {
+          payload.minDate = moment(vm.listItems.data[0].started_at).toISOString();
+        }
+      } else if (vm.listItems.data.length) {
+        payload.minDate = moment(vm.listItems.data[0].started_at).toISOString();
+      }
+
+      if (payload.maxDate) {
+        payload.maxDate = moment(payload.maxDate).add(1, 'days').toISOString();
+      }
+
+      let serviceCallback = null;
+      if (payload.objType === 'pointer') {
+        serviceCallback = vm.$pointerService.getPointers;
+      } else if (payload.objType === 'execution') {
+        serviceCallback = vm.$executionService.getExecutions;
+      }
+
+      serviceCallback(payload)
+        .then(({ items }) => {
+          const currentItems = vm.listItems.data.map(x => x.id);
+          items.forEach((x) => {
+            if (!currentItems.includes(x.id)) {
+              vm.listItems.data.push(x);
+              vm.listItems.totalCount += 1;
+            }
+          });
+
+          vm.listItems.data.sort((a, b) => {
+            const dateA = moment(a.started_at);
+            const dateB = moment(b.started_at);
+
+            if (dateA < dateB) { return 1; }
+            if (dateA > dateB) { return -1; }
+            return 0;
+          });
+
+          vm.recentItems.loading = false;
+        }).catch(() => {
+          vm.recentItems.loading = false;
+          vm.recentItems.error = true;
         });
     }, 250),
 
@@ -339,6 +423,16 @@ export default {
               vm.listItems.data.push(x);
             }
           });
+
+          vm.listItems.data.sort((a, b) => {
+            const dateA = moment(a.started_at);
+            const dateB = moment(b.started_at);
+
+            if (dateA < dateB) { return 1; }
+            if (dateA > dateB) { return -1; }
+            return 0;
+          });
+
           vm.olderItems.loading = false;
         }).catch(() => {
           vm.olderItems.loading = false;

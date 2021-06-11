@@ -137,6 +137,13 @@ export default {
         .catch((errors) => {
           this.sending = false;
           this.errors = formatErrors(errors);
+
+          if (errors &&
+            errors.map(x => x.code)
+              .includes('validation.no_live_pointer')
+          ) {
+            setTimeout(() => this.$emit('complete'), 1000);
+          }
         });
     },
 
@@ -157,6 +164,13 @@ export default {
         .catch((errors) => {
           this.sending = false;
           this.errors = formatErrors(errors);
+
+          if (errors &&
+            errors.map(x => x.code)
+              .includes('validation.no_live_pointer')
+          ) {
+            setTimeout(() => this.$emit('complete'), 1000);
+          }
         });
     },
 
@@ -172,9 +186,18 @@ export default {
           vm.task.data = tsk;
           vm.task.loading = false;
           vm.task.error = false;
-        }).catch(() => {
+        }).catch((errors) => {
           vm.task.loading = false;
           vm.task.error = true;
+
+          if (
+            errors &&
+            errors.response &&
+            errors.response.status &&
+            errors.response.status === 404
+          ) {
+            vm.$emit('complete');
+          }
         });
     },
   },
