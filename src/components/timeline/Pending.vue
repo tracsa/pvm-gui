@@ -140,7 +140,7 @@ export default {
 
           if (errors &&
             errors.map(x => x.code)
-            .includes('validation.no_live_pointer')
+              .includes('validation.no_live_pointer')
           ) {
             setTimeout(() => this.$emit('complete'), 1000);
           }
@@ -167,7 +167,7 @@ export default {
 
           if (errors &&
             errors.map(x => x.code)
-            .includes('validation.no_live_pointer')
+              .includes('validation.no_live_pointer')
           ) {
             setTimeout(() => this.$emit('complete'), 1000);
           }
