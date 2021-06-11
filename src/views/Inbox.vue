@@ -515,7 +515,7 @@ export default {
             notifiedUsers: null,
             executionStatus: ['ongoing', 'finished', 'cancelled'],
             pointerStatus: ['ongoing', 'finished', 'cancelled'],
-            objType: 'pointer',
+            objType: 'execution',
             searchText: this.query || '',
             minDate: '',
             maxDate: '',
