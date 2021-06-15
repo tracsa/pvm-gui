@@ -184,7 +184,7 @@ function getExecutions({
     ),
   )
     .then(({ data }) => ({
-      items: data.data,
+      items: data.executions,
       totalCount: data.total_count,
     }))
     .catch(error => Promise.reject(error));
