@@ -1,10 +1,30 @@
 import ApiService from './api.service';
 import { getAuthToken } from '../utils/auth';
 
+// TODO: dry
+function authHeader() {
+  const cAuth = getAuthToken();
+  let auth = null;
+
+  if (typeof window !== 'undefined') {
+    auth = btoa(cAuth);
+  } else {
+    auth = new Buffer(cAuth).toString('base64');
+  }
+
+  if (auth) {
+    return { Authorization: `Basic ${auth}` };
+  }
+
+  return { };
+}
+
 function getPointers({
   actoredUsers = null,
   executionStatus = null,
   executionIds = null,
+  dateKey = null,
+  dateOrder = null,
   limit = null,
   maxDate = null,
   minDate = null,
@@ -154,11 +174,22 @@ function getPointers({
     });
   }
 
+  let sortKey = 'started_at';
+  if (['started_at', 'finished_at'].includes(dateKey)) {
+    sortKey = dateKey;
+  }
+
+  let sortFlag = 'DESCENDING';
+  if (['ASCENDING', 'DESCENDING'].includes(dateOrder)) {
+    sortFlag = dateOrder;
+  }
+
+
   if (maxDate) {
     baseQuery.push({
       $expr: {
         $lt: [
-          '$started_at',
+          `$${sortKey}`,
           {
             $dateFromString: {
               dateString: maxDate,
@@ -172,13 +203,13 @@ function getPointers({
   if (minDate) {
     baseQuery.push({
       $expr: {
-        $lt: [
+        $gt: [
+          `$${sortKey}`,
           {
             $dateFromString: {
               dateString: minDate,
             },
           },
-          '$started_at',
         ],
       },
     });
@@ -204,27 +235,29 @@ function getPointers({
     'execution.name',
     'execution.id',
     'state',
-  ].toString();
+  ];
 
   const payload = {
-    params: {
-      limit: qLimit,
-      include: includesList,
-    },
+    limit: qLimit,
+    sort: `${sortKey},${sortFlag}`,
+    include: includesList,
   };
 
   if (baseQuery.length) {
     if (baseQuery.length === 1) {
       const key = Object.keys(baseQuery[0])[0];
-      payload.params[key] = JSON.stringify(baseQuery[0][key]);
+      payload[key] = baseQuery[0][key];
     } else {
-      payload.params.$and = JSON.stringify(baseQuery);
+      payload.$and = baseQuery;
     }
   }
 
-  return ApiService().get(
-    '/v1/pointer',
+  return ApiService().post(
+    '/v1/pointer/search',
     payload,
+    Object.assign(
+      { headers: authHeader() },
+    ),
   )
     .then(({ data }) => ({
       items: data.pointers,
@@ -238,6 +271,9 @@ function getPointer(pointerId) {
 
   return ApiService().get(
     `/v1/pointer/${urlId}`,
+    Object.assign(
+      { headers: authHeader() },
+    ),
   )
     .then(({ data }) => Object.assign({}, data.data))
     .catch(error => Promise.reject(error));
@@ -246,26 +282,11 @@ function getPointer(pointerId) {
 function getPointerTask(pointerId) {
   const urlId = encodeURIComponent(pointerId);
 
-  const cAuth = getAuthToken();
-  let auth = null;
-
-  if (typeof window !== 'undefined') {
-    auth = btoa(cAuth);
-  } else {
-    auth = new Buffer(cAuth).toString('base64');
-  }
-
-  const requestData = {
-    headers: {
-      Authorization: `Basic ${auth}`,
-      'Content-Type': 'application/json',
-      charset: 'UTF-8',
-    },
-  };
-
   return ApiService().get(
     `/v1/task/${urlId}`,
-    requestData,
+    Object.assign(
+      { headers: authHeader() },
+    ),
   )
     .then(({ data }) => Object.assign({}, data.data))
     .catch(error => Promise.reject(error));
