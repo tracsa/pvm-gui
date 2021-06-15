@@ -8,5 +8,6 @@ export default() => axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
+    charset: 'UTF-8',
   },
 });

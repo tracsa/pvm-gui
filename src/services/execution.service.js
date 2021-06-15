@@ -1,4 +1,23 @@
 import ApiService from './api.service';
+import { getAuthToken } from '../utils/auth';
+
+// TODO: dry
+function authHeader() {
+  const cAuth = getAuthToken();
+  let auth = null;
+
+  if (typeof window !== 'undefined') {
+    auth = btoa(cAuth);
+  } else {
+    auth = new Buffer(cAuth).toString('base64');
+  }
+
+  if (auth) {
+    return { Authorization: `Basic ${auth}` };
+  }
+
+  return { };
+}
 
 function getExecutions({
   actoredUsers = null,
@@ -6,6 +25,7 @@ function getExecutions({
   dateKey = null,
   dateOrder = null,
   executionStatus = null,
+  limit = null,
   maxDate = null,
   minDate = null,
   searchText = null,
@@ -134,28 +154,34 @@ function getExecutions({
     'finished_at',
     'name',
     'status',
-  ].toString();
+  ];
+
+  let actualLimit = 10; // default
+  if (Number.isInteger(limit)) {
+    actualLimit = limit;
+  }
 
   const payload = {
-    params: {
-      limit: '10',
-      sort: `${sortKey},${sortFlag}`,
-      include: includeList,
-    },
+    limit: actualLimit,
+    sort: `${sortKey},${sortFlag}`,
+    include: includeList,
   };
 
   if (baseQuery.length) {
     if (baseQuery.length === 1) {
       const key = Object.keys(baseQuery[0])[0];
-      payload.params[key] = JSON.stringify(baseQuery[0][key]);
+      payload[key] = baseQuery[0][key];
     } else {
-      payload.params.$and = JSON.stringify(baseQuery);
+      payload.$and = baseQuery;
     }
   }
 
-  return ApiService().get(
-    '/v1/execution',
+  return ApiService().post(
+    '/v1/execution/search',
     payload,
+    Object.assign(
+      { headers: authHeader() },
+    ),
   )
     .then(({ data }) => ({
       items: data.data,
@@ -169,6 +195,9 @@ function getExecution(executionId) {
 
   return ApiService().get(
     `/v1/execution/${urlId}`,
+    Object.assign(
+      { headers: authHeader() },
+    ),
   )
     .then(({ data }) => Object.assign({}, data.data))
     .catch(error => Promise.reject(error));
@@ -179,6 +208,9 @@ function getExecutionSummary(executionId) {
 
   return ApiService().get(
     `/v1/execution/${urlId}/summary`,
+    Object.assign(
+      { headers: authHeader() },
+    ),
   )
     .then(({ data }) => data)
     .catch(error => Promise.reject(error));
